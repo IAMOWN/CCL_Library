@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Logged Out of Cosmic Christ Love{% endblock %}
+{% block content %}
+    <article class="media content-section">
+        <div class="media-body">
+            <h3 class="mb-2"><strong>Logged Out</strong></h3>
+            <div class="pt-3">
+                <small class="text-muted">
+                    <a class="text-CCL-Blue text-decoration-none" href="{% url 'login' %}">Log In Again</a>
+                </small>
+            </div>
+        </div>
+    </article>
+{% endblock content %}

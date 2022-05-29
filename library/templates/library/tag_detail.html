@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+    {% if messages %}
+        <section>
+            <div>
+                <p class="alert-{{ message.tags }}">
+                    {{ message }}
+                </p>
+            </div>
+        </section>
+    {% endif %}
+    <section class="media content-section text-CCL-Gold">
+        <div class="row pt-2">
+            <div class="col-sm-10">
+                <h3><strong>Tag: {{ tag.tag }} </strong></h3>
+            </div>
+            <div class="col-sm-2">
+                <a href="{% url 'library-records' %}" class="btn btn-outline-CCL-Blue col-12">Library Records</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="media content-section">
+        <div class="row pt-2 pb-2">
+            <div class="col-sm-2">
+                <a href="{% url 'tags' %}" class="btn btn-outline-CCL-Blue col-12">Go Back</a>
+            </div>
+            {% if user.is_staff %}
+            <div class="col-sm-3"></div>
+            <div class="col-sm-2 text-center">
+                <a href="{% url 'tag-update' tag.id %}" class="btn btn-CCL-Blue col-12">Edit Tag</a>
+            </div>
+            {% endif %}
+            {% if user.is_superuser %}
+            <div class="col-sm-3"></div>
+            <div class="col-sm-2">
+                <a href="{% url 'tag-delete' tag.id %}" class="btn btn-outline-danger col-12">Delete Record</a>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

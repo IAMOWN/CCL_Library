@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+    <section class="pt-2"></section>
+    <section class="pt-4"></section>
+    <section class="pt-4"></section>
+    <article class="media content-section">
+        <div class="media-body">
+            <h3><strong>{{ title }}</strong></h3>
+        </div>
+    </article>
+    <article class="media content-section">
+        <div class="media">
+            <div class="media-body pb-2 pt-2">
+                <form method="get">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <button type="submit" class="btn btn-outline-CCL-Blue col-12">Search Profiles</button>
+                        </div>
+                        <div class="col-sm-3">
+                            <input
+                                    type="text"
+                                    name="search-area"
+                                    class="form-control"
+                                    value="{{ search_input }}"
+                                    placeholder="by First Name"
+                            >
+                        </div>
+                        <div class="col-sm-3">
+                            <input
+                                    type="text"
+                                    name="last-search-area"
+                                    class="form-control"
+                                    value="{{ last_search_input }}"
+                                    placeholder="by Last Name"
+                            >
+                        </div>
+                    </div>
+                </form>
+                {% if not search_off %}
+                    {% if search_type == 'first' %}
+                        {% if search_count == 0 %}
+                        <p class="text-danger">There are no profiles with "{{ search_entered }} in their first name".</p>
+                        {% else %}
+                        <p class="text-success">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} profile{% if search_count == 1 %}{% else %}s{% endif %} with "{{ search_entered }}" in their first name.</p>
+                        {% endif %}
+                    {% elif search_type == 'last' %}
+                        {% if search_count == 0 %}
+                        <p class="text-danger">There are no profiles with "{{ search_entered }} in their last name".</p>
+                        {% else %}
+                        <p class="text-success">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} profile{% if search_count == 1 %}{% else %}s{% endif %} with "{{ search_entered }}" in their last name.</p>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </article>
+
+{#    DONE Add search/filter to profile page #}
+    {% for profile in profiles %}
+        {% if profile.loyalty_tier == 'VIP' %}
+        <article class="media content-section border-success">
+        {% elif profile.loyalty_tier == 'Member' %}
+        <article class="media content-section border-BlueGray">
+        {% else %}
+        <article class="media content-section">
+        {% endif %}
+            <div class="media-body">
+                <h5 class="article-title pb-2 pt-2"><strong>Profile for <a class="text-BlueGray" href="{% url 'profile-customer' profile.id profile.user_id %}">{{ profile.first_name }} {{ profile.last_name }}</a></strong></h5>
+                <div class="row">
+                    {% if profile.loyalty_tier == 'VIP' %}
+                        <div class="col-sm-6">
+                            <p class="article-content text-success"><strong>Loyalty tier:</strong> {{ profile.loyalty_tier }}</p>
+                        </div>
+                    {% elif profile.loyalty_tier == 'Member' %}
+                        <div class="col-sm-6">
+                            <p class="article-content text-BlueGray"><strong>Loyalty tier:</strong> {{ profile.loyalty_tier }}</p>
+                        </div>
+                    {% else %}
+                        <div class="col-sm-6">
+                            <p class="article-content"><strong>Loyalty tier:</strong> {{ profile.loyalty_tier }}</p>
+                        </div>
+                    {% endif %}
+                    <div class="col-sm-6">
+                        <p class="article-content"><strong>Loyalty counter:</strong> {{ profile.loyalty_counter }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p class="article-content"><strong>Pronoun:</strong> {{ profile.pronoun }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p class="article-content"><strong>Email:</strong> {{ profile.user.email }}</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="article-content"><strong>Phone:</strong> {{ profile.phone }}</p>
+                    </div>
+                </div>
+            </div>
+        </article>
+    {% endfor %}
+{% endblock content %}

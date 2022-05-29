@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+    <section class="media content-section">
+        <div class="media-body">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="mb-2 pt-2"><strong>{{ title }}</strong></h3>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="media content-section">
+        <div class="row">
+            <div class="col-sm-3 pb-2 pt-2">
+                <a class="btn btn-CCL-Blue col-12" href="{% url 'tag-create' %}">Add A Tag</a>
+            </div>
+        </div>
+    </section>
+    {% for tag in tags %}
+    <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
+        <div class="row pt-2">
+            <div class="col-sm-12">
+                <p><a href="{% url 'tag' tag.id %}" class="text-CCL-Blue">{{ tag.tag }}</a></p>
+            </div>
+        </div>
+    </section>
+    {% endfor %}
+{% endblock content %}

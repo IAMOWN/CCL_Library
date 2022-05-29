@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}
+    {% if page_type == 'Update' %}
+        Edit Library Record
+    {% else %}
+        Create A Library Record
+    {% endif %}
+{% endblock %}
+{% block script_header %}
+    <script>
+        $(document).ready(function() {
+          $('#id_library_record_type').change(function() {
+            if ($(this).val() === "Cosmic Review") {
+              $('#div_id_text').show();
+              $('#div_id_invocation').hide();
+              $('#div_id_benediction').hide();
+              $('#div_id_part_number').hide();
+              $('#div_id_collection_order_number').hide();
+              $('#div_id_series_title').hide();
+              $('#div_id_discourse_series').hide();
+            }
+            else if ($(this).val() === "Book") {
+              $('#div_id_text').show();
+              $('#div_id_invocation').hide();
+              $('#div_id_benediction').hide();
+              $('#div_id_part_number').hide();
+              $('#div_id_collection_order_number').hide();
+              $('#div_id_series_title').hide();
+              $('#div_id_discourse_series').hide();
+            }
+            else if ($(this).val() === "Discourse") {
+              $('#div_id_text').show();
+              $('#div_id_invocation').show();
+              $('#div_id_benediction').show();
+              $('#div_id_part_number').show();
+              $('#div_id_collection_order_number').show();
+              $('#div_id_series_title').show();
+              $('#div_id_discourse_series').show();
+            }
+            else if ($(this).val() === "Invocation") {
+              $('#div_id_text').hide();
+              $('#div_id_invocation').show();
+              $('#div_id_benediction').hide();
+              $('#div_id_part_number').hide();
+              $('#div_id_collection_order_number').hide();
+              $('#div_id_series_title').hide();
+              $('#div_id_discourse_series').show();
+            }
+            else if ($(this).val() === "Petition") {
+              $('#div_id_text').show();
+              $('#div_id_invocation').show();
+              $('#div_id_benediction').show();
+              $('#div_id_part_number').show();
+              $('#div_id_collection_order_number').show();
+              $('#div_id_series_title').show();
+              $('#div_id_discourse_series').show();
+            }
+          });
+          $("#id_library_record_type").trigger("change")
+        })
+    </script>
+{% endblock %}
+{% block content %}
+    <section class="media content-section">
+        <div class="row">
+            <div class="col-sm-12 pt-2">
+            {% if page_type == 'Update' %}
+                <h3><strong>Edit Library Record: {{ libraryrecord.title }}</strong> </h3>
+            {% else %}
+                <h3><strong>Create A Library Record</strong></h3>
+            {% endif %}
+        </div>
+    </section>
+    <section class="media content-section">
+    {% if form.errors %}
+        <article class="media content-section alert-section">
+            <div>
+            <p class="alert-danger">Please review the following:</p>
+                <ul>
+                {% for key, value in form.errors.items %}
+                    {% for error in value %}
+                        {% if error != '' %}
+                            <li class="alert-danger">{{ error }}</li>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                </ul>
+            </div>
+        </article>
+    {% endif %}
+        <form method="post" action="" enctype="multipart/form-data" class="pb-2 text-CCL-Gold">
+            {% csrf_token %}
+            {{ form.media }}
+            <div class="row">
+                <div class="col-sm-4">
+                    {{ form.library_record_type|as_crispy_field }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form.title|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    {{ form.part_number|as_crispy_field }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form.collection_order_number|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form.discourse_series|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form.invocation|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row pb-2">
+                <div class="col-sm-12">
+                    {{ form.text|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form.benediction|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    {{ form.principal_cosmic_author|as_crispy_field }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form.supporting_cosmic_authors|as_crispy_field }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form.tags|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    {{ form.date_communicated|as_crispy_field }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form.language|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    {{ form.pdf_url|as_crispy_field }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form.doc_url|as_crispy_field }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form.mp3_url|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row pt-4">
+                {% if page_type == 'Update' %}
+                <div class="col-sm-2 pt-2">
+                    <a href="{% url 'library-record' libraryrecord.id %}" class="btn btn-outline-CCL-Blue col-sm-12">Go Back</a>
+                </div>
+                <div class="col-sm-2 pt-2">
+                    <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'discourse-series-create' %}">Add A Series Title</a>
+                </div>
+                <div class="col-sm-2 pt-2">
+                    <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'author-create' %}">Add An Author</a>
+                </div>
+                <div class="col-sm-2 pt-2">
+                    <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'tag-create' %}">Add A Tag</a>
+                </div>
+                <div class="col-sm-2 pt-2"></div>
+                <div class="col-sm-2 pt-2">
+                    <input type="submit" value="Update Library Record" class="btn btn-CCL-Blue col-sm-12">
+                </div>
+                {% else %}
+                <div class="col-sm-2 pt-2">
+                    <a href="{% url 'library-records' %}" class="btn btn-outline-CCL-Blue col-sm-12">Go Back</a>
+                </div>
+                <div class="col-sm-2 pt-2">
+                    <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'discourse-series-create' %}">Add A Series Title</a>
+                </div>
+                <div class="col-sm-2 pt-2">
+                    <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'author-create' %}">Add An Author</a>
+                </div>
+                <div class="col-sm-2 pt-2">
+                    <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'tag-create' %}">Add A Tag</a>
+                </div>
+                <div class="col-sm-2 pt-2"></div>
+                <div class="col-sm-2 pt-2">
+                    <input type="submit" value="Add Library Record" class="btn btn-CCL-Blue col-sm-12">
+                </div>
+                {% endif %}
+            </div>
+        </form>
+    </section>
+{% endblock %}
+

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+        Contact LanesFlow
+{% endblock %}
+{% block content %}
+    {% if valid %}
+    <section class="media content-section container-sm pt-2">
+        <div class="row">
+            <div class="col-xxl-12">
+                <p class="text-CCL-Blue pt-2">{{ confirm_message_1 }}{{ name }}.</p>
+                <p class="text-CCL-Blue">{{ confirm_message_2 }}</p>
+                <p class="text-CCL-Blue">{{ confirm_message_3 }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 pb-2">>
+                <a class="btn btn-CCL-Blue col-12" href="{% url 'library-records' %}">Return to the Library</a>
+            </div>
+        </div>
+    </section>
+    {% else %}
+    <section class="media content-section container-sm">
+        <h3 class="pt-2">Contact Us</h3>
+        <form action="{% url 'contact' %}" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-6 pt-2">
+                    <input type="text" name="message-name" class="form-control mb-30" minlength="3" placeholder="Your Name" required>
+                </div>
+                <div class="col-lg-6 pt-2">
+                    <input type="email" name="message-email" class="form-control mb-30" minlength="3" placeholder="Your Email" required>
+                </div>
+                <div class="col-lg-12 pt-4">
+                    <textarea name="message" class="form-control mb-30" minlength="3" placeholder="Your Message" required></textarea>
+                </div>
+                <div class="col-lg-3 pt-4 pb-2">
+                    <input type="submit" class="btn btn-CCL-Blue col-12" value="Send My Message">
+                </div>
+            </div>
+        </form>
+    </section>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}
+    {% if page_type == 'Update' %}
+        Edit Discourse Series Title
+    {% else %}
+        Create A Discourse Series Title
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <section class="media content-section">
+    {% if page_type == 'Update' %}
+        <h3><strong>Edit Discourse Series Title: {{ discourseseries.discourse_series }}</strong> </h3>
+    {% else %}
+        <h3><strong>Create A Discourse Series Title</strong></h3>
+    {% endif %}
+    </section>
+    <section class="media content-section">
+    {% if form.errors %}
+        <article class="media content-section alert-section">
+            <div>
+            <p class="alert-danger">Please review the following:</p>
+                <ul>
+                {% for key, value in form.errors.items %}
+                    {% for error in value %}
+                        {% if error != '' %}
+                            <li class="alert-danger">{{ error }}</li>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                </ul>
+            </div>
+        </article>
+    {% endif %}
+        <form method="post" action="" enctype="multipart/form-data" class="pb-2 text-CCL-Gold">
+            {% csrf_token %}
+            {{ form.media }}
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form.discourse_series|as_crispy_field }}
+                </div>
+            </div>
+        <div class="row pt-4">
+            <div class="col-sm-12">
+                {% if page_type == 'Update' %}
+                    <a href="{% url 'discourse-series-detail' discourseseries.id %}" class="btn btn-outline-CCL-Blue col-sm-2">Go Back</a>
+                    <input type="submit" value="Update Series Title" class="btn btn-CCL-Blue float-end col-sm-2">
+                {% else %}
+                    <a href="{% url 'discourse-series' %}" class="btn btn-outline-CCL-Blue col-sm-2">Go Back</a>
+                    <input type="submit" value="Add Series Title" class="btn btn-CCL-Blue float-end col-sm-2">
+                {% endif %}
+            </div>
+        </div>
+        </form>
+    </section>
+{% endblock %}

@@ -1,0 +1,207 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" href="{% static 'CCL_Library/favicon-32x32.png' %}"/>
+
+    <!-- Bootstrap CSS - https://getbootstrap.com/docs/5.0/getting-started/introduction/#starter-template -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- Local CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'CCL_Library/main.css' %}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous">
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&display=swap" rel="stylesheet">
+{#    <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Cinzel+Decorative:wght@400&display=swap" rel="stylesheet">#}
+    <!-- DateTimePicker -->
+    {% load bootstrap4 %}
+    {% bootstrap_javascript jquery='full' %}
+    {{ form.media }}
+
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.7.0" integrity="sha384-EzBXYPt0/T6gxNp0nuPtLkmRpmDBbjg6WmCUZRLXBBwYYmwAUxzlSGej0ARHX0Bo" crossorigin="anonymous"></script>
+
+    <!--Tinymce Text-Editor (Must be in Head Tag) -->
+    <script>
+        tinyMCE.init({
+            document_base_url : "https://django-whurthy.s3.us-west-1.amazonaws.com/whurthy-static/CCL/",
+            relative_urls : true
+        });
+    </script>
+
+    <!-- Inherited in-page script content block for script headers -->
+    {% block script_header %}{% endblock %}
+
+</head>
+<body class="masthead">
+    <header class="site-header">
+        <nav class="navbar navbar-expand-md navbar-dark">
+            <div class="container-xxl">
+                <!-- Navbar Logo -->
+                <a class="navbar-brand text-CCL-Gold pt-3" href="{% url 'home' %}"><strong>Cosmic Christ Love</strong></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarToggle">
+                    <!-- Navbar Left Side -->
+                    <div class="navbar-nav">
+                        {% if user.is_authenticated %}
+                        <li class="dropdown pe-4 pt-1">
+                            <a class="nav-link-gold dropdown-toggle navbarDropdownMenuLink" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Library
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="{% url 'discourses' %}">EGA Discourses</a>
+                                <a class="dropdown-item" href="#">'I AM' Freedom</a>
+                                <a class="dropdown-item" href="#">Divine Economy</a>
+                                <a class="dropdown-item" href="{% url 'invocations' %}">EGA Invocations</a>
+                                <a class="dropdown-item" href="{% url 'petitions' %}">EGA Petitions</a>
+                                <a class="dropdown-item" href="{% url 'books' %}">EGA Books</a>
+                                <a class="dropdown-item" href="{% url 'cosmic-reviews' %}">Cosmic Reviews</a>
+                                {% if user.is_staff %}<a class="dropdown-item" href="{% url 'library-records' %}">Admin: Library Records</a>{% endif %}
+                            </div>
+                        </li>
+                        <li class="dropdown pe-4 pt-1">
+                            <a class="nav-link-gold  dropdown-toggle navbarDropdownMenuLink" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Library Admin
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="#">Dashboard</a>
+                                {% if user.is_staff %}<a class="dropdown-item" href="{% url 'tags' %}">Library Tags</a>{% endif %}
+                                {% if user.is_staff %}<a class="dropdown-item" href="{% url 'authors' %}">Library Authors</a>{% endif %}
+                                {% if user.is_staff %}<a class="dropdown-item" href="{% url 'discourse-series' %}">Series Titles</a>{% endif %}
+                                <a class="dropdown-item" href="{% url "admin:index" %}">Back-Office Admin</a>
+                            </div>
+                        </li>
+                        <li class="dropdown pe-4 pt-1">
+                            <a class="nav-link-gold dropdown-toggle navbarDropdownMenuLink" href="{% url 'profile' %}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              My Account
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+                                <a class="dropdown-item" href="{% url 'password_reset' %}">Reset Password</a>
+                            </div>
+                        </li>
+                    </div>
+                    {% else %}
+                    <div class="navbar-nav">
+                        <li class="dropdown pe-4 pt-2">
+                            <a class="nav-link-gold dropdown-toggle navbarDropdownMenuLink" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              EGA Discourses
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="{% url 'discourses' %}">Discourses</a>
+                                <a class="dropdown-item" href="#">'I AM' Freedom Discourses'</a>
+                                <a class="dropdown-item" href="#">Divine Economy</a>
+                                <a class="dropdown-item" href="{% url 'invocations' %}">Invocations</a>
+                                <a class="dropdown-item" href="{% url 'petitions' %}">Petitions</a>
+                                {% if user.is_staff %}<a class="dropdown-item" href="{% url 'library-records' %}">Admin: Library Records</a>{% endif %}
+                            </div>
+                        </li>
+                        <a class="nav-link-gold pe-4 pt-2" href="{% url 'books' %}" aria-expanded="false">
+                          E-Books
+                        </a>
+                        <a class="nav-link-gold pe-4 pt-2" href="{% url 'cosmic-reviews' %}" aria-expanded="false">
+                          Cosmic Reviews
+                        </a>
+                    </div>
+                    {% endif %}
+                    <!-- Navbar Right Side -->
+                    <div class="navbar-nav me-auto">
+{#                    <div class="navbar-nav text-md-start">#}
+                        <span class="ps-2 pt-1 me-auto"><a class="nav-link-gold d-none d-xl-block text-decoration-none pt-1" href="{% url 'search' %}">Search</a></span>
+                        <a class="nav-link-gold d-xl-none pt-1" href="{% url 'search' %}">Search</a>
+                        {% if user.is_staff %}
+                        <span class="ps-2 pt-1"><a class="nav-link-gold ps-sm-4 d-none d-xl-block text-decoration-none pt-1" href="{% url 'logout' %}">Logout</a></span>
+                        <a class="nav-link-gold d-xl-none pt-1" href="{% url 'logout' %}">Logout</a>
+                        {% elif user.is_authenticated %}
+                        <span class="ps-2 pt-1"><a class="nav-link-gold p-sm-4 d-none d-xl-block text-decoration-none pt-1" href="{% url 'logout' %}">Logout</a></span>
+                        <a class="nav-link-gold d-xl-none pt-1" href="{% url 'logout' %}">Logout</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-md-12">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% block content %}{% endblock %}
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+<footer class="bg-BlueGray text-center text-white">
+    <div class="container p-4">
+        <section>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0"></div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <a class="nav-item nav-link footer-nav nav-link-gold" href="{% url 'contact' %}">Contact</a>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <a class="nav-item nav-link footer-nav nav-link-gold" href="https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=KA2QBBFR7VADW" target="_blank">Donation</a>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <a class="nav-item nav-link footer-nav nav-link-gold" href="#">Newsletter</a>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0"></div>
+            </div>
+            <div class="row pt-4">
+                <div class="col-lg-4 col-md-6 mb-4 mb-md-0"></div>
+                <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+{#                    <img src="https://django-whurthy.s3.us-west-1.amazonaws.com/whurthy-static/paypal-icon.png.jpeg" alt="Donate" class="img-fluid pb-2" width="50%">#}
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4 mb-md-0"></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-6 mb-4 mb-md-0">
+                    <p class="text-CCL-Gold">CosmicChrist.Love is not a commercial site or business. All information shared on this website is for Educational Purposes only.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4 mb-md-0"></div>
+                <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+{#                    <p class="text-white">©{{ year }} Copyright: Elemental Grace Alliance</p>#}
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4 mb-md-0"></div>
+            </div>
+        </section>
+    </div>
+</footer>
+<!-- Footer -->
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <!-- HTMX -->
+    <script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+        })
+    </script>
+</body>
+</html>

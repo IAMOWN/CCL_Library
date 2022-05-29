@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% block title %}Login to Cosmic Christ Love{% endblock %}
+{% block content %}
+    <article class="media content-section">
+        <div class="media-body">
+            <h3 class="mb-2 pt-2"><strong>Log In To Cosmic Christ Love</strong></h3>
+        </div>
+    </article>
+    <div class="content-section text-CCL-Gold">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+               {{ form|crispy }}
+            </fieldset>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group pt-4 pb-2">
+                        <button class="btn btn-CCL-Blue col-12" type="submit">Log In</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="pt-3">
+            <small class="text-muted">
+                Don't have an account? <a href="{% url 'register' %}" class="ml-2 text-CCL-Blue">Register</a>
+            </small>
+        </div>
+        <div class="row">
+            <small class="text-muted">
+                Did you forget your password? <a href="{% url 'password_reset' %}" class="ml-2 text-CCL-Blue">Reset your password</a>
+            </small>
+        </div>
+    </div>
+{% endblock content %}

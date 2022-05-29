@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+    {% if messages %}
+        <section>
+            <div>
+                <p class="alert-{{ message.tags }}">
+                    {{ message }}
+                </p>
+            </div>
+        </section>
+    {% endif %}
+    <section class="media content-section text-CCL-Gold">
+        <div class="row pt-2">
+            <div class="col-sm-10">
+                <h3><strong>Discourse Series: {{ discourse_series.discourse_series }} </strong></h3>
+            </div>
+            <div class="col-sm-2">
+                <a href="{% url 'library-records' %}" class="btn btn-outline-CCL-Blue col-12">Library Records</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="media content-section">
+        <div class="row pt-2">
+            <div class="col-sm-2">
+                <a href="{% url 'discourse-series' %}" class="btn btn-outline-CCL-Blue col-12">Go Back</a>
+            </div>
+            {% if user.is_staff %}
+            <div class="col-sm-3"></div>
+            <div class="col-sm-2 text-center pb-2">
+                <a href="{% url 'discourse-series-update' discourse_series.id %}" class="btn btn-CCL-Blue col-12">Edit Series Title</a>
+            </div>
+            {% endif %}
+            {% if user.is_superuser %}
+            <div class="col-sm-3"></div>
+            <div class="col-sm-2 pb-2">
+                <a href="{% url 'discourse-series-delete' discourse_series.id %}" class="btn btn-outline-danger col-12">Delete Series Title</a>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}
