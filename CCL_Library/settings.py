@@ -134,7 +134,7 @@ DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 SERVER_EMAIL = os.environ.get('SERVER_EMAIL')
 
 COMPANY_NAME = os.environ.get('COMPANY_NAME')
-DOMAIN  = os.environ.get('WHURTHY_DOMAIN')
+DOMAIN  = os.environ.get('DOMAIN')
 
 
 TINYMCE_DEFAULT_CONFIG = {
