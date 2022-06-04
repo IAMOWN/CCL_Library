@@ -59,13 +59,14 @@
                 <div class="collapse navbar-collapse" id="navbarToggle">
                     <!-- Navbar Left Side -->
                     <div class="navbar-nav">
-                        {% if user.is_authenticated %}
+                    {% if user.is_authenticated %}
                         <li class="dropdown pe-4 pt-1">
                             <a class="nav-link-gold dropdown-toggle navbarDropdownMenuLink" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               Library
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="{% url 'discourses' %}">EGA Discourses</a>
+                                <a class="dropdown-item" href="{% url 'enaca' %}">ENACA</a>
                                 <a class="dropdown-item" href="#">'I AM' Freedom</a>
                                 <a class="dropdown-item" href="#">Divine Economy</a>
                                 <a class="dropdown-item" href="{% url 'invocations' %}">EGA Invocations</a>
@@ -77,13 +78,13 @@
                         </li>
                         <li class="dropdown pe-4 pt-1">
                             <a class="nav-link-gold  dropdown-toggle navbarDropdownMenuLink" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Library Admin
+                              Administration
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="#">Dashboard</a>
-                                {% if user.is_staff %}<a class="dropdown-item" href="{% url 'tags' %}">Library Tags</a>{% endif %}
-                                {% if user.is_staff %}<a class="dropdown-item" href="{% url 'authors' %}">Library Authors</a>{% endif %}
-                                {% if user.is_staff %}<a class="dropdown-item" href="{% url 'discourse-series' %}">Series Titles</a>{% endif %}
+                                {% if user.is_staff %}<a class="dropdown-item" href="{% url 'tags' %}">Tags</a>{% endif %}
+                                {% if user.is_staff %}<a class="dropdown-item" href="{% url 'masters' %}">Masters</a>{% endif %}
+                                {% if user.is_staff %}<a class="dropdown-item" href="{% url 'discourse-series' %}">Series</a>{% endif %}
+                                {% if user.is_staff %}<a class="dropdown-item" href="{% url 'collections' %}">Collections</a>{% endif %}
                                 <a class="dropdown-item" href="{% url "admin:index" %}">Back-Office Admin</a>
                             </div>
                         </li>
@@ -104,16 +105,21 @@
                               EGA Discourses
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="{% url 'discourses' %}">Discourses</a>
+                                <a class="dropdown-item" href="{% url 'discourses' %}">All Discourses</a>
+                                <a class="dropdown-item" href="{% url 'enaca' %}">The ENACA Collection</a>
                                 <a class="dropdown-item" href="#">'I AM' Freedom Discourses'</a>
                                 <a class="dropdown-item" href="#">Divine Economy</a>
-                                <a class="dropdown-item" href="{% url 'invocations' %}">Invocations</a>
-                                <a class="dropdown-item" href="{% url 'petitions' %}">Petitions</a>
                                 {% if user.is_staff %}<a class="dropdown-item" href="{% url 'library-records' %}">Admin: Library Records</a>{% endif %}
                             </div>
                         </li>
+                        <a class="nav-link-gold pe-4 pt-2" href="{% url 'invocations' %}" aria-expanded="false">
+                          Invocations
+                        </a>
+                        <a class="nav-link-gold pe-4 pt-2" href="{% url 'petitions' %}" aria-expanded="false">
+                          Petitions
+                        </a>
                         <a class="nav-link-gold pe-4 pt-2" href="{% url 'books' %}" aria-expanded="false">
-                          E-Books
+                          Books
                         </a>
                         <a class="nav-link-gold pe-4 pt-2" href="{% url 'cosmic-reviews' %}" aria-expanded="false">
                           Cosmic Reviews
@@ -121,18 +127,19 @@
                     </div>
                     {% endif %}
                     <!-- Navbar Right Side -->
-                    <div class="navbar-nav me-auto">
-{#                    <div class="navbar-nav text-md-start">#}
-                        <span class="ps-2 pt-1 me-auto"><a class="nav-link-gold d-none d-xl-block text-decoration-none pt-1" href="{% url 'search' %}">Search</a></span>
+                    {% if user.is_authenticated %}
+                    <div class="navbar-nav ms-auto">
+                        <span class="ps-2 pt-1"><a class="nav-link-gold d-none d-xl-block text-decoration-none pt-1" href="{% url 'search' %}">Search</a></span>
                         <a class="nav-link-gold d-xl-none pt-1" href="{% url 'search' %}">Search</a>
-                        {% if user.is_staff %}
                         <span class="ps-2 pt-1"><a class="nav-link-gold ps-sm-4 d-none d-xl-block text-decoration-none pt-1" href="{% url 'logout' %}">Logout</a></span>
                         <a class="nav-link-gold d-xl-none pt-1" href="{% url 'logout' %}">Logout</a>
-                        {% elif user.is_authenticated %}
-                        <span class="ps-2 pt-1"><a class="nav-link-gold p-sm-4 d-none d-xl-block text-decoration-none pt-1" href="{% url 'logout' %}">Logout</a></span>
-                        <a class="nav-link-gold d-xl-none pt-1" href="{% url 'logout' %}">Logout</a>
-                        {% endif %}
                     </div>
+                    {% else %}
+                    <div class="navbar-nav ms-auto">
+                        <span class="ps-2 pt-1 ms-auto"><a class="nav-link-gold d-none d-xl-block text-decoration-none pt-1" href="{% url 'search' %}">Search</a></span>
+                        <a class="nav-link-gold d-xl-none pt-1 ms-auto" href="{% url 'search' %}">Search</a>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </nav>
@@ -197,7 +204,7 @@
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-    <!-- HTMX -->
+    <!-- HTMX - looks for the htmx configRequest event and adds a CSFR Token (context variable) to the header -->
     <script>
         document.body.addEventListener('htmx:configRequest', (event) => {
             event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';

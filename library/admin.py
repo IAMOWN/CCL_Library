@@ -5,8 +5,21 @@ from .models import (
     CosmicAuthor,
     LibraryRecord,
     DiscourseSeries,
+    Collection,
+    CollectionOrder,
 )
+
+
+class CollectionOrderInlineAdmin(admin.TabularInline):
+    model = CollectionOrder
+
+
+class CollectionAdmin(admin.ModelAdmin):
+    inlines = [CollectionOrderInlineAdmin]
+
+
 admin.site.register(Tag)
 admin.site.register(CosmicAuthor)
 admin.site.register(LibraryRecord)
 admin.site.register(DiscourseSeries)
+admin.site.register(Collection, CollectionAdmin)

@@ -1,0 +1,20 @@
+{% load crispy_forms_filters %}
+<div hx-target="this" hx-swap="outerHTML" class="mb-2 content-section text-CCL-Gold mt-2">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+            <div class="row pt-2">
+                <div class="col-lg-3">
+                {% if collection_record %}
+                    <button type="submit" hx-post="{% url 'collection-record-update' collection_record.id %}" class="btn btn-CCL-Blue col-12 mb-2">
+                        Submit
+                    </button>
+                {% else %}
+                    <button type="submit" hx-post="." class="btn btn-CCL-Blue col-12 mb-2">
+                        Submit
+                    </button>
+                {% endif %}
+                </div>
+            </div>
+    </form>
+</div>

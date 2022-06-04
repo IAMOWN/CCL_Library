@@ -14,10 +14,10 @@
             <div class="media-body pb-2 pt-2">
                 <form method="get">
                     <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-lg-3">
                             <button type="submit" class="btn btn-outline-CCL-Blue col-12">Search Profiles</button>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-lg-3">
                             <input
                                     type="text"
                                     name="search-area"
@@ -26,7 +26,7 @@
                                     placeholder="by First Name"
                             >
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-lg-3">
                             <input
                                     type="text"
                                     name="last-search-area"
@@ -69,32 +69,32 @@
                 <h5 class="article-title pb-2 pt-2"><strong>Profile for <a class="text-BlueGray" href="{% url 'profile-customer' profile.id profile.user_id %}">{{ profile.first_name }} {{ profile.last_name }}</a></strong></h5>
                 <div class="row">
                     {% if profile.loyalty_tier == 'VIP' %}
-                        <div class="col-sm-6">
+                        <div class="col-lg-6">
                             <p class="article-content text-success"><strong>Loyalty tier:</strong> {{ profile.loyalty_tier }}</p>
                         </div>
                     {% elif profile.loyalty_tier == 'Member' %}
-                        <div class="col-sm-6">
+                        <div class="col-lg-6">
                             <p class="article-content text-BlueGray"><strong>Loyalty tier:</strong> {{ profile.loyalty_tier }}</p>
                         </div>
                     {% else %}
-                        <div class="col-sm-6">
+                        <div class="col-lg-6">
                             <p class="article-content"><strong>Loyalty tier:</strong> {{ profile.loyalty_tier }}</p>
                         </div>
                     {% endif %}
-                    <div class="col-sm-6">
+                    <div class="col-lg-6">
                         <p class="article-content"><strong>Loyalty counter:</strong> {{ profile.loyalty_counter }}</p>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-lg-6">
                         <p class="article-content"><strong>Pronoun:</strong> {{ profile.pronoun }}</p>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-lg-6">
                         <p class="article-content"><strong>Email:</strong> {{ profile.user.email }}</p>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-lg-6">
                         <p class="article-content"><strong>Phone:</strong> {{ profile.phone }}</p>
                     </div>
                 </div>

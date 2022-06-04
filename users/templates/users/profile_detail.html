@@ -14,35 +14,35 @@
                 <strong>Contact Details</strong>
             </h5>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-lg-4">
                     <p class="article-content"><strong>Pronoun:</strong> {{ profile.pronoun }}</p>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-lg-4">
                     <p class="article-content"><strong>First Name:</strong> {{ profile.first_name }}</p>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-lg-4">
                     <p class="article-content"><strong>Last Name:</strong> {{ profile.last_name }}</p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-lg-4">
                     <p class="article-content"><strong>Address:</strong>
                     {{ profile.address_1 }}{% if profile.address_2 %}, {{ profile.address_2 }}{% endif %}
                     {{ profile.city }}, {{ profile.state_province_county }}
                     {{ profile.postal_zip_code }}
                     {{ profile.country }}</p>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-lg-4">
                     <p class="article-content"><strong>Phone:</strong> {{ profile.phone }}</p>
                     <p class="article-content"><strong>Email:</strong> {{ profile.user.email }}</p>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-lg-4">
                     <p class="article-content"><strong>Notification preference:</strong> {{ profile.notification_preference }}</p>
                 </div>
             </div>
 
             <div class="row pb-2">
-                <div class="col-sm-3">
+                <div class="col-lg-3">
                         <a href="{% url 'profiles' %}" class="btn btn-outline-BlueGray col-12">Back To Profiles</a>
                 </div>
             </div>
@@ -50,14 +50,14 @@
     </article>
     <section class="media content-section">
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-lg-12">
             <h5 class="article-title pb-2 pt-2">
                 <strong>Event Booking</strong>
             </h5>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-lg-12">
                 <p>
                     You can book an event on behalf of {{ profile.first_name }} by clicking the Book An Event button.
                     This will allow you to view all the events that they can book, can cancel, and if available to book an event for them.
@@ -65,7 +65,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-3 pb-2">
+            <div class="col-lg-3 pb-2">
                 <a class="btn btn-BlueGray col-12" href="{% url 'event-booking-for-customer' user_id %}">Book An Event</a>
             </div>
         </div>
@@ -81,19 +81,19 @@
             <strong>Loyalty History</strong>
         </h5>
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-lg-4">
                 <p class="article-content">Guest events booked: {{ profile.total_promo_booked }}</p>
                 {% if profile.total_promo_booking_cancellations > 0 %}
                     <p class="article-content text-danger small">Guest booking cancellations: {{ profile.total_promo_booking_cancellations }}</p>
                 {% endif %}
             </div>
-            <div class="col-sm-4">
+            <div class="col-lg-4">
                 <p class="article-content">Guest events paid: {{ profile.total_promo_paid }}</p>
                 {% if profile.total_promo_paid_cancellations > 0 %}
                     <p class="article-content text-danger small">Guest paid cancellations: {{ profile.total_promo_paid_cancellations }}</p>
                 {% endif %}
             </div>
-            <div class="col-sm-4">
+            <div class="col-lg-4">
                 <p class="article-content">Guest event revenue: {{ profile.total_promo_revenue }}</p>
                 {% if profile.total_promo_cancel_cost.amount > 0 %}
                     <p class="article-content text-danger small">Guest cancellation cost: {{ profile.total_promo_cancel_cost }}</p>
@@ -101,19 +101,19 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-lg-4">
                 <p class="article-content">Member events booked: {{ profile.total_regular_booked }}</p>
                 {% if profile.total_regular_booking_cancellations > 0 %}
                     <p class="article-content text-danger small">Member booking cancellations: {{ profile.total_regular_booking_cancellations }}</p>
                 {% endif %}
             </div>
-            <div class="col-sm-4">
+            <div class="col-lg-4">
                 <p class="article-content">Member events paid: {{ profile.total_regular_paid }}</p>
                 {% if profile.total_regular_paid_cancellations > 0 %}
                     <p class="article-content text-danger small">Member paid cancellations: {{ profile.total_regular_paid_cancellations }}</p>
                 {% endif %}
             </div>
-            <div class="col-sm-4">
+            <div class="col-lg-4">
                 <p class="article-content">Member event revenue: {{ profile.total_regular_revenue }}</p>
                 {% if profile.total_regular_cancel_cost.amount > 0 %}
                     <p class="article-content text-danger small">Member cancellation cost: {{ profile.total_regular_cancel_cost }}</p>
@@ -121,19 +121,19 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-lg-4">
                 <p class="article-content">VIP events booked: {{ profile.total_VIP_booked }}</p>
                 {% if profile.total_VIP_booking_cancellations > 0 %}
                     <p class="article-content text-danger small">VIP booking cancellations: {{ profile.total_VIP_booking_cancellations }}</p>
                 {% endif %}
             </div>
-            <div class="col-sm-4">
+            <div class="col-lg-4">
                 <p class="article-content">VIP events paid: {{ profile.total_VIP_paid }}</p>
                 {% if profile.total_VIP_paid_cancellations > 0 %}
                     <p class="article-content text-danger small">VIP paid cancellations: {{ profile.total_VIP_paid_cancellations }}</p>
                 {% endif %}
             </div>
-            <div class="col-sm-4">
+            <div class="col-lg-4">
                 <p class="article-content">VIP event revenue: {{ profile.total_VIP_revenue }}</p>
                 {% if profile.total_VIP_cancel_cost.amount > 0 %}
                     <p class="article-content text-danger small">VIP cancellation cost: {{ profile.total_VIP_cancel_cost }}</p>
@@ -141,7 +141,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-lg-4">
             {% if profile.loyalty_tier == 'VIP' %}
                 <span class="article-content text-success"><strong>Loyalty tier: {{ profile.loyalty_tier }}</strong> </span>
             {% elif profile.loyalty_tier == 'Member' %}
@@ -150,10 +150,10 @@
                 <span class="article-content"><strong>Loyalty tier: {{ profile.loyalty_tier }}</strong> </span>
             {% endif %}
             </div>
-            <div class="col-sm-4">
+            <div class="col-lg-4">
                 <p class="article-content"><strong>Loyalty counter:</strong> {{ profile.loyalty_counter }}</p>
         </div>
-            <div class="col-sm-4">
+            <div class="col-lg-4">
                 <p class="article-content"><strong>Total revenue:</strong> {{ profile.total_paid_revenue }}</p>
             </div>
         </div>

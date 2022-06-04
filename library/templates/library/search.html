@@ -22,8 +22,8 @@
                     <li>between dates (select a from and to date and then click the Search button), or</li>
                     <li>within the Title or Text of the entire record, or</li>
                     <li>by a Record Type, Series (records published as a part of a series of records), by Tag (subject), or</li>
-                    <li>by Principal Author, Supporting Author, or</li>
-                    <li>any of the above (Title, Text, Record Type, Series, Tag, Principal Author, or Supporting Author) within a date range, or</li>
+                    <li>by Master, Supporting Master, or</li>
+                    <li>any of the above (Title, Text, Record Type, Series, Tag, Master, or Supporting Master) within a date range, or</li>
                     <li>by Text within a Record type.</li>
                 </ul>
             </div>
@@ -121,7 +121,7 @@
 
                 <div class="col-sm-2">
                     <select name="author-search" class="form-control">
-                        <option value="">Principal Author</option>
+                        <option value="">Master</option>
                         {% for author in authors %}
                         <option value='{{ author.author }}'>{{ author.author }}</option>
                         {% endfor %}
@@ -131,7 +131,7 @@
 
                 <div class="col-sm-2">
                     <select name="supporting-author-search" class="form-control">
-                        <option value="">Supporting Author</option>
+                        <option value="">Supporting Master</option>
                         {% for author in authors %}
                         <option value='{{ author.author }}'>{{ author.author }}</option>
                         {% endfor %}
@@ -170,13 +170,13 @@
                 <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} library record{{ search_count|pluralize:'s' }} {{ search_entered }} (search type: {{ search_type }})</p>
 
             {% elif search_count == 0 and search_type == 'text' %}
-                <p class="text-danger">There are no library records containing the text, "{{ search_entered }}" (search type: {{ search_type }})</p>
+                <p class="text-danger">There are no library records containing the text, "{{ search_entered }}" (search type: {{ search_type }}). Please note that many library records are composed with UK English. For example, the UK spelling of "glamour" is different from the US spelling of "glamor".</p>
             {% elif search_type == 'text' %}
-                <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} library record{{ search_count|pluralize:'s' }} containing the text, "{{ search_entered }}" (search type: {{ search_type }})</p>
+                <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} library record{{ search_count|pluralize:'s' }} containing the text, "{{ search_entered }}" (search type: {{ search_type }}). Please note that many library records are composed with UK English. For example, the UK spelling of "glamour" is different from the US spelling of "glamor".</p>
             {% elif search_count == 0 and search_type == 'date/text' %}
-                <p class="text-danger">There are no library records {{ search_entered }} (search type: {{ search_type }})</p>
+                <p class="text-danger">There are no library records {{ search_entered }} (search type: {{ search_type }}). Please note that many library records are composed with UK English. For example, the UK spelling of "glamour" is different from the US spelling of "glamor".</p>
             {% elif search_type == 'date/text' %}
-                <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} library record{{ search_count|pluralize:'s' }} {{ search_entered }} (search type: {{ search_type }})</p>
+                <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} library record{{ search_count|pluralize:'s' }} {{ search_entered }} (search type: {{ search_type }}). Please note that many library records are composed with UK English. For example, the UK spelling of "glamour" is different from the US spelling of "glamor".</p>
 
             {% elif search_count == 0 and search_type == 'record type' %}
                 <p class="text-danger">There are no library records for the record type, {{ search_entered }} (search type: {{ search_type }})</p>
@@ -209,22 +209,22 @@
             {% elif search_type == 'date/tag' %}
                 <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} library record{{ search_count|pluralize:'s' }} {{ search_entered }} (search type: {{ search_type }})</p>
 
-            {% elif search_count == 0 and search_type == 'author' %}
-                <p class="text-danger">There are no library records from the principal author, {{ search_entered }} (search type: {{ search_type }})</p>
-            {% elif search_type == 'author' %}
-                <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} library record{{ search_count|pluralize:'s' }} from the principal author, {{ search_entered }} (search type: {{ search_type }})</p>
-            {% elif search_count == 0 and search_type == 'date/author' %}
+            {% elif search_count == 0 and search_type == 'Master' %}
+                <p class="text-danger">There are no library records from the Master, {{ search_entered }} (search type: {{ search_type }})</p>
+            {% elif search_type == 'Master' %}
+                <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} library record{{ search_count|pluralize:'s' }} from the Master, {{ search_entered }} (search type: {{ search_type }})</p>
+            {% elif search_count == 0 and search_type == 'date/Master' %}
                 <p class="text-danger">There are no library records {{ search_entered }} (search type: {{ search_type }})</p>
-            {% elif search_type == 'date/author' %}
+            {% elif search_type == 'date/Master' %}
                 <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} library record{{ search_count|pluralize:'s' }} {{ search_entered }} (search type: {{ search_type }})</p>
 
-            {% elif search_count == 0 and search_type == 'supporting author' %}
-                <p class="text-danger">There are no library records with the supporting author, {{ search_entered }} (search type: {{ search_type }})</p>
-            {% elif search_type == 'supporting author' %}
-                <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} library record{{ search_count|pluralize:'s' }} with the supporting author, {{ search_entered }} (search type: {{ search_type }})</p>
-            {% elif search_count == 0 and search_type == 'date/supporting author' %}
+            {% elif search_count == 0 and search_type == 'supporting Master' %}
+                <p class="text-danger">There are no library records with the supporting Master, {{ search_entered }} (search type: {{ search_type }})</p>
+            {% elif search_type == 'supporting Master' %}
+                <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} library record{{ search_count|pluralize:'s' }} with the supporting Master, {{ search_entered }} (search type: {{ search_type }})</p>
+            {% elif search_count == 0 and search_type == 'date/supporting Master' %}
                 <p class="text-danger">There are no library records {{ search_entered }} (search type: {{ search_type }})</p>
-            {% elif search_type == 'date/supporting author' %}
+            {% elif search_type == 'date/supporting Master' %}
                 <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} library record{{ search_count|pluralize:'s' }} {{ search_entered }} (search type: {{ search_type }})</p>
 
             {% endif %}
@@ -238,10 +238,10 @@
         <div class="row pt-2 pb-2">
             <div class="col-sm-12">
                 {% if record.library_record_type == 'Discourse' %}
-                    {% if record.part_number > 0 %}
-                <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">Part {{ record.part_number }} - {{ record.discourse_series }} - {{ record.title }} - {{ record.date_communicated }}</a></p>
-                    {% else %}
-                <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.discourse_series }} - {{ record.title }} - {{ record.date_communicated }}</a></p>
+                    {% if record.discourse_series %}
+                    <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">Part {{ record.part_number }} - {{ record.discourse_series }} - {{ record.title }} - {{ record.date_communicated }}</a></p>
+                    {% elif not record.discourse_series %}
+                    <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.title }} - {{ record.date_communicated }}</a></p>
                     {% endif %}
                 {% else %}
                 <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.title }}</a></p>

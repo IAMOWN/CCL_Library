@@ -16,22 +16,24 @@
     <section class="media content-section text-CCL-Gold">
         <div class="row text-center">
             <div class="col-sm-12 pt-2">
-            {% if library_record.library_record_type == 'Discourse' and library_record.part_number > 0 %}
-                <p>Part {{ library_record.part_number }} - {{ library_record.discourse_series }}</p>
-            {% elif library_record.library_record_type == 'Discourse' and not library_record.part_number %}
-                <p>{{ library_record.discourse_series }}</p>
-            {% elif library_record.library_record_type == 'Invocation' %}
-                <p>{{ library_record.discourse_series }} (Invocation)</p>
+            {% if library_record.discourse_series %}
+                {% if library_record.library_record_type == 'Discourse' and library_record.part_number > 0 %}
+                    <p>Part {{ library_record.part_number }} - {{ library_record.discourse_series }}</p>
+                {% elif library_record.library_record_type == 'Discourse' and not library_record.part_number %}
+                    <p>{{ library_record.discourse_series }}</p>
+                {% elif library_record.library_record_type == 'Invocation' %}
+                    <p>{{ library_record.discourse_series }} (Invocation)</p>
+                {% endif %}
+                </div>
+                </div>
+                {% if library_record.library_record_type == 'Discourse' and library_record.part_number > 0 %}
+                <hr style="height:2px; color: #39b2bd; background-color: #39b2bd; margin-top: 0.25rem">
+                {% elif library_record.library_record_type == 'Discourse' and not library_record.part_number %}
+                <hr style="height:2px; color: #39b2bd; background-color: #39b2bd; margin-top: 0.25rem">
+                {% elif library_record.library_record_type == 'Invocation' %}
+                <hr style="height:2px; color: #39b2bd; background-color: #39b2bd; margin-top: 0.25rem">
+                {% endif %}
             {% endif %}
-            </div>
-        </div>
-        {% if library_record.library_record_type == 'Discourse' and library_record.part_number > 0 %}
-        <hr style="height:2px; color: #39b2bd; background-color: #39b2bd; margin-top: 0.25rem">
-        {% elif library_record.library_record_type == 'Discourse' and not library_record.part_number %}
-        <hr style="height:2px; color: #39b2bd; background-color: #39b2bd; margin-top: 0.25rem">
-        {% elif library_record.library_record_type == 'Invocation' %}
-        <hr style="height:2px; color: #39b2bd; background-color: #39b2bd; margin-top: 0.25rem">
-        {% endif %}
         <div class="row">
             <div class="col-sm-12">
                 {% if library_record.principal_cosmic_author is not None %}
@@ -101,18 +103,18 @@
     {% endif %}
     <section class="media content-section">
         <div class="row pt-2">
-            <div class="col-sm-2 pb-2">
-                <a href="{% url 'library-records' %}" class="btn btn-outline-CCL-Blue col-12">Go Back</a>
+            <div class="col-lg-2 pb-2">
+                <a href="{% url 'library-records' %}" class="btn btn-outline-CCL-Blue col-12">Library Records</a>
             </div>
             {% if user.is_staff %}
-            <div class="col-sm-3"></div>
-            <div class="col-sm-2 text-center pb-2">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-2 text-center pb-2">
                 <a href="{% url 'library-record-update' library_record.id %}" class="btn btn-CCL-Blue col-12">Edit Record</a>
             </div>
             {% endif %}
             {% if user.is_superuser %}
-            <div class="col-sm-3"></div>
-            <div class="col-sm-2 pb-2">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-2 pb-2">
                 <a href="{% url 'library-record-delete' library_record.id %}" class="btn btn-outline-danger col-12">Delete Record</a>
             </div>
             {% endif %}

@@ -1,12 +1,15 @@
 from django import forms
+from django.forms.models import inlineformset_factory
 
 from bootstrap_datepicker_plus.widgets import DatePickerInput
 
 from .models import (
     Tag,
-    DiscourseSeries,
+    Collection,
     CosmicAuthor,
     LibraryRecord,
+    CollectionOrder,
+    DiscourseSeries,
 )
 
 from users.models import User
@@ -19,6 +22,17 @@ def tag_form_validation(form, form_type):
         form.add_error(
             'tag',
             'A tag must be entered.'
+        )
+    return
+
+
+# ############ Collection form validation logic ############
+def collection_form_validation(form, form_type):
+    cleaned_data = super(form_type, form).clean()
+    if cleaned_data.get('collection') is None:
+        form.add_error(
+            'collection',
+            'A collection must be entered.'
         )
     return
 
@@ -94,6 +108,34 @@ class UpdateTagForm(forms.ModelForm):
         return self.cleaned_data
 
 
+# ####################### Create Collection Form #######################
+class CreateCollectionForm(forms.ModelForm):
+
+    class Meta:
+        model = Collection
+        fields = [
+            'collection',
+        ]
+
+    def clean(self):
+        collection_form_validation(self, CreateCollectionForm)
+        return self.cleaned_data
+
+
+# ####################### Update Collection Form #######################
+class UpdateCollectionForm(forms.ModelForm):
+
+    class Meta:
+        model = Collection
+        fields = [
+            'collection',
+        ]
+
+    def clean(self):
+        collection_form_validation(self, UpdateCollectionForm)
+        return self.cleaned_data
+
+
 # ####################### Create Discourse Series Form #######################
 class CreateDiscourseSeriesForm(forms.ModelForm):
 
@@ -159,7 +201,6 @@ class CreateLibraryRecordForm(forms.ModelForm):
             'library_record_type',
             'title',
             'part_number',
-            'collection_order_number',
             'discourse_series',
             'invocation',
             'text',
@@ -191,7 +232,6 @@ class UpdateLibraryRecordForm(forms.ModelForm):
             'library_record_type',
             'title',
             'part_number',
-            'collection_order_number',
             'discourse_series',
             'invocation',
             'text',
@@ -212,3 +252,24 @@ class UpdateLibraryRecordForm(forms.ModelForm):
     def clean(self):
         library_record_form_validation(self, UpdateLibraryRecordForm)
         return self.cleaned_data
+
+
+# ####################### DYNAMIC FORMSET - COLLECTION ORDER #######################
+class CollectionRecordForm(forms.ModelForm):
+    class Meta:
+        model = CollectionOrder
+        fields = [
+            'record',
+            'order_number',
+        ]
+
+
+CollectionRecordFormSet = inlineformset_factory(
+    Collection,
+    CollectionOrder,
+    CollectionRecordForm,
+    can_delete=True,
+    min_num=1,
+    extra=1,
+    max_num=99,
+)

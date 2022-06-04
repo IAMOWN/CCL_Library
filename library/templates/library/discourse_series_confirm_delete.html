@@ -27,7 +27,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-2 pb-2">
-                    <a class="btn btn-CCL-Blue col-12" href="{% url 'discourse-series-detail' discourseseries.id %}">Go Back</a>
+                    <a class="btn btn-CCL-Blue col-12" href="{{ request.META.HTTP_REFERER }}">Go Back</a>
                 </div>
                 <div class="col-sm-8"></div>
                 <div class="col-sm-2 pb-2">

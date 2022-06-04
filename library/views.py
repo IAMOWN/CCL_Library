@@ -1,10 +1,13 @@
 from datetime import datetime, timedelta
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
+from django.views.generic.detail import DetailView, SingleObjectMixin
+from django.shortcuts import get_object_or_404, render, redirect
+from django.http.response import HttpResponse
 from django.views.generic.edit import (
     CreateView,
     UpdateView,
@@ -13,20 +16,26 @@ from django.views.generic.edit import (
 
 from .models import (
     Tag,
+    Collection,
     CosmicAuthor,
     LibraryRecord,
+    CollectionOrder,
     DiscourseSeries,
 )
 
 from .forms import (
     CreateTagForm,
     UpdateTagForm,
+    CreateCollectionForm,
+    UpdateCollectionForm,
     CreateDiscourseSeriesForm,
     UpdateDiscourseSeriesForm,
     CreateCosmicAuthorForm,
     UpdateCosmicAuthorForm,
     CreateLibraryRecordForm,
     UpdateLibraryRecordForm,
+    CollectionRecordForm,
+    CollectionRecordFormSet,
 )
 
 
@@ -119,6 +128,90 @@ class TagDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return context
 
 
+# ####################### COLLECTION VIEWS #######################
+class CollectionList(LoginRequiredMixin, ListView):
+    model = Collection
+    template_name = 'library/collections.html'
+    context_object_name = 'collections'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['year'] = get_current_year()
+        context['title'] = 'Library Collections'
+
+        return context
+
+
+# ####################### Collection - Detail View #######################
+class CollectionDetail(LoginRequiredMixin, DetailView):
+    model = Collection
+    template_name = 'library/collection_detail.html'
+    context_object_name = 'collection'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['year'] = get_current_year()
+        context['title'] = f"Collection: {Collection.objects.get(pk=self.kwargs['pk'])}"
+
+        return context
+
+
+# ####################### Collection - Create View #######################
+class CollectionCreate(LoginRequiredMixin, CreateView):
+    model = Collection
+    form_class = CreateCollectionForm
+    template_name = 'library/collection_form.html'
+    reverse_lazy('collections')
+
+    def form_valid(self, form):
+        message = form.instance.collection
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            f'The Collection "{message}" has been added'
+        )
+        return super(CollectionCreate, self).form_valid(form)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(CollectionCreate, self).get_context_data(**kwargs)
+        context['page_type'] = 'Create'
+        context['year'] = get_current_year()
+
+        return context
+
+
+# ####################### Collection - Update View #######################
+class CollectionUpdate(LoginRequiredMixin, UpdateView):
+    model = Collection
+    form_class = UpdateCollectionForm
+    template_name = 'library/collection_form.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(CollectionUpdate, self).get_context_data(**kwargs)
+        context['page_type'] = 'Update'
+        context['year'] = get_current_year()
+
+        return context
+
+
+# ####################### Collection - Delete View #######################
+class CollectionDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Collection
+    template_name = 'library/collection_confirm_delete.html'
+    success_url = reverse_lazy('collections')
+
+    def test_func(self):
+        if self.request.user.is_superuser:
+            return True
+        return False
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(CollectionDelete, self).get_context_data(**kwargs)
+        context['year'] = get_current_year()
+
+        return context
+
+
 # ####################### DISCOURSE SERIES VIEWS #######################
 class DiscourseSeriesList(LoginRequiredMixin, ListView):
     model = DiscourseSeries
@@ -202,39 +295,39 @@ class DiscourseSeriesDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView)
         return context
 
 
-# ####################### COSMIC AUTHOR VIEWS #######################
+# ####################### MASTERS (COSMIC AUTHOR) VIEWS #######################
 class CosmicAuthorList(LoginRequiredMixin, ListView):
     model = CosmicAuthor
-    template_name = 'library/authors.html'
+    template_name = 'library/masters.html'
     context_object_name = 'authors'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['year'] = get_current_year()
-        context['title'] = 'Cosmic Authors'
+        context['title'] = 'Masters'
 
         return context
 
 
-# ####################### Cosmic Author - Detail View #######################
+# ####################### Master - Detail View #######################
 class CosmicAuthorDetail(LoginRequiredMixin, DetailView):
     model = CosmicAuthor
-    template_name = 'library/author_detail.html'
+    template_name = 'library/master_detail.html'
     context_object_name = 'author'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['year'] = get_current_year()
-        context['title'] = f"Cosmic Author: {CosmicAuthor.objects.get(pk=self.kwargs['pk'])}"
+        context['title'] = f"Master: {CosmicAuthor.objects.get(pk=self.kwargs['pk'])}"
 
         return context
 
 
-# ####################### Cosmic Author - Create View #######################
+# ####################### Master - Create View #######################
 class CosmicAuthorCreate(LoginRequiredMixin, CreateView):
     model = CosmicAuthor
     form_class = CreateCosmicAuthorForm
-    template_name = 'library/author_form.html'
+    template_name = 'library/master_form.html'
 
     def form_valid(self, form):
         message = form.instance.author
@@ -253,11 +346,11 @@ class CosmicAuthorCreate(LoginRequiredMixin, CreateView):
         return context
 
 
-# ####################### Cosmic Author - Update View #######################
+# ####################### Master - Update View #######################
 class CosmicAuthorUpdate(LoginRequiredMixin, UpdateView):
     model = CosmicAuthor
     form_class = UpdateCosmicAuthorForm
-    template_name = 'library/author_form.html'
+    template_name = 'library/master_form.html'
 
     def get_context_data(self, *args, **kwargs):
         context = super(CosmicAuthorUpdate, self).get_context_data(**kwargs)
@@ -267,11 +360,11 @@ class CosmicAuthorUpdate(LoginRequiredMixin, UpdateView):
         return context
 
 
-# ####################### Cosmic Author - Delete View #######################
+# ####################### Master - Delete View #######################
 class CosmicAuthorDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = CosmicAuthor
-    template_name = 'library/author_confirm_delete.html'
-    success_url = reverse_lazy('authors')
+    template_name = 'library/master_confirm_delete.html'
+    success_url = reverse_lazy('masters')
 
     def test_func(self):
         if self.request.user.is_superuser:
@@ -318,6 +411,7 @@ class BooksList(ListView):
         context = super().get_context_data(**kwargs)
         context['year'] = get_current_year()
         context['title'] = 'EGA Books'
+        context['page_type'] = 'Books'
 
         return context
 
@@ -338,6 +432,7 @@ class CosmicReviewsList(ListView):
         context = super().get_context_data(**kwargs)
         context['year'] = get_current_year()
         context['title'] = 'EGA Cosmic Reviews'
+        context['page_type'] = 'Cosmic Reviews'
 
         return context
 
@@ -349,7 +444,7 @@ class DiscoursesList(ListView):
     context_object_name = 'library_records'
     queryset = LibraryRecord.objects.filter(
         library_record_type="Discourse"
-    ).order_by('date_communicated')
+    ).order_by('discourse_series', 'date_communicated')
 
     paginate_by = 12
     ordering = 'date_communicated'
@@ -358,6 +453,7 @@ class DiscoursesList(ListView):
         context = super().get_context_data(**kwargs)
         context['year'] = get_current_year()
         context['title'] = 'EGA Discourses'
+        context['page_type'] = 'Discourses'
 
         return context
 
@@ -378,6 +474,7 @@ class InvocationsList(ListView):
         context = super().get_context_data(**kwargs)
         context['year'] = get_current_year()
         context['title'] = 'EGA Invocations'
+        context['page_type'] = 'Invocations'
 
         return context
 
@@ -398,6 +495,28 @@ class PetitionsList(ListView):
         context = super().get_context_data(**kwargs)
         context['year'] = get_current_year()
         context['title'] = 'EGA Petition'
+        context['page_type'] = 'Petitions'
+
+        return context
+
+
+# ####################### Library Records - Collection: ENACA #######################
+class CollectionENACAList(ListView):
+    model = LibraryRecord
+    template_name = 'library/records_collection_ENACA.html'
+    context_object_name = 'library_records'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        library_records = []
+        library_collection = CollectionOrder.objects.filter(collection__collection='ENACA').order_by('order_number')
+        for record in library_collection:
+            library_records.append(record.record)
+        context['library_records'] = library_records
+
+        context['year'] = get_current_year()
+        context['title'] = 'ENACA (Earth Nuclear And Chemical Affairs)'
 
         return context
 
@@ -412,6 +531,8 @@ class LibraryRecordDetail(DetailView):
         context = super().get_context_data(**kwargs)
         context['year'] = get_current_year()
         context['title'] = f"Library Record: {LibraryRecord.objects.get(pk=self.kwargs['pk'])}"
+        context['record'] = get_object_or_404(LibraryRecord, id=self.kwargs['pk'])
+        context['collection_orders'] = CollectionOrder.objects.filter(record=self.kwargs['pk'])
 
         return context
 
@@ -423,10 +544,6 @@ class LibraryRecordCreate(LoginRequiredMixin, CreateView):
     template_name = 'library/library_record_form.html'
 
     def form_valid(self, form):
-        form.save(commit=False)
-        form.instance.year_communicated = form.instance.date_communicated.year
-        form.save()
-
         message = form.instance.title
         messages.add_message(
             self.request,
@@ -450,10 +567,6 @@ class LibraryRecordUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'library/library_record_form.html'
 
     def form_valid(self, form):
-        form.save(commit=False)
-        form.instance.year_communicated = form.instance.date_communicated.year
-        form.save()
-
         message = form.instance.title
         messages.add_message(
             self.request,
@@ -511,6 +624,8 @@ class SearchView(ListView):
 
         author_search_input = self.request.GET.get('author-search') or ''
         supporting_author_search_input = self.request.GET.get('supporting-author-search') or ''
+
+        # TODO Add language search once records translated into other languages are added
 
         # Check for same date being entered into search - allows for search message to make sense
         search_error = False
@@ -759,7 +874,7 @@ class SearchView(ListView):
             else:
                 search_error = True
 
-        # Search for principal author:
+        # Search for Master:
         elif not start_search_input and not end_search_input and author_search_input:
             # Query events based on search parameters
             library_records = LibraryRecord.objects.filter(
@@ -769,9 +884,9 @@ class SearchView(ListView):
             context['library_records'] = library_records
             context['search_count'] = library_records.count()
             context['search_entered'] = author_search_input
-            context['search_type'] = 'author'
+            context['search_type'] = 'Master'
             context['search_on'] = True
-        # Search principal author and date
+        # Search Master and date
         elif start_search_input and end_search_input and author_search_input:
             # Check that start is before end
             if start_search_input <= end_search_input:
@@ -791,8 +906,8 @@ class SearchView(ListView):
                 # Fill out remaining search context variables for presentation
                 context['library_records'] = library_records
                 context['search_count'] = library_records.count()
-                context['search_entered'] = f'from the principal author "{author_search_input}" between {cleaned_start_search_input} and {cleaned_end_search_input}'
-                context['search_type'] = 'date/author'
+                context['search_entered'] = f'from the Master "{author_search_input}" between {cleaned_start_search_input} and {cleaned_end_search_input}'
+                context['search_type'] = 'date/Master'
                 context['search_on'] = True
             else:
                 search_error = True
@@ -807,7 +922,7 @@ class SearchView(ListView):
             context['library_records'] = library_records
             context['search_count'] = library_records.count()
             context['search_entered'] = supporting_author_search_input
-            context['search_type'] = 'supporting author'
+            context['search_type'] = 'supporting Master'
             context['search_on'] = True
         # Search supporting author and date
         elif start_search_input and end_search_input and supporting_author_search_input:
@@ -829,8 +944,8 @@ class SearchView(ListView):
                 # Fill out remaining search context variables for presentation
                 context['library_records'] = library_records
                 context['search_count'] = library_records.count()
-                context['search_entered'] = f'including the supporting author "{supporting_author_search_input}" between {cleaned_start_search_input} and {cleaned_end_search_input}'
-                context['search_type'] = 'date/supporting author'
+                context['search_entered'] = f'including the supporting Master "{supporting_author_search_input}" between {cleaned_start_search_input} and {cleaned_end_search_input}'
+                context['search_type'] = 'date/supporting Master'
                 context['search_on'] = True
             else:
                 search_error = True
@@ -845,3 +960,78 @@ class SearchView(ListView):
         context['title'] = 'Search the Library'
 
         return context
+
+
+# ####################### Collection FormSets #######################
+@login_required
+def collection_records(request, pk):
+    collection = Collection.objects.get(pk=pk)
+    collection_records = CollectionOrder.objects.filter(collection=collection).order_by('order_number')
+    form = CollectionRecordForm(request.POST or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            collection_record = form.save(commit=False)
+            collection_record.collection = collection
+            collection_record.save()
+            return redirect('collection-record-detail', pk=collection_record.id)
+        else:
+            return render(request, 'library/partials/collection_record_form.html', {
+                'form': form,
+            })
+
+    context = {
+        'title':"Manage Collection",
+        'collection': collection,
+        'form': form,
+        'collection_records': collection_records
+    }
+    return render(request, 'library/collection_record_create.html', context)
+
+
+# Partial Collection Records views
+@login_required
+def collection_record_form(request):
+    form = CollectionRecordForm()
+    context = {
+        "form": CollectionRecordForm
+    }
+    return render(request, "library/partials/collection_record_form.html", context=context)
+
+
+# Detail view
+@login_required
+def collection_record_detail(request, pk):
+    collection_record = CollectionOrder.objects.get(pk=pk)
+    context = {
+        'collection_record': collection_record,
+    }
+    return render(request, "library/partials/collection_record_detail.html", context)
+
+
+# Delete view
+@login_required
+def collection_record_delete(request, pk):
+    collection_record = get_object_or_404(CollectionOrder, pk=pk)
+    collection_record.delete()
+    return HttpResponse("")
+
+
+# Update view
+@login_required
+def collection_record_update(request, pk):
+    collection_record = CollectionOrder.objects.get(pk=pk)
+    collection = Collection.objects.get(collection=collection_record.collection)
+    form = CollectionRecordForm(request.POST or None, instance=collection_record)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect('collection-record-detail', pk=collection.id)
+
+    context = {
+        "form": form,
+        'collection_record': collection_record,
+        'collection': collection,
+    }
+    return render(request, "library/partials/collection_record_form.html", context)

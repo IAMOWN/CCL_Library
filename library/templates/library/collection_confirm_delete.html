@@ -2,20 +2,20 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block title %}
-    Delete Author
+    Delete Collection
 {% endblock %}
 {% block content %}
     <section class="media alert-section">
         <div class="row">
             <div class="col">
-                <h3 class="alert-danger"><strong>Delete Author</strong></h3>
+                <h3 class="alert-danger"><strong>Delete Collection</strong></h3>
             </div>
         </div>
         <form method="post" action="" enctype="multipart/form-data">
             <div class="row text-CCL-Gold">
                 <div class="col">
                 {% csrf_token %}
-                    <p><span class="bold-character">Are you sure you want to delete this Author: <strong>{{ cosmicauthor.author }}</strong></span></p>
+                    <p><span class="bold-character">Are you sure you want to delete this Collection: <strong>{{ collection }}</strong></span></p>
                     <p><strong>THIS IS A PERMANENT DECISION!</strong></p>
                     <p class="pb-4">Please be absolutely certain you want to delete this record.</p>
                 </div>
@@ -26,12 +26,12 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-2 pb-2">
-                    <a class="btn btn-CCL-Blue col-12" href="{% url 'author' cosmicauthor.id %}">Go Back</a>
+                <div class="col-lg-2 pb-2">
+                    <a class="btn btn-CCL-Blue col-12" href="{{ request.META.HTTP_REFERER }}">Go Back</a>
                 </div>
-                <div class="col-sm-8"></div>
-                <div class="col-sm-2 pb-2">
-                    <input type="submit" value="Delete Author" class="btn btn-danger col-12">
+                <div class="col-lg-8"></div>
+                <div class="col-lg-2 pb-2">
+                    <input type="submit" value="Delete Collection" class="btn btn-danger col-12">
                 </div>
             </div>
         </form>

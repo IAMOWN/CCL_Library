@@ -22,28 +22,27 @@
             </div>
             <div class="col-sm-1"></div>
             <div class="col-sm-2 pb-2 pt-2">
-                <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'discourse-series-create' %}">Add A Series Title</a>
+                <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'collection-create' %}" target="_blank">Add A Collection</a>
             </div>
             <div class="col-sm-2 pb-2 pt-2">
-                <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'author-create' %}">Add An Author</a>
+                <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'discourse-series-create' %}" target="_blank">Add A Series</a>
             </div>
-            <div class="col-sm-1"></div>
-            <div class="col-sm-3 pb-2 pt-2">
-                <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'tag-create' %}">Add A Tag</a>
+            <div class="col-sm-2 pb-2 pt-2">
+                <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'master-create' %}" target="_blank">Add A Master</a>
+            </div>
+            <div class="col-sm-2 pb-2 pt-2">
+                <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'tag-create' %}" target="_blank">Add A Tag</a>
             </div>
         </div>
     </section>
     {% endif %}
     <section class="media content-section text-CCL-Gold d-none d-xl-block">
         <div class="row pt-2">
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <h6><strong>Title</strong></h6>
             </div>
-            <div class="col-sm-2">
-                <h6><strong>Principal Author</strong></h6>
-            </div>
             <div class="col-sm-3">
-                <h6><strong>Series Title</strong></h6>
+                <h6><strong>Supporting Master(s)</strong></h6>
             </div>
             <div class="col-sm-3">
                 <h6><strong>Tags</strong></h6>
@@ -53,25 +52,24 @@
     {% for record in library_records %}
     <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
         <div class="row pt-2 pb-2">
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 {% if record.library_record_type == 'Discourse' %}
-                    {% if record.part_number > 0 %}
+                    {% if record.discourse_series and record.part_number > 0 %}
                 <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">Part {{ record.part_number }} - {{ record.discourse_series }} - {{ record.title }} - {{ record.date_communicated }}</a></p>
-                    {% else %}
+                    {% elif record.discourse_series %}
                 <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.discourse_series }} - {{ record.title }} - {{ record.date_communicated }}</a></p>
+                    {% else %}
+                <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.title }} - {{ record.date_communicated }}</a></p>
                     {% endif %}
                 {% else %}
-                <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.title }}</a></p>
+                <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.title }} - {{ record.date_communicated }}</a></p>
                 {% endif %}
             </div>
-            <div class="col-sm-2 text-CCL-Gold">
-            {% if record.principal_cosmic_author is not None %}
-                <p>{{ record.principal_cosmic_author }}</p>
-            {% endif %}
-            </div>
             <div class="col-sm-3 text-CCL-Gold">
-            {% if record.discourse_series is not None %}
-                <p>{{ record.discourse_series }}</p>
+            {% if record.supporting_cosmic_authors is not None %}
+                {% for master in record.supporting_cosmic_authors.all %}
+                    {{ master }};
+                {% endfor %}
             {% endif %}
             </div>
             <div class="col-sm-3 text-CCL-Gold">
@@ -90,21 +88,21 @@
                 {% if is_paginated %}
 
                     {% if page_obj.has_previous %}
-                        <a class="btn btn-outline-CCL-Gold mb-4" href="?page=1">First</a>
-                        <a class="btn btn-outline-CCL-Gold mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                        <a class="btn btn-outline-CCL-Gold btn-sm mb-4" href="?page=1">First</a>
+                        <a class="btn btn-outline-CCL-Gold btn-sm mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
                     {% endif %}
 
                     {% for num in page_obj.paginator.page_range %}
                         {% if page_obj.number == num %}
-                            <a class="btn btn-outline-CCL-Gold mb-4" style="-webkit-box-shadow: 0 0 0 0 rgba(57,178,189,0.00); box-shadow: 0 0 0 0 rgba(57,178,189,0.00);" href="?page={{ num }}">{{ num }}</a>
+                            <a class="btn btn-outline-CCL-Gold btn-sm mb-4" style="-webkit-box-shadow: 0 0 0 0 rgba(57,178,189,0.00); box-shadow: 0 0 0 0 rgba(57,178,189,0.00);" href="?page={{ num }}">{{ num }}</a>
                         {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                            <a class="btn btn-outline-CCL-Gold mb-4" href="?page={{ num }}">{{ num }}</a>
+                            <a class="btn btn-outline-CCL-Gold btn-sm mb-4" href="?page={{ num }}">{{ num }}</a>
                         {% endif %}
                     {% endfor %}
 
                     {% if page_obj.has_next %}
-                        <a class="btn btn-outline-CCL-Gold mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-                        <a class="btn btn-outline-CCL-Gold mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                        <a class="btn btn-outline-CCL-Gold btn-sm mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+                        <a class="btn btn-outline-CCL-Gold btn-sm mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
                     {% endif %}
 
                 {% endif %}

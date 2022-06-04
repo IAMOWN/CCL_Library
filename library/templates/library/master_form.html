@@ -4,17 +4,17 @@
 {% load static %}
 {% block title %}
     {% if page_type == 'Update' %}
-        Edit Author
+        Edit Master
     {% else %}
-        Create An Author
+        Add A Master
     {% endif %}
 {% endblock %}
 {% block content %}
     <section class="media content-section">
     {% if page_type == 'Update' %}
-        <h3><strong>Edit Author: {{ author.author }}</strong> </h3>
+        <h3><strong>Edit Master: {{ author.author }}</strong> </h3>
     {% else %}
-        <h3><strong>Create An Author</strong></h3>
+        <h3><strong>Add A Master</strong></h3>
     {% endif %}
     </section>
     <section class="media content-section">
@@ -38,17 +38,17 @@
             {% csrf_token %}
             {{ form.media }}
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-lg-12">
                     {{ form.author|as_crispy_field }}
                 </div>
             </div>
         <div class="row pt-4">
-            <div class="col-sm-12">
-                <a href="{% url 'authors' %}" class="btn btn-outline-CCL-Blue col-sm-2">Go Back</a>
+            <div class="col-lg-12">
+                <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-lg-2">Go Back</a>
                 {% if page_type == 'Update' %}
-                    <input type="submit" value="Update Author" class="btn btn-CCL-Blue float-end col-sm-2">
+                    <input type="submit" value="Update Master" class="btn btn-CCL-Blue float-end col-lg-2">
                 {% else %}
-                    <input type="submit" value="Add Author" class="btn btn-CCL-Blue float-end col-sm-2">
+                    <input type="submit" value="Add Master" class="btn btn-CCL-Blue float-end col-lg-2">
                 {% endif %}
             </div>
         </div>

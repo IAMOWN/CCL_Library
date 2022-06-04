@@ -23,7 +23,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECRET_KEY = os.environ['SECRET_KEY']
 
 
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -168,6 +167,9 @@ EMAIL_USE_SSL = True
 # COMPANY_NAME = os.environ['COMPANY_NAME']
 # DOMAIN = os.environ['DOMAIN']
 
+
+COMPANY_NAME = 'Elemental Grace Alliance'
+DOMAIN  =  'http://127.0.0.1:8000/'
 
 
 TINYMCE_DEFAULT_CONFIG = {

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+    <section class="media content-section">
+        <div class="media-body">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="mb-2 pt-2"><strong>{{ title }}: "{{ collection.collection }}"</strong></h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="media content-section text-CCL-Gold">
+        <div class="mt-2" id="collectionorderforms" >
+            {% for collection_record in collection_records %}
+                <span class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
+                    {% include "library/partials/collection_record_detail.html" %}
+                </span>
+            {% endfor %}
+        </div>
+
+        <div class="row pb-2 pt-2">
+            <div class="col-lg-3">
+                <button hx-get="{% url 'collection-record-form' %}" hx-target="#collectionorderforms" hx-swap="beforeend"
+                        class="mt-2 btn btn-CCL-Blue col-12">
+                    Add Collection Record
+                </button>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

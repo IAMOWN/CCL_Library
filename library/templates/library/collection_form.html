@@ -4,17 +4,17 @@
 {% load static %}
 {% block title %}
     {% if page_type == 'Update' %}
-        Edit Discourse Series Title
+        Edit Tag
     {% else %}
-        Create A Discourse Series Title
+        Create A Tag
     {% endif %}
 {% endblock %}
 {% block content %}
-    <section class="media content-section">
+    <section class="media content-section pt-3">
     {% if page_type == 'Update' %}
-        <h3><strong>Edit Discourse Series Title: {{ discourseseries.discourse_series }}</strong> </h3>
+        <h3><strong>Edit Collection: {{ collection.collection }}</strong> </h3>
     {% else %}
-        <h3><strong>Create A Discourse Series Title</strong></h3>
+        <h3><strong>Add A Collection</strong></h3>
     {% endif %}
     </section>
     <section class="media content-section">
@@ -38,18 +38,18 @@
             {% csrf_token %}
             {{ form.media }}
             <div class="row">
-                <div class="col-sm-12">
-                    {{ form.discourse_series|as_crispy_field }}
+                <div class="col-lg-12">
+                    {{ form.collection|as_crispy_field }}
                 </div>
             </div>
         <div class="row pt-4">
-            <div class="col-sm-12">
+            <div class="col-lg-12">
                 {% if page_type == 'Update' %}
-                    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-sm-2">Go Back</a>
-                    <input type="submit" value="Update Series Title" class="btn btn-CCL-Blue float-end col-sm-2">
+                    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-sm-3">Go Back</a>
+                    <input type="submit" value="Update Collection" class="btn btn-CCL-Blue float-end col-sm-3">
                 {% else %}
-                    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-sm-2">Go Back</a>
-                    <input type="submit" value="Add Series Title" class="btn btn-CCL-Blue float-end col-sm-2">
+                    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-sm-3">Go Back</a>
+                    <input type="submit" value="Add Collection" class="btn btn-CCL-Blue float-end col-sm-3">
                 {% endif %}
             </div>
         </div>

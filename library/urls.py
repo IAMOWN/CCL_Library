@@ -6,6 +6,11 @@ from .views import (
     TagCreate,
     TagUpdate,
     TagDelete,
+    CollectionList,
+    CollectionDetail,
+    CollectionCreate,
+    CollectionUpdate,
+    CollectionDelete,
     DiscourseSeriesList,
     DiscourseSeriesDetail,
     DiscourseSeriesCreate,
@@ -22,11 +27,17 @@ from .views import (
     DiscoursesList,
     InvocationsList,
     PetitionsList,
+    CollectionENACAList,
     LibraryRecordDetail,
     LibraryRecordCreate,
     LibraryRecordUpdate,
     LibraryRecordDelete,
     SearchView,
+    collection_records,
+    collection_record_update,
+    collection_record_delete,
+    collection_record_detail,
+    collection_record_form,
 )
 
 urlpatterns = [
@@ -37,6 +48,13 @@ urlpatterns = [
     path('tag_update/<int:pk>/', TagUpdate.as_view(), name='tag-update'),
     path('tag_delete/<int:pk>/', TagDelete.as_view(), name='tag-delete'),
 
+    # Collections
+    path('collections/', CollectionList.as_view(), name='collections'),
+    path('collection/<int:pk>/', CollectionDetail.as_view(), name='collection'),
+    path('collection_create/', CollectionCreate.as_view(), name='collection-create'),
+    path('collection_update/<int:pk>/', CollectionUpdate.as_view(), name='collection-update'),
+    path('collection_delete/<int:pk>/', CollectionDelete.as_view(), name='collection-delete'),
+
     # Discourse Series
     path('discourse_seriess/', DiscourseSeriesList.as_view(), name='discourse-series'),
     path('discourse_series/<int:pk>/', DiscourseSeriesDetail.as_view(), name='discourse-series-detail'),
@@ -44,12 +62,12 @@ urlpatterns = [
     path('discourse_series_update/<int:pk>/', DiscourseSeriesUpdate.as_view(), name='discourse-series-update'),
     path('discourse_series_delete/<int:pk>/', DiscourseSeriesDelete.as_view(), name='discourse-series-delete'),
 
-    # Authors
-    path('authors/', CosmicAuthorList.as_view(), name='authors'),
-    path('author/<int:pk>/', CosmicAuthorDetail.as_view(), name='author'),
-    path('author_create/', CosmicAuthorCreate.as_view(), name='author-create'),
-    path('author_update/<int:pk>/', CosmicAuthorUpdate.as_view(), name='author-update'),
-    path('author_delete/<int:pk>/', CosmicAuthorDelete.as_view(), name='author-delete'),
+    # Masters
+    path('masters/', CosmicAuthorList.as_view(), name='masters'),
+    path('master/<int:pk>/', CosmicAuthorDetail.as_view(), name='master'),
+    path('master_create/', CosmicAuthorCreate.as_view(), name='master-create'),
+    path('master_update/<int:pk>/', CosmicAuthorUpdate.as_view(), name='master-update'),
+    path('master_delete/<int:pk>/', CosmicAuthorDelete.as_view(), name='master-delete'),
 
     # Library Records
     path('library_records/', LibraryRecordList.as_view(), name='library-records'),
@@ -58,6 +76,7 @@ urlpatterns = [
     path('library_records/discourses/', DiscoursesList.as_view(), name='discourses'),
     path('library_records/invocations/', InvocationsList.as_view(), name='invocations'),
     path('library_records/petitions/', PetitionsList.as_view(), name='petitions'),
+    path('library_records/enaca/', CollectionENACAList.as_view(), name='enaca'),
     path('library_record/<int:pk>/', LibraryRecordDetail.as_view(), name='library-record'),
     path('library_record_create/', LibraryRecordCreate.as_view(), name='library-record-create'),
     path('library_record_update/<int:pk>/', LibraryRecordUpdate.as_view(), name='library-record-update'),
@@ -65,4 +84,11 @@ urlpatterns = [
 
     # Search
     path('library_records/search/', SearchView.as_view(), name='search'),
+
+    # Collection Records
+    path('collection_records/<pk>/', collection_records, name='collection-records'),
+    path('htmx/collection_record_form/', collection_record_form, name='collection-record-form'),
+    path('htmx/collection_record/<pk>/', collection_record_detail, name='collection-record-detail'),
+    path('htmx/collection_record/<pk>/delete/', collection_record_delete, name='collection-record-delete'),
+    path('htmx/collection_record/<pk>/update/', collection_record_update, name='collection-record-update'),
 ]
