@@ -239,11 +239,14 @@ class LibraryRecord(models.Model):
         ]
 
     def __str__(self):
-        # return self.title
-        if self.part_number and self.discourse_series:
-            return f'Part {self.part_number} - {self.discourse_series} - {self.title} - {self.principal_cosmic_author} - {self.date_communicated}'
-        elif self.part_number:
+        if not self.part_number and not self.discourse_series:
+            return f'{self.title} - {self.principal_cosmic_author} - {self.date_communicated}'
+        elif not self.part_number and self.discourse_series:
+            return f'{self.discourse_series} - {self.title} - {self.principal_cosmic_author} - {self.date_communicated}'
+        elif self.part_number and not self.discourse_series:
             return f'Part {self.part_number} - {self.title} - {self.principal_cosmic_author} - {self.date_communicated}'
+        elif self.part_number and self.discourse_series:
+            return f'Part {self.part_number} - {self.discourse_series} - {self.title} - {self.principal_cosmic_author} - {self.date_communicated}'
         else:
             return f'{self.title} - {self.principal_cosmic_author} - {self.date_communicated}'
 

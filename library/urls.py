@@ -28,6 +28,7 @@ from .views import (
     InvocationsList,
     PetitionsList,
     CollectionENACAList,
+    CollectionGESARAList,
     LibraryRecordDetail,
     LibraryRecordCreate,
     LibraryRecordUpdate,
@@ -76,11 +77,14 @@ urlpatterns = [
     path('library_records/discourses/', DiscoursesList.as_view(), name='discourses'),
     path('library_records/invocations/', InvocationsList.as_view(), name='invocations'),
     path('library_records/petitions/', PetitionsList.as_view(), name='petitions'),
-    path('library_records/enaca/', CollectionENACAList.as_view(), name='enaca'),
     path('library_record/<int:pk>/', LibraryRecordDetail.as_view(), name='library-record'),
     path('library_record_create/', LibraryRecordCreate.as_view(), name='library-record-create'),
     path('library_record_update/<int:pk>/', LibraryRecordUpdate.as_view(), name='library-record-update'),
     path('library_record_delete/<int:pk>/', LibraryRecordDelete.as_view(), name='library-record-delete'),
+
+    # Library Record Collections
+    path('library_record/collection/enaca/', CollectionENACAList.as_view(), name='enaca'),
+    path('library_record/collection/gesara/', CollectionGESARAList.as_view(), name='gesara'),
 
     # Search
     path('library_records/search/', SearchView.as_view(), name='search'),

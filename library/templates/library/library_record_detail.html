@@ -103,19 +103,19 @@
     {% endif %}
     <section class="media content-section">
         <div class="row pt-2">
-            <div class="col-lg-2 pb-2">
-                <a href="{% url 'library-records' %}" class="btn btn-outline-CCL-Blue col-12">Library Records</a>
+            <div class="col-lg-3 pb-2">
+                <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-12">Back</a>
             </div>
             {% if user.is_staff %}
-            <div class="col-lg-3"></div>
+            <div class="col-lg-2"></div>
             <div class="col-lg-2 text-center pb-2">
                 <a href="{% url 'library-record-update' library_record.id %}" class="btn btn-CCL-Blue col-12">Edit Record</a>
             </div>
             {% endif %}
             {% if user.is_superuser %}
-            <div class="col-lg-3"></div>
-            <div class="col-lg-2 pb-2">
-                <a href="{% url 'library-record-delete' library_record.id %}" class="btn btn-outline-danger col-12">Delete Record</a>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-3 pb-2">
+                <a href="{% url 'library-record-delete' library_record.id %}" class="btn btn-outline-danger col-12">Delete Library Record</a>
             </div>
             {% endif %}
         </div>

@@ -521,6 +521,27 @@ class CollectionENACAList(ListView):
         return context
 
 
+# ####################### Library Records - Collection: GESARA #######################
+class CollectionGESARAList(ListView):
+    model = LibraryRecord
+    template_name = 'library/records_collection_GESARA.html'
+    context_object_name = 'library_records'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        library_records = []
+        library_collection = CollectionOrder.objects.filter(collection__collection='GESARA').order_by('order_number')
+        for record in library_collection:
+            library_records.append(record.record)
+        context['library_records'] = library_records
+
+        context['year'] = get_current_year()
+        context['title'] = 'GESARA (Global Economic Security and Reformation Act)'
+
+        return context
+
+
 # ####################### Library Record - Detail View #######################
 class LibraryRecordDetail(DetailView):
     model = LibraryRecord
@@ -620,10 +641,11 @@ class SearchView(ListView):
 
         record_type_search_input = self.request.GET.get('record-type-search') or ''
         series_search_input = self.request.GET.get('series-search') or ''
-        tags_search_input = self.request.GET.get('tag-search') or ''
+        collection_search_input = self.request.GET.get('collection-search') or ''
 
         author_search_input = self.request.GET.get('author-search') or ''
         supporting_author_search_input = self.request.GET.get('supporting-author-search') or ''
+        tags_search_input = self.request.GET.get('tag-search') or ''
 
         # TODO Add language search once records translated into other languages are added
 
@@ -644,7 +666,7 @@ class SearchView(ListView):
                 context['end_search_input'] = cleaned_end_search_input
                 # Extend search end by 1 day so that same day search can work
                 end_search_input = datetime.strptime(end_search_input, '%Y-%m-%d') + timedelta(days=1)
-                # Query events based on search parameters
+                # Query based on search parameters
                 library_records = LibraryRecord.objects.filter(
                     date_communicated__gte=cleaned_start_search_input,
                     date_communicated__lte=cleaned_end_search_input,
@@ -660,7 +682,7 @@ class SearchView(ListView):
 
         # Search only title
         elif not start_search_input and not end_search_input and title_search_input:
-            # Query events based on search parameters
+            # Query based on search parameters
             library_records = LibraryRecord.objects.filter(
                 title__icontains=title_search_input,
             ).order_by('date_communicated')
@@ -681,7 +703,7 @@ class SearchView(ListView):
                 context['end_search_input'] = cleaned_end_search_input
                 # Extend search end by 1 day so that same day search can work
                 end_search_input = datetime.strptime(end_search_input, '%Y-%m-%d') + timedelta(days=1)
-                # Query events based on search parameters
+                # Query based on search parameters
                 library_records = LibraryRecord.objects.filter(
                     title__icontains=title_search_input,
                     date_communicated__gte=cleaned_start_search_input,
@@ -698,7 +720,7 @@ class SearchView(ListView):
 
         # Search only text
         elif not start_search_input and not end_search_input and text_search_input and not record_type_search_input:
-            # Query events based on search parameters
+            # Query based on search parameters
             library_records = LibraryRecord.objects.filter(
                 text__icontains=text_search_input,
             ).order_by('date_communicated')
@@ -719,7 +741,7 @@ class SearchView(ListView):
                 context['end_search_input'] = cleaned_end_search_input
                 # Extend search end by 1 day so that same day search can work
                 end_search_input = datetime.strptime(end_search_input, '%Y-%m-%d') + timedelta(days=1)
-                # Query events based on search parameters
+                # Query based on search parameters
                 library_records = LibraryRecord.objects.filter(
                     text__icontains=text_search_input,
                     date_communicated__gte=cleaned_start_search_input,
@@ -736,7 +758,7 @@ class SearchView(ListView):
 
         # Search for record type:
         elif not start_search_input and not end_search_input and record_type_search_input and not text_search_input:
-            # Query events based on search parameters
+            # Query based on search parameters
             library_records = LibraryRecord.objects.filter(
                 library_record_type=record_type_search_input,
             ).order_by('date_communicated')
@@ -757,7 +779,7 @@ class SearchView(ListView):
                 context['end_search_input'] = cleaned_end_search_input
                 # Extend search end by 1 day so that same day search can work
                 end_search_input = datetime.strptime(end_search_input, '%Y-%m-%d') + timedelta(days=1)
-                # Query events based on search parameters
+                # Query based on search parameters
                 library_records = LibraryRecord.objects.filter(
                     library_record_type=record_type_search_input,
                     date_communicated__gte=cleaned_start_search_input,
@@ -773,7 +795,7 @@ class SearchView(ListView):
                 search_error = True
         # Search for record type and text:
         elif not start_search_input and not end_search_input and record_type_search_input != 'Invocation' and text_search_input:
-            # Query events based on search parameters
+            # Query based on search parameters
             library_records = LibraryRecord.objects.filter(
                 library_record_type=record_type_search_input,
                 text__icontains=text_search_input,
@@ -786,7 +808,7 @@ class SearchView(ListView):
             context['search_on'] = True
         # Search for "Invocation" record type and text:
         elif not start_search_input and not end_search_input and record_type_search_input == 'Invocation' and text_search_input:
-            # Query events based on search parameters
+            # Query based on search parameters
             library_records = LibraryRecord.objects.filter(
                 library_record_type=record_type_search_input,
                 invocation__icontains=text_search_input,
@@ -800,10 +822,10 @@ class SearchView(ListView):
 
         # Search for series:
         elif not start_search_input and not end_search_input and series_search_input:
-            # Query events based on search parameters
+            # Query based on search parameters
             library_records = LibraryRecord.objects.filter(
                 discourse_series__discourse_series__contains=series_search_input,
-            ).order_by('date_communicated')
+            ).order_by('part_number')
             # Fill out remaining search context variables for presentation
             context['library_records'] = library_records
             context['search_count'] = library_records.count()
@@ -821,12 +843,12 @@ class SearchView(ListView):
                 context['end_search_input'] = cleaned_end_search_input
                 # Extend search end by 1 day so that same day search can work
                 end_search_input = datetime.strptime(end_search_input, '%Y-%m-%d') + timedelta(days=1)
-                # Query events based on search parameters
+                # Query based on search parameters
                 library_records = LibraryRecord.objects.filter(
                     discourse_series__discourse_series=series_search_input,
                     date_communicated__gte=cleaned_start_search_input,
                     date_communicated__lte=cleaned_end_search_input,
-                ).order_by('date_communicated')
+                ).order_by('part_number')
                 # Fill out remaining search context variables for presentation
                 context['library_records'] = library_records
                 context['search_count'] = library_records.count()
@@ -836,47 +858,25 @@ class SearchView(ListView):
             else:
                 search_error = True
 
-        # Search for tag:
-        elif not start_search_input and not end_search_input and tags_search_input:
-            # Query events based on search parameters
-            library_records = LibraryRecord.objects.filter(
-                tags__tag=tags_search_input,
-            ).order_by('date_communicated')
+        # Search for Collection:
+        elif collection_search_input:
+            # Query based on search parameters
+            library_records = []
+            record_count = 0
+            library_collection = CollectionOrder.objects.filter(collection__collection=collection_search_input).order_by('order_number')
+            for record in library_collection:
+                library_records.append(record.record)
+                record_count += 1
             # Fill out remaining search context variables for presentation
             context['library_records'] = library_records
-            context['search_count'] = library_records.count()
-            context['search_entered'] = tags_search_input
-            context['search_type'] = 'tag'
+            context['search_count'] = record_count
+            context['search_entered'] = collection_search_input
+            context['search_type'] = 'collection'
             context['search_on'] = True
-        # Search tag and date
-        elif start_search_input and end_search_input and tags_search_input:
-            # Check that start is before end
-            if start_search_input <= end_search_input:
-                # Clean search parameters so they display date only
-                cleaned_start_search_input = start_search_input[0:10]
-                cleaned_end_search_input = end_search_input[0:10]
-                context['start_search_input'] = cleaned_start_search_input
-                context['end_search_input'] = cleaned_end_search_input
-                # Extend search end by 1 day so that same day search can work
-                end_search_input = datetime.strptime(end_search_input, '%Y-%m-%d') + timedelta(days=1)
-                # Query events based on search parameters
-                library_records = LibraryRecord.objects.filter(
-                    tags__tag=tags_search_input,
-                    date_communicated__gte=cleaned_start_search_input,
-                    date_communicated__lte=cleaned_end_search_input,
-                ).order_by('date_communicated')
-                # Fill out remaining search context variables for presentation
-                context['library_records'] = library_records
-                context['search_count'] = library_records.count()
-                context['search_entered'] = f'with the tag "{tags_search_input}" between {cleaned_start_search_input} and {cleaned_end_search_input}'
-                context['search_type'] = 'date/tag'
-                context['search_on'] = True
-            else:
-                search_error = True
 
         # Search for Master:
         elif not start_search_input and not end_search_input and author_search_input:
-            # Query events based on search parameters
+            # Query based on search parameters
             library_records = LibraryRecord.objects.filter(
                 principal_cosmic_author__author__iexact=author_search_input,
             ).order_by('date_communicated')
@@ -897,7 +897,7 @@ class SearchView(ListView):
                 context['end_search_input'] = cleaned_end_search_input
                 # Extend search end by 1 day so that same day search can work
                 end_search_input = datetime.strptime(end_search_input, '%Y-%m-%d') + timedelta(days=1)
-                # Query events based on search parameters
+                # Query based on search parameters
                 library_records = LibraryRecord.objects.filter(
                     principal_cosmic_author__author=author_search_input,
                     date_communicated__gte=cleaned_start_search_input,
@@ -914,7 +914,7 @@ class SearchView(ListView):
 
         # Search for supporting author:
         elif not start_search_input and not end_search_input and supporting_author_search_input:
-            # Query events based on search parameters
+            # Query based on search parameters
             library_records = LibraryRecord.objects.filter(
                 supporting_cosmic_authors__author__exact=supporting_author_search_input,
             ).order_by('date_communicated')
@@ -935,7 +935,7 @@ class SearchView(ListView):
                 context['end_search_input'] = cleaned_end_search_input
                 # Extend search end by 1 day so that same day search can work
                 end_search_input = datetime.strptime(end_search_input, '%Y-%m-%d') + timedelta(days=1)
-                # Query events based on search parameters
+                # Query based on search parameters
                 library_records = LibraryRecord.objects.filter(
                     supporting_cosmic_authors__author=supporting_author_search_input,
                     date_communicated__gte=cleaned_start_search_input,
@@ -950,10 +950,49 @@ class SearchView(ListView):
             else:
                 search_error = True
 
+        # Search for tag:
+        elif not start_search_input and not end_search_input and tags_search_input:
+            # Query based on search parameters
+            library_records = LibraryRecord.objects.filter(
+                tags__tag=tags_search_input,
+            ).order_by('date_communicated')
+            # Fill out remaining search context variables for presentation
+            context['library_records'] = library_records
+            context['search_count'] = library_records.count()
+            context['search_entered'] = tags_search_input
+            context['search_type'] = 'tag'
+            context['search_on'] = True
+        # Search tag and date
+        elif start_search_input and end_search_input and tags_search_input:
+            # Check that start is before end
+            if start_search_input <= end_search_input:
+                # Clean search parameters so they display date only
+                cleaned_start_search_input = start_search_input[0:10]
+                cleaned_end_search_input = end_search_input[0:10]
+                context['start_search_input'] = cleaned_start_search_input
+                context['end_search_input'] = cleaned_end_search_input
+                # Extend search end by 1 day so that same day search can work
+                end_search_input = datetime.strptime(end_search_input, '%Y-%m-%d') + timedelta(days=1)
+                # Query based on search parameters
+                library_records = LibraryRecord.objects.filter(
+                    tags__tag=tags_search_input,
+                    date_communicated__gte=cleaned_start_search_input,
+                    date_communicated__lte=cleaned_end_search_input,
+                ).order_by('date_communicated')
+                # Fill out remaining search context variables for presentation
+                context['library_records'] = library_records
+                context['search_count'] = library_records.count()
+                context['search_entered'] = f'with the tag "{tags_search_input}" between {cleaned_start_search_input} and {cleaned_end_search_input}'
+                context['search_type'] = 'date/tag'
+                context['search_on'] = True
+            else:
+                search_error = True
+
         context['search_error'] = search_error
         context['series'] = DiscourseSeries.objects.all().order_by('discourse_series')
         context['authors'] = CosmicAuthor.objects.all().order_by('author')
         context['tags'] = Tag.objects.all().order_by('tag')
+        context['collections'] = Collection.objects.all().order_by('collection')
         context['same_day_search'] = same_day_search
 
         context['year'] = get_current_year()
@@ -962,7 +1001,7 @@ class SearchView(ListView):
         return context
 
 
-# ####################### Collection FormSets #######################
+# ####################### Collection Record FormSets #######################
 @login_required
 def collection_records(request, pk):
     collection = Collection.objects.get(pk=pk)
