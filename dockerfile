@@ -24,4 +24,4 @@ COPY . .
 
 EXPOSE 8000
 ENTRYPOINT ["gunicorn", "--worker-tmp-dir" ,"/dev/shm"]
-CMD ["Whurthy.wsgi", "-b", "0.0.0.0:8000"]
+CMD ["CCL_Library.wsgi", "-b", "0.0.0.0:8000"]
