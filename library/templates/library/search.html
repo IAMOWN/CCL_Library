@@ -276,13 +276,15 @@
         <div class="row pt-2 pb-2">
             <div class="col-sm-12">
                 {% if record.library_record_type == 'Discourse' %}
-                    {% if record.discourse_series %}
-                    <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">Part {{ record.part_number }} - {{ record.discourse_series }} - {{ record.title }} - {{ record.date_communicated }}</a></p>
-                    {% elif not record.discourse_series %}
-                    <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.title }} - {{ record.date_communicated }}</a></p>
+                    {% if record.discourse_series and record.part_number %}
+                    <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">Part {{ record.part_number }} - {{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
+                    {% elif record.discourse_series and not record.part_number %}
+                    <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
+                    {% else %}
+                    <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
                     {% endif %}
                 {% else %}
-                <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.title }}</a></p>
+                <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
                 {% endif %}
             </div>
         </div>
