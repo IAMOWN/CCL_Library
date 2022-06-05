@@ -39,5 +39,6 @@ urlpatterns = [
     # App includes
     path('', include('library.urls')),
     path('', include('home.urls')),
+
     path('tinymce/', include('tinymce.urls')),
 ]
