@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 
 from django.shortcuts import render
 from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
 
 # ####################### CONSTANTS #######################
 EMAIL_MESSAGE_1 = '''
@@ -112,3 +113,14 @@ def contact(request):
 
     else:
         return render(request, 'home/contact.html')
+
+
+# ####################### Training #######################
+@login_required
+def training(request):
+    context = {
+        'title': 'Cosmic Christ Love',
+        'year': get_current_year(),
+    }
+
+    return render(request, 'training.html', context)

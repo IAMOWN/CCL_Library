@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+    <section class="media content-section text-CCL-Gold">
+        <div class="row text-center">
+            <div class="col-lg-12 pt-2 pb-2">
+                <h3><strong>{{ title }} </strong></h3>
+            </div>
+        </div>
+        <div class="row pt-2">
+            <div class="col-sm-12">
+                <p>Video 1</p>
+            </div>
+        </div>
+    </section>
+    <section class="media content-section text-CCL-Gold">
+        <div class="row">
+            <div class="col-lg-9 pt-2 pb-2">
+                <h3><strong>Collection: {{ collection.collection }} </strong></h3>
+            </div>
+            <div class="col-lg-3 pt-2 pb-2">
+                <a href="{% url 'ho' %}" class="btn btn-outline-CCL-Blue col-12">Return Home</a>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
