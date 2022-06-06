@@ -119,7 +119,7 @@ def contact(request):
 @login_required
 def training(request):
     context = {
-        'title': 'Cosmic Christ Love',
+        'title': 'Librarian Training',
         'year': get_current_year(),
     }
 
