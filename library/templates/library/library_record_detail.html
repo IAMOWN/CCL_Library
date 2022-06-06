@@ -80,6 +80,11 @@
                 <p><strong>Tags: </strong>{% for tag in record.tags.all %}{{ tag }}; {% endfor %}</p>
             </div>
         </div>
+        <div class="row pt-2">
+            <div class="col-sm-12">
+                <p><strong>Supporting Masters: </strong>{% for master in record.supporting_cosmic_authors.all %}{{ naster }}; {% endfor %}</p>
+            </div>
+        </div>
     </section>
     {% endif %}
     {% if library_record.pdf_url or library_record.doc_url or library_record.mp3_url  %}
