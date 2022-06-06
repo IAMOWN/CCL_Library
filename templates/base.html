@@ -78,18 +78,20 @@
                                 {% if user.is_staff %}<a class="dropdown-item" href="{% url 'library-records' %}">Admin: Library Records</a>{% endif %}
                             </div>
                         </li>
+                        {% if user.is_staff %}
                         <li class="dropdown pe-4 pt-1">
                             <a class="nav-link-gold  dropdown-toggle navbarDropdownMenuLink" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               Administration
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                {% if user.is_staff %}<a class="dropdown-item" href="{% url 'tags' %}">Tags</a>{% endif %}
-                                {% if user.is_staff %}<a class="dropdown-item" href="{% url 'masters' %}">Masters</a>{% endif %}
-                                {% if user.is_staff %}<a class="dropdown-item" href="{% url 'discourse-series' %}">Series</a>{% endif %}
-                                {% if user.is_staff %}<a class="dropdown-item" href="{% url 'collections' %}">Collections</a>{% endif %}
+                                <a class="dropdown-item" href="{% url 'tags' %}">Tags</a>
+                                <a class="dropdown-item" href="{% url 'masters' %}">Masters</a>
+                                <a class="dropdown-item" href="{% url 'discourse-series' %}">Series</a>
+                                <a class="dropdown-item" href="{% url 'collections' %}">Collections</a>
                                 <a class="dropdown-item" href="{% url "admin:index" %}">Back-Office Admin</a>
                             </div>
                         </li>
+                        {% endif %}
                         <li class="dropdown pe-4 pt-1">
                             <a class="nav-link-gold dropdown-toggle navbarDropdownMenuLink" href="{% url 'profile' %}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               My Account
