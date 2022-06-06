@@ -858,7 +858,7 @@ class SearchView(ListView):
             library_records = LibraryRecord.objects.filter(
                 library_record_type=record_type_search_input,
                 invocation__icontains=text_search_input,
-            ).order_by('date_communicated')
+            ).order_by('part_number')
             # Fill out remaining search context variables for presentation
             context['library_records'] = library_records
             context['search_count'] = library_records.count()
@@ -871,7 +871,7 @@ class SearchView(ListView):
             # Query based on search parameters
             library_records = LibraryRecord.objects.filter(
                 discourse_series__discourse_series__contains=series_search_input,
-            ).order_by('date_communicated')
+            ).order_by('part_number')
             # Fill out remaining search context variables for presentation
             context['library_records'] = library_records
             context['search_count'] = library_records.count()
