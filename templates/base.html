@@ -62,7 +62,7 @@
                     <!-- Navbar Left Side -->
                     <div class="navbar-nav">
                     {% if user.is_authenticated %}
-                        <li class="dropdown pe-4 pt-1">
+                        <li class="dropdown pe-4 pt-2">
                             <a class="nav-link-gold dropdown-toggle navbarDropdownMenuLink" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               Library
                             </a>
@@ -79,7 +79,7 @@
                             </div>
                         </li>
                         {% if user.is_staff %}
-                        <li class="dropdown pe-4 pt-1">
+                        <li class="dropdown pe-4 pt-2">
                             <a class="nav-link-gold  dropdown-toggle navbarDropdownMenuLink" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               Administration
                             </a>
@@ -95,7 +95,7 @@
                           Training Videos
                         </a>
                         {% endif %}
-                        <li class="dropdown pe-4 pt-1">
+                        <li class="dropdown pe-4 pt-2">
                             <a class="nav-link-gold dropdown-toggle navbarDropdownMenuLink" href="{% url 'profile' %}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               My Account
                             </a>
@@ -136,14 +136,14 @@
                     <!-- Navbar Right Side -->
                     {% if user.is_authenticated %}
                     <div class="navbar-nav ms-auto">
-                        <span class="ps-2 pt-1"><a class="nav-link-gold d-none d-xl-block text-decoration-none pt-1" href="{% url 'search' %}">Search</a></span>
+                        <span class="ps-2 pt-2"><a class="nav-link-gold d-none d-xl-block text-decoration-none pt-1" href="{% url 'search' %}">Search</a></span>
                         <a class="nav-link-gold d-xl-none pt-1" href="{% url 'search' %}">Search</a>
-                        <span class="ps-2 pt-1"><a class="nav-link-gold ps-sm-4 d-none d-xl-block text-decoration-none pt-1" href="{% url 'logout' %}">Logout</a></span>
+                        <span class="ps-2 pt-2"><a class="nav-link-gold ps-sm-4 d-none d-xl-block text-decoration-none pt-1" href="{% url 'logout' %}">Logout</a></span>
                         <a class="nav-link-gold d-xl-none pt-1" href="{% url 'logout' %}">Logout</a>
                     </div>
                     {% else %}
                     <div class="navbar-nav ms-auto">
-                        <span class="ps-2 pt-1 ms-auto"><a class="nav-link-gold d-none d-xl-block text-decoration-none pt-1" href="{% url 'search' %}">Search</a></span>
+                        <span class="ps-2 pt-2 ms-auto"><a class="nav-link-gold d-none d-xl-block text-decoration-none pt-1" href="{% url 'search' %}">Search</a></span>
                         <a class="nav-link-gold d-xl-none pt-1 ms-auto" href="{% url 'search' %}">Search</a>
                     </div>
                     {% endif %}
