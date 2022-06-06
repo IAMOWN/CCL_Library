@@ -125,9 +125,8 @@ class TagDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         context = super(TagDelete, self).get_context_data(**kwargs)
         tag_to_delete = Tag.objects.get(pk=self.kwargs['pk'])
         records_with_tag = LibraryRecord.objects.filter(tags__tag=tag_to_delete)
-        print(f'tag_to_delete: {tag_to_delete}')
-        print(f'records_with_tag: {records_with_tag}')
-
+        context['records_with_tag'] = records_with_tag
+        context['records_with_tag_count'] = records_with_tag.count()
         context['year'] = get_current_year()
 
         return context
