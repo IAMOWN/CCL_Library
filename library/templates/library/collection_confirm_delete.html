@@ -15,7 +15,7 @@
             <div class="row text-CCL-Gold">
                 <div class="col-lg-12">
                     {% if library_records_with_collection_count > 0 %}
-                    <p><strong>There {{ library_records_with_collection_count|pluralize:'is,are' }} {{ library_records_with_collection_count }} library record{{ records_with_tag_count|pluralize:'s' }} in this collection. Before you can delete the collection you must remove all records <a href="{% url 'collection-records' collection_id %}" class="text-CCL-Blue">here</a>.</strong></p>
+                    <p><strong>There {{ library_records_with_collection_count|pluralize:'is,are' }} {{ library_records_with_collection_count }} library record{{ library_records_with_collection_count|pluralize:'s' }} in this collection. Before you can delete the collection you must remove all records <a href="{% url 'collection-records' collection_id %}" class="text-CCL-Blue">here</a>.</strong></p>
                         {% for record in library_records_with_collection %}
                         <p>{{ record.title }}</p>
                         {% endfor %}
