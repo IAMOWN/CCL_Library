@@ -500,6 +500,24 @@ class PetitionsList(ListView):
         return context
 
 
+# ####################### Library Records - Series: Boot Camp #######################
+class SeriesBootCampList(ListView):
+    model = LibraryRecord
+    template_name = 'library/records_series_boot_camp.html'
+    context_object_name = 'library_records'
+    queryset = LibraryRecord.objects.filter(
+        discourse_series='Boot Camp'
+    ).order_by('date_communicated')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['year'] = get_current_year()
+        context['title'] = 'Boot Camp Discourse Series'
+        context['page_type'] = 'Discourses'
+
+        return context
+
+
 # ####################### Library Records - Collection: ENACA #######################
 class CollectionENACAList(ListView):
     model = LibraryRecord

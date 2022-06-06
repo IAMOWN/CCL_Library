@@ -27,6 +27,7 @@ from .views import (
     DiscoursesList,
     InvocationsList,
     PetitionsList,
+    SeriesBootCampList,
     CollectionENACAList,
     CollectionGESARAList,
     LibraryRecordDetail,
@@ -81,6 +82,9 @@ urlpatterns = [
     path('library_record_create/', LibraryRecordCreate.as_view(), name='library-record-create'),
     path('library_record_update/<int:pk>/', LibraryRecordUpdate.as_view(), name='library-record-update'),
     path('library_record_delete/<int:pk>/', LibraryRecordDelete.as_view(), name='library-record-delete'),
+
+    # Library Record Discourse Series
+    path('library_record/series/boot_camp/', SeriesBootCampList.as_view(), name='boot-camp'),
 
     # Library Record Collections
     path('library_record/collection/enaca/', CollectionENACAList.as_view(), name='enaca'),

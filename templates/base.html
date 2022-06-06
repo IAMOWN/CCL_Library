@@ -68,10 +68,9 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="{% url 'discourses' %}">EGA Discourses</a>
-                                <a class="dropdown-item" href="{% url 'enaca' %}">ENACA</a>
-                                <a class="dropdown-item" href="{% url 'gesara' %}">GESARA</a>
-                                <a class="dropdown-item" href="#">'I AM' Freedom</a>
-                                <a class="dropdown-item" href="#">Divine Economy</a>
+                                <a class="dropdown-item" href="{% url 'enaca' %}">Collection: ENACA</a>
+                                <a class="dropdown-item" href="{% url 'gesara' %}">Collection: GESARA</a>
+                                <a class="dropdown-item" href="{% url 'boot-camp' %}">Series: Boot Camp</a>
                                 <a class="dropdown-item" href="{% url 'invocations' %}">EGA Invocations</a>
                                 <a class="dropdown-item" href="{% url 'petitions' %}">EGA Petitions</a>
                                 <a class="dropdown-item" href="{% url 'books' %}">EGA Books</a>
@@ -105,14 +104,32 @@
                     <div class="navbar-nav">
                         <li class="dropdown pe-4 pt-2">
                             <a class="nav-link-gold dropdown-toggle navbarDropdownMenuLink" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Collections
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="{% url 'discourses' %}">All Discourses</a>
+                                <a class="dropdown-item" href="{% url 'enaca' %}">Collection: ENACA</a>
+                                <a class="dropdown-item" href="{% url 'gesara' %}">Collection: GESARA</a>
+{#                                <a class="dropdown-item" href="#">'I AM' Freedom Discourses'</a>#}
+{#                                <a class="dropdown-item" href="#">Divine Economy</a>#}
+                                {% if user.is_staff %}<a class="dropdown-item" href="{% url 'library-records' %}">Admin: Library Records</a>{% endif %}
+                            </div>
+                        </li>
+                        <li class="dropdown pe-4 pt-2">
+                            <a class="nav-link-gold dropdown-toggle navbarDropdownMenuLink" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Series
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="{% url 'boot-camp' %}">Series: Boot Camp</a>
+                                {% if user.is_staff %}<a class="dropdown-item" href="{% url 'library-records' %}">Admin: Library Records</a>{% endif %}
+                            </div>
+                        </li>
+                        <li class="dropdown pe-4 pt-2">
+                            <a class="nav-link-gold dropdown-toggle navbarDropdownMenuLink" href="{% url 'discourses' %}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               EGA Discourses
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="{% url 'discourses' %}">All Discourses</a>
-                                <a class="dropdown-item" href="{% url 'enaca' %}">The ENACA Collection</a>
-                                <a class="dropdown-item" href="{% url 'gesara' %}">The GESARA Collection</a>
-{#                                <a class="dropdown-item" href="#">'I AM' Freedom Discourses'</a>#}
-{#                                <a class="dropdown-item" href="#">Divine Economy</a>#}
                                 {% if user.is_staff %}<a class="dropdown-item" href="{% url 'library-records' %}">Admin: Library Records</a>{% endif %}
                             </div>
                         </li>
@@ -122,11 +139,11 @@
                         <a class="nav-link-gold pe-4 pt-2" href="{% url 'petitions' %}" aria-expanded="false">
                           Petitions
                         </a>
-                        <a class="nav-link-gold pe-4 pt-2" href="{% url 'books' %}" aria-expanded="false">
-                          Books
-                        </a>
                         <a class="nav-link-gold pe-4 pt-2" href="{% url 'cosmic-reviews' %}" aria-expanded="false">
                           Cosmic Reviews
+                        </a>
+                        <a class="nav-link-gold pe-4 pt-2" href="{% url 'books' %}" aria-expanded="false">
+                          Books
                         </a>
                     </div>
                     {% endif %}

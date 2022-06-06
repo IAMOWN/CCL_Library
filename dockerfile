@@ -19,8 +19,8 @@ RUN pip install -r requirements.txt psycopg2==2.9.3
 
 COPY . .
 
-RUN python3 manage.py collectstatic -c --noinput \
-    && chmod 777 $APP_HOME
+# RUN python3 manage.py collectstatic -c --noinput \
+#     && chmod 777 $APP_HOME
 
 EXPOSE 8000
 ENTRYPOINT ["gunicorn", "--worker-tmp-dir" ,"/dev/shm"]
