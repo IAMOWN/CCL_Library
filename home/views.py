@@ -119,7 +119,7 @@ def contact(request):
 @login_required
 def training(request):
     context = {
-        'title': 'Librarian Training',
+        'title': 'Librarian Training Videos',
         'year': get_current_year(),
     }
 
