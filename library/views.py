@@ -506,7 +506,7 @@ class SeriesBootCampList(ListView):
     template_name = 'library/records_series_boot_camp.html'
     context_object_name = 'library_records'
     queryset = LibraryRecord.objects.filter(
-        discourse_series='Boot Camp'
+        discourse_series__discourse_series='Boot Camp'
     ).order_by('date_communicated')
 
     def get_context_data(self, **kwargs):
