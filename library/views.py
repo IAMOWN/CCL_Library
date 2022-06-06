@@ -308,7 +308,7 @@ class DiscourseSeriesDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView)
         context = super(DiscourseSeriesDelete, self).get_context_data(**kwargs)
 
         series_to_delete = DiscourseSeries.objects.get(pk=self.kwargs['pk'])
-        records_with_series = LibraryRecord.objects.filter(tags__tag=series_to_delete)
+        records_with_series = LibraryRecord.objects.filter(discourse_series__discourse_series=series_to_delete)
         context['records_with_series'] = records_with_series
         context['records_with_series_count'] = records_with_series.count()
         context['year'] = get_current_year()
