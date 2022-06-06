@@ -116,7 +116,7 @@ def contact(request):
 
 
 # ####################### Training #######################
-@login_required
+# @login_required
 def training(request):
     context = {
         'title': 'Librarian Training Videos',
