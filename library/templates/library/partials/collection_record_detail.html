@@ -9,8 +9,8 @@
         <div class="col-lg-2 pt-2">
             <p><strong>Order number:</strong> {{ collection_record.order_number }}</p>
         </div>
-        <div class="col-lg-1 pt-2">
-            <button hx-post="{% url 'collection-record-delete' collection_record.id %}" class="btn btn-danger btn-sm">Delete</button>
+        <div class="col-lg-1 pt-2 me-auto">
+            <button hx-post="{% url 'collection-record-delete' collection_record.id %}" class="btn btn-danger btn-sm float-end">Delete</button>
         </div>
     </div>
 </div>
