@@ -83,7 +83,7 @@ urlpatterns = [
     path('library_record_update/<int:pk>/', LibraryRecordUpdate.as_view(), name='library-record-update'),
     path('library_record_delete/<int:pk>/', LibraryRecordDelete.as_view(), name='library-record-delete'),
 
-    # Library Record Discourse Series
+    # Library Record Series
     path('library_record/series/boot_camp/', SeriesBootCampList.as_view(), name='boot-camp'),
 
     # Library Record Collections
