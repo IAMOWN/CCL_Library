@@ -306,6 +306,11 @@ class DiscourseSeriesDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView)
 
     def get_context_data(self, *args, **kwargs):
         context = super(DiscourseSeriesDelete, self).get_context_data(**kwargs)
+
+        series_to_delete = DiscourseSeries.objects.get(pk=self.kwargs['pk'])
+        records_with_series = LibraryRecord.objects.filter(tags__tag=series_to_delete)
+        context['records_with_series'] = records_with_series
+        context['records_with_series_count'] = records_with_series.count()
         context['year'] = get_current_year()
 
         return context
@@ -389,6 +394,11 @@ class CosmicAuthorDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(CosmicAuthorDelete, self).get_context_data(**kwargs)
+
+        master_to_delete = CosmicAuthor.objects.get(pk=self.kwargs['pk'])
+        records_with_master = LibraryRecord.objects.filter(tags__tag=master_to_delete)
+        context['records_with_master'] = records_with_master
+        context['records_with_master_count'] = records_with_master.count()
         context['year'] = get_current_year()
 
         return context

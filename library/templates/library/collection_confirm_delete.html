@@ -15,7 +15,7 @@
             <div class="row text-CCL-Gold">
                 <div class="col-lg-12">
                     {% if library_records_with_collection_count > 0 %}
-                    <p><strong>There {{ library_records_with_collection_count|pluralize:'is,are' }} {{ library_records_with_collection_count }} library record{{ library_records_with_collection_count|pluralize:'s' }} in this collection. Before you can delete the collection you must remove all records <a href="{% url 'collection-records' collection_id %}" class="text-CCL-Blue">here</a>.</strong></p>
+                    <p><strong>There {{ library_records_with_collection_count|pluralize:'is,are' }} {{ library_records_with_collection_count }} library record{{ library_records_with_collection_count|pluralize:'s' }} in this collection. Before you can delete this collection you must remove all records <a href="{% url 'collection-records' collection_id %}" class="text-CCL-Blue">here</a>.</strong></p>
                         {% for record in library_records_with_collection %}
                         <p>{{ record.title }}</p>
                         {% endfor %}
@@ -26,13 +26,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-2 pb-2">
-                    <a class="btn btn-CCL-Blue col-12" href="{{ request.META.HTTP_REFERER }}">Go Back to Tag</a>
+                <div class="col-lg-3 pb-2">
+                    <a class="btn btn-CCL-Blue col-12" href="{{ request.META.HTTP_REFERER }}">Back</a>
                 </div>
-                <div class="col-lg-8"></div>
+                <div class="col-lg-6"></div>
                 {% csrf_token %}
                 {% if library_records_with_collection_count == 0 %}
-                <div class="col-lg-2 pb-2">
+                <div class="col-lg-3 pb-2">
                     <input type="submit" value="Delete Collection" class="btn btn-danger col-12">
                 </div>
                 {% endif %}
