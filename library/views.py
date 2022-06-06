@@ -222,6 +222,7 @@ class CollectionDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             record_count += 1
         context['library_records_with_collection'] = library_records_with_collection
         context['library_records_with_collection_count'] = record_count
+        context['collection_id'] = self.kwargs['pk']
         context['year'] = get_current_year()
 
         return context
