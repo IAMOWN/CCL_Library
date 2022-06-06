@@ -396,7 +396,9 @@ class CosmicAuthorDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         context = super(CosmicAuthorDelete, self).get_context_data(**kwargs)
 
         master_to_delete = CosmicAuthor.objects.get(pk=self.kwargs['pk'])
-        records_with_master = LibraryRecord.objects.filter(tags__tag=master_to_delete)
+        records_with_master = LibraryRecord.objects\
+            .filter(principal_cosmic_author__author=master_to_delete)\
+            .filter(supporting_cosmic_authors__author=master_to_delete)
         context['records_with_master'] = records_with_master
         context['records_with_master_count'] = records_with_master.count()
         context['year'] = get_current_year()

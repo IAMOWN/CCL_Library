@@ -15,7 +15,7 @@
             <div class="row text-CCL-Gold">
                 <div class="col-lg-12">
                     {% if records_with_master_count > 0 %}
-                    <p><strong>There {{ records_with_master_count|pluralize:'is,are' }} {{ records_with_master_count }} library record{{ records_with_master_count|pluralize:'s' }} with this Master. Before you can delete this Master you must remove it from the following record{{ records_with_master_count|pluralize:'s' }}:</strong></p>
+                    <p><strong>There {{ records_with_master_count|pluralize:'is,are' }} {{ records_with_master_count }} library record{{ records_with_master_count|pluralize:'s' }} with this Master as either the Principal Master or Supporting Master. Before you can delete this Master you must remove all references of this attribute from the following record{{ records_with_master_count|pluralize:'s' }}:</strong></p>
                         {% for record in records_with_master %}
                         <p><a class="text-CCL-Blue" href="{% url 'library-record' record.id %}" target="_blank">{{ record.title }}</a></p>
                         {% endfor %}
@@ -26,13 +26,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3 pb-2">
+                <div class="col-lg-3 pb-2 pt-2">
                     <a class="btn btn-CCL-Blue col-12" href="{{ request.META.HTTP_REFERER }}">Back</a>
                 </div>
                 <div class="col-lg-6"></div>
                 {% csrf_token %}
                 {% if records_with_master_count == 0 %}
-                <div class="col-lg-3 pb-2">
+                <div class="col-lg-3 pb-2 pt-2">
                     <input type="submit" value="Delete Master" class="btn btn-danger col-12">
                 </div>
                 {% endif %}

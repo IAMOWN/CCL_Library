@@ -26,13 +26,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3 pb-2">
+                <div class="col-lg-3 pb-2 pt-2">
                     <a class="btn btn-CCL-Blue col-12" href="{{ request.META.HTTP_REFERER }}">Back</a>
                 </div>
                 <div class="col-lg-6"></div>
                 {% csrf_token %}
                 {% if library_records_with_collection_count == 0 %}
-                <div class="col-lg-3 pb-2">
+                <div class="col-lg-3 pb-2 pt-2">
                     <input type="submit" value="Delete Collection" class="btn btn-danger col-12">
                 </div>
                 {% endif %}
