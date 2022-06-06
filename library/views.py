@@ -123,6 +123,7 @@ class TagDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(TagDelete, self).get_context_data(**kwargs)
+
         tag_to_delete = Tag.objects.get(pk=self.kwargs['pk'])
         records_with_tag = LibraryRecord.objects.filter(tags__tag=tag_to_delete)
         context['records_with_tag'] = records_with_tag
@@ -211,6 +212,16 @@ class CollectionDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(CollectionDelete, self).get_context_data(**kwargs)
+
+        collection_to_delete = Collection.objects.get(pk=self.kwargs['pk'])
+        library_records_with_collection = []
+        record_count = 0
+        library_collection = CollectionOrder.objects.filter(collection__collection=collection_to_delete).order_by('order_number')
+        for record in library_collection:
+            library_records_with_collection.append(record.record)
+            record_count += 1
+        context['library_records_with_collection'] = library_records_with_collection
+        context['library_records_with_collection_count'] = record_count
         context['year'] = get_current_year()
 
         return context

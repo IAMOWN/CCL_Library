@@ -14,15 +14,10 @@
         <form method="post" action="" enctype="multipart/form-data">
             <div class="row text-CCL-Gold">
                 <div class="col">
-                {% csrf_token %}
+
                     <p><span class="bold-character">Are you sure you want to delete this Tag: <strong>{{ discourseseries }}</strong></span></p>
                     <p><strong>THIS IS A PERMANENT DECISION!</strong></p>
                     <p class="pb-4">Please be absolutely certain you want to delete this record.</p>
-                </div>
-            </div>
-            <div class="row pt-2">
-                <div class="col pb-2">
-
                 </div>
             </div>
             <div class="row">
@@ -30,6 +25,8 @@
                     <a class="btn btn-CCL-Blue col-12" href="{{ request.META.HTTP_REFERER }}">Go Back</a>
                 </div>
                 <div class="col-sm-8"></div>
+                {% csrf_token %}
+
                 <div class="col-sm-2 pb-2">
                     <input type="submit" value="Delete Discourse Series" class="btn btn-danger col-12">
                 </div>
