@@ -41,10 +41,10 @@
             <div class="col-sm-6">
                 <h6><strong>Title</strong></h6>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <h6><strong>Supporting Master(s)</strong></h6>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <h6><strong>Tags</strong></h6>
             </div>
         </div>
@@ -65,14 +65,14 @@
                 <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.title }} - {{ record.date_communicated }}</a></p>
                 {% endif %}
             </div>
-            <div class="col-sm-3 text-CCL-Gold">
+            <div class="col-sm-2 text-CCL-Gold">
             {% if record.supporting_cosmic_authors is not None %}
                 {% for master in record.supporting_cosmic_authors.all %}
                     {{ master }};
                 {% endfor %}
             {% endif %}
             </div>
-            <div class="col-sm-3 text-CCL-Gold">
+            <div class="col-sm-4 text-CCL-Gold">
                 {% for tag in record.tags.all %}
                     {{ tag }};
                 {% endfor %}
