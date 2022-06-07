@@ -870,7 +870,7 @@ class SearchView(ListView):
         elif not start_search_input and not end_search_input and series_search_input:
             # Query based on search parameters
             library_records = LibraryRecord.objects.filter(
-                discourse_series__discourse_series__contains=series_search_input,
+                discourse_series__discourse_series=series_search_input,
             ).order_by('part_number')
             # Fill out remaining search context variables for presentation
             context['library_records'] = library_records
