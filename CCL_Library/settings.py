@@ -157,6 +157,6 @@ TINYMCE_DEFAULT_CONFIG = {
     "location": '/tinydrive/path/image.png',
     "relative_urls": True,
     "document_base_url": 'https://ega.s3.us-east-2.amazonaws.com/ccl-library-static/',
-    "tinydrive_token_provider": TINY_API,
+    "tinydrive_token_provider": f'https://drive.tiny.cloud/1/{TINY_API}/{uuid}',
 }
 
