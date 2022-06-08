@@ -154,9 +154,9 @@ TINYMCE_DEFAULT_CONFIG = {
     "fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | "
     "a11ycheck ltr rtl | showcomments addcomment code",
     "custom_undo_redo_levels": 10,
-    "plugins": 'tinydrive',
-    "tinydrive_upload_path": '/library/uploads',
-    "tinydrive_token_provider": f'{TINY_API}',
-    "tinydrive_max_image_dimension": 2048,
+    # "plugins": 'tinydrive',
+    # "tinydrive_upload_path": '/library/uploads',
+    # "tinydrive_token_provider": f'{TINY_API}',
+    # "tinydrive_max_image_dimension": 2048,
 }
 
