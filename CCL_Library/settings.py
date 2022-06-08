@@ -138,8 +138,11 @@ SERVER_EMAIL = os.environ.get('SERVER_EMAIL')
 COMPANY_NAME = os.environ.get('COMPANY_NAME')
 DOMAIN  = os.environ.get('WHURTHY_DOMAIN')
 
+TINYMCE_JS_URL = 'https://ega.s3.us-east-2.amazonaws.com/ccl-library-static/django_tinymce/init_tinymce.js'
+TINYMCE_JS_ROOT = 'https://ega.s3.us-east-2.amazonaws.com/ccl-library-static/tinymce/'
+
 TINYMCE_DEFAULT_CONFIG = {
-    "height": "420px",
+    "height": "330px",
     "menubar": "file edit view insert format tools table help",
     "plugins": "advlist autolink lists link image charmap print preview anchor searchreplace visualblocks "
     "fullscreen insertdatetime media table paste code help wordcount",
@@ -150,3 +153,4 @@ TINYMCE_DEFAULT_CONFIG = {
     "a11ycheck ltr rtl | showcomments addcomment code",
     "custom_undo_redo_levels": 10,
 }
+
