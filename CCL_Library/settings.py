@@ -141,6 +141,8 @@ DOMAIN  = os.environ.get('WHURTHY_DOMAIN')
 # TINYMCE_JS_URL = 'https://ega.s3.us-east-2.amazonaws.com/ccl-library-static/django_tinymce/init_tinymce.js'
 # TINYMCE_JS_ROOT = 'https://ega.s3.us-east-2.amazonaws.com/ccl-library-static/tinymce/'
 
+TINY_API = os.environ.get('TINY_API')
+
 TINYMCE_DEFAULT_CONFIG = {
     "height": "330px",
     "menubar": "file edit view insert format tools table help",
