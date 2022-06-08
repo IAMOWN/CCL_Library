@@ -154,6 +154,9 @@ TINYMCE_DEFAULT_CONFIG = {
     "fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | "
     "a11ycheck ltr rtl | showcomments addcomment code",
     "custom_undo_redo_levels": 10,
-    "location": '/uploaded/image/path/image.png',
+    "location": '/tinydrive/path/image.png',
+    "relative_urls": True,
+    "document_base_url": 'https://ega.s3.us-east-2.amazonaws.com/ccl-library-static/',
+    "tinydrive_token_provider": TINY_API,
 }
 
