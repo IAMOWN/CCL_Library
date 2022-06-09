@@ -139,7 +139,7 @@ COMPANY_NAME = os.environ.get('COMPANY_NAME')
 DOMAIN  = os.environ.get('WHURTHY_DOMAIN')
 
 TINY_API = os.environ.get('TINY_API')
-TINY_JWK = os.environ.get('TINY_JWK')
+# TINY_JWK = os.environ.get('TINY_JWK')
 
 # TINYMCE_JS_URL = TINY_API
 # TINYMCE_JS_ROOT = 'https://ega.s3.us-east-2.amazonaws.com/ccl-library-static/'
@@ -155,8 +155,9 @@ TINYMCE_DEFAULT_CONFIG = {
     "fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | "
     "a11ycheck ltr rtl | showcomments addcomment code",
     "custom_undo_redo_levels": 10,
+    "tinydrive_token_provider": f'{TINY_API}',
+    "tinydrive_dropbox_app_key": '',
     # "tinydrive_upload_path": '/library/uploads',
-    "tinydrive_token_provider": f'{TINY_JWK}',
     # "tinydrive_max_image_dimension": 2048,
 }
 
