@@ -155,7 +155,7 @@ TINYMCE_DEFAULT_CONFIG = {
     "a11ycheck ltr rtl | showcomments addcomment code",
     "custom_undo_redo_levels": 10,
     # "tinydrive_upload_path": '/library/uploads',
-    "tinydrive_token_provider": f'{TINY_API}',
+    # "tinydrive_token_provider": f'{TINY_API}',
     # "tinydrive_max_image_dimension": 2048,
 }
 

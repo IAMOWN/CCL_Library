@@ -40,10 +40,9 @@
     <script>
         tinyMCE.init({
             document_base_url : "https://ega.s3.us-east-2.amazonaws.com/ccl-library-static/",
-            relative_urls : true
+            relative_urls : true,
         });
     </script>
-{#    <script src="{{ settings.TINY_API }}" referrerpolicy="origin"></script>#}
 
     <!-- Inherited in-page script content block for script headers -->
     {% block script_header %}{% endblock %}
