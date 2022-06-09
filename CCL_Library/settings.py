@@ -140,8 +140,8 @@ DOMAIN  = os.environ.get('WHURTHY_DOMAIN')
 
 TINY_API = os.environ.get('TINY_API')
 
-TINYMCE_JS_URL = TINY_API
-TINYMCE_JS_ROOT = 'https://ega.s3.us-east-2.amazonaws.com/ccl-library-static/'
+# TINYMCE_JS_URL = TINY_API
+# TINYMCE_JS_ROOT = 'https://ega.s3.us-east-2.amazonaws.com/ccl-library-static/'
 
 TINYMCE_DEFAULT_CONFIG = {
     "height": "330px",
