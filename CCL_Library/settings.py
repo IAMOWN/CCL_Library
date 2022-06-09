@@ -146,7 +146,7 @@ TINY_API = os.environ.get('TINY_API')
 TINYMCE_DEFAULT_CONFIG = {
     "height": "330px",
     "menubar": "file edit view insert format tools table help",
-    "plugins": "advlist autolink lists link image charmap print preview anchor searchreplace visualblocks "
+    "plugins": "tinydrive advlist autolink lists link image charmap print preview anchor searchreplace visualblocks "
     "fullscreen insertdatetime media table paste code help wordcount",
     "toolbar": "undo redo | bold italic underline strikethrough | formatselect | alignleft "
     "aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist "
@@ -154,7 +154,6 @@ TINYMCE_DEFAULT_CONFIG = {
     "fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | "
     "a11ycheck ltr rtl | showcomments addcomment code",
     "custom_undo_redo_levels": 10,
-    "plugins": 'tinydrive',
     # "tinydrive_upload_path": '/library/uploads',
     "tinydrive_token_provider": f'{TINY_API}',
     # "tinydrive_max_image_dimension": 2048,
