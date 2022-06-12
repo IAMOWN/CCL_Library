@@ -9,17 +9,17 @@
         <div class="media-body">
             {% if user.is_staff %}
             <div class="row">
-                <div class="col-lg-9">
-                    <h3 class="mb-2 pt-2"><strong>{{ title }}</strong></h3>
+                <div class="col-lg-9 pt-2">
+                    <h3 class="mb-2"><strong>{{ title }}</strong></h3>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-3 pt-2">
                     <a class="btn btn-CCL-Blue col-12" href="{% url 'library-record-create' %}">Add A Library Record</a>
                 </div>
             </div>
             {% else %}
             <div class="row">
-                <div class="col-lg-12">
-                    <h3 class="mb-2 pt-2"><strong>{{ title }}</strong></h3>
+                <div class="col-lg-12 pt-2">
+                    <h3 class="mb-2"><strong>{{ title }}</strong></h3>
                 </div>
             </div>
             {% endif %}
