@@ -7,30 +7,37 @@
 {% block content %}
     <section class="media content-section">
         <div class="media-body">
+            {% if user.is_staff %}
             <div class="row">
-                <div class="col-12">
+                <div class="col-lg-9">
+                    <h3 class="mb-2 pt-2"><strong>{{ title }}</strong></h3>
+                </div>
+                <div class="col-lg-3">
+                    <a class="btn btn-CCL-Blue col-12" href="{% url 'library-record-create' %}">Add A Library Record</a>
+                </div>
+            </div>
+            {% else %}
+            <div class="row">
+                <div class="col-lg-12">
                     <h3 class="mb-2 pt-2"><strong>{{ title }}</strong></h3>
                 </div>
             </div>
+            {% endif %}
         </div>
     </section>
-    {% if user.is_authenticated %}
+    {% if user.is_staff %}
     <section class="media content-section">
         <div class="row">
-            <div class="col-sm-3 pb-2 pt-2">
-                <a class="btn btn-CCL-Blue col-12" href="{% url 'library-record-create' %}">Add A Library Record</a>
-            </div>
-            <div class="col-sm-1"></div>
-            <div class="col-sm-2 pb-2 pt-2">
+            <div class="col-lg-3 pb-2 pt-2">
                 <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'collection-create' %}" target="_blank">Add A Collection</a>
             </div>
-            <div class="col-sm-2 pb-2 pt-2">
+            <div class="col-lg-3 pb-2 pt-2">
                 <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'discourse-series-create' %}" target="_blank">Add A Series</a>
             </div>
-            <div class="col-sm-2 pb-2 pt-2">
+            <div class="col-lg-3 pb-2 pt-2">
                 <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'master-create' %}" target="_blank">Add A Master</a>
             </div>
-            <div class="col-sm-2 pb-2 pt-2">
+            <div class="col-lg-3 pb-2 pt-2">
                 <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'tag-create' %}" target="_blank">Add A Tag</a>
             </div>
         </div>
@@ -38,13 +45,13 @@
     {% endif %}
     <section class="media content-section text-CCL-Gold d-none d-xl-block">
         <div class="row pt-2">
-            <div class="col-sm-6">
+            <div class="col-lg-6">
                 <h6><strong>Title</strong></h6>
             </div>
-            <div class="col-sm-2">
+            <div class="col-lg-2">
                 <h6><strong>Supporting Master(s)</strong></h6>
             </div>
-            <div class="col-sm-4">
+            <div class="col-lg-4">
                 <h6><strong>Tags</strong></h6>
             </div>
         </div>
@@ -52,7 +59,7 @@
     {% for record in library_records %}
     <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
         <div class="row pt-2 pb-2">
-            <div class="col-sm-6">
+            <div class="col-lg-6">
                 {% if record.library_record_type == 'Discourse' %}
                     {% if record.discourse_series and record.part_number > 0 %}
                 <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">Part {{ record.part_number }} - {{ record.discourse_series }} - {{ record.title }} - {{ record.date_communicated }}</a></p>
@@ -65,14 +72,14 @@
                 <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.title }} - {{ record.date_communicated }}</a></p>
                 {% endif %}
             </div>
-            <div class="col-sm-2 text-CCL-Gold">
+            <div class="col-lg-2 text-CCL-Gold">
             {% if record.supporting_cosmic_authors is not None %}
                 {% for master in record.supporting_cosmic_authors.all %}
                     {{ master }};
                 {% endfor %}
             {% endif %}
             </div>
-            <div class="col-sm-4 text-CCL-Gold">
+            <div class="col-lg-4 text-CCL-Gold">
                 {% for tag in record.tags.all %}
                     {{ tag }};
                 {% endfor %}
