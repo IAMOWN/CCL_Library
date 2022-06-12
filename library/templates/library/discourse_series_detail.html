@@ -15,10 +15,10 @@
     {% endif %}
     <section class="media content-section text-CCL-Gold">
         <div class="row">
-            <div class="col-sm-10 pt-2 pb-2">
+            <div class="col-lg-10 pt-2 pb-2">
                 <h3><strong>Discourse Series: {{ discourse_series.discourse_series }} </strong></h3>
             </div>
-            <div class="col-sm-2 pt-2 pb-2">
+            <div class="col-lg-2 pt-2 pb-2">
                 <a href="{% url 'library-records' %}" class="btn btn-outline-CCL-Blue col-12">Library Records</a>
             </div>
         </div>
@@ -26,18 +26,19 @@
 
     <section class="media content-section">
         <div class="row pt-2">
-            <div class="col-sm-2 pt-2 pb-2">
+            <div class="col-lg-3 pt-2 pb-2">
                 <a href="{% url 'discourse-series' %}" class="btn btn-outline-CCL-Blue col-12">Back to Series</a>
             </div>
             {% if user.is_staff %}
-            <div class="col-sm-3"></div>
-            <div class="col-sm-2 text-center pt-2 pb-2">
+            <div class="col-lg-3 text-center pt-2 pb-2">
                 <a href="{% url 'discourse-series-update' discourse_series.id %}" class="btn btn-CCL-Blue col-12">Edit Series Title</a>
+            </div>
+            <div class="col-lg-3 text-center pt-2 pb-2">
+                <a href="{% url 'discourse-series-create' discourse_series.id %}" class="btn btn-CCL-Blue col-12">Add Series title</a>
             </div>
             {% endif %}
             {% if user.is_superuser %}
-            <div class="col-sm-3"></div>
-            <div class="col-sm-2 pt-2 pb-2">
+            <div class="col-lg-3 pt-2 pb-2">
                 <a href="{% url 'discourse-series-delete' discourse_series.id %}" class="btn btn-outline-danger col-12">Delete Discourse Series</a>
             </div>
             {% endif %}

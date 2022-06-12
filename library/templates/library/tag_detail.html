@@ -26,18 +26,19 @@
 
     <section class="media content-section">
         <div class="row">
-            <div class="col-lg-2 pt-2 pb-2">
+            <div class="col-lg-3 pt-2 pb-2">
                 <a href="{% url 'tags' %}" class="btn btn-outline-CCL-Blue col-12">Tags</a>
             </div>
             {% if user.is_staff %}
-            <div class="col-lg-3"></div>
-            <div class="col-lg-2 text-center pt-2 pb-2">
+            <div class="col-lg-3 text-center pt-2 pb-2">
                 <a href="{% url 'tag-update' tag.id %}" class="btn btn-CCL-Blue col-12">Edit Tag</a>
+            </div>
+            <div class="col-lg-3 text-center pt-2 pb-2">
+                <a href="{% url 'tag-create' tag.id %}" class="btn btn-CCL-Blue col-12">Add A Tag</a>
             </div>
             {% endif %}
             {% if user.is_superuser %}
-            <div class="col-lg-3"></div>
-            <div class="col-lg-2 pt-2 pb-2">
+            <div class="col-lg-3 pt-2 pb-2">
                 <a href="{% url 'tag-delete' tag.id %}" class="btn btn-outline-danger col-12">Delete Tag</a>
             </div>
             {% endif %}
