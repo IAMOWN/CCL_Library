@@ -34,7 +34,7 @@
                 <a href="{% url 'tag-update' tag.id %}" class="btn btn-CCL-Blue col-12">Edit Tag</a>
             </div>
             <div class="col-lg-3 text-center pt-2 pb-2">
-                <a href="{% url 'tag-create' tag.id %}" class="btn btn-CCL-Blue col-12">Add A Tag</a>
+                <a href="{% url 'tag-create' %}" class="btn btn-CCL-Blue col-12">Add A Tag</a>
             </div>
             {% endif %}
             {% if user.is_superuser %}

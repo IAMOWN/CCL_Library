@@ -33,7 +33,7 @@
                 <a href="{% url 'master-update' author.id %}" class="btn btn-CCL-Blue col-12">Edit Master</a>
             </div>
             <div class="col-lg-2 pt-2 pb-2 text-center">
-                <a href="{% url 'master-create' author.id %}" class="btn btn-CCL-Blue col-12">Add A Master</a>
+                <a href="{% url 'master-create' %}" class="btn btn-CCL-Blue col-12">Add A Master</a>
             </div>
             {% endif %}
             {% if user.is_superuser %}

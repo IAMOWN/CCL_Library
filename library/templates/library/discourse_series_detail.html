@@ -34,7 +34,7 @@
                 <a href="{% url 'discourse-series-update' discourse_series.id %}" class="btn btn-CCL-Blue col-12">Edit Series Title</a>
             </div>
             <div class="col-lg-3 text-center pt-2 pb-2">
-                <a href="{% url 'discourse-series-create' discourse_series.id %}" class="btn btn-CCL-Blue col-12">Add Series title</a>
+                <a href="{% url 'discourse-series-create' %}" class="btn btn-CCL-Blue col-12">Add Series title</a>
             </div>
             {% endif %}
             {% if user.is_superuser %}
