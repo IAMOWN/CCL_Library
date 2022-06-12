@@ -657,7 +657,7 @@ class LibraryRecordUpdate(LoginRequiredMixin, UpdateView):
 class LibraryRecordDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = LibraryRecord
     template_name = 'library/library_record_confirm_delete.html'
-    success_url = reverse_lazy('library_records')
+    success_url = reverse_lazy('library-records')
 
     def test_func(self):
         if self.request.user.is_superuser:
