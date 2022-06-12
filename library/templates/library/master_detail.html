@@ -25,19 +25,19 @@
     </section>
     <section class="media content-section">
         <div class="row">
-            <div class="col-lg-2 pt-2 pb-2">
+            <div class="col-lg-3 pt-2 pb-2">
                 <a href="{% url 'masters' %}" class="btn btn-outline-CCL-Blue col-12">Back to Masters</a>
             </div>
             {% if user.is_staff %}
-            <div class="col-lg-2 pt-2 pb-2 text-center">
+            <div class="col-lg-3 pt-2 pb-2 text-center">
                 <a href="{% url 'master-update' author.id %}" class="btn btn-CCL-Blue col-12">Edit Master</a>
             </div>
-            <div class="col-lg-2 pt-2 pb-2 text-center">
+            <div class="col-lg-3 pt-2 pb-2 text-center">
                 <a href="{% url 'master-create' %}" class="btn btn-CCL-Blue col-12">Add A Master</a>
             </div>
             {% endif %}
             {% if user.is_superuser %}
-            <div class="col-lg-2 pt-2 pb-2">
+            <div class="col-lg-3 pt-2 pb-2">
                 <a href="{% url 'master-delete' author.id %}" class="btn btn-outline-danger col-12">Delete Master</a>
             </div>
             {% endif %}
