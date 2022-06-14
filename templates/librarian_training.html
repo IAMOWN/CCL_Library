@@ -28,7 +28,7 @@
     <section class="media content-section text-CCL-Gold">
         <div class="row">
             <div class="col-lg-3 pt-2 pb-2">
-                <a href="{% url 'home' %}" class="btn btn-outline-CCL-Blue col-12">Return Home</a>
+                <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-12">Back</a>
             </div>
             <div class="col-lg-6 pt-2 pb-2"></div>
             <div class="col-lg-3 pt-2 pb-2">
