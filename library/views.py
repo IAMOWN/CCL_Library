@@ -628,8 +628,8 @@ class LibraryRecordDetail(DetailView):
                 part_numbers.append(record.part_number)
             context['first_part_number'] = min(part_numbers)
             context['last_part_number'] = max(part_numbers)
-            context['previous'] = int(libary_record.id) - 1
-            context['next'] = int(libary_record.id) + 1
+            context['previous'] = int(libary_record.part_numbers) - 1
+            context['next'] = int(libary_record.part_numbers) + 1
         else:
             series = None
         context['series'] = series
