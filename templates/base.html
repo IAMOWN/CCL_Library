@@ -72,16 +72,14 @@
                               Library
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="{% url 'discourses' %}">EGA Discourses</a>
-                                <a class="dropdown-submenu" href="{% url 'discourses' %}">EGA Discourses</a>
                                 <a class="dropdown-item" href="{% url 'i-am-freedom' %}">Collection: 'I AM' Freedom</a>
                                 <a class="dropdown-item" href="{% url 'enaca' %}">Collection: ENACA</a>
                                 <a class="dropdown-item" href="{% url 'gesara' %}">Collection: GESARA</a>
-{#                                <a class="dropdown-item" href="{% url 'boot-camp' %}">Series: Boot Camp Alchemy Class</a>#}
-                                <a class="dropdown-item" href="{% url 'invocations' %}">EGA Invocations</a>
-                                <a class="dropdown-item" href="{% url 'petitions' %}">EGA Petitions</a>
-                                <a class="dropdown-item" href="{% url 'books' %}">EGA Books</a>
+                                <a class="dropdown-item" href="{% url 'discourses' %}">Discourses</a>
                                 <a class="dropdown-item" href="{% url 'cosmic-reviews' %}">Cosmic Reviews</a>
+                                <a class="dropdown-item" href="{% url 'invocations' %}">Invocations</a>
+                                <a class="dropdown-item" href="{% url 'petitions' %}">Petitions</a>
+                                <a class="dropdown-item" href="{% url 'books' %}">Books</a>
                             </div>
                         </li>
                         {% if user.is_staff %}
