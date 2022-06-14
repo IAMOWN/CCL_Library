@@ -536,7 +536,7 @@ class SeriesBootCampList(ListView):
     context_object_name = 'library_records'
     queryset = LibraryRecord.objects.filter(
         discourse_series__discourse_series='Boot Camp Alchemy Class'
-    ).order_by('date_communicated')
+    ).order_by('part_number')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
