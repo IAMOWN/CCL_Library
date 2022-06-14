@@ -15,7 +15,7 @@
     {% endif %}
     <section class="media content-section text-CCL-Gold">
         <div class="row text-center">
-            <div class="col-sm-12 pt-2">
+            <div class="col-lg-12 pt-2">
             {% if library_record.discourse_series %}
                 {% if library_record.library_record_type == 'Discourse' and library_record.part_number > 0 %}
                     <p>Part {{ library_record.part_number }} - {{ library_record.discourse_series }}</p>
@@ -35,7 +35,7 @@
                 {% endif %}
             {% endif %}
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-lg-12">
                 {% if library_record.principal_cosmic_author is not None %}
                 <h5><strong>{{ library_record.title }} - {{ library_record.principal_cosmic_author }} - {{ library_record.date_communicated }}</strong></h5>
                 {% else %}
@@ -48,27 +48,27 @@
     <section class="media content-section text-CCL-Gold">
         {% if library_record.library_record_type == 'Invocation' %}
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-lg-12">
                 <p>{{ library_record.invocation|safe }}</p>
             </div>
         </div>
         {% elif library_record.invocation %}
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-lg-12">
                 <p>{{ library_record.invocation|safe }}</p>
             </div>
         </div>
         {% endif %}
         {% if library_record.library_record_type != 'Invocation' %}
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-lg-12">
                 <p>{{ library_record.text|safe }}</p>
             </div>
         </div>
         {% endif %}
         {% if library_record.benediction %}
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-lg-12">
                 <p>{{ library_record.benediction|safe }}</p>
             </div>
         </div>
@@ -77,12 +77,12 @@
     {% if user.is_staff %}
     <section class="media content-section text-CCL-Gold">
         <div class="row pt-2">
-            <div class="col-sm-12">
+            <div class="col-lg-12">
                 <p><strong>Tags: </strong>{% for tag in record.tags.all %}{{ tag }}; {% endfor %}</p>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-lg-12">
                 <p><strong>Supporting Masters: </strong>{% for master in record.supporting_cosmic_authors.all %}{{ master }}; {% endfor %}</p>
             </div>
         </div>
@@ -92,25 +92,25 @@
     {% if library_record.pdf_url or library_record.doc_url or library_record.mp3_url  %}
     <section class="media content-section text-CCL-Gold">
         <div class="row pt-2">
-            <div class="col-sm-4">
+            <div class="col-lg-4">
                 <h6><strong>Downloadable files</strong></h6>
             </div>
         </div>
         <div class="row pt-2">
             {% if library_record.pdf_url %}
-            <div class="col-sm-2 text-center">
+            <div class="col-lg-3 text-center">
                 <p><a href="{{ library_record.pdf_url }}" class="text-CCL-Blue" target="_blank"><strong>PDF</strong></a> </p>
             </div>
-            <div class="col-sm-3"></div>
+            <div class="col-lg-1"></div>
             {% endif %}
             {% if library_record.mp3_url %}
-            <div class="col-sm-2 text-center">
+            <div class="col-lg-4 text-center">
                 <p><a href="{{ library_record.mp3_url }}" class="text-CCL-Blue" target="_blank"><strong>MP3 (Audio)</strong></a> </p>
             </div>
-            <div class="col-sm-3"></div>
+            <div class="col-lg-1"></div>
             {% endif %}
             {% if library_record.doc_url %}
-            <div class="col-sm-2 text-center">
+            <div class="col-lg-3 text-center">
                 <p><a href="{{ library_record.doc_url }}" class="text-CCL-Blue" target="_blank"><strong>DOC</strong></a> </p>
             </div>
             {% endif %}
