@@ -45,27 +45,6 @@
         </div>
     </section>
 
-    {% if series %}
-    <section class="media content-section">
-        <div class="row">
-        {% if record.part_number > first_part_number %}
-            <div class="col-lg-3 pt-2 pb-2">
-                <a href="{% url 'library-record' previous %}" class="btn btn-CCL-Blue col-12">Previous Part</a>
-            </div>
-        {% else %}
-            <div class="col-lg-3 pt-2 pb-2"></div>
-        {% endif %}
-            <div class="col-lg-6 pt-2 pb-2"></div>
-        {% if record.part_number < last_part_number %}
-            <div class="col-lg-3 pt-2 pb-2">
-                <a href="{% url 'library-record' next %}" class="btn btn-CCL-Blue col-12">Next Part</a>
-            </div>
-        {% else %}
-            <div class="col-lg-3 pt-2 pb-2"></div>
-        {% endif %}
-    </section>
-    {% endif %}
-
     <section class="media content-section text-CCL-Gold">
         {% if library_record.library_record_type == 'Invocation' %}
         <div class="row">
@@ -136,6 +115,27 @@
             </div>
             {% endif %}
         </div>
+    </section>
+    {% endif %}
+
+    {% if series %}
+    <section class="media content-section">
+        <div class="row">
+        {% if record.part_number > first_part_number %}
+            <div class="col-lg-3 pt-2 pb-2">
+                <a href="{% url 'library-record' previous %}" class="btn btn-CCL-Blue col-12">Previous Part in the Series</a>
+            </div>
+        {% else %}
+            <div class="col-lg-3 pt-2 pb-2"></div>
+        {% endif %}
+            <div class="col-lg-6 pt-2 pb-2"></div>
+        {% if record.part_number < last_part_number %}
+            <div class="col-lg-3 pt-2 pb-2">
+                <a href="{% url 'library-record' next %}" class="btn btn-CCL-Blue col-12">Next Part in the Series</a>
+            </div>
+        {% else %}
+            <div class="col-lg-3 pt-2 pb-2"></div>
+        {% endif %}
     </section>
     {% endif %}
 
