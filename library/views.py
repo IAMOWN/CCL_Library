@@ -571,7 +571,7 @@ class CollectionENACAList(ListView):
 # ####################### Library Records - Collection: St Germain 'I AM' Freedom Alchemy Class #######################
 class CollectionIAMFreedomList(ListView):
     model = LibraryRecord
-    template_name = 'library/records_collection_IAM_Freedom.html'
+    template_name = 'library/records_collection_IAM_FREEDOM.html'
     context_object_name = 'library_records'
     paginate_by = 12
 
