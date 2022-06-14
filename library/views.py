@@ -633,14 +633,14 @@ class LibraryRecordDetail(DetailView):
                 previous_exists = True
                 previous = int(libary_record.part_number) - 1
                 print(f'previous: {previous}')
-                context['previous'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=previous)
+                context['previous'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=previous).id
             else:
                 previous_exists = False
             if libary_record.part_number < max(part_numbers):
                 next_exists = True
                 next = int(libary_record.part_number) + 1
                 print(f'next: {next}')
-                context['next'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=next)
+                context['next'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=next).id
             else:
                 next_exists = False
             context['series'] = True
