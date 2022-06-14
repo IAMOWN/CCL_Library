@@ -632,7 +632,7 @@ class LibraryRecordDetail(DetailView):
             context['next'] = int(libary_record.part_numbers) + 1
             context['series'] = True
         else:
-            series = False
+            context['series'] = False
 
         context['title'] = libary_record
         context['record'] = get_object_or_404(LibraryRecord, id=self.kwargs['pk'])
