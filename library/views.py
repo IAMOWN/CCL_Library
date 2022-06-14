@@ -621,7 +621,7 @@ class LibraryRecordDetail(DetailView):
         context['year'] = get_current_year()
 
         # Build record ids for previous and next
-        libary_record = LibraryRecord.objects.get(pk=self.kwargs['pk'])
+        libary_record = get_object_or_404(LibraryRecord, id=self.kwargs['pk'])
         if libary_record.discourse_series:
             series = LibraryRecord.objects.filter(discourse_series=libary_record.discourse_series).order_by('part_number')
             part_numbers = []
@@ -644,7 +644,6 @@ class LibraryRecordDetail(DetailView):
         context['next_exists'] = next_exists
 
         context['title'] = libary_record
-        context['record'] = get_object_or_404(LibraryRecord, id=self.kwargs['pk'])
         context['collection_orders'] = CollectionOrder.objects.filter(record=self.kwargs['pk'])
 
         return context
