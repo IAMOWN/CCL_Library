@@ -568,6 +568,28 @@ class CollectionENACAList(ListView):
         return context
 
 
+# ####################### Library Records - Collection: St Germain 'I AM' Freedom Alchemy Class #######################
+class CollectionIAMFreedomList(ListView):
+    model = LibraryRecord
+    template_name = 'library/records_collection_IAM_Freedom.html'
+    context_object_name = 'library_records'
+    paginate_by = 12
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        library_records = []
+        library_collection = CollectionOrder.objects.filter(collection__collection="St Germain 'I AM' Freedom Alchemy Class").order_by('order_number')
+        for record in library_collection:
+            library_records.append(record.record)
+        context['library_records'] = library_records
+
+        context['year'] = get_current_year()
+        context['title'] = "St Germain 'I AM' Freedom Alchemy Class"
+
+        return context
+
+
 # ####################### Library Records - Collection: GESARA #######################
 class CollectionGESARAList(ListView):
     model = LibraryRecord

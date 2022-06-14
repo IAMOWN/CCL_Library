@@ -28,8 +28,6 @@ from .views import (
     InvocationsList,
     PetitionsList,
     SeriesBootCampList,
-    CollectionENACAList,
-    CollectionGESARAList,
     LibraryRecordDetail,
     LibraryRecordCreate,
     LibraryRecordUpdate,
@@ -40,6 +38,10 @@ from .views import (
     collection_record_delete,
     collection_record_detail,
     collection_record_form,
+
+    CollectionENACAList,
+    CollectionGESARAList,
+    CollectionIAMFreedomList,
 )
 
 urlpatterns = [
@@ -89,6 +91,7 @@ urlpatterns = [
     # Library Record Collections
     path('library_record/collection/enaca/', CollectionENACAList.as_view(), name='enaca'),
     path('library_record/collection/gesara/', CollectionGESARAList.as_view(), name='gesara'),
+    path('library_record/collection/IAMFreedom/', CollectionIAMFreedomList.as_view(), name='i-am-freedom'),
 
     # Search
     path('library_records/search/', SearchView.as_view(), name='search'),
