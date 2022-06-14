@@ -629,9 +629,13 @@ class LibraryRecordDetail(DetailView):
             context['first_part_number'] = min(part_numbers)
             context['last_part_number'] = max(part_numbers)
             if libary_record.part_number > min(part_numbers):
-                context['previous'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=int(libary_record.part_number) - 1)
+                previous = int(libary_record.part_number) - 1
+                print(f'previous: {previous}')
+                context['previous'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=previous)
             if libary_record.part_number < max(part_numbers):
-                context['next'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=int(libary_record.part_number) + 1)
+                next = int(libary_record.part_number) + 1
+                print(f'next: {next}')
+                context['next'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=next)
             context['series'] = True
         else:
             context['series'] = False

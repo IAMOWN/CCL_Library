@@ -238,6 +238,8 @@ class LibraryRecord(models.Model):
             'date_communicated',
         ]
 
+        unique_together = ('discourse_series', 'part_number',)
+
     def __str__(self):
         if not self.part_number and not self.discourse_series:
             return f'{self.title} - {self.principal_cosmic_author} - {self.date_communicated}'
