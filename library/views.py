@@ -630,9 +630,9 @@ class LibraryRecordDetail(DetailView):
             context['last_part_number'] = max(part_numbers)
             context['previous'] = int(libary_record.part_numbers) - 1
             context['next'] = int(libary_record.part_numbers) + 1
+            context['series'] = True
         else:
-            series = None
-        context['series'] = series
+            series = False
 
         context['title'] = libary_record
         context['record'] = get_object_or_404(LibraryRecord, id=self.kwargs['pk'])
