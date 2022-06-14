@@ -50,15 +50,15 @@
         <div class="row">
         {% if record.part_number > first_part_number %}
             <div class="col-lg-3 pt-2 pb-2">
-                <a href="{% url 'collection-record-detail' previous %}" class="btn btn-CCL-Blue col-12">Previous Part</a>
+                <a href="{% url 'library-record' previous %}" class="btn btn-CCL-Blue col-12">Previous Part</a>
             </div>
         {% else %}
             <div class="col-lg-3 pt-2 pb-2"></div>
         {% endif %}
-            <div class="col-lg-3 pt-2 pb-2"></div>
+            <div class="col-lg-6 pt-2 pb-2"></div>
         {% if record.part_number < last_part_number %}
             <div class="col-lg-3 pt-2 pb-2">
-                <a href="{% url 'collection-record-detail' next %}" class="btn btn-CCL-Blue col-12">Next Part</a>
+                <a href="{% url 'library-record' next %}" class="btn btn-CCL-Blue col-12">Next Part</a>
             </div>
         {% else %}
             <div class="col-lg-3 pt-2 pb-2"></div>
