@@ -619,7 +619,21 @@ class LibraryRecordDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['year'] = get_current_year()
-        context['title'] = f"Library Record: {LibraryRecord.objects.get(pk=self.kwargs['pk'])}"
+
+        libary_record = LibraryRecord.objects.get(pk=self.kwargs['pk'])
+        if libary_record.series:
+            series = LibraryRecord.objects.filter(discourse_series=libary_record.series).order_by('Part Number')
+            for record in series:
+                part_numbers.append(record.part_number)
+            part_numbers = []
+            context['first_part_number'] = min(part_numbers)
+            context['last_part_number'] = max(part_numbers)
+            context['previous'] = int(libary_record.id) - 1
+            context['next'] = int(libary_record.id) + 1
+        else:
+            series = None
+
+        context['title'] = libary_record
         context['record'] = get_object_or_404(LibraryRecord, id=self.kwargs['pk'])
         context['collection_orders'] = CollectionOrder.objects.filter(record=self.kwargs['pk'])
 

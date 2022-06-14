@@ -44,6 +44,28 @@
             </div>
         </div>
     </section>
+
+    {% if series %}
+    <section class="media content-section">
+        <div class="row">
+        {% if record.part_number > first_part_number %}
+            <div class="col-lg-3 pt-2 pb-2">
+                <a href="{% url 'collection-record-detail' previous %}" class="btn btn-CCL-Blue col-12">Previous Part</a>
+            </div>
+        {% else %}
+            <div class="col-lg-3 pt-2 pb-2"></div>
+        {% endif %}
+            <div class="col-lg-3 pt-2 pb-2"></div>
+        {% if record.part_number < last_part_number %}
+            <div class="col-lg-3 pt-2 pb-2">
+                <a href="{% url 'collection-record-detail' next %}" class="btn btn-CCL-Blue col-12">Next Part</a>
+            </div>
+        {% else %}
+            <div class="col-lg-3 pt-2 pb-2"></div>
+        {% endif %}
+    </section>
+    {% endif %}
+
     <section class="media content-section text-CCL-Gold">
         {% if library_record.library_record_type == 'Invocation' %}
         <div class="row">
@@ -87,6 +109,7 @@
         </div>
     </section>
     {% endif %}
+
     {% if library_record.pdf_url or library_record.doc_url or library_record.mp3_url  %}
     <section class="media content-section text-CCL-Gold">
         <div class="row pt-2">
@@ -115,6 +138,7 @@
         </div>
     </section>
     {% endif %}
+
     <section class="media content-section">
         <div class="row">
             <div class="col-lg-3 pt-2 pb-2">

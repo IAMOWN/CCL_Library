@@ -133,4 +133,4 @@ def librian_training(request):
         'year': get_current_year(),
     }
 
-    return render(request, 'training.html', context)
+    return render(request, 'librarian_training.html', context)
