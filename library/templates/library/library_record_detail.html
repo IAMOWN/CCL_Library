@@ -121,7 +121,7 @@
     {% if series %}
     <section class="media content-section">
         <div class="row">
-        {% if record.part_number > first_part_number %}
+        {% if previous_exists %}
             <div class="col-lg-3 pt-2 pb-2">
                 <a href="{% url 'library-record' previous %}" class="btn btn-CCL-Blue col-12">Previous Part in the Series</a>
             </div>
@@ -129,7 +129,7 @@
             <div class="col-lg-3 pt-2 pb-2"></div>
         {% endif %}
             <div class="col-lg-6 pt-2 pb-2"></div>
-        {% if record.part_number < last_part_number %}
+        {% if next_exists %}
             <div class="col-lg-3 pt-2 pb-2">
                 <a href="{% url 'library-record' next %}" class="btn btn-CCL-Blue col-12">Next Part in the Series</a>
             </div>

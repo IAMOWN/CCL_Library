@@ -628,17 +628,27 @@ class LibraryRecordDetail(DetailView):
                 part_numbers.append(record.part_number)
             context['first_part_number'] = min(part_numbers)
             context['last_part_number'] = max(part_numbers)
+
             if libary_record.part_number > min(part_numbers):
+                previous_exists = True
                 previous = int(libary_record.part_number) - 1
                 print(f'previous: {previous}')
                 context['previous'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=previous)
+            else:
+                previous_exists = False
             if libary_record.part_number < max(part_numbers):
+                next_exists = True
                 next = int(libary_record.part_number) + 1
                 print(f'next: {next}')
                 context['next'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=next)
+            else:
+                next_exists = False
             context['series'] = True
         else:
             context['series'] = False
+
+        context['previous_exists'] = previous_exists
+        context['next_exists'] = next_exists
 
         context['title'] = libary_record
         context['record'] = get_object_or_404(LibraryRecord, id=self.kwargs['pk'])
