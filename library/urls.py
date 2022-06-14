@@ -75,6 +75,7 @@ urlpatterns = [
 
     # Library Records
     path('library_records/', LibraryRecordList.as_view(), name='library-records'),
+    path('library_records/', LibraryRecordList.as_view(), name='library-records'),
     path('library_records/books/', BooksList.as_view(), name='books'),
     path('library_records/cosmic_reviews/', CosmicReviewsList.as_view(), name='cosmic-reviews'),
     path('library_records/discourses/', DiscoursesList.as_view(), name='discourses'),

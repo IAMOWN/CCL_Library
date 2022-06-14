@@ -11,6 +11,7 @@ urlpatterns = [
 
     path('', views.home, name='home'),
     path('training/', views.training, name='training'),
+    path('training/', views.librian_training, name='librarian-training'),
 
     path('register/', user_views.register, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),

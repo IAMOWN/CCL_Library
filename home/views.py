@@ -115,9 +115,19 @@ def contact(request):
         return render(request, 'home/contact.html')
 
 
-# ####################### Training #######################
-# @login_required
+# ####################### Search Training #######################
 def training(request):
+    context = {
+        'title': 'How To Make The Most Of Search',
+        'year': get_current_year(),
+    }
+
+    return render(request, 'training.html', context)
+
+
+# ####################### Librarian Training #######################
+@login_required
+def librian_training(request):
     context = {
         'title': 'Librarian Training Videos',
         'year': get_current_year(),
