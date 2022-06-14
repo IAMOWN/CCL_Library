@@ -620,33 +620,26 @@ class LibraryRecordDetail(DetailView):
         context = super().get_context_data(**kwargs)
         context['year'] = get_current_year()
 
+        # Build record ids for previous and next
         libary_record = LibraryRecord.objects.get(pk=self.kwargs['pk'])
         if libary_record.discourse_series:
             series = LibraryRecord.objects.filter(discourse_series=libary_record.discourse_series).order_by('part_number')
             part_numbers = []
             for record in series:
                 part_numbers.append(record.part_number)
-            context['first_part_number'] = min(part_numbers)
-            context['last_part_number'] = max(part_numbers)
-
             if libary_record.part_number > min(part_numbers):
                 previous_exists = True
-                previous = int(libary_record.part_number) - 1
-                print(f'previous: {previous}')
-                context['previous'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=previous).id
+                context['previous'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=int(libary_record.part_number) - 1).id
             else:
                 previous_exists = False
             if libary_record.part_number < max(part_numbers):
                 next_exists = True
-                next = int(libary_record.part_number) + 1
-                print(f'next: {next}')
-                context['next'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=next).id
+                context['next'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=int(libary_record.part_number) + 1).id
             else:
                 next_exists = False
             context['series'] = True
         else:
             context['series'] = False
-
         context['previous_exists'] = previous_exists
         context['next_exists'] = next_exists
 

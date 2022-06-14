@@ -78,12 +78,12 @@
     <section class="media content-section text-CCL-Gold">
         <div class="row pt-2">
             <div class="col-lg-12">
-                <p><strong>Tags: </strong>{% for tag in record.tags.all %}{{ tag }}; {% endfor %}</p>
+                <p><strong>Tags: </strong>{% for tag in library_record.tags.all %}{{ tag }}; {% endfor %}</p>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <p><strong>Supporting Masters: </strong>{% for master in record.supporting_cosmic_authors.all %}{{ master }}; {% endfor %}</p>
+                <p><strong>Supporting Masters: </strong>{% for master in library_record.supporting_cosmic_authors.all %}{{ master }}; {% endfor %}</p>
             </div>
         </div>
     </section>
