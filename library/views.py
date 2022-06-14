@@ -626,6 +626,7 @@ class LibraryRecordDetail(DetailView):
             part_numbers = []
             for record in series:
                 part_numbers.append(record.part_number)
+            print(f'part_numbers: {part_numbers}')
             context['first_part_number'] = min(part_numbers)
             context['last_part_number'] = max(part_numbers)
             context['previous'] = int(libary_record.id) - 1
