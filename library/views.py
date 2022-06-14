@@ -623,6 +623,7 @@ class LibraryRecordDetail(DetailView):
         libary_record = LibraryRecord.objects.get(pk=self.kwargs['pk'])
         if libary_record.discourse_series:
             series = LibraryRecord.objects.filter(discourse_series=libary_record.discourse_series).order_by('part_number')
+            part_numbers = []
             for record in series:
                 part_numbers.append(record.part_number)
             context['first_part_number'] = min(part_numbers)
