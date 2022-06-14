@@ -621,7 +621,7 @@ class LibraryRecordDetail(DetailView):
         context['year'] = get_current_year()
 
         libary_record = LibraryRecord.objects.get(pk=self.kwargs['pk'])
-        if libary_record.series:
+        if libary_record.discourse_series:
             series = LibraryRecord.objects.filter(discourse_series=libary_record.series).order_by('Part Number')
             for record in series:
                 part_numbers.append(record.part_number)
