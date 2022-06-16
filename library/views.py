@@ -632,25 +632,28 @@ class LibraryRecordDetail(DetailView):
                 context['series'] = False
             else:
                 context['series'] = True
-                current_part_number = int(libary_record.part_number)
-                lowest_part_number = int(min(part_numbers))
-                if current_part_number > lowest_part_number:
-                    context['previous_exists'] = True
-                    try:
-                        context['previous'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=int(libary_record.part_number) - 1).id
-                    except LibraryRecord.DoesNotExist:
-                        context['series'] = False
+                if record.part_number is not None:
+                    current_part_number = int(libary_record.part_number)
+                    context['series'] = False
                 else:
-                    context['previous_exists'] = False
-                highest_part_number = int(max(part_numbers))
-                if current_part_number < highest_part_number:
-                    context['next_exists'] = True
-                    try:
-                        context['next'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=int(libary_record.part_number) + 1).id
-                    except LibraryRecord.DoesNotExist:
-                        context['series'] = False
-                else:
-                    context['next_exists'] = False
+                    lowest_part_number = int(min(part_numbers))
+                    if current_part_number > lowest_part_number:
+                        context['previous_exists'] = True
+                        try:
+                            context['previous'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=int(libary_record.part_number) - 1).id
+                        except LibraryRecord.DoesNotExist:
+                            context['series'] = False
+                    else:
+                        context['previous_exists'] = False
+                    highest_part_number = int(max(part_numbers))
+                    if current_part_number < highest_part_number:
+                        context['next_exists'] = True
+                        try:
+                            context['next'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=int(libary_record.part_number) + 1).id
+                        except LibraryRecord.DoesNotExist:
+                            context['series'] = False
+                    else:
+                        context['next_exists'] = False
         else:
             context['series'] = False
 
