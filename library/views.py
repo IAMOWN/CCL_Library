@@ -523,7 +523,7 @@ class PetitionsList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['year'] = get_current_year()
-        context['title'] = 'EGA Petition'
+        context['title'] = 'EGA Petitions'
         context['page_type'] = 'Petitions'
 
         return context
