@@ -42,6 +42,7 @@ from .views import (
     CollectionENACAList,
     CollectionGESARAList,
     CollectionIAMFreedomList,
+    CollectionTrueConstitutionList,
 )
 
 urlpatterns = [
@@ -93,6 +94,7 @@ urlpatterns = [
     path('library_record/collection/enaca/', CollectionENACAList.as_view(), name='enaca'),
     path('library_record/collection/gesara/', CollectionGESARAList.as_view(), name='gesara'),
     path('library_record/collection/IAMFreedom/', CollectionIAMFreedomList.as_view(), name='i-am-freedom'),
+    path('library_record/collection/true_constitution/', CollectionTrueConstitutionList.as_view(), name='true-constitution'),
 
     # Search
     path('library_records/search/', SearchView.as_view(), name='search'),

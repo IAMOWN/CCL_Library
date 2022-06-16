@@ -589,6 +589,27 @@ class CollectionIAMFreedomList(ListView):
         return context
 
 
+# ####################### Library Records - Collection: True Constition #######################
+class CollectionTrueConstitutionList(ListView):
+    model = LibraryRecord
+    template_name = 'library/records_collection_true_constitution.html'
+    context_object_name = 'library_records'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        library_records = []
+        library_collection = CollectionOrder.objects.filter(collection__collection="True Constitution").order_by('order_number')
+        for record in library_collection:
+            library_records.append(record.record)
+        context['library_records'] = library_records
+
+        context['year'] = get_current_year()
+        context['title'] = "True Constitution"
+
+        return context
+
+
 # ####################### Library Records - Collection: GESARA #######################
 class CollectionGESARAList(ListView):
     model = LibraryRecord
