@@ -628,14 +628,11 @@ class LibraryRecordDetail(DetailView):
             for record in series:
                 part_numbers.append(record.part_number)
             if len(part_numbers) == 1:
-                previous_exists = False
-                next_exists = False
                 context['series'] = False
-                context['previous_exists'] = False
-                context['next_exists'] = False
             else:
                 context['series'] = True
-                if libary_record.part_number > min(part_numbers):
+                part_number = int(libary_record.part_number)
+                if part_number > min(part_numbers):
                     context['previous_exists'] = True
                     try:
                         context['previous'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=int(libary_record.part_number) - 1).id
@@ -643,7 +640,7 @@ class LibraryRecordDetail(DetailView):
                         context['series'] = False
                 else:
                     context['previous_exists'] = False
-                if libary_record.part_number < max(part_numbers):
+                if part_number < max(part_numbers):
                     context['next_exists'] = True
                     try:
                         context['next'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=int(libary_record.part_number) + 1).id
