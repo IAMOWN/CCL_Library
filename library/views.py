@@ -639,8 +639,7 @@ class LibraryRecordDetail(DetailView):
                     context['previous_exists'] = True
                     try:
                         previous = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=int(libary_record.part_number) - 1).id
-                    except:
-                        LibraryRecord.DoesNotExist:
+                    except LibraryRecord.DoesNotExist:
                         previous = None
                     if previous is None:
                         context['previous'] = previous
