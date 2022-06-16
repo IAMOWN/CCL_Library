@@ -632,10 +632,10 @@ class LibraryRecordDetail(DetailView):
                 context['series'] = False
             else:
                 context['series'] = True
-                if record.part_number is not None:
-                    current_part_number = int(libary_record.part_number)
+                if record.part_number is None:
                     context['series'] = False
                 else:
+                    current_part_number = int(libary_record.part_number)
                     lowest_part_number = int(min(part_numbers))
                     if current_part_number > lowest_part_number:
                         context['previous_exists'] = True
