@@ -628,20 +628,18 @@ class LibraryRecordDetail(DetailView):
             for record in series:
                 part_numbers.append(record.part_number)
             if libary_record.part_number > min(part_numbers):
-                previous_exists = True
+                context['previous_exists'] = True
                 context['previous'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=int(libary_record.part_number) - 1).id
             else:
                 previous_exists = False
             if libary_record.part_number < max(part_numbers):
-                next_exists = True
+                context['next_exists'] = True
                 context['next'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=int(libary_record.part_number) + 1).id
             else:
                 next_exists = False
             context['series'] = True
         else:
             context['series'] = False
-        context['previous_exists'] = previous_exists
-        context['next_exists'] = next_exists
 
         context['title'] = libary_record
         context['collection_orders'] = CollectionOrder.objects.filter(record=self.kwargs['pk'])
