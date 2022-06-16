@@ -626,8 +626,8 @@ class LibraryRecordDetail(DetailView):
             series = LibraryRecord.objects.filter(discourse_series=libary_record.discourse_series).order_by('part_number')
             part_numbers = []
             for record in series:
-                part_numbers.append(record.part_number)
-            print(f'part_numbers: {part_numbers}')
+                if record.part_number is not None:
+                    part_numbers.append(record.part_number)
             if len(part_numbers) == 1:
                 context['series'] = False
             else:
