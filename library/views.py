@@ -627,6 +627,7 @@ class LibraryRecordDetail(DetailView):
             part_numbers = []
             for record in series:
                 part_numbers.append(record.part_number)
+            print(f'part_numbers: {part_numbers}')
             if len(part_numbers) == 1:
                 context['series'] = False
             else:
