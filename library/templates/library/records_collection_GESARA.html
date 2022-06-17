@@ -24,13 +24,13 @@
         {% for record in library_records %}
             <div class="col-lg-12">
             {% if record.discourse_series and record.part_number > 0 %}
-                <p><a href="{% url 'library-record' record.id %}" class="btn btn-outline-CCL-Gold btn-sm">Part {{ record.part_number }} - {{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
+                <p><a href="{% url 'library-record' record.id %}" class="btn btn-outline-CCL-Gold btn-sm">{{ collection_order_number|index:forloop.counter0 }}) Part {{ record.part_number }} - {{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
             {% elif record.discourse_series %}
-                <p><a href="{% url 'library-record' record.id %}" class="btn btn-outline-CCL-Gold btn-sm">{{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
+                <p><a href="{% url 'library-record' record.id %}" class="btn btn-outline-CCL-Gold btn-sm">{{ collection_order_number|index:forloop.counter0 }}) {{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
             {% elif not record.discourse_series  %}
-                <p><a href="{% url 'library-record' record.id %}" class="btn btn-outline-CCL-Gold btn-sm">{{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
+                <p><a href="{% url 'library-record' record.id %}" class="btn btn-outline-CCL-Gold btn-sm">{{ collection_order_number|index:forloop.counter0 }}) {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
             {% else %}
-                <p><a href="{% url 'library-record' record.id %}" class="btn btn-outline-CCL-Gold btn-sm">{{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
+                <p><a href="{% url 'library-record' record.id %}" class="btn btn-outline-CCL-Gold btn-sm">{{ collection_order_number|index:forloop.counter0 }}) {{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
             {% endif %}
             </div>
         {% endfor %}

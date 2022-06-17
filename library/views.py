@@ -581,9 +581,12 @@ class CollectionIAMFreedomList(ListView):
         context = super().get_context_data(**kwargs)
 
         library_records = []
-        library_collection = CollectionOrder.objects.filter(collection__collection="St Germain 'I AM' Freedom Alchemy Class").order_by('order_number')
+        collection_order_number = []
+        library_collection = CollectionOrder.objects.filter(collection__collection='ENACA').order_by('order_number')
         for record in library_collection:
+            collection_order_number.append(record.order_number)
             library_records.append(record.record)
+        context['collection_order_number'] = collection_order_number
         context['library_records'] = library_records
 
         context['year'] = get_current_year()
@@ -602,9 +605,12 @@ class CollectionTrueConstitutionList(ListView):
         context = super().get_context_data(**kwargs)
 
         library_records = []
-        library_collection = CollectionOrder.objects.filter(collection__collection="True Constitution").order_by('order_number')
+        collection_order_number = []
+        library_collection = CollectionOrder.objects.filter(collection__collection='ENACA').order_by('order_number')
         for record in library_collection:
+            collection_order_number.append(record.order_number)
             library_records.append(record.record)
+        context['collection_order_number'] = collection_order_number
         context['library_records'] = library_records
 
         context['year'] = get_current_year()
@@ -623,9 +629,12 @@ class CollectionGESARAList(ListView):
         context = super().get_context_data(**kwargs)
 
         library_records = []
-        library_collection = CollectionOrder.objects.filter(collection__collection='GESARA').order_by('order_number')
+        collection_order_number = []
+        library_collection = CollectionOrder.objects.filter(collection__collection='ENACA').order_by('order_number')
         for record in library_collection:
+            collection_order_number.append(record.order_number)
             library_records.append(record.record)
+        context['collection_order_number'] = collection_order_number
         context['library_records'] = library_records
 
         context['year'] = get_current_year()
