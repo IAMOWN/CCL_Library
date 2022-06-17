@@ -282,20 +282,19 @@
     </section>
     {% if search_on %}
     {% for record in library_records %}
-        Order number: {% if search_type == 'colllection' %}{{ collection_order_number|index:forloop.counter0 }}{% endif %} 
     <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
         <div class="row pt-2 pb-2">
             <div class="col-sm-12">
                 {% if record.library_record_type == 'Discourse' %}
                     {% if record.discourse_series and record.part_number %}
-                    <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">Part {{ record.part_number }} - {{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
+                    <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{% if search_type == 'collection' %}{{ collection_order_number|index:forloop.counter0 }}) {% endif %}Part {{ record.part_number }} - {{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
                     {% elif record.discourse_series and not record.part_number %}
-                    <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
+                    <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{% if search_type == 'collection' %}{{ collection_order_number|index:forloop.counter0 }}) {% endif %}{{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
                     {% else %}
-                    <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
+                    <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{% if search_type == 'collection' %}{{ collection_order_number|index:forloop.counter0 }}) {% endif %}{{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
                     {% endif %}
                 {% else %}
-                <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
+                <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{% if search_type == 'collection' %}{{ collection_order_number|index:forloop.counter0 }}) {% endif %}{{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
                 {% endif %}
             </div>
         </div>
