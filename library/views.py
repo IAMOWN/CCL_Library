@@ -990,13 +990,16 @@ class SearchView(ListView):
         elif collection_search_input:
             # Query based on search parameters
             library_records = []
+            collection_order_number = []
             record_count = 0
             library_collection = CollectionOrder.objects.filter(collection__collection=collection_search_input).order_by('order_number')
             for record in library_collection:
+                collection_order_number.append(record.order_number)
                 library_records.append(record.record)
                 record_count += 1
             # Fill out remaining search context variables for presentation
             context['library_records'] = library_records
+            context['collection_order_number'] = collection_order_number
             context['search_count'] = record_count
             context['search_entered'] = collection_search_input
             context['search_type'] = 'collection'
