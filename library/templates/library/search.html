@@ -282,7 +282,7 @@
     </section>
     {% if search_on %}
     {% for record in library_records %}
-        Order number: {% if search_type == 'colllection' %}{{ collection_order_number|index:forloop.counter0 }}{% endif %}
+        Order number: {% if search_type == 'colllection' %}{{ collection_order_number|index:forloop.counter0 }}{% endif %} 
     <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
         <div class="row pt-2 pb-2">
             <div class="col-sm-12">
