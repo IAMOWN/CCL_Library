@@ -629,10 +629,13 @@ class CollectionGESARAList(ListView):
         context = super().get_context_data(**kwargs)
 
         library_records = []
+        collection_order_number = []
         library_collection = CollectionOrder.objects.filter(collection__collection='GESARA').order_by('order_number')
         for record in library_collection:
+            collection_order_number.append(record.order_number)
             library_records.append(record.record)
         context['library_records'] = library_records
+        context['collection_order_number'] = collection_order_number
 
         context['year'] = get_current_year()
         context['title'] = 'GESARA (Global Economic Security and Reformation Act)'
