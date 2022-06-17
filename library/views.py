@@ -1011,6 +1011,7 @@ class SearchView(ListView):
                 record_count += 1
             # Fill out remaining search context variables for presentation
             context['library_records'] = library_records
+            context['collection_order_number'] = collection_order_number
 
             context['search_count'] = record_count
             context['search_entered'] = collection_search_input
@@ -1132,7 +1133,7 @@ class SearchView(ListView):
                 search_error = True
 
         context['search_error'] = search_error
-        context['collection_order_number'] = collection_order_number
+
         context['series'] = DiscourseSeries.objects.all().order_by('discourse_series')
         context['authors'] = CosmicAuthor.objects.all().order_by('author')
         context['tags'] = Tag.objects.all().order_by('tag')
