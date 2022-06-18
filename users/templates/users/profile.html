@@ -18,6 +18,7 @@
     <div class="content-section text-CCL-Gold">
         <form method="POST">
             {% csrf_token %}
+            {{ form.media }}
             <fieldset class="form-group">
 {#                        {{ user_form|crispy }}#}
                 <div class="row">
