@@ -117,7 +117,7 @@ class DiscourseSeries(models.Model):
         ordering = [
             'discourse_series',
         ]
-        verbose_name_plural = 'Discourse Series'
+        verbose_name_plural = 'Series'
 
     def __str__(self):
         return self.discourse_series
@@ -348,6 +348,7 @@ class ReadingProgress(models.Model):
             'date_started',
             'date_completed',
         ]
+        verbose_name_plural = 'Reading Progress'
 
         unique_together = ('record', 'dear_soul',)
 
