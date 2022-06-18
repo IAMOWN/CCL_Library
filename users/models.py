@@ -4,6 +4,8 @@ from django.utils import timezone
 
 from phone_field import PhoneField
 
+from tinymce.models import HTMLField
+
 
 # ####################### CHOICE CONSTANTS #######################
 PRONOUN_CHOICES = [
@@ -271,22 +273,82 @@ class Profile(models.Model):
     Child of Django's User Model (every Profile is associated with a User).
     Profile/User is indirectly associated (through User) with Team and Organization for owner/users.
     """
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    pronoun = models.CharField(max_length=20, choices=PRONOUN_CHOICES, default='---')
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    address_1 = models.CharField(max_length=100)
-    address_2 = models.CharField(max_length=100, blank=True, null=True)
-    city = models.CharField(max_length=50)
-    state_province_county = models.CharField(max_length=100, verbose_name='State/Province/County')
-    postal_zip_code = models.CharField(max_length=10, verbose_name='postal/zip code')
-    country = models.CharField(max_length=100, choices=COUNTRY_CHOICES, default='---')
-    phone = PhoneField(blank=True, help_text='Contact phone number')
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+    )
+    pronoun = models.CharField(
+        max_length=20,
+        choices=PRONOUN_CHOICES,
+        default='---',
+    )
+    spiritual_name = models.CharField(
+        max_length=200,
+        default='',
+        help_text='''Please enter the name you now identify with. 
+        Where applicable this will be used as the name by which you are identified in Soul Synthesis.''',
+    )
+    bio = HTMLField(
+        default='',
+        blank=True,
+        null=True,
+        help_text='If moved, please share a little about yourself.',
+    )
+    given_first_name = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text='If moved, please enter the name you were given.',
+    )
+    given_last_name = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text='If moved, please enter your given last name (surname).',
+    )
+    address_1 = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text='If moved, please enter your current address.',
+    )
+    address_2 = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+    )
+    city = models.CharField(
+        max_length=50,
+        help_text='Please enter the city (or town/village) you currently reside in.',
+    )
+    state_province_county = models.CharField(
+        max_length=100,
+        verbose_name='State/Province/County',
+        help_text='Please identify the region (State/Province/County) you currently reside in.',
+    )
+    postal_zip_code = models.CharField(
+        max_length=10,
+        verbose_name='postal/zip code',
+        blank=True,
+        null=True,
+        help_text='If moved, please enter the postal or zip code for your current address.',
+    )
+    country = models.CharField(
+        max_length=100,
+        choices=COUNTRY_CHOICES,
+        default='---',
+        help_text='Please select the country you currently reside in.',
+    )
+    phone = PhoneField(
+        blank=True,
+        null=True,
+        help_text='If moved, please enter a contact phone number.',
+    )
     notification_preference = models.CharField(
         max_length=10,
         choices=NOTIFICATION_PREFERENCE,
         default='None',
-        help_text='''If you would like to receive notifications from us please select your preference.'''
+        help_text='''If you would like to receive automated notifications from Soul Synthesis please select your preference. You can change this setting at any time.'''
     )
 
     date_joined = models.DateTimeField(default=timezone.now)

@@ -76,7 +76,7 @@ class ProfileListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Profile
     template_name = 'users/profiles.html'
     context_object_name = 'profiles'
-    queryset = Profile.objects.all().order_by('first_name')
+    queryset = Profile.objects.all().order_by('spiritual_name')
 
     def test_func(self):
         if self.request.user.is_staff:

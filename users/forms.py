@@ -67,8 +67,10 @@ class ProfileUpdateForm(forms.ModelForm):
         model = Profile
         fields = [
             'pronoun',
-            'first_name',
-            'last_name',
+            'spiritual_name',
+            'bio',
+            'given_first_name',
+            'given_last_name',
             'address_1',
             'address_2',
             'city',
