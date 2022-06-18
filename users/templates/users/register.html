@@ -9,7 +9,30 @@
         </div>
     </article>
     <div class="content-section text-CCL-Gold">
-        <form method="POST">
+    {% if form.errors or profile_form.errors %}
+        <article class="media content-section alert-section">
+            <div>
+            <p class="alert-danger">Please review the following:</p>
+                <ul>
+                {% for key, value in form.errors.items %}
+                    {% for error in value %}
+                        {% if error != '' %}
+                            <li class="alert-danger">{{ error }}</li>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                {% for key, value in profile_form.errors.items %}
+                    {% for error in value %}
+                        {% if error != '' %}
+                            <li class="alert-danger">{{ error }}</li>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                </ul>
+            </div>
+        </article>
+    {% endif %}
+        <form method="post" action="" enctype="multipart/form-data" class="pb-2 text-CCL-Gold">
             {% csrf_token %}
             {{ form.media }}
             <fieldset class="form-group">
