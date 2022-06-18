@@ -658,15 +658,18 @@ class LibraryRecordDetail(DetailView):
         if libary_record.discourse_series:
             series = LibraryRecord.objects.filter(discourse_series=libary_record.discourse_series).order_by('part_number')
             part_numbers = []
+            print(f'1')
             for record in series:
                 if record.part_number is not None:
                     part_numbers.append(record.part_number)
             if len(part_numbers) == 1:
                 context['series'] = False
+                print(f'2')
             else:
                 context['series'] = True
                 if record.part_number is None:
                     context['series'] = False
+                    print(f'3')
                 else:
                     current_part_number = int(libary_record.part_number)
                     lowest_part_number = int(min(part_numbers))
@@ -674,22 +677,30 @@ class LibraryRecordDetail(DetailView):
                         context['previous_exists'] = True
                         try:
                             context['previous'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=int(libary_record.part_number) - 1).id
+                            print(f'4')
                         except LibraryRecord.DoesNotExist:
                             context['series'] = False
+                            print(f'5')
                     else:
                         context['previous_exists'] = False
+                        print(f'6')
                     highest_part_number = int(max(part_numbers))
                     if current_part_number < highest_part_number:
                         context['next_exists'] = True
                         try:
                             context['next'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=int(libary_record.part_number) + 1).id
+                            print(f'7')
                         except LibraryRecord.DoesNotExist:
                             context['series'] = False
+                            print(f'8')
                     else:
                         context['next_exists'] = False
+                        print(f'9')
         else:
             context['series'] = False
+            print(f'10')
 
+        print(f"context['series']: {context['series']}")
         context['title'] = libary_record
         context['collection_orders'] = CollectionOrder.objects.filter(record=self.kwargs['pk'])
 
