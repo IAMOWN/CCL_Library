@@ -7,6 +7,9 @@ from users import views as user_views
 from home import views
 
 urlpatterns = [
+    # Functional routes
+    path('tinymce/', include('tinymce.urls')),
+
     # Admin/Auth routes
     path('admin/', admin.site.urls),
     path('register/', user_views.register, name='register'),
@@ -17,9 +20,6 @@ urlpatterns = [
     path('password-reset-confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='users/password_reset_confirm.html'), name='password_reset_confirm'),
     path('password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'), name='password_reset_complete'),
     path('profile/', user_views.profile, name='profile'),
-
-    # Functional routes
-    path('tinymce/', include('tinymce.urls')),
 
     # App includes
     path('', include('library.urls')),
