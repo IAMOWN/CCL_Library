@@ -63,6 +63,7 @@ class CosmicAuthor(models.Model):
         ordering = [
             'author',
         ]
+        verbose_name_plural = 'Masters'
 
     def __str__(self):
         return self.author
@@ -244,6 +245,7 @@ class LibraryRecord(models.Model):
         ordering = [
             'date_communicated',
         ]
+        verbose_name_plural = 'Library Records'
 
         unique_together = ('discourse_series', 'part_number',)
 
