@@ -37,6 +37,7 @@ LIBRARY_RECORD_LANGUAGE = [
 ]
 
 READING_PROGRESS = [
+    ('---', '---'),
     ('1) On Reading List', '1) On Reading List'),
     ('2) Reading In Progress', '2) Reading In Progress'),
     ('3) Completed Reading', '3) Completed Reading'),
@@ -323,7 +324,7 @@ class ReadingProgress(models.Model):
     reading_progress = models.CharField(
         max_length=30,
         choices=READING_PROGRESS,
-        default='1) On Reading List'
+        default='---'
     )
     date_added = models.DateField(
         auto_now=False,
