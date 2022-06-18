@@ -668,9 +668,9 @@ class LibraryRecordDetail(DetailView):
                 print(f'2')
             else:
                 context['series'] = True
-                if record.part_number is None:
+                if libary_record.part_number is None:
                     context['series'] = False
-                    print(f'3')
+                    print(f'3 - libary_record.part_number: {libary_record.part_number}')
                 else:
                     current_part_number = int(libary_record.part_number)
                     lowest_part_number = int(min(part_numbers))
