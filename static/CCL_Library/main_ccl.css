@@ -449,16 +449,34 @@ a.text-CCL-Blue:hover, a.text-CCL-Blue:focus {
     color: white;
     font-family: 'Arial', sans-serif;
 }
-.navbar-brand {
-    display: inline-block;
-    padding-top: .3125rem;
-    padding-bottom: .3125rem;
-    margin-right: 1rem;
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 1.75rem;
-    line-height: inherit;
-    white-space: nowrap
+
+@media (min-width: 1080px) {
+    .navbar-brand {
+        display: inline-block;
+        padding-top: .3125rem;
+        padding-bottom: .3125rem;
+        margin-right: 1rem;
+        font-family: 'Cinzel Decorative', serif;
+        font-size: 2rem;
+        line-height: inherit;
+        white-space: nowrap
+    }
+
 }
+@media (max-width: 1079.98px) {
+    .navbar-brand {
+        display: inline-block;
+        padding-top: .3125rem;
+        padding-bottom: .3125rem;
+        margin-right: 1rem;
+        font-family: 'Cinzel Decorative', serif;
+        font-size: 1.5rem;
+        line-height: inherit;
+        white-space: nowrap
+    }
+}
+
+
 .navbar-light .navbar-nav .show>.nav-link,
 .navbar-light .navbar-nav .active>.nav-link,
 .navbar-light .navbar-nav .nav-link.show,

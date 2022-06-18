@@ -7,6 +7,7 @@ from .models import (
     DiscourseSeries,
     Collection,
     CollectionOrder,
+    ReadingProgress,
 )
 
 
@@ -23,3 +24,4 @@ admin.site.register(CosmicAuthor)
 admin.site.register(LibraryRecord)
 admin.site.register(DiscourseSeries)
 admin.site.register(Collection, CollectionAdmin)
+admin.site.register(ReadingProgress)

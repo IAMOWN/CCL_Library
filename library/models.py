@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.urls import reverse
 
 from datetime import date
@@ -33,6 +34,12 @@ LIBRARY_RECORD_LANGUAGE = [
     ('Portuguese', 'Portuguese'),
     ('Sanskrit', 'Sanskrit'),
     ('Swedish', 'Swedish'),
+]
+
+READING_PROGRESS = [
+    ('1) On Reading List', '1) On Reading List'),
+    ('2) Reading In Progress', '2) Reading In Progress'),
+    ('3) Completed Reading', '3) Completed Reading'),
 ]
 
 
@@ -252,7 +259,6 @@ class LibraryRecord(models.Model):
         else:
             return f'{self.title} - {self.principal_cosmic_author} - {self.date_communicated}'
 
-
     def get_absolute_url(self):
         return reverse('library-record', kwargs={'pk': self.pk})
 
@@ -294,3 +300,64 @@ class CollectionOrder(models.Model):
 
     def __str__(self):
         return f'{self.collection}: {self.record} - {self.order_number}'
+
+
+# ####################### Reading Progress #######################
+class ReadingProgress(models.Model):
+    record = models.ForeignKey(
+        LibraryRecord,
+        related_name='record_in_reading_progress',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name='Library record'
+    )
+    dear_soul = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+    reading_progress = models.CharField(
+        max_length=30,
+        choices=READING_PROGRESS,
+        default='1) On Reading List'
+    )
+    date_added = models.DateField(
+        auto_now=False,
+        auto_now_add=False,
+        null=True,
+        blank=True,
+    )
+    date_started = models.DateField(
+        auto_now=False,
+        auto_now_add=False,
+        null=True,
+        blank=True,
+    )
+    date_completed = models.DateField(
+        auto_now=False,
+        auto_now_add=False,
+        null=True,
+        blank=True,
+    )
+
+    class Meta:
+        ordering = [
+            'date_added',
+            'date_started',
+            'date_completed',
+        ]
+
+        unique_together = ('record', 'dear_soul',)
+
+    # Record metadata
+    date_created = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+        return f'{self.record} - {self.reading_progress}'
+
+    # def get_absolute_url(self):
+    #     return reverse('library-record', kwargs={'pk': self.pk})
