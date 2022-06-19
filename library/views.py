@@ -1278,7 +1278,9 @@ class ReadingList(LoginRequiredMixin, ListView):
 
         record_types = []
         reading_progress_obj = ReadingProgress.objects.filter(dear_soul__username=self.request.user)
+        print(f'reading_progress_obj: {reading_progress_obj}')
         for record in reading_progress_obj:
+            print(f'record: {record}')
             current_record_type = LibraryRecord.objects.get(title=record.record).library_record_type
             record_types.append(current_record_type)
         print(f'record_types: {record_types}')
