@@ -681,22 +681,22 @@ class LibraryRecordDetail(DetailView):
             context['current_reading_progress'] = '3) Completed Reading'
 
         elif current_reading_progress == '1) On Reading List' and selected_reading_progress == '2) Reading In Progress':
-            reading_progress_obj.date_added = current_date
+            reading_progress_obj.date_started = current_date
             reading_progress_obj.reading_progress = '2) Reading In Progress'
-            reading_progress_obj.save(update_fields=['date_added', 'reading_progress'])
+            reading_progress_obj.save(update_fields=['date_started', 'reading_progress'])
             context['current_reading_progress'] = '2) Reading In Progress'
 
         elif current_reading_progress == '1) On Reading List' and selected_reading_progress == '3) Completed Reading':
-            reading_progress_obj.date_added = current_date
             reading_progress_obj.date_started = current_date
+            reading_progress_obj.date_completed = current_date
             reading_progress_obj.reading_progress = '3) Completed Reading'
-            reading_progress_obj.save(update_fields=['date_added', 'date_started', 'reading_progress'])
+            reading_progress_obj.save(update_fields=['date_completed', 'date_started', 'reading_progress'])
             context['current_reading_progress'] = '3) Completed Reading'
 
         elif current_reading_progress == '2) Reading In Progress' and selected_reading_progress == '3) Completed Reading':
-            reading_progress_obj.date_started = current_date
+            reading_progress_obj.date_completed = current_date
             reading_progress_obj.reading_progress = '3) Completed Reading'
-            reading_progress_obj.save(update_fields=['date_started', 'reading_progress'])
+            reading_progress_obj.save(update_fields=['date_completed', 'reading_progress'])
             context['current_reading_progress'] = '3) Completed Reading'
 
         # Build previous and next record buttons
