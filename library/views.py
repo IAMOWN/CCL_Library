@@ -1291,6 +1291,11 @@ class ReadingList(LoginRequiredMixin, ListView):
             'reading_progress',
         )
 
+        if len(reading_progress) == 0:
+            context['records_exist'] = True
+        else:
+            context['records_exist'] = False
+
         context['year'] = get_current_year()
         context['title'] = 'My Reading List'
 
