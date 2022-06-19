@@ -1287,8 +1287,8 @@ class ReadingList(LoginRequiredMixin, ListView):
                 When(reading_progress='3) Completed Reading', then=F('date_completed')),
             )
         ).order_by(
-            'date_to_display',
             'reading_progress',
+            'date_to_display',
         )
 
         print(f'reading_progress: {reading_progress}')
