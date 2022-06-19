@@ -347,9 +347,7 @@ class ReadingProgress(models.Model):
 
     class Meta:
         ordering = [
-            'date_added',
-            'date_started',
-            'date_completed',
+            'reading_progress',
         ]
         verbose_name_plural = 'Reading Progress'
 
