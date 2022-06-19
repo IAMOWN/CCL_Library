@@ -1276,7 +1276,8 @@ class ReadingList(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        reading_progress = ReadingProgress.objects.filter(dear_soul__username=self.request.user)
+        # reading_progress = ReadingProgress.objects.filter(dear_soul__username=self.request.user)
+        reading_progress = ReadingProgress.objects.filter(dear_soul__username=self.request.user).annotate(date_to_display=Case(When(reading_progress='1) On Reading List', then=F('date_added')),When(reading_progress='2) Reading In Progress', then=F('date_started')),When(reading_progress='3) Completed Reading', then=F('date_completed')),output_field=DateTimeField(),)).order_by('date_to_display')
 
         context['year'] = get_current_year()
         context['title'] = 'My Reading List'
