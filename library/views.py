@@ -22,6 +22,7 @@ from .models import (
     LibraryRecord,
     CollectionOrder,
     DiscourseSeries,
+    ReadingProgress,
 )
 
 from .forms import (
@@ -652,6 +653,16 @@ class LibraryRecordDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['year'] = get_current_year()
+
+        # Reading Progress
+        try:
+            reading_progress = ReadingProgress.objects.get(dear_soul__username=self.request.user, record_id=self.kwargs['pk'])
+        except ReadingProgress.DoesNotExist:
+            reading_progress = False
+        print(f"reading_progress: {reading_progress}")
+        context['reading_progress'] = reading_progress
+
+        reading_progress = self.request.GET.get('reading-progress') or ''
 
         # Build record ids for previous and next
         libary_record = get_object_or_404(LibraryRecord, id=self.kwargs['pk'])

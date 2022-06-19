@@ -119,26 +119,41 @@
     </section>
     {% endif %}
 
-    {% if series %}
+
     <section class="media content-section">
         <div class="row">
-        {% if previous_exists %}
-            <div class="col-lg-3 pt-2 pb-2">
-                <a href="{% url 'library-record' previous %}" class="btn btn-CCL-Blue col-12">Previous Part in the Series</a>
-            </div>
-        {% else %}
-            <div class="col-lg-3 pt-2 pb-2"></div>
+        {% if series %}
+            {% if previous_exists %}
+                <div class="col-lg-3 pt-2 pb-2">
+                    <a href="{% url 'library-record' previous %}" class="btn btn-CCL-Blue col-12">Previous Part in the Series</a>
+                </div>
+            {% endif %}
+                <div class="col-lg-3 pt-2 pb-2"></div>
         {% endif %}
-            <div class="col-lg-6 pt-2 pb-2"></div>
-        {% if next_exists %}
+        <form method="get">
             <div class="col-lg-3 pt-2 pb-2">
-                <a href="{% url 'library-record' next %}" class="btn btn-CCL-Blue col-12">Next Part in the Series</a>
+                <select name="reading-progress" class="form-control">
+                    <option value="{{ reading_progress }}">{{ reading_progress }}</option>
+                    <option value='1) On Reading List'>1) On Reading List</option>
+                    <option value='2) Reading In Progress'>2) Reading In Progress</option>
+                    <option value='3) Completed Reading'>3) Completed Reading</option>
+                </select>
             </div>
-        {% else %}
-            <div class="col-lg-3 pt-2 pb-2"></div>
+            <div class="col-lg-3 pt-2 pb-2">
+                <button type="submit" class="btn btn-CCL-Blue col-12" value="Update">Update Reading Progress</button>
+            </div>
+        </form>
+        {% if series %}
+                <div class="col-lg-6 pt-2 pb-2"></div>
+            {% if next_exists %}
+                <div class="col-lg-3 pt-2 pb-2">
+                    <a href="{% url 'library-record' next %}" class="btn btn-CCL-Blue col-12">Next Part in the Series</a>
+                </div>
+            {% endif %}
+                <div class="col-lg-3 pt-2 pb-2"></div>
         {% endif %}
     </section>
-    {% endif %}
+
 
     <section class="media content-section">
         <div class="row">
