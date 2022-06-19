@@ -1303,7 +1303,7 @@ class ReadingList(LoginRequiredMixin, ListView):
             )
         ).order_by(
             'reading_progress',
-            'date_to_display',
+            '-date_to_display',
         )
         print(f'')
         if reading_progress:
