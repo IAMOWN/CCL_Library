@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
-from django.db.models import Case, F, Q, Value, When
+from django.db.models import Case, F, Q, Value, When, DateField
 
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
@@ -1300,11 +1300,11 @@ class ReadingList(LoginRequiredMixin, ListView):
                 When(reading_progress='1) On Reading List', then=F('date_added')),
                 When(reading_progress='2) Reading In Progress', then=F('date_started')),
                 When(reading_progress='3) Completed Reading', then=F('date_completed')),
-            )
+            ),
+            output_field=DateField(),
         ).order_by(
             'date_to_display',
         )
-        print(f'')
         if reading_progress:
             context['records_exist'] = True
         else:
