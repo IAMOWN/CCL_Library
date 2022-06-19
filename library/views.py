@@ -1278,7 +1278,7 @@ class ReadingList(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # reading_progress = ReadingProgress.objects.filter(dear_soul__username=self.request.user)
+        # Query for user's reading list and conditionally sort by the date/progress
         reading_progress = ReadingProgress.objects.filter(dear_soul__username=self.request.user)\
             .annotate(
             date_to_display=Case(
@@ -1290,9 +1290,6 @@ class ReadingList(LoginRequiredMixin, ListView):
             'reading_progress',
             'date_to_display',
         )
-
-        print(f'reading_progress: {reading_progress}')
-
         if reading_progress:
             context['records_exist'] = True
         else:

@@ -124,13 +124,15 @@
         <form method="get">
             <div class="row">
             {% if series %}
-            {% if previous_exists %}
-                <div class="col-lg-3 pt-2 pb-2">
-                    <a href="{% url 'library-record' previous %}" class="btn btn-outline-CCL-Blue col-12">Previous Part in the Series</a>
-                </div>
+                {% if previous_exists %}
+                    <div class="col-lg-3 pt-2 pb-2">
+                        <a href="{% url 'library-record' previous %}" class="btn btn-outline-CCL-Blue col-12">Previous Part in the Series</a>
+                    </div>
+                {% else %}
+                    <div class="col-lg-3 pt-2 pb-2"></div>
+                {% endif %}
             {% else %}
                 <div class="col-lg-3 pt-2 pb-2"></div>
-            {% endif %}
             {% endif %}
             {% if user.is_authenticated %}
                 <div class="col-lg-3 pt-2 pb-2">
@@ -148,13 +150,15 @@
                 <div class="col-lg-6 pt-2 pb-2"></div>
             {% endif %}
             {% if series %}
-            {% if next_exists %}
-                <div class="col-lg-3 pt-2 pb-2">
-                    <a href="{% url 'library-record' next %}" class="btn btn-outline-CCL-Blue col-12">Next Part in the Series</a>
-                </div>
+                {% if next_exists %}
+                    <div class="col-lg-3 pt-2 pb-2">
+                        <a href="{% url 'library-record' next %}" class="btn btn-outline-CCL-Blue col-12">Next Part in the Series</a>
+                    </div>
+                {% else %}
+                    <div class="col-lg-3 pt-2 pb-2"></div>
+                {% endif %}
             {% else %}
                 <div class="col-lg-3 pt-2 pb-2"></div>
-            {% endif %}
             {% endif %}
             </div>
         </form>
