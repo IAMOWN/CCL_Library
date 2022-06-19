@@ -271,7 +271,6 @@ NOTIFICATION_PREFERENCE = [
 class Profile(models.Model):
     """Profile model for every user account. Also central to the model design.
     Child of Django's User Model (every Profile is associated with a User).
-    Profile/User is indirectly associated (through User) with Team and Organization for owner/users.
     """
     user = models.OneToOneField(
         User,

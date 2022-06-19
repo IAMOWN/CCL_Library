@@ -34,7 +34,7 @@ class UserRegisterForm(UserCreationForm):
         if User.objects.filter(email=cleaned_data.get('email')).exists():
             self.add_error(
                 'email',
-                'That email address is already associated with a Whurthy account. Please use another email address.',
+                'That email address is already associated with an account. Please use another email address.',
             )
         return self.cleaned_data
 
