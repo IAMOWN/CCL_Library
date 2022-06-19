@@ -344,6 +344,16 @@ class ReadingProgress(models.Model):
         null=True,
         blank=True,
     )
+    date_latest = models.DateField(
+        auto_now=False,
+        auto_now_add=False,
+        null=True,
+        blank=True,
+    )
+    reading_progress_log = models.TextField(
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         ordering = [
