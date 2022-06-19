@@ -45,10 +45,6 @@ from .forms import (
 def get_current_year():
     return datetime.now().year
 
-def get_current_date():
-    return datetime.now().date
-
-
 # ####################### TAG VIEWS #######################
 class TagList(LoginRequiredMixin, ListView):
     model = Tag
@@ -669,7 +665,7 @@ class LibraryRecordDetail(DetailView):
         selected_reading_progress = self.request.GET.get('reading-progress') or ''
 
         if current_reading_progress == '---------' and selected_reading_progress == '1) On Reading List':
-            date_added = get_current_date()
+            date_added = datetime.date.today()
             print(f'date_added: {date_added}')
             # new_reading_progress_obj = ReadingProgress(dear_soul=self.request.user, record_id=self.kwargs['pk'], date_added=get_current_date(), reading_progress='1) On Reading List')
             # new_reading_progress_obj.save()
