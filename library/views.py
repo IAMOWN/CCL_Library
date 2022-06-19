@@ -1281,9 +1281,10 @@ class ReadingList(LoginRequiredMixin, ListView):
         print(f'reading_progress_obj: {reading_progress_obj}')
         for record in reading_progress_obj:
             print(f'record: {record.record_id}')
-            current_record_type = LibraryRecord.objects.get(id=record.id).library_record_type
-            print(f'current_record_type: {current_record_type}')
-            record_types.append(current_record_type)
+            if record is not None:
+                current_record_type = LibraryRecord.objects.get(id=record.id).library_record_type
+                print(f'current_record_type: {current_record_type}')
+                record_types.append(current_record_type)
         print(f'record_types: {record_types}')
 
         context['year'] = get_current_year()
