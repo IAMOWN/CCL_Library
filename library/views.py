@@ -669,10 +669,13 @@ class LibraryRecordDetail(DetailView):
         selected_reading_progress = self.request.GET.get('reading-progress') or ''
 
         if current_reading_progress == '---------' and selected_reading_progress == '1) On Reading List':
-            reading_progress_obj = ReadingProgress.objects.get(dear_soul__username=self.request.user, record_id=self.kwargs['pk'])
-            reading_progress_obj.date_added = get_current_date()
-            reading_progress_obj.reading_progress = '1) On Reading List'
-            reading_progress_obj.save(update_fields=['date_added', 'reading_progress'])
+            new_reading_progress_obj = ReadingProgress(dear_soul=self.request.user, record_id=self.kwargs['pk'], date_added=get_current_date(), reading_progress='1) On Reading List')
+            new_reading_progress_obj.save()
+
+            # reading_progress_obj = ReadingProgress.objects.get(dear_soul__username=self.request.user, record_id=self.kwargs['pk'])
+            # reading_progress_obj.date_added = get_current_date()
+            # reading_progress_obj.reading_progress = '1) On Reading List'
+            # reading_progress_obj.save(update_fields=['date_added', 'reading_progress'])
 
         # if selected_reading_progress == '1) On Reading List' and current_reading_progress != '1) On Reading List':
         #     if reading_progress_obj.date_added is not None:
