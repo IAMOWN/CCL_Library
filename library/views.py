@@ -45,6 +45,9 @@ from .forms import (
 def get_current_year():
     return datetime.now().year
 
+def get_current_date():
+    return datetime.now().date
+
 
 # ####################### TAG VIEWS #######################
 class TagList(LoginRequiredMixin, ListView):
@@ -655,16 +658,25 @@ class LibraryRecordDetail(DetailView):
         context['year'] = get_current_year()
 
         # Reading Progress
+        # Query for current reading progress: If it exists populate the dropdown or return a blank
         try:
-            current_reading_progress = ReadingProgress.objects.get(dear_soul__username=self.request.user, record_id=self.kwargs['pk']).reading_progress
+            reading_progress_obj = ReadingProgress.objects.get(dear_soul__username=self.request.user, record_id=self.kwargs['pk'])
+            current_reading_progress = reading_progress_obj.reading_progress
         except ReadingProgress.DoesNotExist:
             current_reading_progress = '---------'
         context['current_reading_progress'] = current_reading_progress
+        selected_reading_progress = self.request.GET.get('reading-progress') or ''
 
-        selected_reading_progress = self.request.GET.get('reading-progress') or ''        
-        print(f'selected_reading_progress: {selected_reading_progress}')
+        if current_reading_progress == '---------' and selected_reading_progress == '1) On Reading List':
+            reading_progress_obj.date_added = get_current_date()
+            reading_progress_obj.reading_progress = '1) On Reading List'
+            reading_progress_obj.save(update_fields=['date_added', 'reading_progress'])
 
-        # Build record ids for previous and next
+        # if selected_reading_progress == '1) On Reading List' and current_reading_progress != '1) On Reading List':
+        #     if reading_progress_obj.date_added is not None:
+        #         print(f'reading_progress_obj.date_added: {reading_progress_obj.date_added}')
+
+        # Build previous and next record buttons
         libary_record = get_object_or_404(LibraryRecord, id=self.kwargs['pk'])
         if libary_record.discourse_series:
             series = LibraryRecord.objects.filter(discourse_series=libary_record.discourse_series).order_by('part_number')
