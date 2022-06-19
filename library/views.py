@@ -656,7 +656,7 @@ class LibraryRecordDetail(DetailView):
 
         # Reading Progress
         try:
-            reading_progress = ReadingProgress.objects.get(dear_soul__username=self.request.user, record_id=self.kwargs['pk'])
+            reading_progress = ReadingProgress.objects.get(dear_soul__username=self.request.user, record_id=self.kwargs['pk']).reading_progress
         except ReadingProgress.DoesNotExist:
             reading_progress = '---'
         print(f"reading_progress: {reading_progress}")
