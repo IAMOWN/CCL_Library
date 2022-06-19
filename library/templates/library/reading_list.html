@@ -14,13 +14,6 @@
             </div>
         </div>
     </section>
-    <section class="media content-section">
-        <div class="row">
-            <div class="col-lg-3 pb-2 pt-2">
-                <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-12">Back</a>
-            </div>
-        </div>
-    </section>
     {% if records_exist %}
     <section class="media content-section">
         <div class="row">
@@ -60,4 +53,11 @@
         </div>
     </section>
     {% endif %}
+    <section class="media content-section">
+        <div class="row">
+            <div class="col-lg-3 pb-2 pt-2">
+                <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-12">Back</a>
+            </div>
+        </div>
+    </section>
 {% endblock content %}
