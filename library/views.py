@@ -659,6 +659,7 @@ class LibraryRecordDetail(DetailView):
 
         # Reading Progress
         # Query for current reading progress: If it exists populate the dropdown or return a blank
+        reading_progress_obj = ''
         try:
             reading_progress_obj = ReadingProgress.objects.get(dear_soul__username=self.request.user, record_id=self.kwargs['pk'])
             current_reading_progress = reading_progress_obj.reading_progress
