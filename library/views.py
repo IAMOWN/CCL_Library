@@ -1265,3 +1265,17 @@ def collection_record_update(request, pk):
         'collection': collection,
     }
     return render(request, "library/partials/collection_record_form.html", context)
+
+
+# ####################### READING LIST VIEWS #######################
+class ReadingList(LoginRequiredMixin, ListView):
+    model = ReadingProgress
+    template_name = 'library/reading_list.html'
+    context_object_name = 'reading_progress'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['year'] = get_current_year()
+        context['title'] = 'My Reading List'
+
+        return context

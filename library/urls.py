@@ -6,21 +6,25 @@ from .views import (
     TagCreate,
     TagUpdate,
     TagDelete,
+
     CollectionList,
     CollectionDetail,
     CollectionCreate,
     CollectionUpdate,
     CollectionDelete,
+
     DiscourseSeriesList,
     DiscourseSeriesDetail,
     DiscourseSeriesCreate,
     DiscourseSeriesUpdate,
     DiscourseSeriesDelete,
+
     CosmicAuthorList,
     CosmicAuthorDetail,
     CosmicAuthorCreate,
     CosmicAuthorUpdate,
     CosmicAuthorDelete,
+
     LibraryRecordList,
     BooksList,
     CosmicReviewsList,
@@ -28,16 +32,21 @@ from .views import (
     InvocationsList,
     PetitionsList,
     SeriesBootCampList,
+
     LibraryRecordDetail,
     LibraryRecordCreate,
     LibraryRecordUpdate,
     LibraryRecordDelete,
-    SearchView,
+
     collection_records,
     collection_record_update,
     collection_record_delete,
     collection_record_detail,
     collection_record_form,
+
+    ReadingList,
+
+    SearchView,
 
     CollectionENACAList,
     CollectionGESARAList,
@@ -96,10 +105,13 @@ urlpatterns = [
     path('library_record/collection/IAMFreedom/', CollectionIAMFreedomList.as_view(), name='i-am-freedom'),
     path('library_record/collection/true_constitution/', CollectionTrueConstitutionList.as_view(), name='true-constitution'),
 
+    # Tags
+    path('reading_list/', ReadingList.as_view(), name='reading-list'),
+
     # Search
     path('library_records/search/', SearchView.as_view(), name='search'),
 
-    # Collection Records
+    # Collection Records (HTMX)
     path('collection_records/<pk>/', collection_records, name='collection-records'),
     path('htmx/collection_record_form/', collection_record_form, name='collection-record-form'),
     path('htmx/collection_record/<pk>/', collection_record_detail, name='collection-record-detail'),
