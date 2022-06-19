@@ -685,7 +685,7 @@ class LibraryRecordDetail(DetailView):
             context['current_reading_progress'] = '3) Completed Reading'
 
         elif current_reading_progress == '1) On Reading List' and selected_reading_progress == '2) Reading In Progress':
-            log_update = f'>>>Current: {current_reading_progress} changed to: {selected_reading_progress} on {current_date}'
+            log_update = f'{reading_progress_obj.reading_progress_log}<br>>>>Current: {current_reading_progress} changed to: {selected_reading_progress} on {current_date}'
             reading_progress_obj.date_started = current_date
             reading_progress_obj.date_latest = current_date
             reading_progress_obj.reading_progress = '2) Reading In Progress'
@@ -694,7 +694,7 @@ class LibraryRecordDetail(DetailView):
             context['current_reading_progress'] = '2) Reading In Progress'
 
         elif current_reading_progress == '1) On Reading List' and selected_reading_progress == '3) Completed Reading':
-            log_update = f'>>>Current: {current_reading_progress} changed to: {selected_reading_progress} on {current_date}'
+            log_update = f'{reading_progress_obj.reading_progress_log}<br>>>>Current: {current_reading_progress} changed to: {selected_reading_progress} on {current_date}'
             reading_progress_obj.date_started = current_date
             reading_progress_obj.date_completed = current_date
             reading_progress_obj.reading_progress = '3) Completed Reading'
@@ -704,7 +704,7 @@ class LibraryRecordDetail(DetailView):
             context['current_reading_progress'] = '3) Completed Reading'
 
         elif current_reading_progress == '2) Reading In Progress' and selected_reading_progress == '3) Completed Reading':
-            log_update = f'>>>Current: {current_reading_progress} changed to: {selected_reading_progress} on {current_date}'
+            log_update = f'{reading_progress_obj.reading_progress_log}<br>>>>Current: {current_reading_progress} changed to: {selected_reading_progress} on {current_date}'
             reading_progress_obj.date_completed = current_date
             reading_progress_obj.reading_progress = '3) Completed Reading'
             reading_progress_obj.date_latest = current_date
@@ -713,7 +713,7 @@ class LibraryRecordDetail(DetailView):
             context['current_reading_progress'] = '3) Completed Reading'
 
         elif current_reading_progress == '2) Reading In Progress' and selected_reading_progress == '1) On Reading List':
-            log_update = f'>>>Current: {current_reading_progress} changed to: {selected_reading_progress} on {current_date}'
+            log_update = f'{reading_progress_obj.reading_progress_log}<br>>>>Current: {current_reading_progress} changed to: {selected_reading_progress} on {current_date}'
             reading_progress_obj.reading_progress = '1) On Reading List'
             reading_progress_obj.date_latest = current_date
             reading_progress_obj.reading_progress_log = log_update
@@ -721,7 +721,7 @@ class LibraryRecordDetail(DetailView):
             context['current_reading_progress'] = '1) On Reading List'
 
         elif current_reading_progress == '3) Completed Reading' and selected_reading_progress == '1) On Reading List':
-            log_update = f'>>>Current: {current_reading_progress} changed to: {selected_reading_progress} on {current_date}'
+            log_update = f'{reading_progress_obj.reading_progress_log}<br>>>>Current: {current_reading_progress} changed to: {selected_reading_progress} on {current_date}'
             reading_progress_obj.reading_progress = '1) On Reading List'
             reading_progress_obj.date_latest = current_date
             reading_progress_obj.reading_progress_log = log_update
@@ -729,7 +729,7 @@ class LibraryRecordDetail(DetailView):
             context['current_reading_progress'] = '1) On Reading List'
 
         elif current_reading_progress == '3) Completed Reading' and selected_reading_progress == '2) Reading In Progress':
-            log_update = f'>>>Current: {current_reading_progress} changed to: {selected_reading_progress} on {current_date}'
+            log_update = f'{reading_progress_obj.reading_progress_log}<br>>>>Current: {current_reading_progress} changed to: {selected_reading_progress} on {current_date}'
             reading_progress_obj.reading_progress = '2) Reading In Progress'
             reading_progress_obj.date_latest = current_date
             reading_progress_obj.reading_progress_log = log_update
