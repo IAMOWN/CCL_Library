@@ -350,7 +350,7 @@ class ReadingProgress(models.Model):
         null=True,
         blank=True,
     )
-    reading_progress_log = models.TextField(
+    reading_progress_log = HTMLField(
         null=True,
         blank=True,
     )
