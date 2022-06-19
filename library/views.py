@@ -656,13 +656,13 @@ class LibraryRecordDetail(DetailView):
 
         # Reading Progress
         try:
-            reading_progress = ReadingProgress.objects.get(dear_soul__username=self.request.user, record_id=self.kwargs['pk']).reading_progress
+            current_reading_progress = ReadingProgress.objects.get(dear_soul__username=self.request.user, record_id=self.kwargs['pk']).reading_progress
         except ReadingProgress.DoesNotExist:
-            reading_progress = '---'
-        print(f"reading_progress: {reading_progress}")
-        context['reading_progress'] = reading_progress
+            current_reading_progress = '---------'
+        context['current_reading_progress'] = current_reading_progress
 
-        reading_progress = self.request.GET.get('reading-progress') or ''
+        selected_reading_progress = self.request.GET.get('reading-progress') or ''        
+        print(f'selected_reading_progress: {selected_reading_progress}')
 
         # Build record ids for previous and next
         libary_record = get_object_or_404(LibraryRecord, id=self.kwargs['pk'])
