@@ -4,8 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
-from django.db.models import Case, F, Q, Value, When, DateTimeField
-
+# from django.db.models import Case, F, Q, Value, When, DateTimeField
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView, SingleObjectMixin
@@ -1293,18 +1292,27 @@ class ReadingList(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Query for user's reading list and conditionally sort by the date/progress
-        reading_progress = ReadingProgress.objects.filter(dear_soul__username=self.request.user)\
-            .annotate(
-            date_to_display=Case(
-                When(reading_progress='1) On Reading List', then=F('date_added')),
-                When(reading_progress='2) Reading In Progress', then=F('date_started')),
-                When(reading_progress='3) Completed Reading', then=F('date_completed')),
-            ),
-            output_field=DateTimeField(),
-        ).order_by(
-            'date_to_display',
+        # Query for user's reading list and sort by the date/progress
+        reading_progress = ReadingProgress.objects.filter(dear_soul__username=self.request.user).order_by(
+            'reading_progress',
+            'date_added',
+            'date_started',
+            'date_completed',
         )
+
+        # Non working conditional annotate()
+        # reading_progress = ReadingProgress.objects.filter(dear_soul__username=self.request.user)\
+        #     .annotate(
+        #     date_to_display=Case(
+        #         When(reading_progress='1) On Reading List', then=F('date_added')),
+        #         When(reading_progress='2) Reading In Progress', then=F('date_started')),
+        #         When(reading_progress='3) Completed Reading', then=F('date_completed')),
+        #     ),
+        #     output_field=DateTimeField(),
+        # ).order_by(
+        #     'date_to_display',
+        # )
+
         if reading_progress:
             context['records_exist'] = True
         else:
