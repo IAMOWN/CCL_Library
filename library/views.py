@@ -1338,6 +1338,6 @@ class ReadingList(LoginRequiredMixin, ListView):
             context['records_exist'] = False
 
         context['year'] = get_current_year()
-        context['title'] = 'My Reading List'
+        context['title'] = 'Reading List'
 
         return context
