@@ -1316,6 +1316,7 @@ class ReadingList(LoginRequiredMixin, ListView):
         # Query for user's reading list and sort by the date/progress
         reading_progress = ReadingProgress.objects.filter(dear_soul__username=self.request.user).order_by(
             'reading_progress',
+            'date_latest',
         )
 
         # Non working conditional annotate()
