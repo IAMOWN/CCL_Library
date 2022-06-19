@@ -1277,7 +1277,7 @@ class ReadingList(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
 
         record_types = []
-        reading_progress_obj = get_object_or_404(ReadingProgress, dear_soul__username=self.request.user, record_id=self.kwargs['pk'])
+        reading_progress_obj = ReadingProgress.objects.filter(dear_soul__username=self.request.user)
         for record in reading_progress_obj:
             current_record_type = LibraryRecord.objects.get(record=record.record).library_record_type
             record_types.append(current_record_type)
