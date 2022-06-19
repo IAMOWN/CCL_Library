@@ -1276,7 +1276,7 @@ class ReadingList(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        reading_progress = ReadingProgress.objects.filter(record_id=self.kwargs['pk'])
+        reading_progress = ReadingProgress.objects.filter(dear_soul__username=self.request.user)
 
         context['year'] = get_current_year()
         context['title'] = 'My Reading List'
