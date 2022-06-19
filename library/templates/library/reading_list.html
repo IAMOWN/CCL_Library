@@ -38,7 +38,7 @@
                 <p>{{ record.reading_progress }}</p>
             </div>
             <div class="col-lg-3">
-                <p>{% if record.reading_progress == '1) On Reading List' %}{{ record.date_added }}{% elif record.reading_progress == '2) Reading In Progress' %}{{ record.date_started }}{% elif record.reading_progress == '3) Completed Reading' %}{{ record.date_completed }}{% endif %}</p>
+                <p><strong>{% if record.reading_progress == '1) On Reading List' %}Added{% elif record.reading_progress == '2) Reading In Progress' %}Started{% elif record.reading_progress == '3) Completed Reading' %}Completed{% endif %}: </strong>{% if record.reading_progress == '1) On Reading List' %}{{ record.date_added }}{% elif record.reading_progress == '2) Reading In Progress' %}{{ record.date_started }}{% elif record.reading_progress == '3) Completed Reading' %}{{ record.date_completed }}{% endif %}</p>
             </div>
         </div>
     </section>

@@ -25,24 +25,6 @@
             {% endif %}
         </div>
     </section>
-    {% if user.is_staff %}
-    <section class="media content-section">
-        <div class="row">
-            <div class="col-lg-3 pb-2 pt-2">
-                <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'collection-create' %}" target="_blank">Add A Collection</a>
-            </div>
-            <div class="col-lg-3 pb-2 pt-2">
-                <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'discourse-series-create' %}" target="_blank">Add A Series</a>
-            </div>
-            <div class="col-lg-3 pb-2 pt-2">
-                <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'master-create' %}" target="_blank">Add A Master</a>
-            </div>
-            <div class="col-lg-3 pb-2 pt-2">
-                <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'tag-create' %}" target="_blank">Add A Tag</a>
-            </div>
-        </div>
-    </section>
-    {% endif %}
     <section class="media content-section text-CCL-Gold d-none d-xl-block">
         <div class="row pt-2">
             <div class="col-lg-6">
@@ -117,4 +99,26 @@
             </div>
         </div>
     </section>
+    <div class="row">
+        <div class="col-lg-12 pb-2 pt-2">
+        </div>
+    </div>
+    {% if user.is_staff %}
+    <section class="media content-section">
+        <div class="row">
+            <div class="col-lg-3 pb-2 pt-2">
+                <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'collection-create' %}" target="_blank">Add A Collection</a>
+            </div>
+            <div class="col-lg-3 pb-2 pt-2">
+                <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'discourse-series-create' %}" target="_blank">Add A Series</a>
+            </div>
+            <div class="col-lg-3 pb-2 pt-2">
+                <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'master-create' %}" target="_blank">Add A Master</a>
+            </div>
+            <div class="col-lg-3 pb-2 pt-2">
+                <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'tag-create' %}" target="_blank">Add A Tag</a>
+            </div>
+        </div>
+    </section>
+    {% endif %}
 {% endblock content %}

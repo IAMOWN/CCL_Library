@@ -1290,6 +1290,7 @@ class ReadingList(LoginRequiredMixin, ListView):
             'reading_progress',
             'date_to_display',
         )
+        print(f'')
         if reading_progress:
             context['records_exist'] = True
         else:
