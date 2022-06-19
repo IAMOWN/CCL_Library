@@ -1291,7 +1291,7 @@ class ReadingList(LoginRequiredMixin, ListView):
             'reading_progress',
         )
 
-        if len(reading_progress) == 0:
+        if len(reading_progress) is None:
             context['records_exist'] = True
         else:
             context['records_exist'] = False

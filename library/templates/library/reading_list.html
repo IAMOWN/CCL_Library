@@ -21,6 +21,7 @@
             </div>
         </div>
     </section>
+    {% if records_exist %}
     <section class="media content-section">
         <div class="row">
             <div class="col-lg-6 pb-2 pt-2">
@@ -34,7 +35,6 @@
             </div>
         </div>
     </section>
-    {% if records_exist %}
     {% for record in reading_progress %}
     <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
         <div class="row pt-2">
