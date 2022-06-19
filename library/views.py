@@ -1275,6 +1275,14 @@ class ReadingList(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        record_types = []
+        reading_progress_obj = get_object_or_404(ReadingProgress, dear_soul__username=self.request.user, record_id=self.kwargs['pk'])
+        for record in reading_progress_obj:
+            current_record_type = LibraryRecord.objects.get(record=record.record).library_record_type
+            record_types.append(current_record_type)
+        print(f'record_types: {record_types}')
+
         context['year'] = get_current_year()
         context['title'] = 'My Reading List'
 

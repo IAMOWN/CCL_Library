@@ -21,10 +21,17 @@
             </div>
         </div>
     </section>
+    <section class="media content-section">
+        <div class="row">
+            <div class="col-lg-3 pb-2 pt-2">
+                <h5>Record</h5>
+            </div>
+        </div>
+    </section>
     {% for record in reading_progress %}
     <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
         <div class="row pt-2">
-            <div class="col-sm-12">
+            <div class="col-lg-12">
                 <p><a href="{% url 'tag' record.id %}" class="text-CCL-Blue">{{ record.record }}</a></p>
             </div>
         </div>
