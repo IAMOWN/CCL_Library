@@ -658,7 +658,7 @@ class LibraryRecordDetail(DetailView):
         try:
             reading_progress = ReadingProgress.objects.get(dear_soul__username=self.request.user, record_id=self.kwargs['pk'])
         except ReadingProgress.DoesNotExist:
-            reading_progress = False
+            reading_progress = '---'
         print(f"reading_progress: {reading_progress}")
         context['reading_progress'] = reading_progress
 
