@@ -701,6 +701,21 @@ class LibraryRecordDetail(DetailView):
             reading_progress_obj.save(update_fields=['date_completed', 'reading_progress'])
             context['current_reading_progress'] = '3) Completed Reading'
 
+        elif current_reading_progress == '2) Reading In Progress' and selected_reading_progress == '1) On Reading List':
+            reading_progress_obj.reading_progress = '1) On Reading List'
+            reading_progress_obj.save(update_fields=['reading_progress'])
+            context['current_reading_progress'] = '1) On Reading List'
+
+        elif current_reading_progress == '3) Completed Reading' and selected_reading_progress == '1) On Reading List':
+            reading_progress_obj.reading_progress = '1) On Reading List'
+            reading_progress_obj.save(update_fields=['reading_progress'])
+            context['current_reading_progress'] = '1) On Reading List'
+
+        elif current_reading_progress == '3) Completed Reading' and selected_reading_progress == '2) Reading In Progress':
+            reading_progress_obj.reading_progress = '2) Reading In Progress'
+            reading_progress_obj.save(update_fields=['reading_progress'])
+            context['current_reading_progress'] = '2) Reading In Progress'
+
         # Build previous and next record buttons
         libary_record = get_object_or_404(LibraryRecord, id=self.kwargs['pk'])
         if libary_record.discourse_series:
