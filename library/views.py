@@ -660,7 +660,7 @@ class LibraryRecordDetail(DetailView):
         print(f'record_in_collections: {record_in_collections}')
         collection_list = []
         for record in record_in_collections:
-            collection_list.append(record.collection)
+            collection_list.append(record.collection.collection)
         collection_list_count = len(collection_list)
         context['collection_list'] = collection_list
         context['collection_list_count'] = collection_list_count
