@@ -1320,6 +1320,13 @@ class ReadingList(LoginRequiredMixin, ListView):
     template_name = 'library/reading_list.html'
     context_object_name = 'reading_progress'
 
+    def get_queryset(self):
+        return ReadingProgress.objects.filter(dear_soul__username=self.request.user).order_by(
+            'reading_progress',
+            'date_latest',
+        )
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
