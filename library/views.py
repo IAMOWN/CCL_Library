@@ -1356,8 +1356,11 @@ class ReadingList(LoginRequiredMixin, ListView):
 # ####################### Reading List - Delete View #######################
 class ReadingListItemDelete(LoginRequiredMixin, DeleteView):
     model = ReadingList
-    # template_name = 'library/reading_list_delete.html'
+    template_name = 'library/reading_list_confirm_delete.html'
     success_url = reverse_lazy('reading-list')
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
         context = super(ReadingListItemDelete, self).get_context_data(**kwargs)
