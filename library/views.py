@@ -662,6 +662,7 @@ class LibraryRecordDetail(DetailView):
         for record in record_in_collections:
             collection_list.append(record.collection.collection)
         collection_list_count = len(collection_list)
+        collection_list = str(collection_list)
         context['collection_list'] = collection_list
         collection_list = collection_list.replace("[", "")
         collection_list = collection_list.replace("]", "; ")
@@ -1352,5 +1353,28 @@ class ReadingList(LoginRequiredMixin, ListView):
 
         context['year'] = get_current_year()
         context['title'] = 'Reading List'
+
+        return context
+
+
+# ####################### Reading List - Delete View #######################
+class ReadingListDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = ReadingList
+    template_name = 'library/reading_list_delete.html'
+    success_url = reverse_lazy('reading-list')
+
+    def test_func(self):
+        if self.request.user.is_superuser:
+            return True
+        return False
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ReadingListDelete, self).get_context_data(**kwargs)
+
+        # tag_to_delete = Tag.objects.get(pk=self.kwargs['pk'])
+        # records_with_tag = LibraryRecord.objects.filter(tags__tag=tag_to_delete)
+        # context['records_with_tag'] = records_with_tag
+        # context['records_with_tag_count'] = records_with_tag.count()
+        context['year'] = get_current_year()
 
         return context
