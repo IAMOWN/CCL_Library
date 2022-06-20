@@ -143,9 +143,9 @@
                 <div class="col-lg-3 pt-2 pb-2">
                     <select name="reading-progress" class="form-control">
                         <option value="">{{ current_reading_progress }}</option>
-                        {% if current_reading_progress != '> 1) On Reading List' %}<option value='1) On Reading List'>1) On Reading List</option>{% endif %}
-                        {% if current_reading_progress != '> 2) Reading In Progress' %}<option value='2) Reading In Progress'>2) Reading In Progress</option>{% endif %}
-                        {% if current_reading_progress != '> 3) Completed Reading' %}<option value='3) Completed Reading'>3) Completed Reading</option>{% endif %}
+                        {% if current_reading_progress != '> 1) On Reading List' or current_reading_progress != '1) On Reading List' %}<option value='1) On Reading List'>1) On Reading List</option>{% endif %}
+                        {% if current_reading_progress != '> 2) Reading In Progress' or current_reading_progress != '2) Reading In Progress'  %}<option value='2) Reading In Progress'>2) Reading In Progress</option>{% endif %}
+                        {% if current_reading_progress != '> 3) Completed Reading' or current_reading_progress != '3) Completed Reading'  %}<option value='3) Completed Reading'>3) Completed Reading</option>{% endif %}
                     </select>
                 </div>
                 <div class="col-lg-3 pt-2 pb-2">
