@@ -1355,7 +1355,7 @@ class ReadingList(LoginRequiredMixin, ListView):
 
 # ####################### Reading List - Delete View #######################
 class ReadingListItemDelete(LoginRequiredMixin, DeleteView):
-    model = ReadingList
+    model = ReadingProgress
     template_name = 'library/reading_list_confirm_delete.html'
     success_url = '/reading_list/'
 
