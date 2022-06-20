@@ -285,7 +285,6 @@ class CollectionOrder(models.Model):
         null=True,
         blank=True,
         verbose_name='Library record',
-        related_query_name="collectionorder",
     )
     order_number = models.PositiveIntegerField(
         blank=True,
