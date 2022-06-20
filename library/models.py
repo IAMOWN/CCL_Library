@@ -293,7 +293,7 @@ class CollectionOrder(models.Model):
 
     class Meta:
         ordering = [
-            'collection',
+            'order_number',
         ]
 
     # Record metadata
