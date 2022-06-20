@@ -13,7 +13,7 @@ SESSION_COOKIE_SECURE = True
 
 ALLOWED_HOSTS = [
     'http://cosmicchrist.love/',
-    'https://cosmicchrist.love',
+    'http://cosmicchrist.love',
     'https://cosmicchrist.love/',
     'https://cosmicchrist.love',
     'https://*.cosmicchrist.love/',
@@ -27,7 +27,7 @@ ALLOWED_HOSTS = [
 
 CSRF_TRUSTED_ORIGINS = [
     'http://cosmicchrist.love/',
-    'https://cosmicchrist.love',
+    'http://cosmicchrist.love',
     'https://cosmicchrist.love/',
     'https://cosmicchrist.love',
     'https://*.cosmicchrist.love/',
