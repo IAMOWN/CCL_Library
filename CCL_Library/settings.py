@@ -32,11 +32,11 @@ CSRF_TRUSTED_ORIGINS = [
     'https://cosmicchrist.love',
     'https://*.cosmicchrist.love/',
     'https://*.cosmicchrist.love',
-    'cosmicchrist.love',
+    # 'cosmicchrist.love',
     'https://ccl-library-u9m5e.ondigitalocean.app/',
     'https://ccl-library-u9m5e.ondigitalocean.app',
-    'ccl-library-u9m5e.ondigitalocean.app/',
-    'ccl-library-u9m5e.ondigitalocean.app',
+    # 'ccl-library-u9m5e.ondigitalocean.app/',
+    # 'ccl-library-u9m5e.ondigitalocean.app',
 ]
 
 INSTALLED_APPS = [
