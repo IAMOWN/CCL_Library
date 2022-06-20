@@ -562,11 +562,6 @@ class CollectionTrueConstitutionList(ListView):
     #         library_record_ids.append(record.record.id)
     #     return LibraryRecord.objects.filter(pk__in=library_record_ids).order_by('record_in_collection_order__order_number')
 
-    # def get_queryset(self):
-    #     return LibraryRecord.objects.filter(
-    #         collectionorder__collection__collection='collection-name'
-    #     ).order_by('record_in_collection_order__order_number')
-
     def get_queryset(self):
         return LibraryRecord.objects.filter(
             record_in_collection_order__collection__collection='True Constitution'
@@ -598,11 +593,9 @@ class CollectionENACAList(ListView):
     paginate_by = 12
 
     def get_queryset(self):
-        library_record_ids = []
-        library_collection = CollectionOrder.objects.filter(collection__collection='ENACA')
-        for record in library_collection:
-            library_record_ids.append(record.record.id)
-        return LibraryRecord.objects.filter(pk__in=library_record_ids).order_by('record_in_collection_order__order_number')
+        return LibraryRecord.objects.filter(
+            record_in_collection_order__collection__collection='ENACA'
+        ).order_by('record_in_collection_order__order_number')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -620,11 +613,9 @@ class CollectionIAMFreedomList(ListView):
     paginate_by = 12
 
     def get_queryset(self):
-        library_record_ids = []
-        library_collection = CollectionOrder.objects.filter(collection__collection="St Germain 'I AM' Freedom Alchemy Class")
-        for record in library_collection:
-            library_record_ids.append(record.record.id)
-        return LibraryRecord.objects.filter(pk__in=library_record_ids).order_by('record_in_collection_order__order_number')
+        return LibraryRecord.objects.filter(
+            record_in_collection_order__collection__collection="St Germain 'I AM' Freedom Alchemy Class"
+        ).order_by('record_in_collection_order__order_number')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -643,11 +634,9 @@ class CollectionGESARAList(ListView):
     paginate_by = 12
 
     def get_queryset(self):
-        library_record_ids = []
-        library_collection = CollectionOrder.objects.filter(collection__collection='GESARA').order_by('order_number')
-        for record in library_collection:
-            library_record_ids.append(record.record.id)
-        return LibraryRecord.objects.filter(pk__in=library_record_ids)
+        return LibraryRecord.objects.filter(
+            record_in_collection_order__collection__collection="GESARA"
+        ).order_by('record_in_collection_order__order_number')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
