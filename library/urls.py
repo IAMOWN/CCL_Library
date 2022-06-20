@@ -56,6 +56,20 @@ from .views import (
 )
 
 urlpatterns = [
+    # Masters
+    path('masters/', CosmicAuthorList.as_view(), name='masters'),
+    path('master/<int:pk>/', CosmicAuthorDetail.as_view(), name='master'),
+    path('master_create/', CosmicAuthorCreate.as_view(), name='master-create'),
+    path('master_update/<int:pk>/', CosmicAuthorUpdate.as_view(), name='master-update'),
+    path('master_delete/<int:pk>/', CosmicAuthorDelete.as_view(), name='master-delete'),
+
+    # Discourse Series
+    path('discourse_series/', DiscourseSeriesList.as_view(), name='discourse-series'),
+    path('discourse_series/<int:pk>/', DiscourseSeriesDetail.as_view(), name='discourse-series-detail'),
+    path('discourse_series_create/', DiscourseSeriesCreate.as_view(), name='discourse-series-create'),
+    path('discourse_series_update/<int:pk>/', DiscourseSeriesUpdate.as_view(), name='discourse-series-update'),
+    path('discourse_series_delete/<int:pk>/', DiscourseSeriesDelete.as_view(), name='discourse-series-delete'),
+
     # Tags
     path('tags/', TagList.as_view(), name='tags'),
     path('tag/<int:pk>/', TagDetail.as_view(), name='tag'),
@@ -75,20 +89,6 @@ urlpatterns = [
     path('htmx/collection_record/<pk>/', collection_record_detail, name='collection-record-detail'),
     path('htmx/collection_record/<pk>/delete/', collection_record_delete, name='collection-record-delete'),
     path('htmx/collection_record/<pk>/update/', collection_record_update, name='collection-record-update'),
-
-    # Discourse Series
-    path('discourse_series/', DiscourseSeriesList.as_view(), name='discourse-series'),
-    path('discourse_series/<int:pk>/', DiscourseSeriesDetail.as_view(), name='discourse-series-detail'),
-    path('discourse_series_create/', DiscourseSeriesCreate.as_view(), name='discourse-series-create'),
-    path('discourse_series_update/<int:pk>/', DiscourseSeriesUpdate.as_view(), name='discourse-series-update'),
-    path('discourse_series_delete/<int:pk>/', DiscourseSeriesDelete.as_view(), name='discourse-series-delete'),
-
-    # Masters
-    path('masters/', CosmicAuthorList.as_view(), name='masters'),
-    path('master/<int:pk>/', CosmicAuthorDetail.as_view(), name='master'),
-    path('master_create/', CosmicAuthorCreate.as_view(), name='master-create'),
-    path('master_update/<int:pk>/', CosmicAuthorUpdate.as_view(), name='master-update'),
-    path('master_delete/<int:pk>/', CosmicAuthorDelete.as_view(), name='master-delete'),
 
     # Library Records
     path('library_records/', LibraryRecordList.as_view(), name='library-records'),
@@ -113,7 +113,7 @@ urlpatterns = [
     path('collection/IAMFreedom/', CollectionIAMFreedomList.as_view(), name='i-am-freedom'),
     path('collection/true_constitution/', CollectionTrueConstitutionList.as_view(), name='true-constitution'),
 
-    # Tags
+    # Reading List
     path('reading_list/', ReadingList.as_view(), name='reading-list'),
     path('reading_list/delete/<int:pk>/', ReadingListItemDelete.as_view(), name='reading-list-delete'),
 
