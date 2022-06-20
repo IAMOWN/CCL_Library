@@ -87,6 +87,11 @@
                 <p><strong>Supporting Masters: </strong>{% for master in library_record.supporting_cosmic_authors.all %}{{ master }}; {% endfor %}</p>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <p><strong>Record in the following Collection{{ collection_list_count|pluralize:'s' }}: </strong>{{ collection_list}}</p>
+            </div>
+        </div>
     </section>
     {% endif %}
 

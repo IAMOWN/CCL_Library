@@ -658,6 +658,13 @@ class LibraryRecordDetail(DetailView):
         record_title = LibraryRecord.objects.get(id=self.kwargs['pk']).title
         record_in_collections = CollectionOrder.objects.filter(record__title=record_title)
         print(f'record_in_collections: {record_in_collections}')
+        collection_list = []
+        for record in record_in_collections:
+            collection_list.append(record.collection)
+        collection_list_count = collection_list.count()
+        context['collection_list'] = collection_list
+        context['collection_list_count'] = collection_list_count
+
 
         # Reading Progress
         # Query for current reading progress: If it exists populate the dropdown or return a blank
