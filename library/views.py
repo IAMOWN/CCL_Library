@@ -555,12 +555,18 @@ class CollectionTrueConstitutionList(ListView):
     context_object_name = 'library_records'
     paginate_by = 12
 
+    # def get_queryset(self):
+    #     library_record_ids = []
+    #     library_collection = CollectionOrder.objects.filter(
+    #         collection__collection='True Constitution'
+    #     ).order_by('order_number')
+    #     for record in library_collection:
+    #         library_record_ids.append(record.record.id)
+    #     return LibraryRecord.objects.filter(pk__in=library_record_ids)
     def get_queryset(self):
-        library_record_ids = []
-        library_collection = CollectionOrder.objects.filter(collection__collection='True Constitution').order_by('order_number')
-        for record in library_collection:
-            library_record_ids.append(record.record.id)
-        return LibraryRecord.objects.filter(pk__in=library_record_ids)
+        return LibraryRecord.objects.filter(
+            collectionorder__collection__collection='True Constitution'
+        ).order_by('collectionorder__order_number')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -572,6 +578,9 @@ class CollectionTrueConstitutionList(ListView):
         #     library_records.append(record.record)
         # context['collection_order_number'] = collection_order_number
         # context['library_records'] = library_records
+        context['library_records'] = CollectionOrder.objects.filter(
+            collection__collection='True Constitution'
+        ).order_by('order_number')
 
         context['year'] = get_current_year()
         context['title'] = "The True Constitution Collection"
