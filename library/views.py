@@ -569,14 +569,6 @@ class CollectionTrueConstitutionList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # library_records = []
-        # collection_order_number = []
-        # library_collection = CollectionOrder.objects.filter(collection__collection='True Constitution').order_by('order_number')
-        # for record in library_collection:
-        #     collection_order_number.append(record.order_number)
-        #     library_records.append(record.record)
-        # context['collection_order_number'] = collection_order_number
-        # context['library_records'] = library_records
         context['library_records'] = CollectionOrder.objects.filter(
             collection__collection='True Constitution'
         ).order_by('order_number')
