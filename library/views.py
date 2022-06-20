@@ -548,61 +548,12 @@ class SeriesBootCampList(ListView):
         return context
 
 
-# ####################### Library Records - Collection: ENACA #######################
-class CollectionENACAList(ListView):
-    model = LibraryRecord
-    template_name = 'library/records_collection_ENACA.html'
-    context_object_name = 'library_records'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        library_records = []
-        collection_order_number = []
-        library_collection = CollectionOrder.objects.filter(collection__collection='ENACA').order_by('order_number')
-        for record in library_collection:
-            collection_order_number.append(record.order_number)
-            library_records.append(record.record)
-        context['collection_order_number'] = collection_order_number
-        context['library_records'] = library_records
-
-        context['year'] = get_current_year()
-        context['title'] = 'ENACA (Earth Nuclear And Chemical Affairs)'
-
-        return context
-
-
-# ####################### Library Records - Collection: St Germain 'I AM' Freedom Alchemy Class #######################
-class CollectionIAMFreedomList(ListView):
-    model = LibraryRecord
-    template_name = 'library/records_collection_IAM_FREEDOM.html'
-    context_object_name = 'library_records'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        library_records = []
-        collection_order_number = []
-        library_collection = CollectionOrder.objects.filter(collection__collection="St Germain 'I AM' Freedom Alchemy Class").order_by('order_number')
-        for record in library_collection:
-            collection_order_number.append(record.order_number)
-            library_records.append(record.record)
-        context['collection_order_number'] = collection_order_number
-        context['library_records'] = library_records
-
-        context['year'] = get_current_year()
-        context['title'] = "St Germain 'I AM' Freedom Alchemy Class"
-
-        return context
-
-
-# ####################### Library Records - Collection: True Constition #######################
+# ####################### COLLECTIONS - True Constition #######################
 class CollectionTrueConstitutionList(ListView):
     model = LibraryRecord
     template_name = 'library/records_collection_true_constitution.html'
     context_object_name = 'library_records'
     paginate_by = 12
-    # ordering = 'order_number'
 
     def get_queryset(self):
         library_record_ids = []
@@ -613,15 +564,61 @@ class CollectionTrueConstitutionList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        collection_order_number = []
-        library_collection = CollectionOrder.objects.filter(collection__collection='True Constitution').order_by('order_number')
-        for record in library_collection:
-            collection_order_number.append(record.order_number)
-        context['collection_order_number'] = collection_order_number
+        # library_records = []
+        # collection_order_number = []
+        # library_collection = CollectionOrder.objects.filter(collection__collection='True Constitution').order_by('order_number')
+        # for record in library_collection:
+        #     collection_order_number.append(record.order_number)
+        #     library_records.append(record.record)
+        # context['collection_order_number'] = collection_order_number
+        # context['library_records'] = library_records
 
         context['year'] = get_current_year()
-        context['title'] = "True Constitution"
+        context['title'] = "The True Constitution Collection"
+        return context
+
+
+# ####################### Library Records - Collection: ENACA #######################
+class CollectionENACAList(ListView):
+    model = LibraryRecord
+    template_name = 'library/records_collection_ENACA.html'
+    context_object_name = 'library_records'
+    paginate_by = 12
+
+    def get_queryset(self):
+        library_record_ids = []
+        library_collection = CollectionOrder.objects.filter(collection__collection='ENACA').order_by('order_number')
+        for record in library_collection:
+            library_record_ids.append(record.record.id)
+        return LibraryRecord.objects.filter(pk__in=library_record_ids)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['year'] = get_current_year()
+        context['title'] = 'The ENACA (Earth Nuclear And Chemical Affairs) Collection'
+        return context
+
+
+# ####################### Library Records - Collection: St Germain 'I AM' Freedom Alchemy Class #######################
+class CollectionIAMFreedomList(ListView):
+    model = LibraryRecord
+    template_name = 'library/records_collection_IAM_FREEDOM.html'
+    context_object_name = 'library_records'
+    paginate_by = 12
+
+    def get_queryset(self):
+        library_record_ids = []
+        library_collection = CollectionOrder.objects.filter(collection__collection="St Germain 'I AM' Freedom Alchemy Class").order_by('order_number')
+        for record in library_collection:
+            library_record_ids.append(record.record.id)
+        return LibraryRecord.objects.filter(pk__in=library_record_ids)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['year'] = get_current_year()
+        context['title'] = "The St Germain 'I AM' Freedom Alchemy Class Collection"
 
         return context
 
@@ -631,21 +628,20 @@ class CollectionGESARAList(ListView):
     model = LibraryRecord
     template_name = 'library/records_collection_GESARA.html'
     context_object_name = 'library_records'
+    paginate_by = 12
+
+    def get_queryset(self):
+        library_record_ids = []
+        library_collection = CollectionOrder.objects.filter(collection__collection='GESARA').order_by('order_number')
+        for record in library_collection:
+            library_record_ids.append(record.record.id)
+        return LibraryRecord.objects.filter(pk__in=library_record_ids)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        library_records = []
-        collection_order_number = []
-        library_collection = CollectionOrder.objects.filter(collection__collection='GESARA').order_by('order_number')
-        for record in library_collection:
-            collection_order_number.append(record.order_number)
-            library_records.append(record.record)
-        context['library_records'] = library_records
-        context['collection_order_number'] = collection_order_number
-
         context['year'] = get_current_year()
-        context['title'] = 'GESARA (Global Economic Security and Reformation Act)'
+        context['title'] = 'The GESARA (Global Economic Security and Reformation Act) Collection'
 
         return context
 
