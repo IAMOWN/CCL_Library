@@ -1380,6 +1380,6 @@ class ReadingListItemDelete(LoginRequiredMixin, DeleteView):
         messages.add_message(
             self.request,
             messages.SUCCESS,
-            f'The {record_type}, "{record}" has been removed from your Reading List.'
+            f'The {record_type}, "{record_title}" has been removed from your Reading List.'
         )
         return super(LibraryRecordCreate, self).form_valid(form)
