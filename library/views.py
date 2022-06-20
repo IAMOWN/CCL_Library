@@ -569,7 +569,7 @@ class CollectionTrueConstitutionList(ListView):
 
     def get_queryset(self):
         return LibraryRecord.objects.filter(
-            record_in_collection_order__collection='True Constitution'
+            record_in_collection_order__collection__collection='True Constitution'
         ).order_by('record_in_collection_order__order_number')
 
     def get_context_data(self, **kwargs):
