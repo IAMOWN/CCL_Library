@@ -11,7 +11,7 @@ DEBUG = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
-ALLOWED_HOSTS = ['https://ccl-library-u9m5e.ondigitalocean.app/', 'https://cosmicchrist.love/', 'https://*.cosmicchrist.love/', 'http://cosmicchrist.love/', '*']
+ALLOWED_HOSTS = ['https://ccl-library-u9m5e.ondigitalocean.app/', 'https://cosmicchrist.love/', 'https://*.cosmicchrist.love/', 'http://cosmicchrist.love/', 'cosmicchrist.love',]
 
 CSRF_TRUSTED_ORIGINS = ['https://ccl-library-u9m5e.ondigitalocean.app/', 'https://*.127.0.0.1', 'https://*.ondigitalocean.app','https://cosmicchrist.love/']
 
