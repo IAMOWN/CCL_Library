@@ -1359,6 +1359,8 @@ def reading_list_item_delete(request, pk):
     if request.method == 'POST':
         reading_list_item = get_object_or_404(ReadingList, pk=pk)
         reading_list_item.delete()
-    return reverse_lazy('reading-list')
+        return reverse_lazy('reading-list')
+
+    return render(request, 'reading_list.html')
 
 
