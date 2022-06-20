@@ -284,7 +284,8 @@ class CollectionOrder(models.Model):
         on_delete=models.PROTECT,
         null=True,
         blank=True,
-        verbose_name='Library record'
+        verbose_name='Library record',
+        related_query_name="collectionorder",
     )
     order_number = models.PositiveIntegerField(
         blank=True,
