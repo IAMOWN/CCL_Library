@@ -45,7 +45,7 @@ from .views import (
     collection_record_form,
 
     ReadingList,
-    reading_list_item_delete,
+    ReadingListItemDelete,
 
     SearchView,
 
@@ -108,7 +108,7 @@ urlpatterns = [
 
     # Tags
     path('reading_list/', ReadingList.as_view(), name='reading-list'),
-    path('reading_list/delete/<int:pk>/', reading_list_item_delete, name='reading-list-delete'),
+    path('reading_list/delete/<int:pk>/', ReadingListItemDelete.as_view(), name='reading-list-delete'),
 
     # Search
     path('library_records/search/', SearchView.as_view(), name='search'),

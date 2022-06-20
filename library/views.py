@@ -1354,13 +1354,14 @@ class ReadingList(LoginRequiredMixin, ListView):
 
 
 # ####################### Reading List - Delete View #######################
-@login_required
-def reading_list_item_delete(request, pk):
-    if request.method == 'POST':
-        reading_list_item = get_object_or_404(ReadingList, pk=pk)
-        reading_list_item.delete()
-        return reverse_lazy('reading-list')
+class ReadingListItemDelete(LoginRequiredMixin, DeleteView):
+    model = ReadingList
+    template_name = 'library/reading_list_delete.html'
+    success_url = reverse_lazy('reading-list')
 
-    return render(request, 'reading_list.html')
+    def get_context_data(self, *args, **kwargs):
+        context = super(ReadingListItemDelete, self).get_context_data(**kwargs)
+        context['year'] = get_current_year()
+        return context
 
 
