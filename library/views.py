@@ -658,14 +658,12 @@ class LibraryRecordDetail(DetailView):
         record_title = LibraryRecord.objects.get(id=self.kwargs['pk']).title
         record_in_collections = CollectionOrder.objects.filter(record__title=record_title)
         print(f'record_in_collections: {record_in_collections}')
-        collection_list = []
+        collection_list_str = ''
         for record in record_in_collections:
-            collection_list.append(record.collection.collection.replace("[", "").replace("]", "; "))
-        collection_list_count = len(collection_list)
-        # collection_list = str(collection_list)
-        context['collection_list'] = collection_list
-        # collection_list = collection_list.replace("[", "")
-        # collection_list = collection_list.replace("]", "; ")
+            collection_list.append(record.collection.collection)
+            collection_str + f'{record.collection.collection}; '
+        collection_list_str = len(collection_list)
+        context['collection_list_str'] = collection_list_str
         context['collection_list_count'] = collection_list_count
 
         # Reading Progress
@@ -1374,4 +1372,5 @@ class ReadingListDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         # context['records_with_tag'] = records_with_tag
         # context['records_with_tag_count'] = records_with_tag.count()
         context['year'] = get_current_year()
+
         return context
