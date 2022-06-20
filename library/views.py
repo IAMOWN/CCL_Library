@@ -1382,4 +1382,4 @@ class ReadingListItemDelete(LoginRequiredMixin, DeleteView):
             messages.SUCCESS,
             f'The {record_type}, "{record_title}" has been removed from your Reading List.'
         )
-        return super(LibraryRecordCreate, self).form_valid(form)
+        return super(ReadingListItemDelete, self).form_valid(form)
