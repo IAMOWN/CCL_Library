@@ -607,11 +607,11 @@ class CollectionTrueConstitutionList(ListView):
     def get_queryset(self):
         # return CollectionOrder.objects.filter(collection__collection='True Constitution').order_by('order_number')
 
-        library_records = LibraryRecord.objects.none()
+        library_record_ids = []
         library_collection = CollectionOrder.objects.filter(collection__collection='True Constitution').order_by('order_number')
         for record in library_collection:
-            library_records.append(record.record)
-        return library_records
+            library_record_ids.append(record.record.id)
+        return LibraryRecord.objects.filter(pk__in=library_record_ids)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
