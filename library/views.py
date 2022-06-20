@@ -1356,6 +1356,7 @@ class ReadingList(LoginRequiredMixin, ListView):
 # ####################### Reading List - Delete View #######################
 @login_required
 def reading_list_item_delete(request, pk):
-    reading_list_item = get_object_or_404(ReadingList, pk=pk)
-    reading_list_item.delete()
+    if request.method == 'POST':
+        reading_list_item = get_object_or_404(ReadingList, pk=pk)
+        reading_list_item.delete()
     return reverse_lazy('reading-list')
