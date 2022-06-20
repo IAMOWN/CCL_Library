@@ -17,13 +17,13 @@
     {% if records_exist %}
     <section class="media content-section">
         <div class="row">
-            <div class="col-lg-6 pb-2 pt-2">
+            <div class="col-lg-6 pt-2">
                 <h5>Record</h5>
             </div>
-            <div class="col-lg-3 pb-2 pt-2">
+            <div class="col-lg-2 pt-2">
                 <h5>Progress</h5>
             </div>
-            <div class="col-lg-3 pb-2 pt-2">
+            <div class="col-lg-2 pt-2">
                 <h5>Date</h5>
             </div>
         </div>
@@ -34,10 +34,10 @@
             <div class="col-lg-6">
                 <p><a href="{% url 'library-record' record.record.id %}" class="text-CCL-Blue">{{ record.record }}</a></p>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
                 <p>{{ record.reading_progress }}</p>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-3">
                 <p><strong>{% if record.reading_progress == '1) On Reading List' %}Added{% elif record.reading_progress == '2) Reading In Progress' %}Started{% elif record.reading_progress == '3) Completed Reading' %}Completed{% endif %}: </strong>{% if record.reading_progress == '1) On Reading List' %}{{ record.date_added }}{% elif record.reading_progress == '2) Reading In Progress' %}{{ record.date_started }}{% elif record.reading_progress == '3) Completed Reading' %}{{ record.date_completed }}{% endif %}</p>
             </div>
             <div class="col-lg-1 pt-2 pb-2 me-auto">
