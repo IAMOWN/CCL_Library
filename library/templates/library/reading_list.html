@@ -5,7 +5,7 @@
     {{ title }}
 {% endblock %}
 {% block content %}
-    <section class="media content-section" xmlns="http://www.w3.org/1999/html">
+    <section class="media content-section">
         <div class="media-body">
             <div class="row">
                 <div class="col-12">
@@ -41,7 +41,7 @@
                 <p><strong>{% if record.reading_progress == '1) On Reading List' %}Added{% elif record.reading_progress == '2) Reading In Progress' %}Started{% elif record.reading_progress == '3) Completed Reading' %}Completed{% endif %}: </strong>{% if record.reading_progress == '1) On Reading List' %}{{ record.date_added }}{% elif record.reading_progress == '2) Reading In Progress' %}{{ record.date_started }}{% elif record.reading_progress == '3) Completed Reading' %}{{ record.date_completed }}{% endif %}</p>
             </div>
             <div class="col-lg-1 pt-2 pb-2 me-auto">
-                <button href="{% url 'reading-list-delete' record.id %}" class="btn btn-danger btn-sm float-end">Remove</button>
+                <input href="{% url 'reading-list-delete' record.id %}" class="btn btn-danger btn-sm float-end" value="Remove" formmethod="post">
             </div>
         </div>
     </section>
@@ -63,7 +63,7 @@
     <section class="media content-section">
         <div class="row">
             <div class="col-lg-3 pb-2 pt-2">
-                <input type="submit" href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-12" name="Remove">
+                <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-12">Back</a>
             </div>
         </div>
     </section>
