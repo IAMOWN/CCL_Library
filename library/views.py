@@ -1357,10 +1357,11 @@ class ReadingList(LoginRequiredMixin, ListView):
 class ReadingListItemDelete(LoginRequiredMixin, DeleteView):
     model = ReadingList
     template_name = 'library/reading_list_confirm_delete.html'
-    success_url = reverse_lazy('reading-list')
+    success_url = '/reading_list/'
 
     def get_context_data(self, *args, **kwargs):
         context = super(ReadingListItemDelete, self).get_context_data(**kwargs)
         context['year'] = get_current_year()
+        context['title'] = 'Delete Reading List Item'
 
         return context
