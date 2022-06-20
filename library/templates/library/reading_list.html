@@ -41,9 +41,9 @@
                 <p><strong>{% if record.reading_progress == '1) On Reading List' %}Added{% elif record.reading_progress == '2) Reading In Progress' %}Started{% elif record.reading_progress == '3) Completed Reading' %}Completed{% endif %}: </strong>{% if record.reading_progress == '1) On Reading List' %}{{ record.date_added }}{% elif record.reading_progress == '2) Reading In Progress' %}{{ record.date_started }}{% elif record.reading_progress == '3) Completed Reading' %}{{ record.date_completed }}{% endif %}</p>
             </div>
             <div class="col-lg-1 pt-2 pb-2 me-auto">
-                <form action="{% url 'reading-list-delete' record.id %}" method="post">
+                <form action="{% url 'reading-list-delete' record.id %}" method="POST">
                     {% csrf_token %}
-                    <input type="submit" value="Remove" class="btn btn-danger btn-sm float-end">
+                    <button type="submit" value="DELETE" class="btn btn-danger btn-sm float-end">Remove</button>
                 </form>
             </div>
         </div>
