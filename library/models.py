@@ -354,6 +354,9 @@ class ReadingProgress(models.Model):
         null=True,
         blank=True,
     )
+    total_readings = models.PositiveIntegerField(
+        default= 0,
+    )
 
     class Meta:
         ordering = [

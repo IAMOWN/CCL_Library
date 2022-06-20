@@ -678,19 +678,44 @@ class LibraryRecordDetail(DetailView):
 
         if current_reading_progress == '---------' and selected_reading_progress == '1) On Reading List':
             log_update = f'>>><em>Current</em> <strong>{current_reading_progress}</strong> <em>changed to</em> <strong>{selected_reading_progress}</strong> <em>on</em> <strong>{current_date}</strong>'
-            new_reading_progress_obj = ReadingProgress(dear_soul=self.request.user, record_id=self.kwargs['pk'], date_added=current_date, reading_progress='1) On Reading List', date_latest=current_date, reading_progress_log=log_update)
+            new_reading_progress_obj = ReadingProgress(
+                dear_soul=self.request.user,
+                record_id=self.kwargs['pk'],
+                date_added=current_date,
+                reading_progress='1) On Reading List',
+                date_latest=current_date,
+                reading_progress_log=log_update
+            )
             new_reading_progress_obj.save()
             context['current_reading_progress'] = '1) On Reading List'
 
         elif current_reading_progress == '---------' and selected_reading_progress == '2) Reading In Progress':
             log_update = f'>>><em>Current</em> <strong>{current_reading_progress}</strong> <em>changed to</em> <strong>{selected_reading_progress}</strong> <em>on</em> <strong>{current_date}</strong>'
-            new_reading_progress_obj = ReadingProgress(dear_soul=self.request.user, record_id=self.kwargs['pk'], date_added=current_date, date_started=current_date, reading_progress='2) Reading In Progress', date_latest=current_date, reading_progress_log=log_update)
+            new_reading_progress_obj = ReadingProgress(
+                dear_soul=self.request.user,
+                record_id=self.kwargs['pk'],
+                date_added=current_date,
+                date_started=current_date,
+                reading_progress='2) Reading In Progress',
+                date_latest=current_date,
+                reading_progress_log=log_update
+            )
             new_reading_progress_obj.save()
             context['current_reading_progress'] = '2) Reading In Progress'
 
         elif current_reading_progress == '---------' and selected_reading_progress == '3) Completed Reading':
             log_update = f'>>><em>Current</em> <strong>{current_reading_progress}</strong> <em>changed to</em> <strong>{selected_reading_progress}</strong> <em>on</em> <strong>{current_date}</strong>'
-            new_reading_progress_obj = ReadingProgress(dear_soul=self.request.user, record_id=self.kwargs['pk'], date_added=current_date, date_started=current_date, date_completed=current_date, reading_progress='3) Completed Reading', date_latest=current_date, reading_progress_log=log_update)
+            new_reading_progress_obj = ReadingProgress(
+                dear_soul=self.request.user,
+                record_id=self.kwargs['pk'],
+                date_added=current_date,
+                date_started=current_date,
+                date_completed=current_date,
+                reading_progress='3) Completed Reading',
+                date_latest=current_date,
+                reading_progress_log=log_update,
+                total_readings = 1,
+            )
             new_reading_progress_obj.save()
             context['current_reading_progress'] = '3) Completed Reading'
 
@@ -700,7 +725,14 @@ class LibraryRecordDetail(DetailView):
             reading_progress_obj.date_latest = current_date
             reading_progress_obj.reading_progress = '2) Reading In Progress'
             reading_progress_obj.reading_progress_log = log_update
-            reading_progress_obj.save(update_fields=['date_started', 'reading_progress', 'date_latest', 'reading_progress_log'])
+            reading_progress_obj.save(
+                update_fields=[
+                    'date_started',
+                    'reading_progress',
+                    'date_latest',
+                    'reading_progress_log',
+                ]
+            )
             context['current_reading_progress'] = '2) Reading In Progress'
 
         elif current_reading_progress == '1) On Reading List' and selected_reading_progress == '3) Completed Reading':
@@ -710,7 +742,17 @@ class LibraryRecordDetail(DetailView):
             reading_progress_obj.reading_progress = '3) Completed Reading'
             reading_progress_obj.date_latest = current_date
             reading_progress_obj.reading_progress_log = log_update
-            reading_progress_obj.save(update_fields=['date_completed', 'date_started', 'reading_progress', 'date_latest', 'reading_progress_log'])
+            reading_progress_obj.total_readings = reading_progress_obj.total_readings + 1
+            reading_progress_obj.save(
+                update_fields=[
+                    'date_completed',
+                    'date_started',
+                    'reading_progress',
+                    'date_latest',
+                    'reading_progress_log',
+                    'total_readings',
+                ]
+            )
             context['current_reading_progress'] = '3) Completed Reading'
 
         elif current_reading_progress == '2) Reading In Progress' and selected_reading_progress == '3) Completed Reading':
@@ -719,7 +761,16 @@ class LibraryRecordDetail(DetailView):
             reading_progress_obj.reading_progress = '3) Completed Reading'
             reading_progress_obj.date_latest = current_date
             reading_progress_obj.reading_progress_log = log_update
-            reading_progress_obj.save(update_fields=['date_completed', 'reading_progress', 'date_latest', 'reading_progress_log'])
+            reading_progress_obj.total_readings = reading_progress_obj.total_readings + 1
+            reading_progress_obj.save(
+                update_fields=[
+                    'date_completed',
+                    'reading_progress',
+                    'date_latest',
+                    'reading_progress_log',
+                    'total_readings',
+                ]
+            )
             context['current_reading_progress'] = '3) Completed Reading'
 
         elif current_reading_progress == '2) Reading In Progress' and selected_reading_progress == '1) On Reading List':
@@ -727,7 +778,13 @@ class LibraryRecordDetail(DetailView):
             reading_progress_obj.reading_progress = '1) On Reading List'
             reading_progress_obj.date_latest = current_date
             reading_progress_obj.reading_progress_log = log_update
-            reading_progress_obj.save(update_fields=['reading_progress', 'date_latest', 'reading_progress_log'])
+            reading_progress_obj.save(
+                update_fields=[
+                    'reading_progress',
+                    'date_latest',
+                    'reading_progress_log',
+                ]
+            )
             context['current_reading_progress'] = '1) On Reading List'
 
         elif current_reading_progress == '3) Completed Reading' and selected_reading_progress == '1) On Reading List':
@@ -735,7 +792,13 @@ class LibraryRecordDetail(DetailView):
             reading_progress_obj.reading_progress = '1) On Reading List'
             reading_progress_obj.date_latest = current_date
             reading_progress_obj.reading_progress_log = log_update
-            reading_progress_obj.save(update_fields=['reading_progress', 'date_latest', 'reading_progress_log'])
+            reading_progress_obj.save(
+                update_fields=[
+                    'reading_progress',
+                    'date_latest',
+                    'reading_progress_log',
+                ]
+            )
             context['current_reading_progress'] = '1) On Reading List'
 
         elif current_reading_progress == '3) Completed Reading' and selected_reading_progress == '2) Reading In Progress':
