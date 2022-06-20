@@ -605,7 +605,11 @@ class CollectionTrueConstitutionList(ListView):
     ordering = 'order_number'
 
     def get_queryset(self):
-        return CollectionOrder.objects.filter(collection__collection='True Constitution').order_by('order_number')
+        # return CollectionOrder.objects.filter(collection__collection='True Constitution').order_by('order_number')
+        library_collection = CollectionOrder.objects.filter(collection__collection='True Constitution').order_by('order_number')
+        for record in library_collection:
+            library_records.append(record.record)
+        return library_records
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -615,9 +619,9 @@ class CollectionTrueConstitutionList(ListView):
         library_collection = CollectionOrder.objects.filter(collection__collection='True Constitution').order_by('order_number')
         for record in library_collection:
             collection_order_number.append(record.order_number)
-            library_records.append(record.record)
+            # library_records.append(record.record)
         context['collection_order_number'] = collection_order_number
-        context['library_records'] = library_records
+        # context['library_records'] = library_records
 
         context['year'] = get_current_year()
         context['title'] = "True Constitution"
