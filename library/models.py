@@ -291,10 +291,10 @@ class CollectionOrder(models.Model):
         null=True,
     )
 
-    class Meta:
-        ordering = [
-            'collection',
-        ]
+    # class Meta:
+    #     ordering = [
+    #         'collection',
+    #     ]
 
     # Record metadata
     date_created = models.DateTimeField(

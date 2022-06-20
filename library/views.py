@@ -562,6 +562,11 @@ class CollectionTrueConstitutionList(ListView):
             library_record_ids.append(record.record.id)
         return LibraryRecord.objects.filter(pk__in=library_record_ids).order_by('record_in_collection_order__order_number')
 
+    def get_queryset(self):
+        return LibraryRecord.objects.filter(
+            collectionorder__collection__collection='collection-name'
+        ).order_by('collectionorder__order_number')
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
