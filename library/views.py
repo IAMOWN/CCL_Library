@@ -601,6 +601,11 @@ class CollectionTrueConstitutionList(ListView):
     model = LibraryRecord
     template_name = 'library/records_collection_true_constitution.html'
     context_object_name = 'library_records'
+    paginate_by = 12
+    ordering = 'order_number'
+
+    def get_queryset(self):
+        return CollectionOrder.objects.filter(collection__collection='True Constitution').order_by('order_number')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

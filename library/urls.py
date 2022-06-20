@@ -69,9 +69,15 @@ urlpatterns = [
     path('collection_create/', CollectionCreate.as_view(), name='collection-create'),
     path('collection_update/<int:pk>/', CollectionUpdate.as_view(), name='collection-update'),
     path('collection_delete/<int:pk>/', CollectionDelete.as_view(), name='collection-delete'),
+    # Collection Records (HTMX)
+    path('collection_records/<pk>/', collection_records, name='collection-records'),
+    path('htmx/collection_record_form/', collection_record_form, name='collection-record-form'),
+    path('htmx/collection_record/<pk>/', collection_record_detail, name='collection-record-detail'),
+    path('htmx/collection_record/<pk>/delete/', collection_record_delete, name='collection-record-delete'),
+    path('htmx/collection_record/<pk>/update/', collection_record_update, name='collection-record-update'),
 
     # Discourse Series
-    path('discourse_seriess/', DiscourseSeriesList.as_view(), name='discourse-series'),
+    path('discourse_series/', DiscourseSeriesList.as_view(), name='discourse-series'),
     path('discourse_series/<int:pk>/', DiscourseSeriesDetail.as_view(), name='discourse-series-detail'),
     path('discourse_series_create/', DiscourseSeriesCreate.as_view(), name='discourse-series-create'),
     path('discourse_series_update/<int:pk>/', DiscourseSeriesUpdate.as_view(), name='discourse-series-update'),
@@ -86,16 +92,17 @@ urlpatterns = [
 
     # Library Records
     path('library_records/', LibraryRecordList.as_view(), name='library-records'),
-    path('library_records/', LibraryRecordList.as_view(), name='library-records'),
-    path('library_records/books/', BooksList.as_view(), name='books'),
-    path('library_records/cosmic_reviews/', CosmicReviewsList.as_view(), name='cosmic-reviews'),
-    path('library_records/discourses/', DiscoursesList.as_view(), name='discourses'),
-    path('library_records/invocations/', InvocationsList.as_view(), name='invocations'),
-    path('library_records/petitions/', PetitionsList.as_view(), name='petitions'),
     path('library_record/<int:pk>/', LibraryRecordDetail.as_view(), name='library-record'),
     path('library_record_create/', LibraryRecordCreate.as_view(), name='library-record-create'),
     path('library_record_update/<int:pk>/', LibraryRecordUpdate.as_view(), name='library-record-update'),
     path('library_record_delete/<int:pk>/', LibraryRecordDelete.as_view(), name='library-record-delete'),
+
+    # Record Types
+    path('books/', BooksList.as_view(), name='books'),
+    path('cosmic_reviews/', CosmicReviewsList.as_view(), name='cosmic-reviews'),
+    path('discourses/', DiscoursesList.as_view(), name='discourses'),
+    path('invocations/', InvocationsList.as_view(), name='invocations'),
+    path('petitions/', PetitionsList.as_view(), name='petitions'),
 
     # Library Record Series
     path('library_record/series/boot_camp/', SeriesBootCampList.as_view(), name='boot-camp'),
@@ -112,11 +119,4 @@ urlpatterns = [
 
     # Search
     path('library_records/search/', SearchView.as_view(), name='search'),
-
-    # Collection Records (HTMX)
-    path('collection_records/<pk>/', collection_records, name='collection-records'),
-    path('htmx/collection_record_form/', collection_record_form, name='collection-record-form'),
-    path('htmx/collection_record/<pk>/', collection_record_detail, name='collection-record-detail'),
-    path('htmx/collection_record/<pk>/delete/', collection_record_delete, name='collection-record-delete'),
-    path('htmx/collection_record/<pk>/update/', collection_record_update, name='collection-record-update'),
 ]
