@@ -11,9 +11,23 @@ DEBUG = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
-ALLOWED_HOSTS = ['https://ccl-library-u9m5e.ondigitalocean.app/', 'https://cosmicchrist.love/', 'https://*.cosmicchrist.love/', 'http://cosmicchrist.love/', 'cosmicchrist.love', 'ccl-library-u9m5e.ondigitalocean.app/',]
+ALLOWED_HOSTS = [
+    'http://cosmicchrist.love/',
+    'https://cosmicchrist.love/',
+    'https://*.cosmicchrist.love/',
+    'cosmicchrist.love',
+    'https://ccl-library-u9m5e.ondigitalocean.app/',
+    'ccl-library-u9m5e.ondigitalocean.app/',
+]
 
-CSRF_TRUSTED_ORIGINS = ['https://ccl-library-u9m5e.ondigitalocean.app/', 'https://*.127.0.0.1', 'https://*.ondigitalocean.app', 'https://cosmicchrist.love/', 'cosmicchrist.love', 'ccl-library-u9m5e.ondigitalocean.app/', '*.127.0.0.1', '*.ondigitalocean.app', ]
+CSRF_TRUSTED_ORIGINS = [
+    'http://cosmicchrist.love/',
+    'https://cosmicchrist.love/',
+    'https://*.cosmicchrist.love/',
+    'cosmicchrist.love',
+    'https://ccl-library-u9m5e.ondigitalocean.app/',
+    'ccl-library-u9m5e.ondigitalocean.app/',
+]
 
 INSTALLED_APPS = [
     'library.apps.LibraryConfig',
