@@ -658,6 +658,7 @@ class LibraryRecordDetail(DetailView):
         record_title = LibraryRecord.objects.get(id=self.kwargs['pk']).title
         record_in_collections = CollectionOrder.objects.filter(record__title=record_title)
         print(f'record_in_collections: {record_in_collections}')
+        collection_list = []
         collection_list_str = ''
         for record in record_in_collections:
             collection_list.append(record.collection.collection)
