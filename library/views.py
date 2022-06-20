@@ -661,8 +661,8 @@ class LibraryRecordDetail(DetailView):
         collection_list_str = ''
         for record in record_in_collections:
             collection_list.append(record.collection.collection)
-            collection_list_str = collection_str + f'{record.collection.collection}; '
-        collection_list_str = len(collection_list)
+            collection_list_str = collection_list_str + f'{record.collection.collection}; '
+        collection_list_count = len(collection_list)
         context['collection_list_str'] = collection_list_str
         context['collection_list_count'] = collection_list_count
 
