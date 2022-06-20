@@ -607,7 +607,7 @@ class CollectionTrueConstitutionList(ListView):
     def get_queryset(self):
         # return CollectionOrder.objects.filter(collection__collection='True Constitution').order_by('order_number')
 
-        library_records = []
+        library_records = LibraryRecord.objects.none()
         library_collection = CollectionOrder.objects.filter(collection__collection='True Constitution').order_by('order_number')
         for record in library_collection:
             library_records.append(record.record)
