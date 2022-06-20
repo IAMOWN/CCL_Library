@@ -101,10 +101,10 @@ urlpatterns = [
     path('library_record/series/boot_camp/', SeriesBootCampList.as_view(), name='boot-camp'),
 
     # Library Record Collections
-    path('library_record/collection/enaca/', CollectionENACAList.as_view(), name='enaca'),
-    path('library_record/collection/gesara/', CollectionGESARAList.as_view(), name='gesara'),
-    path('library_record/collection/IAMFreedom/', CollectionIAMFreedomList.as_view(), name='i-am-freedom'),
-    path('library_record/collection/true_constitution/', CollectionTrueConstitutionList.as_view(), name='true-constitution'),
+    path('collection/enaca/', CollectionENACAList.as_view(), name='enaca'),
+    path('collection/gesara/', CollectionGESARAList.as_view(), name='gesara'),
+    path('collection/IAMFreedom/', CollectionIAMFreedomList.as_view(), name='i-am-freedom'),
+    path('collection/true_constitution/', CollectionTrueConstitutionList.as_view(), name='true-constitution'),
 
     # Tags
     path('reading_list/', ReadingList.as_view(), name='reading-list'),
