@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.shortcuts import get_object_or_404, render, redirect
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, HttpResponseRedirect
 from django.views.generic.edit import (
     CreateView,
     UpdateView,
@@ -657,12 +657,11 @@ class LibraryRecordDetail(DetailView):
 
         record_title = LibraryRecord.objects.get(id=self.kwargs['pk']).title
         record_in_collections = CollectionOrder.objects.filter(record__title=record_title)
-        print(f'record_in_collections: {record_in_collections}')
         collection_list = []
         collection_list_str = ''
         for record in record_in_collections:
             collection_list.append(record.collection.collection)
-            collection_str + f'{record.collection.collection}; '
+            collection_list_str = collection_str + f'{record.collection.collection}; '
         collection_list_str = len(collection_list)
         context['collection_list_str'] = collection_list_str
         context['collection_list_count'] = collection_list_count
@@ -1356,22 +1355,8 @@ class ReadingList(LoginRequiredMixin, ListView):
 
 
 # ####################### Reading List - Delete View #######################
-class ReadingListDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = ReadingList
-    template_name = 'library/reading_list_delete.html'
-    success_url = reverse_lazy('reading-list')
-
-    def test_func(self):
-        if self.request.user.is_superuser:
-            return True
-        return False
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(ReadingListDelete, self).get_context_data(**kwargs)
-        # tag_to_delete = Tag.objects.get(pk=self.kwargs['pk'])
-        # records_with_tag = LibraryRecord.objects.filter(tags__tag=tag_to_delete)
-        # context['records_with_tag'] = records_with_tag
-        # context['records_with_tag_count'] = records_with_tag.count()
-        context['year'] = get_current_year()
-
-        return context
+@login_required
+def reading_list_item_delete(request, pk):
+    reading_list_item = get_object_or_404(ReadingList, pk=pk)
+    reading_list_item.delete()
+    return reverse_lazy('reading-list')
