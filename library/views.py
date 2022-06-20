@@ -554,15 +554,7 @@ class CollectionTrueConstitutionList(ListView):
     template_name = 'library/records_collection_true_constitution.html'
     context_object_name = 'library_records'
     paginate_by = 12
-
-    # def get_queryset(self):
-    #     library_record_ids = []
-    #     library_collection = CollectionOrder.objects.filter(
-    #         collection__collection='True Constitution'
-    #     ).order_by('order_number')
-    #     for record in library_collection:
-    #         library_record_ids.append(record.record.id)
-    #     return LibraryRecord.objects.filter(pk__in=library_record_ids)
+    
     def get_queryset(self):
         return LibraryRecord.objects.filter(
             collectionorder__collection__collection='True Constitution'
