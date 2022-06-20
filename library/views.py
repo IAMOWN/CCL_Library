@@ -1372,3 +1372,14 @@ class ReadingListItemDelete(LoginRequiredMixin, DeleteView):
         context['title'] = 'Delete Reading List Item'
 
         return context
+
+    def form_valid(self, form):
+        record_obj = ReadingProgress.objects.get(id=self.kwargs['pk'])
+        record_title = record_obj.record.title
+        record_type = record_obj.record.library_record_type
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            f'The {record_type}, "{record}" has been removed from your Reading List.'
+        )
+        return super(LibraryRecordCreate, self).form_valid(form)
