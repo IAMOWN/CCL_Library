@@ -24,7 +24,6 @@ ALLOWED_HOSTS = [
     'ccl-library-u9m5e.ondigitalocean.app/',
     'ccl-library-u9m5e.ondigitalocean.app',
 ]
-]
 
 CSRF_TRUSTED_ORIGINS = [
     'http://cosmicchrist.love/',
