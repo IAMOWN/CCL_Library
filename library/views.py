@@ -1360,3 +1360,5 @@ def reading_list_item_delete(request, pk):
         reading_list_item = get_object_or_404(ReadingList, pk=pk)
         reading_list_item.delete()
     return reverse_lazy('reading-list')
+
+

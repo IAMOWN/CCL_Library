@@ -5,7 +5,7 @@
     {{ title }}
 {% endblock %}
 {% block content %}
-    <section class="media content-section">
+    <section class="media content-section" xmlns="http://www.w3.org/1999/html">
         <div class="media-body">
             <div class="row">
                 <div class="col-12">
@@ -63,7 +63,7 @@
     <section class="media content-section">
         <div class="row">
             <div class="col-lg-3 pb-2 pt-2">
-                <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-12">Back</a>
+                <input type="submit" href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-12" name="Remove">
             </div>
         </div>
     </section>
