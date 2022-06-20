@@ -655,6 +655,10 @@ class LibraryRecordDetail(DetailView):
         context['year'] = get_current_year()
         current_date = datetime.now().date()
 
+        record_title = LibraryRecord.objects.get(id=self.kwargs['pk']).title
+        record_in_collections = CollectionOrder.objects.filter(record__title=record_title)
+        print(f'record_in_collections: {record_in_collections}')
+
         # Reading Progress
         # Query for current reading progress: If it exists populate the dropdown or return a blank
         reading_progress_obj = ReadingProgress.objects.none()
