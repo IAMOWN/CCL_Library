@@ -24,17 +24,7 @@
         <div class="row pt-2 text-center">
         {% for record in collection %}
             <div class="col-lg-12">
-                 <p><a href="{% url 'library-record' record.record.id %}" class="btn btn-outline-CCL-Gold btn-sm">{{ record.order_number }}) {{ record.record.part_number }} - {{ record.record.discourse_series.discourse_series }} - {{ record.record.title }} - {{ record.record.principal_cosmic_author }} - {{ record.record.date_communicated }}</a></p>
-
-{#            {% if record.discourse_series and record.part_number > 0 %}#}
-{#                <p><a href="{% url 'library-record' record.id %}" class="btn btn-outline-CCL-Gold btn-sm">Part {{ record.part_number }} - {{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>#}
-{#            {% elif record.discourse_series %}#}
-{#                <p><a href="{% url 'library-record' record.id %}" class="btn btn-outline-CCL-Gold btn-sm">{{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>#}
-{#            {% elif not record.discourse_series  %}#}
-{#                <p><a href="{% url 'library-record' record.id %}" class="btn btn-outline-CCL-Gold btn-sm">{{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>#}
-{#            {% else %}#}
-{#                <p><a href="{% url 'library-record' record.id %}" class="btn btn-outline-CCL-Gold btn-sm">{{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>#}
-{#            {% endif %}#}
+                 <p><a href="{% url 'library-record' record.record.id %}" class="btn btn-outline-CCL-Gold btn-sm">{{ record.order_number }}) {% if record.record.part_number %}Part {{ record.record.part_number }} - {% endif %} {% if record.record.discourse_series.discourse_series %}{{ record.record.discourse_series.discourse_series }} - {% endif %}{{ record.record.title }} - {{ record.record.principal_cosmic_author }} - {{ record.record.date_communicated }}</a></p>
             </div>
         {% endfor %}
         </div>
