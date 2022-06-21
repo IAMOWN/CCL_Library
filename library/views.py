@@ -725,26 +725,24 @@ class CollectionGESARAList(ListView):
                 record_in_collection_order__collection__collection='GESARA'
             ).order_by('record_in_collection_order__order_number')
             for record in library_records_in_collection:
-                order = CollectionOrder.objects.get(collection__collection='GESARA', record=record.id).order_number
-                print(f'Order number: {order}')
 
                 library_record_ids.append(record.id)
                 try:
                     ReadingProgress.objects.get(id=record.id, dear_soul__username=self.request.user)
-                    # print(f'{record.title} ({record.id}) is on {self.request.user} Reading List!')
+                    print(f'{record.title} ({record.id}) is on {self.request.user} Reading List!')
 
                 except ReadingProgress.DoesNotExist:
-                    print(f'{record.title} ({record.id}) ADDED to {self.request.user} Reading List!')
-                    # log_update = f'>>>Record added to Reading List from "GESARA" Collection.'
-                    # new_reading_progress_obj = ReadingProgress(
-                    #     dear_soul=self.request.user,
-                    #     record_id=record.id,
-                    #     date_added=get_current_date(),
-                    #     reading_progress='1) On Reading List',
-                    #     date_latest=get_current_date(),
-                    #     reading_progress_log=log_update
-                    # )
-                    # new_reading_progress_obj.save()
+                    # print(f'{record.title} ({record.id}) ADDED to {self.request.user} Reading List!')
+                    log_update = f'>>>Record added to Reading List from "GESARA" Collection.'
+                    new_reading_progress_obj = ReadingProgress(
+                        dear_soul=self.request.user,
+                        record_id=record.id,
+                        date_added=get_current_date(),
+                        reading_progress='1) On Reading List',
+                        date_latest=get_current_date(),
+                        reading_progress_log=log_update
+                    )
+                    new_reading_progress_obj.save()
 
         context['year'] = get_current_year()
         context['title'] = 'The GESARA (Global Economic Security and Reformation Act) Collection'
