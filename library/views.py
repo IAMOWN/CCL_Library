@@ -593,7 +593,7 @@ class CollectionTrueConstitutionList(ListView):
                     new_reading_progress_obj = ReadingProgress(
                         dear_soul=self.request.user,
                         record_id=record.id,
-                        date_added=current_date,
+                        date_added=get_current_date(),
                         reading_progress='1) On Reading List',
                         date_latest=get_current_date(),
                         reading_progress_log=log_update
