@@ -724,7 +724,7 @@ class CollectionGESARAList(ListView):
             library_records_in_collection = LibraryRecord.objects.filter(
                 record_in_collection_order__collection__collection='GESARA'
             ).order_by('record_in_collection_order__order_number')
-            collection = CollectionOrder.objects.filter(collection__collection='GESARA')
+            collection = CollectionOrder.objects.filter(collection__collection='GESARA').order_by('order_number')
             for item in collection:
                 print(f'item.record: {item.record} - item.record_id: {item.record_id}')
             print(f'library_records_in_collection.count(): {collection.count()}')
