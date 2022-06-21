@@ -44,7 +44,6 @@
                 {% if is_paginated %}
                     {% if page_obj.has_previous %}
                         <a class="btn btn-outline-CCL-Gold btn-sm mb-4" href="?page=1">First</a>
-{#                        <a class="btn btn-outline-CCL-Gold btn-sm mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>#}
                     {% endif %}
                     {% for num in page_obj.paginator.page_range %}
                         {% if page_obj.number == num %}
@@ -54,7 +53,6 @@
                         {% endif %}
                     {% endfor %}
                     {% if page_obj.has_next %}
-{#                        <a class="btn btn-outline-CCL-Gold btn-sm mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>#}
                         <a class="btn btn-outline-CCL-Gold btn-sm mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
                     {% endif %}
                 {% endif %}
@@ -71,8 +69,11 @@
             </div>
             <div class="col-lg-3 text-center pt-2 pb-2">
             </div>
+            {% if user.is_authenticated %}
             <div class="col-lg-3 pt-2 pb-2">
+                <button type="submit" class="btn btn-outline-CCL-Blue col-12" name="add-to-reading-list">Add Collection to Reading List</button>
             </div>
+            {% endif %}
         </div>
     </section>
 {% endblock content %}

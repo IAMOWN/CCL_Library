@@ -570,6 +570,16 @@ class CollectionTrueConstitutionList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        # Add to Collection button
+        add_to_collection = self.request.GET.get('add-to-reading-list') or ''
+
+        if add_to_collection:
+            library_records_in_collection = LibraryRecord.objects.filter(
+                record_in_collection_order__collection__collection='True Constitution'
+            ).order_by('record_in_collection_order__order_number')
+            print(f'library_records_in_collection: {library_records_in_collection}')
+            print(f'self.request.user: {self.request.user}')
+
         context['year'] = get_current_year()
         context['title'] = "The True Constitution Collection"
 
