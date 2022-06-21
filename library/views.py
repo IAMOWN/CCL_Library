@@ -713,17 +713,15 @@ class CollectionGESARAList(ListView):
             record_in_collection_order__collection__collection="GESARA"
         ).order_by('record_in_collection_order__order_number')
 
+    def get_queryset(self):
+        return CollectionOrder.objects.filter(collection__collection='GESARA').order_by('order_number')
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         # Add to Collection button
         library_records_in_collection = LibraryRecord.objects.none()
         if self.request.GET.get('add-to-reading-list'):
-            # library_record_ids = []
-            #
-            # library_records_in_collection = LibraryRecord.objects.filter(
-            #     record_in_collection_order__collection__collection='GESARA'
-            # ).order_by('record_in_collection_order__order_number')
             collection = CollectionOrder.objects.filter(collection__collection='GESARA').order_by('order_number')
 
             print(f'self.request.user: {self.request.user}')
@@ -731,9 +729,7 @@ class CollectionGESARAList(ListView):
             for item in collection:
                 print(f'item.collection.collection: {item.collection.collection}')
                 print(f'item.record.id: {item.record.id}')
-                if ReadingProgress.objects.filter(record_id=item.record.id, dear_soul=self.request.user).exists():
-                    print(f'Exists: item.record.id {item.record.id} - item.record {item.record}')
-                else:
+                if not ReadingProgress.objects.filter(record_id=item.record.id, dear_soul=self.request.user).exists():
                     log_update = f'>>>Record added to Reading List from "GESARA" Collection.'
                     new_reading_progress_obj = ReadingProgress(
                         dear_soul=self.request.user,
