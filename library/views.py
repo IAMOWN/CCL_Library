@@ -727,18 +727,22 @@ class CollectionGESARAList(ListView):
             for record in library_records_in_collection:
                 library_record_ids.append(record.id)
                 try:
+                    print(f'record.id exists: {record.id}')
                     ReadingProgress.objects.get(id=record.id)
+                    break
+
                 except ReadingProgress.DoesNotExist:
-                    log_update = f'>>>Record added to Reading List from "True Constitution" Collection.'
-                    new_reading_progress_obj = ReadingProgress(
-                        dear_soul=self.request.user,
-                        record_id=record.id,
-                        date_added=get_current_date(),
-                        reading_progress='1) On Reading List',
-                        date_latest=get_current_date(),
-                        reading_progress_log=log_update
-                    )
-                    new_reading_progress_obj.save()
+                    print(f'{record.title} does not exist!')
+                    # log_update = f'>>>Record added to Reading List from "True Constitution" Collection.'
+                    # new_reading_progress_obj = ReadingProgress(
+                    #     dear_soul=self.request.user,
+                    #     record_id=record.id,
+                    #     date_added=get_current_date(),
+                    #     reading_progress='1) On Reading List',
+                    #     date_latest=get_current_date(),
+                    #     reading_progress_log=log_update
+                    # )
+                    # new_reading_progress_obj.save()
 
         context['year'] = get_current_year()
         context['title'] = 'The GESARA (Global Economic Security and Reformation Act) Collection'
