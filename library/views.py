@@ -727,12 +727,10 @@ class CollectionGESARAList(ListView):
             for record in library_records_in_collection:
                 library_record_ids.append(record.id)
                 try:
-                    print(f'record.id exists: {record.id}')
                     ReadingProgress.objects.get(id=record.id)
-                    break
 
                 except ReadingProgress.DoesNotExist:
-                    print(f'{record.title} does not exist!')
+                    print(f'{record.title} is in the Reading List!')
                     # log_update = f'>>>Record added to Reading List from "True Constitution" Collection.'
                     # new_reading_progress_obj = ReadingProgress(
                     #     dear_soul=self.request.user,
