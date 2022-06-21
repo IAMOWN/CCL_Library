@@ -719,15 +719,16 @@ class CollectionGESARAList(ListView):
         # Add to Collection button
         library_records_in_collection = LibraryRecord.objects.none()
         if self.request.GET.get('add-to-reading-list'):
-            library_record_ids = []
-
-            library_records_in_collection = LibraryRecord.objects.filter(
-                record_in_collection_order__collection__collection='GESARA'
-            ).order_by('record_in_collection_order__order_number')
+            # library_record_ids = []
+            #
+            # library_records_in_collection = LibraryRecord.objects.filter(
+            #     record_in_collection_order__collection__collection='GESARA'
+            # ).order_by('record_in_collection_order__order_number')
             collection = CollectionOrder.objects.filter(collection__collection='GESARA').order_by('order_number')
-            reading_list_object = ReadingProgress.objects.none()
 
             for item in collection:
+                print(f'item.collection.collection: {item.collection.collection}')
+                print(f'ReadingProgress.objects.filter(id=item.record_id, dear_soul__username=self.request.user).exists(): {ReadingProgress.objects.filter(id=item.record_id, dear_soul__username=self.request.user).exists()}')
                 if ReadingProgress.objects.filter(id=item.record_id, dear_soul__username=self.request.user).exists():
                     print(f'Exists: item.record_id {item.record_id} - item.record {item.record}')
                 else:
