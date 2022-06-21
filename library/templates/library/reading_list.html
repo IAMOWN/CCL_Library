@@ -26,26 +26,32 @@
     {% if records_exist %}
         <section class="media content-section">
             <div class="row">
-                <div class="col-lg-6 pt-2">
+                <div class="col-lg-4 pt-2">
                     <h5>Record</h5>
                 </div>
                 <div class="col-lg-2 pt-2">
                     <h5>Progress</h5>
                 </div>
-                <div class="col-lg-2 pt-2">
+                <div class="col-lg-3 pt-2">
                     <h5>Date</h5>
+                </div>
+                <div class="col-lg-3 pt-2">
+                    <h5>Completed Readings</h5>
                 </div>
             </div>
         </section>
         {% for record in reading_progress %}
             <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
                 <div class="row pt-2">
-                    <div class="col-lg-6">
-                        <p><a href="{% url 'library-record' record.record.id %}" class="text-CCL-Blue">{{ record.record }}</a></p>
+                    <div class="col-lg-4">
+                        <p><a href="{% url 'library-record' record.record.id %}" class="text-CCL-Blue"><strong>{{ record.record }}</strong></a></p>
                     </div>
                     <div class="col-lg-2">
                         <p>{{ record.reading_progress }}</p>
                     </div>
+                <div class="col-lg-3 pt-2">
+                    <p>{{ record.total_readings }}</p>
+                </div>
                     <div class="col-lg-3">
                         <p>
                             {% if record.reading_progress == '1) On Reading List' %}<strong>Added: </strong>{{ record.date_added }}
