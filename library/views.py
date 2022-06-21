@@ -585,7 +585,10 @@ class CollectionTrueConstitutionList(ListView):
             for record in library_records_in_collection:
                 library_record_ids.append(record.id)
                 print(f'record.id: {record.id}')
-                if not ReadingProgress.objects.get(id=record.id):
+                try:
+                    ReadingProgress.objects.get(id=record.id)
+                    print(f'{record.title} on Reading List')
+                except ReadingProgress.DoesNotExist:
                     log_update = f'>>>Record added to Reading List from "True Constitution" Collection.'
                     new_reading_progress_obj = ReadingProgress(
                         dear_soul=self.request.user,
