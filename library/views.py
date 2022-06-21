@@ -725,17 +725,15 @@ class CollectionGESARAList(ListView):
                 record_in_collection_order__collection__collection='GESARA'
             ).order_by('record_in_collection_order__order_number')
             collection = CollectionOrder.objects.filter(collection__collection='GESARA').order_by('order_number')
-            for record in collection:
+            for item in collection:
                 try:
-                    ReadingProgress.objects.get(id=record.id, dear_soul__username=self.request.user)
-                    print(f'{record.title} ({record.id}) is on {self.request.user} Reading List!')
+                    ReadingProgress.objects.get(id=item.record_id, dear_soul__username=self.request.user)
 
                 except ReadingProgress.DoesNotExist:
-                    print(f'{record.title} ({record.id}) ADDED to {self.request.user} Reading List!')
                     log_update = f'>>>Record added to Reading List from "GESARA" Collection.'
                     new_reading_progress_obj = ReadingProgress(
                         dear_soul=self.request.user,
-                        record_id=record.id,
+                        record_id=item.record_id,
                         date_added=get_current_date(),
                         reading_progress='1) On Reading List',
                         date_latest=get_current_date(),
