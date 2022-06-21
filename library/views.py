@@ -584,10 +584,8 @@ class CollectionTrueConstitutionList(ListView):
             )
             for record in library_records_in_collection:
                 library_record_ids.append(record.id)
-                print(f'record.id: {record.id}')
                 try:
                     ReadingProgress.objects.get(id=record.id)
-                    print(f'{record.title} on Reading List')
                 except ReadingProgress.DoesNotExist:
                     log_update = f'>>>Record added to Reading List from "True Constitution" Collection.'
                     new_reading_progress_obj = ReadingProgress(
@@ -599,9 +597,6 @@ class CollectionTrueConstitutionList(ListView):
                         reading_progress_log=log_update
                     )
                     new_reading_progress_obj.save()
-                break
-
-
 
             library_records_in_reading_list = ReadingProgress.objects.filter(dear_soul__username=self.request.user)
             print(f'library_records_in_reading_list: {library_records_in_reading_list}')
@@ -667,6 +662,30 @@ class CollectionGESARAList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        # Add to Collection button
+        library_records_in_collection = LibraryRecord.objects.none()
+        if self.request.GET.get('add-to-reading-list'):
+            library_record_ids = []
+
+            library_records_in_collection = LibraryRecord.objects.filter(
+                record_in_collection_order__collection__collection='GESARA'
+            )
+            for record in library_records_in_collection:
+                library_record_ids.append(record.id)
+                try:
+                    ReadingProgress.objects.get(id=record.id)
+                except ReadingProgress.DoesNotExist:
+                    log_update = f'>>>Record added to Reading List from "True Constitution" Collection.'
+                    new_reading_progress_obj = ReadingProgress(
+                        dear_soul=self.request.user,
+                        record_id=record.id,
+                        date_added=get_current_date(),
+                        reading_progress='1) On Reading List',
+                        date_latest=get_current_date(),
+                        reading_progress_log=log_update
+                    )
+                    new_reading_progress_obj.save()
 
         context['year'] = get_current_year()
         context['title'] = 'The GESARA (Global Economic Security and Reformation Act) Collection'

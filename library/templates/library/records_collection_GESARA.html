@@ -59,4 +59,23 @@
             </div>
         </div>
     </section>
+
+    <section class="media content-section">
+        <div class="row">
+            <div class="col-lg-3 pt-2 pb-2">
+                <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-12">Back</a>
+            </div>
+            <div class="col-lg-3 text-center pt-2 pb-2">
+            </div>
+            <div class="col-lg-3 text-center pt-2 pb-2">
+            </div>
+            {% if user.is_authenticated %}
+            <div class="col-lg-3 pt-2 pb-2">
+                <form method="get">
+                    <button type="submit" class="btn btn-CCL-Blue col-12" name="add-to-reading-list" value="click">Add Collection to Reading List</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </section>
 {% endblock content %}
