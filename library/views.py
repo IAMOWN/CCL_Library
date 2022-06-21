@@ -725,6 +725,8 @@ class CollectionGESARAList(ListView):
                 record_in_collection_order__collection__collection='GESARA'
             ).order_by('record_in_collection_order__order_number')
             for record in library_records_in_collection:
+                print(f'Order number: {CollectionOrder.objects.get(record=record.id).order_number}')
+
                 library_record_ids.append(record.id)
                 try:
                     ReadingProgress.objects.get(id=record.id, dear_soul__username=self.request.user)
