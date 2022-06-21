@@ -599,7 +599,7 @@ class CollectionTrueConstitutionList(ListView):
 # ####################### Library Records - Collection: ENACA #######################
 class CollectionENACAList(ListView):
     model = CollectionOrder
-    template_name = 'library/records_collection_true_constitution.html'
+    template_name = 'library/records_collection_ENACA.html'
     context_object_name = 'collection'
     paginate_by = 12
 
@@ -636,7 +636,7 @@ class CollectionENACAList(ListView):
 # ####################### Library Records - Collection: St Germain 'I AM' Freedom Alchemy Class #######################
 class CollectionIAMFreedomList(ListView):
     model = CollectionOrder
-    template_name = 'library/records_collection_true_constitution.html'
+    template_name = 'library/records_collection_IAM_FREEDOM.html'
     context_object_name = 'collection'
     paginate_by = 12
 
@@ -680,7 +680,7 @@ class CollectionIAMFreedomList(ListView):
 # ####################### Library Records - Collection: GESARA #######################
 class CollectionGESARAList(ListView):
     model = CollectionOrder
-    template_name = 'library/records_collection_true_constitution.html'
+    template_name = 'library/records_collection_GESARA.html'
     context_object_name = 'collection'
     paginate_by = 12
 
