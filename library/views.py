@@ -571,7 +571,8 @@ class CollectionTrueConstitutionList(ListView):
         context = super().get_context_data(**kwargs)
 
         # Add to Collection button
-        add_to_collection = self.request.GET.get('add-to-reading-list') or ''
+        add_to_collection = self.request.GET.get('add-to-reading-list')
+        print(f'add_to_collection: {add_to_collection}')
 
         if add_to_collection:
             library_records_in_collection = LibraryRecord.objects.filter(
