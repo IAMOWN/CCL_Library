@@ -372,7 +372,7 @@ class ReadingProgress(models.Model):
     )
 
     def __str__(self):
-        return f'{self.record.title} - {self.reading_progress}'
+        return f'{self.record.title} - {self.reading_progress} ({self.dear_soul} - {self.record.id})'
 
     # def get_absolute_url(self):
     #     return reverse('library-record', kwargs={'pk': self.pk})
