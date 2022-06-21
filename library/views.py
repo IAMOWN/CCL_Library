@@ -725,7 +725,7 @@ class CollectionGESARAList(ListView):
                 record_in_collection_order__collection__collection='GESARA'
             ).order_by('record_in_collection_order__order_number')
             for record in library_records_in_collection:
-                order = CollectionOrder.objects.get(collection='GESARA', record=record.id)
+                order = CollectionOrder.objects.get(collection__collection='GESARA', record=record.id)
                 print(f'Order number: {order}')
 
                 library_record_ids.append(record.id)
