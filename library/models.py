@@ -251,16 +251,17 @@ class LibraryRecord(models.Model):
         unique_together = ('discourse_series', 'part_number',)
 
     def __str__(self):
-        if not self.part_number and not self.discourse_series:
-            return f'{self.title} - {self.principal_cosmic_author} - {self.date_communicated}'
-        elif not self.part_number and self.discourse_series:
-            return f'{self.discourse_series} - {self.title} - {self.principal_cosmic_author} - {self.date_communicated}'
-        elif self.part_number and not self.discourse_series:
-            return f'Part {self.part_number} - {self.title} - {self.principal_cosmic_author} - {self.date_communicated}'
-        elif self.part_number and self.discourse_series:
-            return f'Part {self.part_number} - {self.discourse_series} - {self.title} - {self.principal_cosmic_author} - {self.date_communicated}'
-        else:
-            return f'{self.title} - {self.principal_cosmic_author} - {self.date_communicated}'
+        return f'Part {self.part_number} - {self.discourse_series} - {self.title} - {self.principal_cosmic_author} - {self.date_communicated}'
+        # if not self.part_number and not self.discourse_series:
+        #     return f'{self.title} - {self.principal_cosmic_author} - {self.date_communicated}'
+        # elif not self.part_number and self.discourse_series:
+        #     return f'{self.discourse_series} - {self.title} - {self.principal_cosmic_author} - {self.date_communicated}'
+        # elif self.part_number and not self.discourse_series:
+        #     return f'Part {self.part_number} - {self.title} - {self.principal_cosmic_author} - {self.date_communicated}'
+        # elif self.part_number and self.discourse_series:
+        #     return f'Part {self.part_number} - {self.discourse_series} - {self.title} - {self.principal_cosmic_author} - {self.date_communicated}'
+        # else:
+        #     return f'{self.title} - {self.principal_cosmic_author} - {self.date_communicated}'
 
     def get_absolute_url(self):
         return reverse('library-record', kwargs={'pk': self.pk})

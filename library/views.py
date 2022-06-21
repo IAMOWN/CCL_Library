@@ -1461,6 +1461,7 @@ class ReadingList(LoginRequiredMixin, ListView):
     model = ReadingProgress
     template_name = 'library/reading_list.html'
     context_object_name = 'reading_progress'
+    paginate_by = 12
 
     def get_queryset(self):
         return ReadingProgress.objects.filter(dear_soul__username=self.request.user).order_by(
