@@ -598,15 +598,13 @@ class CollectionTrueConstitutionList(ListView):
 
 # ####################### Library Records - Collection: ENACA #######################
 class CollectionENACAList(ListView):
-    model = LibraryRecord
-    template_name = 'library/records_collection_ENACA.html'
-    context_object_name = 'library_records'
+    model = CollectionOrder
+    template_name = 'library/records_collection_true_constitution.html'
+    context_object_name = 'collection'
     paginate_by = 12
 
     def get_queryset(self):
-        return LibraryRecord.objects.filter(
-            record_in_collection_order__collection__collection='ENACA'
-        ).order_by('record_in_collection_order__order_number')
+        return CollectionOrder.objects.filter(collection__collection='ENACA').order_by('order_number')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -637,15 +635,13 @@ class CollectionENACAList(ListView):
 
 # ####################### Library Records - Collection: St Germain 'I AM' Freedom Alchemy Class #######################
 class CollectionIAMFreedomList(ListView):
-    model = LibraryRecord
-    template_name = 'library/records_collection_IAM_FREEDOM.html'
-    context_object_name = 'library_records'
+    model = CollectionOrder
+    template_name = 'library/records_collection_true_constitution.html'
+    context_object_name = 'collection'
     paginate_by = 12
 
     def get_queryset(self):
-        return LibraryRecord.objects.filter(
-            record_in_collection_order__collection__collection="St Germain 'I AM' Freedom Alchemy Class"
-        ).order_by('record_in_collection_order__order_number')
+        return CollectionOrder.objects.filter(collection__collection="St Germain 'I AM' Freedom Alchemy Class").order_by('order_number')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -683,18 +679,13 @@ class CollectionIAMFreedomList(ListView):
 
 # ####################### Library Records - Collection: GESARA #######################
 class CollectionGESARAList(ListView):
-    model = LibraryRecord
-    template_name = 'library/records_collection_GESARA.html'
-    context_object_name = 'library_records'
+    model = CollectionOrder
+    template_name = 'library/records_collection_true_constitution.html'
+    context_object_name = 'collection'
     paginate_by = 12
 
     def get_queryset(self):
-        return LibraryRecord.objects.filter(
-            record_in_collection_order__collection__collection="GESARA"
-        ).order_by('record_in_collection_order__order_number')
-
-    # def get_queryset(self):
-    #     return CollectionOrder.objects.filter(collection__collection='GESARA').order_by('order_number')
+        return CollectionOrder.objects.filter(collection__collection="GESARA").order_by('order_number')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
