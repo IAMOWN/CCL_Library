@@ -577,33 +577,22 @@ class CollectionTrueConstitutionList(ListView):
         # Add to Collection button
         library_records_in_collection = LibraryRecord.objects.none()
         if self.request.GET.get('add-to-reading-list'):
-            library_record_ids = []
+            collection = CollectionOrder.objects.filter(
+                collection__collection='True Constitution'
+            ).order_by('order_number')
 
-            library_records_in_collection = LibraryRecord.objects.filter(
-                record_in_collection_order__collection__collection='True Constitution'
-            )
-            for record in library_records_in_collection:
-                library_record_ids.append(record.id)
-                try:
-                    print(f'record.id exists: {record.id}')
-                    ReadingProgress.objects.get(id=record.id)
-                    break
-
-                except ReadingProgress.DoesNotExist:
-                    print(f'{record.title} does not exist!')
-                    # log_update = f'>>>Record added to Reading List from "True Constitution" Collection.'
-                    # new_reading_progress_obj = ReadingProgress(
-                    #     dear_soul=self.request.user,
-                    #     record_id=record.id,
-                    #     date_added=get_current_date(),
-                    #     reading_progress='1) On Reading List',
-                    #     date_latest=get_current_date(),
-                    #     reading_progress_log=log_update
-                    # )
-                    # new_reading_progress_obj.save()
-
-            library_records_in_reading_list = ReadingProgress.objects.filter(dear_soul__username=self.request.user)
-            print(f'library_records_in_reading_list: {library_records_in_reading_list}')
+            for item in collection:
+                if not ReadingProgress.objects.filter(record_id=item.record.id, dear_soul=self.request.user).exists():
+                    log_update = f'>>>Record added to Reading List from the "True Constitution" Collection.'
+                    new_reading_progress_obj = ReadingProgress(
+                        dear_soul=self.request.user,
+                        record_id=item.record_id,
+                        date_added=get_current_date(),
+                        reading_progress='1) On Reading List',
+                        date_latest=get_current_date(),
+                        reading_progress_log=log_update
+                    )
+                    new_reading_progress_obj.save()
 
         context['year'] = get_current_year()
         context['title'] = "The True Constitution Collection"
@@ -629,20 +618,14 @@ class CollectionENACAList(ListView):
         # Add to Collection button
         library_records_in_collection = LibraryRecord.objects.none()
         if self.request.GET.get('add-to-reading-list'):
-            library_record_ids = []
+            collection = CollectionOrder.objects.filter(collection__collection='ENACA').order_by('order_number')
 
-            library_records_in_collection = LibraryRecord.objects.filter(
-                record_in_collection_order__collection__collection='ENACA'
-            )
-            for record in library_records_in_collection:
-                library_record_ids.append(record.id)
-                try:
-                    ReadingProgress.objects.get(id=record.id)
-                except ReadingProgress.DoesNotExist:
-                    log_update = f'>>>Record added to Reading List from "True Constitution" Collection.'
+            for item in collection:
+                if not ReadingProgress.objects.filter(record_id=item.record.id, dear_soul=self.request.user).exists():
+                    log_update = f'>>>Record added to Reading List from the "GESARA" Collection.'
                     new_reading_progress_obj = ReadingProgress(
                         dear_soul=self.request.user,
-                        record_id=record.id,
+                        record_id=item.record_id,
                         date_added=get_current_date(),
                         reading_progress='1) On Reading List',
                         date_latest=get_current_date(),
@@ -674,20 +657,21 @@ class CollectionIAMFreedomList(ListView):
         # Add to Collection button
         library_records_in_collection = LibraryRecord.objects.none()
         if self.request.GET.get('add-to-reading-list'):
-            library_record_ids = []
+            collection = CollectionOrder.objects.filter(
+                collection__collection="St Germain 'I AM' Freedom Alchemy Class"
+            ).order_by('order_number')
 
-            library_records_in_collection = LibraryRecord.objects.filter(
-                record_in_collection_order__collection__collection="St Germain 'I AM' Freedom Alchemy Class"
-            )
-            for record in library_records_in_collection:
-                library_record_ids.append(record.id)
-                try:
-                    ReadingProgress.objects.get(id=record.id)
-                except ReadingProgress.DoesNotExist:
-                    log_update = f'>>>Record added to Reading List from "True Constitution" Collection.'
+            for item in collection:
+                if not ReadingProgress.objects.filter(
+                        record_id=item.record.id,
+                        dear_soul=self.request.user
+                ).exists():
+                    log_update = f'''
+                    >>>Record added to Reading List from the "St Germain 'I AM' Freedom Alchemy Class" Collection.
+                    '''
                     new_reading_progress_obj = ReadingProgress(
                         dear_soul=self.request.user,
-                        record_id=record.id,
+                        record_id=item.record_id,
                         date_added=get_current_date(),
                         reading_progress='1) On Reading List',
                         date_latest=get_current_date(),
@@ -724,13 +708,9 @@ class CollectionGESARAList(ListView):
         if self.request.GET.get('add-to-reading-list'):
             collection = CollectionOrder.objects.filter(collection__collection='GESARA').order_by('order_number')
 
-            print(f'self.request.user: {self.request.user}')
-
             for item in collection:
-                print(f'item.collection.collection: {item.collection.collection}')
-                print(f'item.record.id: {item.record.id}')
                 if not ReadingProgress.objects.filter(record_id=item.record.id, dear_soul=self.request.user).exists():
-                    log_update = f'>>>Record added to Reading List from "GESARA" Collection.'
+                    log_update = f'>>>Record added to Reading List from the "GESARA" Collection.'
                     new_reading_progress_obj = ReadingProgress(
                         dear_soul=self.request.user,
                         record_id=item.record_id,
