@@ -33,7 +33,7 @@
         <div class="row pt-2 text-center">
         {% for record in library_records %}
             <div class="col-lg-12">
-                <p><a href="{% url 'library-record' record.id %}" class="btn btn-outline-CCL-Gold btn-sm">{{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
+                <p><a href="{% url 'library-record' record.id %}" class="btn btn-outline-CCL-Gold btn-sm">{{ record.part_number }} - {{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
             </div>
         {% endfor %}
         </div>
