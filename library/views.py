@@ -726,7 +726,7 @@ class CollectionGESARAList(ListView):
             ).order_by('record_in_collection_order__order_number')
             collection = CollectionOrder.objects.filter(collection__collection='GESARA').order_by('order_number')
             for item in collection:
-                if ReadingProgress.objects.get(id=item.record_id, dear_soul__username=self.request.user):
+                if get_object_or_404(ReadingProgress, id=item.record_id, dear_soul__username=self.request.user):
                     print(f'Exists: item.record_id {item.record_id} - item.record {item.record}')
                 else:
                     print(f'Does NOT exist: item.record_id {item.record_id} - item.record {item.record}')
