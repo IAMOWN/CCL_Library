@@ -571,7 +571,7 @@ class CollectionTrueConstitutionList(ListView):
         context = super().get_context_data(**kwargs)
 
         context['year'] = get_current_year()
-        context['title'] = "True Constitution"
+        context['title'] = "The True Constitution Collection"
 
         return context
 
@@ -612,7 +612,7 @@ class CollectionIAMFreedomList(ListView):
         context = super().get_context_data(**kwargs)
 
         context['year'] = get_current_year()
-        context['title'] = "St Germain 'I AM' Freedom Alchemy Class"
+        context['title'] = "The St Germain 'I AM' Freedom Alchemy Class Collection"
 
         return context
 
@@ -633,7 +633,7 @@ class CollectionGESARAList(ListView):
         context = super().get_context_data(**kwargs)
 
         context['year'] = get_current_year()
-        context['title'] = 'GESARA (Global Economic Security and Reformation Act)'
+        context['title'] = 'The GESARA (Global Economic Security and Reformation Act) Collection'
 
         return context
 
