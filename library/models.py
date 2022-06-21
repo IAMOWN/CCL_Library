@@ -303,7 +303,7 @@ class CollectionOrder(models.Model):
     )
 
     def __str__(self):
-        return f'{self.collection}: {self.record} - {self.order_number}'
+        return f'Part {self.record.part_number} - {self.record.discourse_series} - {self.record.title} - {self.record.principal_cosmic_author} - {self.record.date_communicated}'
 
 
 # ####################### Reading Progress #######################
