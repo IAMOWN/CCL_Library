@@ -734,23 +734,16 @@ class CollectionGESARAList(ListView):
                 if ReadingProgress.objects.filter(record_id=item.record.id, dear_soul=self.request.user).exists():
                     print(f'Exists: item.record.id {item.record.id} - item.record {item.record}')
                 else:
-                    print(f'Does NOT exist: item.record.id {item.record.id} - item.record {item.record}')
-
-                # try:
-                #     ReadingProgress.objects.get(id=item.record_id, dear_soul__username=self.request.user)
-                #
-                # except ReadingProgress.DoesNotExist:
-                #     print(f'Does NOT exist: item.record_id {item.record_id} - item.record {item.record}')
-                    # log_update = f'>>>Record added to Reading List from "GESARA" Collection.'
-                    # new_reading_progress_obj = ReadingProgress(
-                    #     dear_soul=self.request.user,
-                    #     record_id=item.record_id,
-                    #     date_added=get_current_date(),
-                    #     reading_progress='1) On Reading List',
-                    #     date_latest=get_current_date(),
-                    #     reading_progress_log=log_update
-                    # )
-                    # new_reading_progress_obj.save()
+                    log_update = f'>>>Record added to Reading List from "GESARA" Collection.'
+                    new_reading_progress_obj = ReadingProgress(
+                        dear_soul=self.request.user,
+                        record_id=item.record_id,
+                        date_added=get_current_date(),
+                        reading_progress='1) On Reading List',
+                        date_latest=get_current_date(),
+                        reading_progress_log=log_update
+                    )
+                    new_reading_progress_obj.save()
 
         context['year'] = get_current_year()
         context['title'] = 'The GESARA (Global Economic Security and Reformation Act) Collection'
