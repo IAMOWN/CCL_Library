@@ -32,10 +32,10 @@
                 <div class="col-lg-2 pt-2">
                     <h5>Progress</h5>
                 </div>
-                <div class="col-lg-3 pt-2">
+                <div class="col-lg-2 pt-2">
                     <h5>Date</h5>
                 </div>
-                <div class="col-lg-3 pt-2">
+                <div class="col-lg-2 pt-2">
                     <h5>Completed Readings</h5>
                 </div>
             </div>
@@ -49,16 +49,16 @@
                     <div class="col-lg-2">
                         <p>{{ record.reading_progress }}</p>
                     </div>
-                <div class="col-lg-3 pt-2">
-                    <p>{{ record.total_readings }}</p>
-                </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <p>
                             {% if record.reading_progress == '1) On Reading List' %}<strong>Added: </strong>{{ record.date_added }}
                             {% elif record.reading_progress == '2) Reading In Progress' %}<strong>Started: </strong>{{ record.date_started }}
                             {% elif record.reading_progress == '3) Completed Reading' %}<strong>Completed: </strong>{{ record.date_completed }}
                             {% endif %}
                         </p>
+                    </div>
+                    <div class="col-lg-3 pt-2">
+                        <p>{{ record.total_readings }}</p>
                     </div>
                     <div class="col-lg-1 pb-2 me-auto">
                         <form method="POST" action="{% url 'reading-list-delete' record.id %}">
