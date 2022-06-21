@@ -731,7 +731,7 @@ class CollectionGESARAList(ListView):
             for item in collection:
                 print(f'item.collection.collection: {item.collection.collection}')
                 print(f'item.record.id: {item.record.id}')
-                if ReadingProgress.objects.filter(id=item.record_id, dear_soul=self.request.user).exists():
+                if ReadingProgress.objects.filter(id=item.record.id, dear_soul=self.request.user).exists():
                     print(f'Exists: item.record.id {item.record.id} - item.record {item.record}')
                 else:
                     print(f'Does NOT exist: item.record.id {item.record.id} - item.record {item.record}')
