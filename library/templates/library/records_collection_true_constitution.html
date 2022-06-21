@@ -71,7 +71,9 @@
             </div>
             {% if user.is_authenticated %}
             <div class="col-lg-3 pt-2 pb-2">
-                <button type="submit" class="btn btn-CCL-Blue col-12" name="add-to-reading-list">Add Collection to Reading List</button>
+                <form method="get">
+                    <button type="submit" class="btn btn-CCL-Blue col-12" name="add-to-reading-list">Add Collection to Reading List</button>
+                </form>
             </div>
             {% endif %}
         </div>
