@@ -57,10 +57,10 @@
                             {% endif %}
                         </p>
                     </div>
-                    <div class="col-lg-1 pt-2">
+                    <div class="col-lg-1 pt-1">
                         <p>{{ record.total_readings }}</p>
                     </div>
-                    <div class="col-lg-1 pb-2 me-auto">
+                    <div class="col-lg-1 me-auto">
                         <form method="POST" action="{% url 'reading-list-delete' record.id %}">
                            {% csrf_token %}
                             <input type="submit" value="Remove" class="btn btn-danger btn-sm float-end">
