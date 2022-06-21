@@ -46,6 +46,10 @@ from .forms import (
 def get_current_year():
     return datetime.now().year
 
+def get_current_date():
+    return datetime.now().date()
+
+
 # ####################### TAG VIEWS #######################
 class TagList(LoginRequiredMixin, ListView):
     model = Tag
@@ -573,11 +577,31 @@ class CollectionTrueConstitutionList(ListView):
         # Add to Collection button
         library_records_in_collection = LibraryRecord.objects.none()
         if self.request.GET.get('add-to-reading-list'):
+            library_record_ids = []
+
             library_records_in_collection = LibraryRecord.objects.filter(
                 record_in_collection_order__collection__collection='True Constitution'
-            ).order_by('record_in_collection_order__order_number')
-            print(f'library_records_in_collection: {library_records_in_collection}')
-            print(f'self.request.user: {self.request.user}')
+            )
+            for record in library_records_in_collection:
+                library_record_ids.append(record.id)
+                print(f'record.id: {record.id}')
+                if not ReadingProgress.objects.get(id=record.id):
+                    log_update = f'>>>Record added to Reading List from "True Constitution" Collection.'
+                    new_reading_progress_obj = ReadingProgress(
+                        dear_soul=self.request.user,
+                        record_id=record.id,
+                        date_added=current_date,
+                        reading_progress='1) On Reading List',
+                        date_latest=get_current_date(),
+                        reading_progress_log=log_update
+                    )
+                    new_reading_progress_obj.save()
+                break
+
+
+
+            library_records_in_reading_list = ReadingProgress.objects.filter(dear_soul__username=self.request.user)
+            print(f'library_records_in_reading_list: {library_records_in_reading_list}')
 
         context['year'] = get_current_year()
         context['title'] = "The True Constitution Collection"
