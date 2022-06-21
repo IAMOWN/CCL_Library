@@ -554,22 +554,18 @@ class SeriesBootCampList(ListView):
 
 # ####################### COLLECTIONS - True Constition #######################
 class CollectionTrueConstitutionList(ListView):
-    model = LibraryRecord
+    model = CollectionOrder
     template_name = 'library/records_collection_true_constitution.html'
-    context_object_name = 'library_records'
+    context_object_name = 'collection'
     paginate_by = 12
 
     # def get_queryset(self):
-    #     library_record_ids = []
-    #     library_collection = CollectionOrder.objects.filter(collection__collection='True Constitution')
-    #     for record in library_collection:
-    #         library_record_ids.append(record.record.id)
-    #     return LibraryRecord.objects.filter(pk__in=library_record_ids).order_by('record_in_collection_order__order_number')
+    #     return LibraryRecord.objects.filter(
+    #         record_in_collection_order__collection__collection='True Constitution'
+    #     ).order_by('record_in_collection_order__order_number')
 
     def get_queryset(self):
-        return LibraryRecord.objects.filter(
-            record_in_collection_order__collection__collection='True Constitution'
-        ).order_by('record_in_collection_order__order_number')
+        return CollectionOrder.objects.filter(collection__collection='True Constitution').order_by('order_number')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
