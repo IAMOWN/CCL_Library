@@ -734,7 +734,7 @@ class CollectionGESARAList(ListView):
                     # print(f'{record.title} ({record.id}) is on {self.request.user} Reading List!')
 
                 except ReadingProgress.DoesNotExist:
-                    # print(f'{record.title} ({record.id}) ADDED to {self.request.user} Reading List!')
+                    print(f'{record.title} ({record.id}) ADDED to {self.request.user} Reading List!')
                     # log_update = f'>>>Record added to Reading List from "GESARA" Collection.'
                     # new_reading_progress_obj = ReadingProgress(
                     #     dear_soul=self.request.user,
