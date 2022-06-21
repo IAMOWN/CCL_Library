@@ -713,8 +713,8 @@ class CollectionGESARAList(ListView):
             record_in_collection_order__collection__collection="GESARA"
         ).order_by('record_in_collection_order__order_number')
 
-    def get_queryset(self):
-        return CollectionOrder.objects.filter(collection__collection='GESARA').order_by('order_number')
+    # def get_queryset(self):
+    #     return CollectionOrder.objects.filter(collection__collection='GESARA').order_by('order_number')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
