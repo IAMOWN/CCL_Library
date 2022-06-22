@@ -579,7 +579,9 @@ class CollectionTrueConstitutionList(ListView):
 
             for item in collection:
                 if not ReadingProgress.objects.filter(record_id=item.record.id, dear_soul=self.request.user).exists():
-                    log_update = f'>>>Record added to Reading List from the "True Constitution" Collection.'
+                    log_update = f'''
+                    >>><strong>Record added to Reading List from the "True Constitution" Collection</strong> on 
+                    {get_current_date()}'''
                     new_reading_progress_obj = ReadingProgress(
                         dear_soul=self.request.user,
                         record_id=item.record_id,
@@ -616,7 +618,9 @@ class CollectionENACAList(ListView):
 
             for item in collection:
                 if not ReadingProgress.objects.filter(record_id=item.record.id, dear_soul=self.request.user).exists():
-                    log_update = f'>>>Record added to Reading List from the "GESARA" Collection.'
+                    log_update = f'''
+                    >>><strong>Record added to Reading List from the "ENACA" Collection</strong> on 
+                    {get_current_date()}'''
                     new_reading_progress_obj = ReadingProgress(
                         dear_soul=self.request.user,
                         record_id=item.record_id,
@@ -641,7 +645,9 @@ class CollectionIAMFreedomList(ListView):
     paginate_by = 12
 
     def get_queryset(self):
-        return CollectionOrder.objects.filter(collection__collection="St Germain 'I AM' Freedom Alchemy Class").order_by('order_number')
+        return CollectionOrder.objects.filter(
+            collection__collection="St Germain 'I AM' Freedom Alchemy Class"
+        ).order_by('order_number')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -659,7 +665,8 @@ class CollectionIAMFreedomList(ListView):
                         dear_soul=self.request.user
                 ).exists():
                     log_update = f'''
-                    >>>Record added to Reading List from the "St Germain 'I AM' Freedom Alchemy Class" Collection.
+                    >>><strong>Record added to Reading List from the "St Germain 'I AM' Freedom Alchemy Class" 
+                    Collection on </strong> {get_current_date()}.
                     '''
                     new_reading_progress_obj = ReadingProgress(
                         dear_soul=self.request.user,
@@ -697,7 +704,9 @@ class CollectionGESARAList(ListView):
 
             for item in collection:
                 if not ReadingProgress.objects.filter(record_id=item.record.id, dear_soul=self.request.user).exists():
-                    log_update = f'>>>Record added to Reading List from the "GESARA" Collection.'
+                    log_update = f'''
+                    >>><strong>Record added to Reading List from the "GESARA" Collection</strong> on 
+                    {get_current_date()}'''
                     new_reading_progress_obj = ReadingProgress(
                         dear_soul=self.request.user,
                         record_id=item.record_id,
