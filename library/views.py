@@ -534,195 +534,6 @@ class PetitionsList(ListView):
         return context
 
 
-# ####################### Library Records - Series: Boot Camp Alchemy Class  #######################
-class SeriesBootCampList(ListView):
-    model = LibraryRecord
-    template_name = 'library/records_series_boot_camp.html'
-    context_object_name = 'library_records'
-    queryset = LibraryRecord.objects.filter(
-        discourse_series__discourse_series='Boot Camp Alchemy Class'
-    ).order_by('part_number')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['year'] = get_current_year()
-        context['title'] = 'Boot Camp Alchemy Class Discourse Series'
-        context['page_type'] = 'Discourses'
-
-        return context
-
-
-# ####################### COLLECTIONS - True Constition #######################
-class CollectionTrueConstitutionList(ListView):
-    model = CollectionOrder
-    template_name = 'library/records_collection_true_constitution.html'
-    context_object_name = 'collection'
-    paginate_by = 12
-
-    # def get_queryset(self):
-    #     return LibraryRecord.objects.filter(
-    #         record_in_collection_order__collection__collection='True Constitution'
-    #     ).order_by('record_in_collection_order__order_number')
-
-    def get_queryset(self):
-        return CollectionOrder.objects.filter(collection__collection='True Constitution').order_by('order_number')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        # Add to Collection button
-        library_records_in_collection = LibraryRecord.objects.none()
-        if self.request.GET.get('add-to-reading-list'):
-            collection = CollectionOrder.objects.filter(
-                collection__collection='True Constitution'
-            ).order_by('order_number')
-
-            for item in collection:
-                if not ReadingProgress.objects.filter(record_id=item.record.id, dear_soul=self.request.user).exists():
-                    log_update = f'''
-                    >>><strong>Record added to Reading List from the "True Constitution" Collection</strong> on 
-                    {get_current_date()}'''
-                    new_reading_progress_obj = ReadingProgress(
-                        dear_soul=self.request.user,
-                        record_id=item.record_id,
-                        date_added=get_current_date(),
-                        reading_progress='1) On Reading List',
-                        date_latest=get_current_date(),
-                        reading_progress_log=log_update
-                    )
-                    new_reading_progress_obj.save()
-
-        context['year'] = get_current_year()
-        context['title'] = "The True Constitution Collection"
-
-        return context
-
-
-# ####################### Library Records - Collection: ENACA #######################
-class CollectionENACAList(ListView):
-    model = CollectionOrder
-    template_name = 'library/records_collection_ENACA.html'
-    context_object_name = 'collection'
-    paginate_by = 12
-
-    def get_queryset(self):
-        return CollectionOrder.objects.filter(collection__collection='ENACA').order_by('order_number')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        # Add to Collection button
-        library_records_in_collection = LibraryRecord.objects.none()
-        if self.request.GET.get('add-to-reading-list'):
-            collection = CollectionOrder.objects.filter(collection__collection='ENACA').order_by('order_number')
-
-            for item in collection:
-                if not ReadingProgress.objects.filter(record_id=item.record.id, dear_soul=self.request.user).exists():
-                    log_update = f'''
-                    >>><strong>Record added to Reading List from the "ENACA" Collection</strong> on 
-                    {get_current_date()}'''
-                    new_reading_progress_obj = ReadingProgress(
-                        dear_soul=self.request.user,
-                        record_id=item.record_id,
-                        date_added=get_current_date(),
-                        reading_progress='1) On Reading List',
-                        date_latest=get_current_date(),
-                        reading_progress_log=log_update
-                    )
-                    new_reading_progress_obj.save()
-
-        context['year'] = get_current_year()
-        context['title'] = 'The ENACA (Earth Nuclear And Chemical Affairs) Collection'
-
-        return context
-
-
-# ####################### Library Records - Collection: St Germain 'I AM' Freedom Alchemy Class #######################
-class CollectionIAMFreedomList(ListView):
-    model = CollectionOrder
-    template_name = 'library/records_collection_IAM_FREEDOM.html'
-    context_object_name = 'collection'
-    paginate_by = 12
-
-    def get_queryset(self):
-        return CollectionOrder.objects.filter(
-            collection__collection="St Germain 'I AM' Freedom Alchemy Class"
-        ).order_by('order_number')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        # Add to Collection button
-        library_records_in_collection = LibraryRecord.objects.none()
-        if self.request.GET.get('add-to-reading-list'):
-            collection = CollectionOrder.objects.filter(
-                collection__collection="St Germain 'I AM' Freedom Alchemy Class"
-            ).order_by('order_number')
-
-            for item in collection:
-                if not ReadingProgress.objects.filter(
-                        record_id=item.record.id,
-                        dear_soul=self.request.user
-                ).exists():
-                    log_update = f'''
-                    >>><strong>Record added to Reading List from the "St Germain 'I AM' Freedom Alchemy Class" 
-                    Collection on </strong> {get_current_date()}.
-                    '''
-                    new_reading_progress_obj = ReadingProgress(
-                        dear_soul=self.request.user,
-                        record_id=item.record_id,
-                        date_added=get_current_date(),
-                        reading_progress='1) On Reading List',
-                        date_latest=get_current_date(),
-                        reading_progress_log=log_update
-                    )
-                    new_reading_progress_obj.save()
-
-        context['year'] = get_current_year()
-        context['title'] = "The St Germain 'I AM' Freedom Alchemy Class Collection"
-
-        return context
-
-
-# ####################### Library Records - Collection: GESARA #######################
-class CollectionGESARAList(ListView):
-    model = CollectionOrder
-    template_name = 'library/records_collection_GESARA.html'
-    context_object_name = 'collection'
-    paginate_by = 12
-
-    def get_queryset(self):
-        return CollectionOrder.objects.filter(collection__collection="GESARA").order_by('order_number')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        # Add to Collection button
-        library_records_in_collection = LibraryRecord.objects.none()
-        if self.request.GET.get('add-to-reading-list'):
-            collection = CollectionOrder.objects.filter(collection__collection='GESARA').order_by('order_number')
-
-            for item in collection:
-                if not ReadingProgress.objects.filter(record_id=item.record.id, dear_soul=self.request.user).exists():
-                    log_update = f'''
-                    >>><strong>Record added to Reading List from the "GESARA" Collection</strong> on 
-                    {get_current_date()}'''
-                    new_reading_progress_obj = ReadingProgress(
-                        dear_soul=self.request.user,
-                        record_id=item.record_id,
-                        date_added=get_current_date(),
-                        reading_progress='1) On Reading List',
-                        date_latest=get_current_date(),
-                        reading_progress_log=log_update
-                    )
-                    new_reading_progress_obj.save()
-
-        context['year'] = get_current_year()
-        context['title'] = 'The GESARA (Global Economic Security and Reformation Act) Collection'
-
-        return context
-
-
 # ####################### Library Record - Detail View #######################
 class LibraryRecordDetail(DetailView):
     model = LibraryRecord
@@ -927,6 +738,195 @@ class LibraryRecordDetail(DetailView):
 
         context['title'] = libary_record
         context['collection_orders'] = CollectionOrder.objects.filter(record=self.kwargs['pk'])
+
+        return context
+
+
+# ####################### Library Records - Series: Boot Camp Alchemy Class  #######################
+class SeriesBootCampList(ListView):
+    model = LibraryRecord
+    template_name = 'library/records_series_boot_camp.html'
+    context_object_name = 'library_records'
+    queryset = LibraryRecord.objects.filter(
+        discourse_series__discourse_series='Boot Camp Alchemy Class'
+    ).order_by('part_number')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['year'] = get_current_year()
+        context['title'] = 'Boot Camp Alchemy Class Discourse Series'
+        context['page_type'] = 'Discourses'
+
+        return context
+
+
+# ####################### COLLECTIONS - True Constition #######################
+class CollectionTrueConstitutionList(ListView):
+    model = CollectionOrder
+    template_name = 'library/records_collection_true_constitution.html'
+    context_object_name = 'collection'
+    paginate_by = 12
+
+    # def get_queryset(self):
+    #     return LibraryRecord.objects.filter(
+    #         record_in_collection_order__collection__collection='True Constitution'
+    #     ).order_by('record_in_collection_order__order_number')
+
+    def get_queryset(self):
+        return CollectionOrder.objects.filter(collection__collection='True Constitution').order_by('order_number')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Add to Collection button
+        library_records_in_collection = LibraryRecord.objects.none()
+        if self.request.GET.get('add-to-reading-list'):
+            collection = CollectionOrder.objects.filter(
+                collection__collection='True Constitution'
+            ).order_by('order_number')
+
+            for item in collection:
+                if not ReadingProgress.objects.filter(record_id=item.record.id, dear_soul=self.request.user).exists():
+                    log_update = f'''
+                    >>><strong>Record added to Reading List from the "True Constitution" Collection</strong> on 
+                    {get_current_date()}'''
+                    new_reading_progress_obj = ReadingProgress(
+                        dear_soul=self.request.user,
+                        record_id=item.record_id,
+                        date_added=get_current_date(),
+                        reading_progress='1) On Reading List',
+                        date_latest=get_current_date(),
+                        reading_progress_log=log_update
+                    )
+                    new_reading_progress_obj.save()
+
+        context['year'] = get_current_year()
+        context['title'] = "The True Constitution Collection"
+
+        return context
+
+
+# ####################### Library Records - Collection: ENACA #######################
+class CollectionENACAList(ListView):
+    model = CollectionOrder
+    template_name = 'library/records_collection_ENACA.html'
+    context_object_name = 'collection'
+    paginate_by = 12
+
+    def get_queryset(self):
+        return CollectionOrder.objects.filter(collection__collection='ENACA').order_by('order_number')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Add to Collection button
+        library_records_in_collection = LibraryRecord.objects.none()
+        if self.request.GET.get('add-to-reading-list'):
+            collection = CollectionOrder.objects.filter(collection__collection='ENACA').order_by('order_number')
+
+            for item in collection:
+                if not ReadingProgress.objects.filter(record_id=item.record.id, dear_soul=self.request.user).exists():
+                    log_update = f'''
+                    >>><strong>Record added to Reading List from the "ENACA" Collection</strong> on 
+                    {get_current_date()}'''
+                    new_reading_progress_obj = ReadingProgress(
+                        dear_soul=self.request.user,
+                        record_id=item.record_id,
+                        date_added=get_current_date(),
+                        reading_progress='1) On Reading List',
+                        date_latest=get_current_date(),
+                        reading_progress_log=log_update
+                    )
+                    new_reading_progress_obj.save()
+
+        context['year'] = get_current_year()
+        context['title'] = 'The ENACA (Earth Nuclear And Chemical Affairs) Collection'
+
+        return context
+
+
+# ####################### Library Records - Collection: St Germain 'I AM' Freedom Alchemy Class #######################
+class CollectionIAMFreedomList(ListView):
+    model = CollectionOrder
+    template_name = 'library/records_collection_IAM_FREEDOM.html'
+    context_object_name = 'collection'
+    paginate_by = 12
+
+    def get_queryset(self):
+        return CollectionOrder.objects.filter(
+            collection__collection="St Germain 'I AM' Freedom Alchemy Class"
+        ).order_by('order_number')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Add to Collection button
+        library_records_in_collection = LibraryRecord.objects.none()
+        if self.request.GET.get('add-to-reading-list'):
+            collection = CollectionOrder.objects.filter(
+                collection__collection="St Germain 'I AM' Freedom Alchemy Class"
+            ).order_by('order_number')
+
+            for item in collection:
+                if not ReadingProgress.objects.filter(
+                        record_id=item.record.id,
+                        dear_soul=self.request.user
+                ).exists():
+                    log_update = f'''
+                    >>><strong>Record added to Reading List from the "St Germain 'I AM' Freedom Alchemy Class" 
+                    Collection on </strong> {get_current_date()}.
+                    '''
+                    new_reading_progress_obj = ReadingProgress(
+                        dear_soul=self.request.user,
+                        record_id=item.record_id,
+                        date_added=get_current_date(),
+                        reading_progress='1) On Reading List',
+                        date_latest=get_current_date(),
+                        reading_progress_log=log_update
+                    )
+                    new_reading_progress_obj.save()
+
+        context['year'] = get_current_year()
+        context['title'] = "The St Germain 'I AM' Freedom Alchemy Class Collection"
+
+        return context
+
+
+# ####################### Library Records - Collection: GESARA #######################
+class CollectionGESARAList(ListView):
+    model = CollectionOrder
+    template_name = 'library/records_collection_GESARA.html'
+    context_object_name = 'collection'
+    paginate_by = 12
+
+    def get_queryset(self):
+        return CollectionOrder.objects.filter(collection__collection="GESARA").order_by('order_number')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Add to Collection button
+        library_records_in_collection = LibraryRecord.objects.none()
+        if self.request.GET.get('add-to-reading-list'):
+            collection = CollectionOrder.objects.filter(collection__collection='GESARA').order_by('order_number')
+
+            for item in collection:
+                if not ReadingProgress.objects.filter(record_id=item.record.id, dear_soul=self.request.user).exists():
+                    log_update = f'''
+                    >>><strong>Record added to Reading List from the "GESARA" Collection</strong> on 
+                    {get_current_date()}'''
+                    new_reading_progress_obj = ReadingProgress(
+                        dear_soul=self.request.user,
+                        record_id=item.record_id,
+                        date_added=get_current_date(),
+                        reading_progress='1) On Reading List',
+                        date_latest=get_current_date(),
+                        reading_progress_log=log_update
+                    )
+                    new_reading_progress_obj.save()
+
+        context['year'] = get_current_year()
+        context['title'] = 'The GESARA (Global Economic Security and Reformation Act) Collection'
 
         return context
 
