@@ -1603,8 +1603,6 @@ class ReadingList(LoginRequiredMixin, ListView):
             context['search_type'] = 'collection'
             context['search_on'] = True
 
-        context['search_error'] = search_error
-
         context['series'] = DiscourseSeries.objects.all().order_by('discourse_series')
         context['authors'] = CosmicAuthor.objects.all().order_by('author')
         context['collections'] = Collection.objects.all().order_by('collection')
