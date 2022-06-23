@@ -1606,8 +1606,6 @@ class ReadingList(LoginRequiredMixin, ListView):
                     record_count += 1
             # Fill out remaining search context variables for presentation
             context['refined_reading_list'] = refined_reading_list
-            context['collection_order_number'] = collection_order_number
-
             context['search_count'] = record_count
             context['search_entered'] = collection_search_input
             context['search_type'] = 'Collection'
