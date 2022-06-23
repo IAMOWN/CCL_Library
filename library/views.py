@@ -1596,14 +1596,12 @@ class ReadingList(LoginRequiredMixin, ListView):
         elif collection_search_input:
             # Query based on search parameters
             refined_reading_list = []
-            collection_order_number = []
             record_count = 0
             library_collection = CollectionOrder.objects.filter(
                 collection__collection=collection_search_input,
             ).order_by('order_number')
             for record in library_collection:
                 if ReadingProgress.objects.filter(dear_soul__username=self.request.user, record__title=record.record.title):
-                    collection_order_number.append(record.order_number)
                     refined_reading_list.append(record.record)
                     record_count += 1
             # Fill out remaining search context variables for presentation
