@@ -1553,9 +1553,9 @@ class ReadingList(LoginRequiredMixin, ListView):
         context['search_on'] = False
 
         # Search inputs
+        author_search_input = self.request.GET.get('author-search') or ''
         series_search_input = self.request.GET.get('series-search') or ''
         collection_search_input = self.request.GET.get('collection-search') or ''
-        author_search_input = self.request.GET.get('author-search') or ''
 
         # Search for Master:
         if author_search_input:
@@ -1563,7 +1563,10 @@ class ReadingList(LoginRequiredMixin, ListView):
             refined_reading_list = ReadingProgress.objects.filter(
                 record__principal_cosmic_author__author=author_search_input,
                 dear_soul__username=self.request.user,
-            ).order_by('date_latest')
+            ).order_by(
+                'reading_progress',
+                'date_latest',
+            )
 
             # Fill out remaining search context variables for presentation
             context['refined_reading_list'] = refined_reading_list
@@ -1578,7 +1581,10 @@ class ReadingList(LoginRequiredMixin, ListView):
             refined_reading_list = ReadingProgress.objects.filter(
                 record__discourse_series__discourse_series=series_search_input,
                 dear_soul__username=self.request.user,
-            ).order_by('date_latest',)
+            ).order_by(
+                'reading_progress',
+                'date_latest',
+            )
             # Fill out remaining search context variables for presentation
             context['library_records'] = refined_reading_list
             context['search_count'] = refined_reading_list.count()
