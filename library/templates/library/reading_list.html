@@ -23,6 +23,7 @@
             </div>
         </div>
     </section>
+
     {% if records_exist %}
         <section class="media content-section">
             <div class="row">
@@ -65,7 +66,6 @@
                            {% csrf_token %}
                             <input type="submit" value="Remove" class="btn btn-danger btn-sm float-end">
                         </form>
-        {#                <a href="{% url 'reading-list-delete' record.id %}" class="btn btn-danger btn-sm float-end">Remove</a>#}
                     </div>
                 </div>
             </section>
@@ -143,18 +143,11 @@
             </div>
         </form>
 
-        {% if search_error %}
-        <div class="row">
-            <div class="col-sm-12 pt-2">
-                <p class="text-danger">When searching by date please ensure that the "from" date comes before the "to" date.</p>
-            </div>
-        </div>
-        {% endif %}
         {% if search_on %}
         <div class="row pt-2">
             <div class="col-sm-12">
 
-            {% elif search_count == 0 and search_type == 'Master' %}
+            {% if search_count == 0 and search_type == 'Master' %}
                 <p class="text-danger">There are no library records from the Master, {{ search_entered }} <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
             {% elif search_type == 'Master' %}
                 <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} library record{{ search_count|pluralize:'s' }} from the Master, {{ search_entered }} <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
@@ -174,26 +167,27 @@
         </div>
         {% endif %}
     </section>
+
     {% if search_on %}
-    {% for record in library_records %}
-    <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
-        <div class="row pt-2 pb-2">
-            <div class="col-sm-12">
-                {% if record.library_record_type == 'Discourse' %}
-                    {% if record.discourse_series and record.part_number %}
-                    <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{% if search_type == 'collection' %}{{ collection_order_number|index:forloop.counter0 }}) {% endif %}Part {{ record.part_number }} - {{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
-                    {% elif record.discourse_series and not record.part_number %}
-                    <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{% if search_type == 'collection' %}{{ collection_order_number|index:forloop.counter0 }}) {% endif %}{{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
+        {% for record in library_records %}
+        <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
+            <div class="row pt-2 pb-2">
+                <div class="col-sm-12">
+                    {% if record.library_record_type == 'Discourse' %}
+                        {% if record.discourse_series and record.part_number %}
+                        <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{% if search_type == 'collection' %}{{ collection_order_number|index:forloop.counter0 }}) {% endif %}Part {{ record.part_number }} - {{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
+                        {% elif record.discourse_series and not record.part_number %}
+                        <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{% if search_type == 'collection' %}{{ collection_order_number|index:forloop.counter0 }}) {% endif %}{{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
+                        {% else %}
+                        <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{% if search_type == 'collection' %}{{ collection_order_number|index:forloop.counter0 }}) {% endif %}{{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
+                        {% endif %}
                     {% else %}
                     <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{% if search_type == 'collection' %}{{ collection_order_number|index:forloop.counter0 }}) {% endif %}{{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
                     {% endif %}
-                {% else %}
-                <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{% if search_type == 'collection' %}{{ collection_order_number|index:forloop.counter0 }}) {% endif %}{{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
-                {% endif %}
+                </div>
             </div>
-        </div>
-    </section>
-    {% endfor %}
+        </section>
+        {% endfor %}
     {% endif %}
 
     <div class="row">
