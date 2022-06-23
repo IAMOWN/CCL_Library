@@ -163,7 +163,7 @@
                 <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} library record{{ search_count|pluralize:'s' }} in your Reading List for the Collection, {{ search_entered }} <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
             {% endif %}
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-3 pb-2">
                 <a href="{% url 'reading-list' %}" class="btn btn-outline-CCL-Blue col-12">Clear Search</a>
             </div>
         </div>
