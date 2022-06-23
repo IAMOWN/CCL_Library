@@ -26,70 +26,69 @@
     </section>
 
     {% if not search_on %}
-    {% if records_exist %}
-        <section class="media content-section">
-            <div class="row">
-                <div class="col-lg-6 pt-2">
-                    <h5>Record</h5>
-                </div>
-                <div class="col-lg-2 pt-2">
-                    <h5>Progress</h5>
-                </div>
-                <div class="col-lg-2 pt-2">
-                    <h5>Date</h5>
-                </div>
-                <div class="col-lg-2 pt-2">
-                    <h5>Times Read</h5>
-                </div>
-            </div>
-        </section>
-        {% for record in reading_progress %}
-            <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
-                <div class="row pt-2">
-                    <div class="col-lg-6">
-                        <p><a href="{% url 'library-record' record.record.id %}" class="text-CCL-Blue"><strong>{{ record.record }}</strong></a></p>
+        {% if records_exist %}
+            <section class="media content-section">
+                <div class="row">
+                    <div class="col-lg-6 pt-2">
+                        <h5>Record</h5>
                     </div>
-                    <div class="col-lg-2">
-                        <p>{{ record.reading_progress }}</p>
+                    <div class="col-lg-2 pt-2">
+                        <h5>Progress</h5>
                     </div>
-                    <div class="col-lg-2">
-                        <p>
-                            {% if record.reading_progress == '1) On Reading List' %}<strong>Added: </strong>{{ record.date_added }}
-                            {% elif record.reading_progress == '2) Reading In Progress' %}<strong>Started: </strong>{{ record.date_started }}
-                            {% elif record.reading_progress == '3) Completed Reading' %}<strong>Completed: </strong>{{ record.date_completed }}
-                            {% endif %}
-                        </p>
+                    <div class="col-lg-2 pt-2">
+                        <h5>Date</h5>
                     </div>
-                    <div class="col-lg-1">
-                        <p>{{ record.total_readings }}</p>
-                    </div>
-                    <div class="col-lg-1 me-auto">
-                        <form method="POST" action="{% url 'reading-list-delete' record.id %}">
-                           {% csrf_token %}
-                            <input type="submit" value="Remove" class="btn btn-danger btn-sm float-end">
-                        </form>
+                    <div class="col-lg-2 pt-2">
+                        <h5>Times Read</h5>
                     </div>
                 </div>
             </section>
-        {% endfor %}
-    {% else %}
-        <section class="media content-section text-CCL-Gold">
-            <div class="row">
-                <div class="col-lg-12 pt-2">
-                    <h5>Your Reading List is currently empty.</h5>
-                    <p>You can add records to your Reading List while logged in and updating your Reading Progress at the bottom of any Library Record.</p>
+            {% for record in reading_progress %}
+                <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
+                    <div class="row pt-2">
+                        <div class="col-lg-6">
+                            <p><a href="{% url 'library-record' record.record.id %}" class="text-CCL-Blue"><strong>{{ record.record }}</strong></a></p>
+                        </div>
+                        <div class="col-lg-2">
+                            <p>{{ record.reading_progress }}</p>
+                        </div>
+                        <div class="col-lg-2">
+                            <p>
+                                {% if record.reading_progress == '1) On Reading List' %}<strong>Added: </strong>{{ record.date_added }}
+                                {% elif record.reading_progress == '2) Reading In Progress' %}<strong>Started: </strong>{{ record.date_started }}
+                                {% elif record.reading_progress == '3) Completed Reading' %}<strong>Completed: </strong>{{ record.date_completed }}
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="col-lg-1">
+                            <p>{{ record.total_readings }}</p>
+                        </div>
+                        <div class="col-lg-1 me-auto">
+                            <form method="POST" action="{% url 'reading-list-delete' record.id %}">
+                               {% csrf_token %}
+                                <input type="submit" value="Remove" class="btn btn-danger btn-sm float-end">
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            {% endfor %}
+        {% else %}
+            <section class="media content-section text-CCL-Gold">
+                <div class="row">
+                    <div class="col-lg-12 pt-2">
+                        <h5>Your Reading List is currently empty.</h5>
+                        <p>You can add records to your Reading List while logged in and updating your Reading Progress at the bottom of any Library Record.</p>
+                    </div>
                 </div>
-            </div>
-        </section>
-    {% endif %}
+            </section>
+        {% endif %}
     {% endif %}
 
+    {% if not search_on %}
     <div class="row">
         <div class="col-lg-12 pt-3">
         </div>
     </div>
-
-    {% if not search_on %}
     <section>
         <div class="row pt-2">
             <div class="col text-center">
