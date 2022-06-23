@@ -1548,9 +1548,66 @@ class ReadingList(LoginRequiredMixin, ListView):
             'date_latest',
         )
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['search_on'] = False
+
+        # Search inputs
+        series_search_input = self.request.GET.get('series-search') or ''
+        collection_search_input = self.request.GET.get('collection-search') or ''
+        author_search_input = self.request.GET.get('author-search') or ''
+
+        # Search for Master:
+        if author_search_input:
+            # Query based on search parameters
+            library_records = LibraryRecord.objects.filter(
+                principal_cosmic_author__author__iexact=author_search_input,
+            ).order_by('date_communicated')
+            # Fill out remaining search context variables for presentation
+            context['library_records'] = library_records
+            context['search_count'] = library_records.count()
+            context['search_entered'] = author_search_input
+            context['search_type'] = 'Master'
+            context['search_on'] = True
+
+        # Search for series:
+        elif series_search_input:
+            # Query based on search parameters
+            library_records = LibraryRecord.objects.filter(
+                discourse_series__discourse_series=series_search_input,
+            ).order_by('part_number', 'date_communicated',)
+            # Fill out remaining search context variables for presentation
+            context['library_records'] = library_records
+            context['search_count'] = library_records.count()
+            context['search_entered'] = series_search_input
+            context['search_type'] = 'series'
+            context['search_on'] = True
+
+        # Search for Collection:
+        elif collection_search_input:
+            # Query based on search parameters
+            library_records = []
+            collection_order_number = []
+            record_count = 0
+            library_collection = CollectionOrder.objects.filter(collection__collection=collection_search_input).order_by('order_number')
+            for record in library_collection:
+                collection_order_number.append(record.order_number)
+                library_records.append(record.record)
+                record_count += 1
+            # Fill out remaining search context variables for presentation
+            context['library_records'] = library_records
+            context['collection_order_number'] = collection_order_number
+
+            context['search_count'] = record_count
+            context['search_entered'] = collection_search_input
+            context['search_type'] = 'collection'
+            context['search_on'] = True
+
+        context['search_error'] = search_error
+
+        context['series'] = DiscourseSeries.objects.all().order_by('discourse_series')
+        context['authors'] = CosmicAuthor.objects.all().order_by('author')
+        context['collections'] = Collection.objects.all().order_by('collection')
 
         # Query for user's reading list and sort by the date/progress
         reading_progress = ReadingProgress.objects.filter(dear_soul__username=self.request.user).order_by(
