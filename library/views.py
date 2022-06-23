@@ -1560,11 +1560,9 @@ class ReadingList(LoginRequiredMixin, ListView):
         # Search for Master:
         if author_search_input:
             # Query based on search parameters
-            # library_records = LibraryRecord.objects.filter(
-            #     principal_cosmic_author__author__iexact=author_search_input,
-            # ).order_by('date_communicated')
             library_records = ReadingProgress.objects.filter(
                 record__principal_cosmic_author__author=author_search_input,
+                dear_soul__username=self.request.user,
             ).order_by('date_latest')
 
             # Fill out remaining search context variables for presentation
@@ -1579,6 +1577,7 @@ class ReadingList(LoginRequiredMixin, ListView):
             # Query based on search parameters
             library_records = ReadingProgress.objects.filter(
                 record__discourse_series__discourse_series=series_search_input,
+                dear_soul__username=self.request.user,
             ).order_by('date_latest',)
             # Fill out remaining search context variables for presentation
             context['library_records'] = library_records
