@@ -182,12 +182,6 @@
                 </div>
             </div>
             <div class="row pb-2 pt-2">
-            {% if search_on %}
-                <div class="col-lg-9"></div>
-                <div class="col-lg-3 pb-2">
-                    <a href="{% url 'search' %}" class="btn btn-outline-CCL-Blue col-12">Clear Search</a>
-                </div>
-            {% endif %}
             </div>
         </form>
         {% if search_error %}
@@ -199,7 +193,7 @@
         {% endif %}
         {% if search_on %}
         <div class="row pt-2">
-            <div class="col-lg-12">
+            <div class="col-lg-9">
             {% if search_count == 0 and search_type == 'date' and same_day_search %}
                 <p class="text-danger">There are no library records for the date, {{ search_entered }} <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
             {% elif search_count == 0 and search_type == 'date' %}
@@ -285,6 +279,11 @@
 
             {% endif %}
             </div>
+            {% if search_on %}
+                <div class="col-lg-3 pb-2">
+                    <a href="{% url 'search' %}" class="btn btn-outline-CCL-Blue col-12">Clear Search</a>
+                </div>
+            {% endif %}
         </div>
         {% endif %}
     </section>
