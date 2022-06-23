@@ -51,10 +51,15 @@ def get_current_date():
 
 
 # ####################### TAG VIEWS #######################
-class TagList(LoginRequiredMixin, ListView):
+class TagList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Tag
     template_name = 'library/tags.html'
     context_object_name = 'tags'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -65,10 +70,15 @@ class TagList(LoginRequiredMixin, ListView):
 
 
 # ####################### Tag - Detail View #######################
-class TagDetail(LoginRequiredMixin, DetailView):
+class TagDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Tag
     template_name = 'library/tag_detail.html'
     context_object_name = 'tag'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -79,11 +89,16 @@ class TagDetail(LoginRequiredMixin, DetailView):
 
 
 # ####################### Tag - Create View #######################
-class TagCreate(LoginRequiredMixin, CreateView):
+class TagCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Tag
     form_class = CreateTagForm
     template_name = 'library/tag_form.html'
     reverse_lazy('tags')
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
     def form_valid(self, form):
         message = form.instance.tag
@@ -103,10 +118,15 @@ class TagCreate(LoginRequiredMixin, CreateView):
 
 
 # ####################### Tag - Update View #######################
-class TagUpdate(LoginRequiredMixin, UpdateView):
+class TagUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Tag
     form_class = UpdateTagForm
     template_name = 'library/tag_form.html'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
     def get_context_data(self, *args, **kwargs):
         context = super(TagUpdate, self).get_context_data(**kwargs)
@@ -140,10 +160,15 @@ class TagDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 # ####################### COLLECTION VIEWS #######################
-class CollectionList(LoginRequiredMixin, ListView):
+class CollectionList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Collection
     template_name = 'library/collections.html'
     context_object_name = 'collections'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -154,10 +179,15 @@ class CollectionList(LoginRequiredMixin, ListView):
 
 
 # ####################### Collection - Detail View #######################
-class CollectionDetail(LoginRequiredMixin, DetailView):
+class CollectionDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Collection
     template_name = 'library/collection_detail.html'
     context_object_name = 'collection'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -168,11 +198,16 @@ class CollectionDetail(LoginRequiredMixin, DetailView):
 
 
 # ####################### Collection - Create View #######################
-class CollectionCreate(LoginRequiredMixin, CreateView):
+class CollectionCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Collection
     form_class = CreateCollectionForm
     template_name = 'library/collection_form.html'
     reverse_lazy('collections')
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
     def form_valid(self, form):
         message = form.instance.collection
@@ -192,10 +227,15 @@ class CollectionCreate(LoginRequiredMixin, CreateView):
 
 
 # ####################### Collection - Update View #######################
-class CollectionUpdate(LoginRequiredMixin, UpdateView):
+class CollectionUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Collection
     form_class = UpdateCollectionForm
     template_name = 'library/collection_form.html'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
     def get_context_data(self, *args, **kwargs):
         context = super(CollectionUpdate, self).get_context_data(**kwargs)
@@ -235,10 +275,15 @@ class CollectionDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 # ####################### DISCOURSE SERIES VIEWS #######################
-class DiscourseSeriesList(LoginRequiredMixin, ListView):
+class DiscourseSeriesList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = DiscourseSeries
     template_name = 'library/discourse_series.html'
     context_object_name = 'discourse_series'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -249,10 +294,15 @@ class DiscourseSeriesList(LoginRequiredMixin, ListView):
 
 
 # ####################### Discourse Series - Detail View #######################
-class DiscourseSeriesDetail(LoginRequiredMixin, DetailView):
+class DiscourseSeriesDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = DiscourseSeries
     template_name = 'library/discourse_series_detail.html'
     context_object_name = 'discourse_series'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -263,10 +313,15 @@ class DiscourseSeriesDetail(LoginRequiredMixin, DetailView):
 
 
 # ####################### Discourse Series - Create View #######################
-class DiscourseSeriesCreate(LoginRequiredMixin, CreateView):
+class DiscourseSeriesCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = DiscourseSeries
     form_class = CreateDiscourseSeriesForm
     template_name = 'library/discourse_series_form.html'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
     def form_valid(self, form):
         message = form.instance.discourse_series
@@ -286,10 +341,15 @@ class DiscourseSeriesCreate(LoginRequiredMixin, CreateView):
 
 
 # ####################### Discourse Series - Update View #######################
-class DiscourseSeriesUpdate(LoginRequiredMixin, UpdateView):
+class DiscourseSeriesUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = DiscourseSeries
     form_class = UpdateDiscourseSeriesForm
     template_name = 'library/discourse_series_form.html'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
     def get_context_data(self, *args, **kwargs):
         context = super(DiscourseSeriesUpdate, self).get_context_data(**kwargs)
@@ -323,10 +383,15 @@ class DiscourseSeriesDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView)
 
 
 # ####################### MASTERS (COSMIC AUTHOR) VIEWS #######################
-class CosmicAuthorList(LoginRequiredMixin, ListView):
+class CosmicAuthorList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = CosmicAuthor
     template_name = 'library/masters.html'
     context_object_name = 'authors'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -337,10 +402,15 @@ class CosmicAuthorList(LoginRequiredMixin, ListView):
 
 
 # ####################### Master - Detail View #######################
-class CosmicAuthorDetail(LoginRequiredMixin, DetailView):
+class CosmicAuthorDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = CosmicAuthor
     template_name = 'library/master_detail.html'
     context_object_name = 'author'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -351,10 +421,15 @@ class CosmicAuthorDetail(LoginRequiredMixin, DetailView):
 
 
 # ####################### Master - Create View #######################
-class CosmicAuthorCreate(LoginRequiredMixin, CreateView):
+class CosmicAuthorCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = CosmicAuthor
     form_class = CreateCosmicAuthorForm
     template_name = 'library/master_form.html'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
     def form_valid(self, form):
         message = form.instance.author
@@ -374,10 +449,15 @@ class CosmicAuthorCreate(LoginRequiredMixin, CreateView):
 
 
 # ####################### Master - Update View #######################
-class CosmicAuthorUpdate(LoginRequiredMixin, UpdateView):
+class CosmicAuthorUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = CosmicAuthor
     form_class = UpdateCosmicAuthorForm
     template_name = 'library/master_form.html'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
     def get_context_data(self, *args, **kwargs):
         context = super(CosmicAuthorUpdate, self).get_context_data(**kwargs)
