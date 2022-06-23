@@ -1567,7 +1567,7 @@ class ReadingList(LoginRequiredMixin, ListView):
 
             # Fill out remaining search context variables for presentation
             context['refined_reading_list'] = refined_reading_list
-            context['search_count'] = library_records.count()
+            context['search_count'] = refined_reading_list.count()
             context['search_entered'] = author_search_input
             context['search_type'] = 'Master'
             context['search_on'] = True
@@ -1575,13 +1575,13 @@ class ReadingList(LoginRequiredMixin, ListView):
         # Search for series:
         elif series_search_input:
             # Query based on search parameters
-            library_records = ReadingProgress.objects.filter(
+            refined_reading_list = ReadingProgress.objects.filter(
                 record__discourse_series__discourse_series=series_search_input,
                 dear_soul__username=self.request.user,
             ).order_by('date_latest',)
             # Fill out remaining search context variables for presentation
-            context['library_records'] = library_records
-            context['search_count'] = library_records.count()
+            context['library_records'] = refined_reading_list
+            context['search_count'] = refined_reading_list.count()
             context['search_entered'] = series_search_input
             context['search_type'] = 'series'
             context['search_on'] = True
