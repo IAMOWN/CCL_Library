@@ -1602,7 +1602,7 @@ class ReadingList(LoginRequiredMixin, ListView):
             ).order_by('order_number')
             for record in library_collection:
                 if ReadingProgress.objects.filter(dear_soul__username=self.request.user, record__title=record.record.title):
-                    refined_reading_list.append(record.record)
+                    refined_reading_list.append(record)
                     record_count += 1
             # Fill out remaining search context variables for presentation
             context['refined_reading_list'] = refined_reading_list
