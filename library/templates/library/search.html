@@ -182,10 +182,12 @@
                 </div>
             </div>
             <div class="row pb-2 pt-2">
+            {% if search_on %}
                 <div class="col-lg-9"></div>
                 <div class="col-lg-3 pb-2">
                     <a href="{% url 'search' %}" class="btn btn-outline-CCL-Blue col-12">Clear Search</a>
                 </div>
+            {% endif %}
             </div>
         </form>
         {% if search_error %}
