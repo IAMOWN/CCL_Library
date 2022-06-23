@@ -7,9 +7,10 @@
 
     <title>{% block title %}{% endblock %}</title>
 {#    <link rel="icon" href="{% static 'CCL_Library/favicon-32x32.png' %}"/>#}
-    <link rel="icon" href="https://ega.s3.us-east-2.amazonaws.com/ccl-library-static/favicon-32x32.png"/>
+{#    <link rel="icon" href="https://ega.s3.us-east-2.amazonaws.com/ccl-library-static/favicon-32x32.png"/>#}
+    <link rel="icon" href="https://cdn.cosmicchrist.love/ccl-library-static/CCL_Library/favicon-32x32.png"/>
 
-    <!-- Bootstrap CSS - https://getbootstrap.com/docs/5.0/getting-started/introduction/#starter-template -->
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <!-- Local CSS -->
@@ -37,10 +38,11 @@
     <!-- HTMX -->
     <script src="https://unpkg.com/htmx.org@1.7.0" integrity="sha384-EzBXYPt0/T6gxNp0nuPtLkmRpmDBbjg6WmCUZRLXBBwYYmwAUxzlSGej0ARHX0Bo" crossorigin="anonymous"></script>
 
-    <!--Tinymce Text-Editor (Must be in Head Tag) -->
+    <!--Tinymce Text-Editor -->
     <script>
         tinyMCE.init({
-            document_base_url : "https://ega.s3.us-east-2.amazonaws.com/ccl-library-static/",
+            {#document_base_url : "https://ega.s3.us-east-2.amazonaws.com/ccl-library-static/",#}
+            document_base_url : "https://cdn.cosmicchrist.love/ccl-library-static/CCL_Library/",
             relative_urls : true,
 
             {#plugins: "tinydrive advlist autolink lists link image charmap print preview anchor searchreplace visualblocks fullscreen insertdatetime media table paste code help wordcount",#}
