@@ -1601,8 +1601,8 @@ class ReadingList(LoginRequiredMixin, ListView):
                 collection__collection=collection_search_input,
             ).order_by('order_number')
             for record in library_collection:
-                print(f'record: {record}')
                 if ReadingProgress.objects.filter(dear_soul__username=self.request.user, record__title=record.record.title):
+                    print(f'{record} on Reading List')
                     refined_reading_list.append(record)
                     record_count += 1
             # Fill out remaining search context variables for presentation
