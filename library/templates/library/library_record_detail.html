@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}
-    {{ title }}
+    {% if library_record.part_number %}{{ library_record.part_number }} - {% endif %}{% if library_record.discourse_series %}{{ ibrary_record.discourse_series }} - {% endif %}{{ library_record.title }} - {{ library_record.principal_cosmic_author }} - {{ library_record.date_communicated }}
 {% endblock %}
 {% block content %}
     {% if messages %}

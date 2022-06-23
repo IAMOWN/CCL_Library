@@ -816,7 +816,6 @@ class LibraryRecordDetail(DetailView):
         else:
             context['series'] = False
 
-        context['title'] = libary_record
         context['collection_orders'] = CollectionOrder.objects.filter(record=self.kwargs['pk'])
 
         return context
