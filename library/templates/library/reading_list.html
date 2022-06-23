@@ -25,6 +25,7 @@
         </div>
     </section>
 
+    {% if not search_on %}
     {% if records_exist %}
         <section class="media content-section">
             <div class="row">
@@ -80,6 +81,7 @@
                 </div>
             </div>
         </section>
+    {% endif %}
     {% endif %}
 
     <div class="row">
