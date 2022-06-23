@@ -219,19 +219,19 @@ class LibraryRecord(models.Model):
     )
     date_communicated = models.DateField(default=date.today)
     pdf_url = models.CharField(
-        max_length=200,
+        max_length=255,
         null=True,
         blank=True,
         default=''
     )
     doc_url = models.CharField(
-        max_length=200,
+        max_length=255,
         null=True,
         blank=True,
         default=''
     )
     mp3_url = models.CharField(
-        max_length=200,
+        max_length=255,
         null=True,
         blank=True,
         default=''
