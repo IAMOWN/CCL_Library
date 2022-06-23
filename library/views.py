@@ -1560,13 +1560,13 @@ class ReadingList(LoginRequiredMixin, ListView):
         # Search for Master:
         if author_search_input:
             # Query based on search parameters
-            library_records = ReadingProgress.objects.filter(
+            refined_reading_list = ReadingProgress.objects.filter(
                 record__principal_cosmic_author__author=author_search_input,
                 dear_soul__username=self.request.user,
             ).order_by('date_latest')
 
             # Fill out remaining search context variables for presentation
-            context['library_records'] = library_records
+            context['refined_reading_list'] = refined_reading_list
             context['search_count'] = library_records.count()
             context['search_entered'] = author_search_input
             context['search_type'] = 'Master'

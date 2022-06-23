@@ -172,24 +172,34 @@
     </section>
 
     {% if search_on %}
-        {% for record in library_records %}
-        <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
-            <div class="row pt-2 pb-2">
-                <div class="col-lg-12">
-                    {% if record.library_record_type == 'Discourse' %}
-                        {% if record.discourse_series and record.part_number %}
-                        <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{% if search_type == 'collection' %}{{ collection_order_number|index:forloop.counter0 }}) {% endif %}Part {{ record.part_number }} - {{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
-                        {% elif record.discourse_series and not record.part_number %}
-                        <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{% if search_type == 'collection' %}{{ collection_order_number|index:forloop.counter0 }}) {% endif %}{{ record.discourse_series }} - {{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
-                        {% else %}
-                        <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{% if search_type == 'collection' %}{{ collection_order_number|index:forloop.counter0 }}) {% endif %}{{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
-                        {% endif %}
-                    {% else %}
-                    <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{% if search_type == 'collection' %}{{ collection_order_number|index:forloop.counter0 }}) {% endif %}{{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
-                    {% endif %}
+        {% for record in refined_reading_list %}
+            <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
+                <div class="row pt-2">
+                    <div class="col-lg-6">
+                        <p><a href="{% url 'library-record' record.record.id %}" class="text-CCL-Blue"><strong>{{ record.record }}</strong></a></p>
+                    </div>
+                    <div class="col-lg-2">
+                        <p>{{ record.reading_progress }}</p>
+                    </div>
+                    <div class="col-lg-2">
+                        <p>
+                            {% if record.reading_progress == '1) On Reading List' %}<strong>Added: </strong>{{ record.date_added }}
+                            {% elif record.reading_progress == '2) Reading In Progress' %}<strong>Started: </strong>{{ record.date_started }}
+                            {% elif record.reading_progress == '3) Completed Reading' %}<strong>Completed: </strong>{{ record.date_completed }}
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="col-lg-1">
+                        <p>{{ record.total_readings }}</p>
+                    </div>
+                    <div class="col-lg-1 me-auto">
+                        <form method="POST" action="{% url 'reading-list-delete' record.id %}">
+                           {% csrf_token %}
+                            <input type="submit" value="Remove" class="btn btn-danger btn-sm float-end">
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
         {% endfor %}
     {% endif %}
 
