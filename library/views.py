@@ -1601,12 +1601,6 @@ class ReadingList(LoginRequiredMixin, ListView):
             library_collection_title_list = CollectionOrder.objects.filter(
                 collection__collection=collection_search_input,
             ).values_list('record__title', flat=True).order_by('order_number')
-            print(f'library_collection_title_list: {library_collection_title_list}')
-            # for record in library_collection:
-            #     if ReadingProgress.objects.filter(dear_soul__username=self.request.user, record__title=record.record.title):
-            #         refined_reading_list.append(record)
-            #         record_count += 1
-            # Fill out remaining search context variables for presentation
             refined_reading_list = ReadingProgress.objects.filter(dear_soul__username=self.request.user, record__title__in=[library_collection_title_list])
             context['refined_reading_list'] = refined_reading_list
             context['search_count'] = refined_reading_list.count()
