@@ -153,13 +153,13 @@
                 <p class="text-danger">There are no library records in your Reading List from the Master, {{ search_entered }} <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
             {% elif search_type == 'Master' %}
                 <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} library record{{ search_count|pluralize:'s' }} in your Reading List from the Master, {{ search_entered }} <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
-            {% elif search_count == 0 and search_type == 'series' %}
+            {% elif search_count == 0 and search_type == 'Series' %}
                 <p class="text-danger">There are no library records in your Reading List for the Series, {{ search_entered }} <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
-            {% elif search_type == 'series' %}
+            {% elif search_type == 'Series' %}
                 <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} library record{{ search_count|pluralize:'s' }} in your Reading List for the Series, {{ search_entered }} <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
-            {% elif search_count == 0 and search_type == 'collection' %}
+            {% elif search_count == 0 and search_type == 'Collection' %}
                 <p class="text-danger">There are no library records in your Reading List for the Collection, {{ search_entered }} <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
-            {% elif search_type == 'collection' %}
+            {% elif search_type == 'Collection' %}
                 <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} library record{{ search_count|pluralize:'s' }} in your Reading List for the Collection, {{ search_entered }} <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
             {% endif %}
             </div>

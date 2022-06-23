@@ -1586,10 +1586,10 @@ class ReadingList(LoginRequiredMixin, ListView):
                 'date_latest',
             )
             # Fill out remaining search context variables for presentation
-            context['library_records'] = refined_reading_list
+            context['refined_reading_list'] = refined_reading_list
             context['search_count'] = refined_reading_list.count()
             context['search_entered'] = series_search_input
-            context['search_type'] = 'series'
+            context['search_type'] = 'Series'
             context['search_on'] = True
 
         # Search for Collection:
@@ -1604,12 +1604,12 @@ class ReadingList(LoginRequiredMixin, ListView):
                 library_records.append(record.record)
                 record_count += 1
             # Fill out remaining search context variables for presentation
-            context['library_records'] = library_records
+            context['refined_reading_list'] = library_records
             context['collection_order_number'] = collection_order_number
 
             context['search_count'] = record_count
             context['search_entered'] = collection_search_input
-            context['search_type'] = 'collection'
+            context['search_type'] = 'Collection'
             context['search_on'] = True
 
         context['series'] = DiscourseSeries.objects.all().order_by('discourse_series')
