@@ -112,6 +112,7 @@
     </section>
     {% endif %}
 
+    {% if records_exist %}
     <section class="media content-section text-CCL-Gold">
         <form method="get">
             <div class="row pb-2 pt-2">
@@ -144,7 +145,6 @@
                 </div>
             </div>
         </form>
-
         {% if search_on %}
         <div class="row pt-2">
             <div class="col-lg-9">
@@ -168,6 +168,7 @@
         </div>
         {% endif %}
     </section>
+    {% endif %}
 
     {% if search_on %}
         {% for record in refined_reading_list %}
