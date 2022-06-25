@@ -419,4 +419,4 @@ class RecordObservation(models.Model):
         verbose_name_plural = 'Record Observations'
 
     def __str__(self):
-        return f'{self.observation_type} - {self.record}'
+        return f'{self.observation_type} of Record: [{self.record}]'
