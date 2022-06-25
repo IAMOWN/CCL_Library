@@ -5,6 +5,7 @@ from .views import (
     TaskDetail,
     TaskCreate,
     TaskUpdate,
+    TaskDelete,
     TaskCompletedList,
 )
 
