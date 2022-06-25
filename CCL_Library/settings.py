@@ -37,6 +37,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 INSTALLED_APPS = [
+    'iamown.apps.LibraryConfig',
     'library.apps.LibraryConfig',
     'users.apps.UsersConfig',
     'home.apps.HomeConfig',

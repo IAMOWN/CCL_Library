@@ -22,8 +22,9 @@ urlpatterns = [
     path('profile/', user_views.profile, name='profile'),
 
     # App includes
-    path('', include('library.urls')),
     path('', include('home.urls')),
+    path('', include('iamown.urls')),
+    path('', include('library.urls')),
 
     # Core routes
     path('', views.home, name='home'),
