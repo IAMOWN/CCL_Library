@@ -49,12 +49,12 @@ class TaskList(LoginRequiredMixin, ListView):
             context['search_count'] = context['tasks'].count()
             context['search_type'] = 'Assignee'
             context['search_entered'] = assignee_search_input
-        elif task_search_input:
-            context['search_off'] = False
-            context['tasks'] = context['tasks'].filter(task_title__icontains=task_search_input)
-            context['search_count'] = context['tasks'].count()
-            context['search_type'] = 'Task'
-            context['search_entered'] = task_search_input
+        # elif task_search_input:
+        #     context['search_off'] = False
+        #     context['tasks'] = context['tasks'].filter(task_title__icontains=task_search_input)
+        #     context['search_count'] = context['tasks'].count()
+        #     context['search_type'] = 'Task'
+        #     context['search_entered'] = task_search_input
         elif status_search_input:
             context['search_off'] = False
             context['tasks'] = context['tasks'].filter(task_status__icontains=status_search_input)

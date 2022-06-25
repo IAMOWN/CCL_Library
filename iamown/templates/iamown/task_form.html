@@ -6,18 +6,18 @@
     {% if page_type == 'Update' %}
         Edit Task
     {% else %}
-        Create A Task
+        Add A Task
     {% endif %}
 {% endblock %}
 {% block content %}
-    <section class="media content-section">
+    <section class="content-section">
     {% if page_type == 'Update' %}
         <h3><strong>Edit Task: {{ task.task_title }}</strong> </h3>
     {% else %}
-        <h3><strong>Create A Task</strong></h3>
+        <h3><strong>Add A Task</strong></h3>
     {% endif %}
     {% if form.errors %}
-        <article class="media content-section-danger alert-section">
+        <article class="content-section-danger alert-section">
             <div>
             <p class="alert-danger">Please review the following:</p>
                 <ul>
@@ -54,9 +54,7 @@
 
         <form method="post" action="" enctype="multipart/form-data" class="pb-2">
             {% csrf_token %}
-            {{ form.media }}
-    {#        {{ form|crispy }}#}
-            {% if task.task_type != 'Prepayment' %}
+            {{ form.media}}
             <div class="row">
                 <div class="col-lg-12">
                     {{ form.task_title|as_crispy_field }}
@@ -67,7 +65,6 @@
                     {{ form.task_description|as_crispy_field }}
                 </div>
             </div>
-            {% endif %}
             <div class="row">
                 <div class="col-lg-3">
                     {{ form.task_priority|as_crispy_field }}
@@ -76,12 +73,11 @@
                     {{ form.task_status|as_crispy_field }}
                 </div>
                 <div class="col-lg-3">
-                    {{ form.assigned_team|as_crispy_field }}
+{#                    {{ form.assigned_team|as_crispy_field }}#}
                 </div>
                 {% if user.is_staff %}
-{#                    DONE Make assigned_user field for a task only show staff #}
                 <div class="col-lg-3">
-                    {{ form.assigned_user|as_crispy_field }}
+                    {{ form.assigned_dear_soul|as_crispy_field }}
                 </div>
                 {% endif %}
             </div>
@@ -90,16 +86,16 @@
                     {{ form.due_date|as_crispy_field }}
                 </div>
             </div>
-        <div class="row pt-4">
-            <div class="col-sm-12">
-                <a href="{% url 'tasks' %}" class="btn btn-outline-BlueGray col-sm-3">Back to Tasks</a>
-                {% if page_type == 'Update' %}
-                    <input type="submit" value="Update Task" class="btn btn-success float-end col-sm-3">
-                {% else %}
-                    <input type="submit" value="Add Task" class="btn btn-success float-end col-sm-3">
-                {% endif %}
+            <div class="row pt-4">
+                <div class="col-lg-12">
+                    <a href="{% url 'tasks' %}" class="btn btn-outline-CCL-Blue col-lg-3">Back to Tasks</a>
+                    {% if page_type == 'Update' %}
+                        <input type="submit" value="Update Task" class="btn btn-CCL-Blue float-end col-lg-3">
+                    {% else %}
+                        <input type="submit" value="Add Task" class="btn btn-CCL-Blue float-end col-lg-3">
+                    {% endif %}
+                </div>
             </div>
-        </div>
         </form>
     </section>
 {% endblock %}
