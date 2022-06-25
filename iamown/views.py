@@ -1,9 +1,5 @@
 from django.shortcuts import render
 
-from iamown.models import (
-    test
-)
-
 
 # ####################### BASIC VIEWS #######################
 def test(request):
