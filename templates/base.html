@@ -90,25 +90,24 @@
                         <a class="nav-link-gold pe-4 pt-2" href="{% url 'reading-list' %}" aria-expanded="false">
                           Reading List
                         </a>
-                        {% if user.is_staff %}
+                        {% if request.user|in_group:"Librarians" %}
                         <li class="dropdown pe-4 pt-2">
                             <a class="nav-link-gold  dropdown-toggle navbarDropdownMenuLink" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Administration
+                              Library Admin
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="{% url 'library-records' %}">Library Records</a>
+                                <a class="dropdown-item" href="{% url 'librarian-training' %}">Training Videos</a>
+                                <a class="dropdown-item" href="{% url 'library-records' %}">Records</a>
                                 <a class="dropdown-item" href="{% url 'collections' %}">Collections</a>
                                 <a class="dropdown-item" href="{% url 'discourse-series' %}">Series</a>
                                 <a class="dropdown-item" href="{% url 'masters' %}">Masters</a>
                                 <a class="dropdown-item" href="{% url 'tags' %}">Tags</a>
-                                <a class="dropdown-item" href="{% url "admin:index" %}">Back-Office Admin</a>
-                                {% if request.user|in_group:"Librarians" %}
-                                    <a class="dropdown-item" href="#">User is in Librarian group!</a>
-                                {% endif %}
                             </div>
                         </li>
-                        <a class="nav-link-gold pe-4 pt-2" href="{% url 'librarian-training' %}" aria-expanded="false">
-                          Librarian Training
+                        {% endif %}
+                        {% if user.is_superuser %}
+                        <a class="nav-link-gold pe-4 pt-2" href="{% url "admin:index" %}" aria-expanded="false">
+                          Django Admin
                         </a>
                         {% endif %}
                         <li class="dropdown pe-4 pt-2">
