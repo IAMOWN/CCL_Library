@@ -1,10 +1,234 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+{% block title %}
+    Tasks
+{% endblock %}
+{% block content %}
+    <section class="media content-section">
+        <div class="row">
+            <div class="col-12">
+                <h3><strong>Tasks</strong></h3>
+            </div>
+        </div>
+    </section>
+    <section class="media content-section">
+        <div class="row">
+            <div class="col-12">
+            {% if tasks_count > 0 %}
+                <p>There {{ tasks_count|pluralize:"is,are" }} currently {{ tasks_count|intcomma }} active task{{ tasks_count|pluralize:"s" }} for the team.</p>
+            {% else %}
+                <p>You currently have no tasks. Click the Create Task button below to begin your preparations.</p>
+            {% endif %}
+            {% if completed_tasks_count > 0 %}
+                <p>Your team has <a class="text-BlueGray" href="{% url 'tasks-completed' %}">completed {{ completed_tasks_count }} task{{ completed_tasks_count|pluralize:"s" }}</a>.</p>
+            {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 pb-2">
+                <a class="btn btn-success col-12" href="{% url 'task-create' %}">Add A Task</a>
+            </div>
+        </div>
+    </section>
+    {% if tasks_count > 1 %}
 
-</body>
-</html>
+    {% if search_off %}
+    <section class="media content-section">
+    {% elif search_count == 0 %}
+    <section class="media content-section-danger">
+    {% else %}
+    <section class="media content-section-success">
+    {% endif %}
+        <form method="get" class="pt-2">
+            <div class="row">
+                <div class="col-lg-3 pb-2">
+                    <button type="submit" class="btn btn-outline-success col-12">Filter Tasks</button>
+                </div>
+                <div class="col-lg-3 pb-2">
+                    <input
+                            type="text"
+                            name="assignee-search-area"
+                            class="button-margin-tlr form-control"
+                            value="{{ assignee_search_input }}"
+                            placeholder="By Assignee"
+                    >
+                </div>
+{#                <div class="col-2">#}
+{#                    <input#}
+{#                            type="text"#}
+{#                            name="task-search-area"#}
+{#                            class="button-margin-tlr form-control"#}
+{#                            value="{{ task_search_input }}"#}
+{#                            placeholder="By Title"#}
+{#                    >#}
+{#                </div>#}
+                <div class="col-lg-3 pb-2">
+                    <select name="status-search-area" class="button-margin-tlr form-control">
+                        <option value="">by Status</option>
+                        <option value='1) Not started'>1) Not started</option>
+                        <option value='2) In progress'>2) In progress</option>
+                        <option value='3) Deferred'>3) Deferred</option>
+                        <option value='Completed'>Completed</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 pb-2">
+                    <select name="priority-search-area" class="button-margin-tlr form-control">
+                        <option value="">by Priority</option>
+                        <option value='1) High'>1) High</option>
+                        <option value='2) Normal'>2) Normal</option>
+                        <option value='3) Low'>3) Low</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    {% if not search_off %}
+        {% if search_type == 'Team' %}
+            {% if search_count == 0 %}
+                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the Team field.</p>
+            {% else %}
+                <p class="text-success">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} active task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the team field.</p>
+            {% endif %}
+        {% elif search_type == 'Task' %}
+            {% if search_count == 0 %}
+                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the Team field.</p>
+            {% else %}
+                <p class="text-success">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the task title field.</p>
+            {% endif %}
+        {% elif search_type == 'Status' %}
+            {% if search_count == 0 %}
+                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the task status field.</p>
+            {% else %}
+                <p class="text-success">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the task status field.</p>
+            {% endif %}
+        {% elif search_type == 'Priority' %}
+            {% if search_count == 0 %}
+                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the task priority field.</p>
+            {% else %}
+                <p class="text-success">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} active task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the task priority field.</p>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+    </section>
+    {% endif %}
+    <section class="media content-section d-none d-xl-block">
+        <div class="row">
+            <div class="col-sm-2">
+                <p><strong>Assignee</strong></p>
+            </div>
+            <div class="col-sm-4">
+                <p><strong>Task</strong></p>
+            </div>
+            <div class="col-sm-2">
+                <p><strong>Status</strong></p>
+            </div>
+            <div class="col-sm-2">
+                <p><strong>Priority</strong></p>
+            </div>
+            <div class="col-sm-2">
+                <p><strong>Due Date</strong></p>
+            </div>
+        </div>
+    </section>
+    {% if search_off %}
+        {% for task in tasks %}
+            {% if task.task_status != 'Completed' %}
+            <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
+                <div class="row pt-2 pb-2">
+                    <div class="col-sm-2">
+                        {{ task.assigned_user.profile.first_name }} {{ task.assigned_user.profile.last_name }}
+                    </div>
+                    <div class="col-sm-4">
+                        {% if task.task_type == 'ALAN' %}
+                            <p><a href="{% url 'task' task.id %}" class="text-BlueGray"><strong>{{ task.task_title }}</strong> </a></p>
+                        {% elif task.task_type == 'Cancellation Request' %}
+                            <p><a href="{% url 'task' task.id %}" class="text-BlueGray"><strong>{{ task.task_title }}</strong></a> {% if user.is_superuser or task.assigned_user == request.user %}<a href="{% url 'task-cancel-request-update' task.id %}" class="text-success"><i class="far fa-plus-square h6-plus"></i></a>{% endif %}</p>
+                        {% elif task.task_type == 'Cancellation Action' %}
+                            <p><a href="{% url 'task' task.id %}" class="text-BlueGray"><strong>{{ task.task_title }}</strong></a> {% if user.is_superuser or task.assigned_user == request.user %}<a href="{% url 'task-cancel-request-action-update' task.id %}" class="text-success"><i class="far fa-plus-square h6-plus"></i></a>{% endif %}</p>
+                        {% elif task.task_type != 'Survey' %}
+                            <p><a href="{% url 'task' task.id %}" class="text-BlueGray"><strong>{{ task.task_title }}</strong></a> {% if user.is_superuser or task.assigned_user == request.user %}<a href="{% url 'task-update' task.id %}" class="text-success"><i class="far fa-plus-square h6-plus"></i></a>{% endif %}</p>
+                        {% else %}
+                            <p><a href="{% url 'task-survey' task.id %}" class="text-BlueGray"><strong>{{ task.task_title }}</strong></a> {% if user.is_superuser or task.assigned_user == request.user %}<a href="{% url 'task-update-survey' task.id %}" class="text-success mt-1"><i class="far fa-plus-square h6-plus"></i></a>{% endif %}</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-sm-2">
+                        {{ task.task_status }}
+                    </div>
+                    <div class="col-sm-2">
+                        {{ task.task_priority }}
+                    </div>
+                    <div class="col-sm-2">
+                        {{ task.due_date|date:"d/m/Y" }} {% if task.task_type != 'Survey' %}{% if user.is_superuser %}<a href="{% url 'task-delete' task.id %}" class="text-danger float-end mt-1"><i class="far fa-times-circle h6-plus"></i></a>{% endif %}{% endif %}
+                    </div>
+                </div>
+                <div class="row"></div>
+            </section>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        {% if search_type == 'Status' or search_type == 'Assignee' %}
+            {% for task in tasks %}
+            <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
+                <div class="row">
+                    <div class="col-sm-2">
+                        {{ task.assigned_user }}
+                    </div>
+                    <div class="col-sm-4">
+                        {% if task.task_type == 'ALAN' %}
+                            <p><a href="{% url 'task' task.id %}" class="text-BlueGray"><strong>{{ task.task_title }}</strong> </a></p>
+                        {% elif task.task_type != 'Survey' %}
+                            <p><a href="{% url 'task' task.id %}" class="text-BlueGray"><strong>{{ task.task_title }}</strong></a> <a href="{% url 'task-update' task.id %}" class="text-success mt-1"><i class="far fa-plus-square h6-plus"></i></a></p>
+                        {% else %}
+                            <p><a href="{% url 'task-survey' task.id %}" class="text-BlueGray"><strong>{{ task.task_title }}</strong></a> <a href="{% url 'task-update-survey' task.id %}" class="text-success mt-1"><i class="far fa-plus-square h6-plus"></i></a></p>
+                        {% endif %}
+                    </div>
+                    <div class="col-sm-2">
+                        {{ task.task_status }}
+                    </div>
+                    <div class="col-sm-2">
+                        {{ task.task_priority }}
+                    </div>
+                    <div class="col-sm-2">
+                        {{ task.due_date|date:"d/m/Y" }} {% if task.task_type != 'Survey' %}<a href="{% url 'task-delete' task.id %}" class="delete-link float-end mt-1"><i class="far fa-times-circle h6-plus"></i></a>{% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                </div>
+            </section>
+            {% endfor %}
+        {% else %}
+            {% for task in tasks %}
+                {% if task.task_status != 'Completed' %}
+                <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
+                    <div class="row">
+                    <div class="col-sm-2">
+                        {{ task.assigned_user }}
+                    </div>
+                        <div class="col-sm-4">
+                            {% if task.task_type == 'ALAN' %}
+                                <p><a href="{% url 'task' task.id %}" class="text-BlueGray"><strong>{{ task.task_title }}</strong> </a></p>
+                            {% elif task.task_type != 'Survey' %}
+                                <p><a href="{% url 'task' task.id %}" class="text-BlueGray"><strong>{{ task.task_title }}</strong></a> <a href="{% url 'task-update' task.id %}" class="text-success mt-1"><i class="far fa-plus-square h6-plus"></i></a></p>
+                            {% else %}
+                                <p><a href="{% url 'task-survey' task.id %}" class="text-BlueGray"><strong>{{ task.task_title }}</strong> </a><a href="{% url 'task-update-survey' task.id %}" class="heading-update-dashboard-link mt-1"><i class="far fa-plus-square h6-plus"></i></a></p>
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-2">
+                            {{ task.task_status }}
+                        </div>
+                        <div class="col-sm-2">
+                            {{ task.task_priority }}
+                        </div>
+                        <div class="col-sm-2">
+                            {{ task.due_date|date:"d/m/Y" }} {% if task.task_type != 'Survey' %}<a href="{% url 'task-delete' task.id %}" class="delete-link float-end mt-1"><i class="far fa-times-circle h6-plus"></i></a>{% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                    </div>
+                </section>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+    <p class="pb-2"></p>
+{% endblock %}
