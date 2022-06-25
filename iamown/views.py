@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-
+from django.urls import reverse_lazy
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import (
@@ -13,7 +13,6 @@ from django.views.generic.edit import (
 from .models import (
     Task,
 )
-
 from .forms import (
     CreateTaskForm,
     UpdateTaskForm,
@@ -144,6 +143,27 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         context['page_type'] = 'Update'
         context['tasks'] = Task.objects.filter(assigned_dear_soul=self.request.user)
         context['tasks_count'] = context['tasks'].exclude(task_status='Completed').count()
+
+        return context
+
+
+# ####################### Task - Completed View #######################
+class TaskCompletedList(LoginRequiredMixin, ListView):
+    """Task ListView for user's completed tasks."""
+    model = Task
+    template_name = 'iamown/tasks_completed.html'
+    context_object_name = 'tasks'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_user'] = self.request.user
+        context['tasks'] = Task.objects.all().filter(task_status='Completed')
+        context['completed_tasks_count'] = Task.objects.filter(task_status='Completed').count()
+        context['tasks_count'] = Task.objects.all().exclude(task_status='Completed').count()
 
         return context
 
