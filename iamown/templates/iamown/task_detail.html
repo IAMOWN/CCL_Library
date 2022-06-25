@@ -17,7 +17,7 @@
     <section class="media content-section">
         <div class="row">
             <div class="col-lg-12">
-                <h3><strong>Task: {{ task.task_title }} {% if user.is_superuser or task.assigned_dear_soul == request.user %}<a href="{% url 'task-cancel-request-update' task.id %}" class="pb-2 text-success"><i class="far fa-plus-square h5-plus"></i></a>{% endif %}{% if user.is_superuser %}<a href="{% url 'task-delete' task.id %}" class="delete-link float-end pt-2"><i class="far fa-times-circle h5-plus"></i></a>{% endif %}</strong></h3>
+                <h3><strong>Task: {{ task.task_title }} {% if user.is_superuser or task.assigned_dear_soul == request.user %}<a href="{% url 'task-update' task.id %}" class="pb-2 text-success"><i class="far fa-plus-square h5-plus"></i></a>{% endif %}{% if user.is_superuser %}<a href="{% url 'task-delete' task.id %}" class="delete-link float-end pt-2"><i class="far fa-times-circle h5-plus"></i></a>{% endif %}</strong></h3>
             </div>
         </div>
         <div class="row pt-4">
