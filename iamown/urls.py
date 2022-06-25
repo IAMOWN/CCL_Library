@@ -6,5 +6,5 @@ from .views import (
 
 urlpatterns = [
     # Tasks
-    path('tasks/', test(), name='tasks'),
+    path('tasks/', test, name='tasks'),
 ]
