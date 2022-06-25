@@ -1,10 +1,10 @@
 from django.urls import path
 
 from .views import (
-    TagList,
+    test
 )
 
 urlpatterns = [
     # Tasks
-    path('tasks/', TagList.as_view(), name='tasks'),
+    path('tasks/', test(), name='tasks'),
 ]
