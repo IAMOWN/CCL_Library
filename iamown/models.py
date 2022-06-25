@@ -18,12 +18,7 @@ TASK_PRIORITY_CHOICES = [
 ]
 TASK_TYPE_CHOICES = [
     ('---', '---'),
-    ('Prepayment', 'Prepayment'),
-    ('Wait List', 'Wait List'),
-    ('Survey', 'Survey'),
-    ('ALAN', 'ALAN'),
-    ('Cancellation Request', 'Cancellation Request'),
-    ('Cancellation Action', 'Cancellation Action'),
+    ('Library Observation', 'Library Observation'),
 ]
 
 
