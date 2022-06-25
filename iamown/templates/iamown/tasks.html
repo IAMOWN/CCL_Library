@@ -12,7 +12,7 @@
             </div>
         </div>
     </section>
-    <section class="content-section">
+    <section class="content-section text-CCL-Gold">
         <div class="row">
             <div class="col-12">
             {% if tasks_count > 0 %}
@@ -27,7 +27,7 @@
         </div>
         <div class="row">
             <div class="col-lg-3 pb-2">
-                <a class="btn btn-success col-12" href="{% url 'task-create' %}">Add A Task</a>
+                <a class="btn btn-CCL-Blue col-12" href="{% url 'task-create' %}">Add A Task</a>
             </div>
         </div>
     </section>
@@ -102,7 +102,7 @@
     {% endif %}
     </section>
     {% endif %}
-    <section class="content-section d-none d-xl-block">
+    <section class="content-section d-none d-xl-block text-CCL-Gold">
         <div class="row">
             <div class="col-lg-2">
                 <p><strong>Dear Soul</strong></p>
@@ -124,13 +124,13 @@
     {% if search_off %}
         {% for task in tasks %}
             {% if task.task_status != 'Completed' %}
-            <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
+            <section class="list-group-item list-group-item-light text-CCL-Gold {% cycle 'row1' 'row2' %}">
                 <div class="row pt-2 pb-2">
                     <div class="col-lg-2">
-                        {{ task.assigned_user.profile.first_name }} {{ task.assigned_user.profile.last_name }}
+                        {{ task.assigned_dear_soul.profile.spiritual_name }}
                     </div>
                     <div class="col-lg-4">
-                        <p><a href="{% url 'task' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a> {% if user.is_superuser %}<a href="{% url 'task-update' task.id %}" class="text-CCL-Gold mt-1"><i class="far fa-plus-square h6-plus"></i></a></p>{% endif %}
+                        <p><a href="{% url 'task' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a> <a href="{% url 'task-update' task.id %}" class="btn btn-outline-CCL-Blue btn-sm">Update</a></p>
                     </div>
                     <div class="col-lg-2">
                         {{ task.task_status }}
@@ -139,7 +139,7 @@
                         {{ task.task_priority }}
                     </div>
                     <div class="col-lg-2">
-                        {{ task.due_date|date:"d/m/Y" }} {% if user.is_superuser %}<a href="{% url 'task-delete' task.id %}" class="text-danger float-end mt-1"><i class="far fa-times-circle h6-plus"></i></a>{% endif %}{
+                        {{ task.due_date|date:"d/m/Y" }} {% if user.is_superuser %}<a href="{% url 'task-delete' task.id %}" class="btn btn-danger btn-sm float-end">Remove</a>{% endif %}
                     </div>
                 </div>
                 <div class="row"></div>
