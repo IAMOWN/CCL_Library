@@ -100,12 +100,6 @@ DATABASES = {
         'HOST': os.environ.get('DB_HOST'),
         'PORT': os.environ.get('DB_PORT'),
 
-        'NAME': 'SoulSynthesis',
-        'HOST': 'db-postgresql-nyc3-144000-do-user-11428500-0.b.db.ondigitalocean.com',
-        'PORT': 25060,
-        'USER': 'SoulSynthesis',
-        'PASSWORD': 'AVNS_Rewut1uJxidBtt4',
-
     }
 }
 
