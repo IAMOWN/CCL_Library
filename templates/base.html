@@ -90,6 +90,15 @@
                         <a class="nav-link-gold pe-4 pt-2" href="{% url 'reading-list' %}" aria-expanded="false">
                           Reading List
                         </a>
+                        <li class="dropdown pe-4 pt-2">
+                            <a class="nav-link-gold dropdown-toggle navbarDropdownMenuLink" href="{% url 'profile' %}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              My Account
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+                                <a class="dropdown-item" href="{% url 'password_reset' %}">Reset Password</a>
+                            </div>
+                        </li>
                         {% if request.user|in_group:"Librarians" %}
                         <li class="dropdown pe-4 pt-2">
                             <a class="nav-link-gold  dropdown-toggle navbarDropdownMenuLink" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -107,18 +116,9 @@
                         {% endif %}
                         {% if user.is_superuser %}
                         <a class="nav-link-gold pe-4 pt-2" href="{% url "admin:index" %}" aria-expanded="false">
-                          Django Admin
+                          Admin
                         </a>
                         {% endif %}
-                        <li class="dropdown pe-4 pt-2">
-                            <a class="nav-link-gold dropdown-toggle navbarDropdownMenuLink" href="{% url 'profile' %}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              My Account
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
-                                <a class="dropdown-item" href="{% url 'password_reset' %}">Reset Password</a>
-                            </div>
-                        </li>
                     </div>
                     {% else %}
                     <div class="navbar-nav">
