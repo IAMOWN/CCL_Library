@@ -108,16 +108,6 @@ class Task(models.Model):
         blank=True,
         null=True,
     )
-    # assigned_team = models.CharField(
-    #     max_length=50,
-    #     null=True,
-    #     blank=True,
-    #     default='',
-    #     help_text='''
-    #     If you have many teams collaborating in Whurthy you can enter in the Team name. This will allow you to
-    #     filter by team in the task list.
-    #     '''
-    # )
     task_status = models.CharField(max_length=20, choices=TASK_STATUS_CHOICES, default='1) Not started')
     task_priority = models.CharField(
         max_length=20,
