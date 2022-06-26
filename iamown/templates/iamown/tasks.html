@@ -128,7 +128,7 @@
             <section class="list-group-item list-group-item-light text-CCL-Gold {% cycle 'row1' 'row2' %}">
                 <div class="row pt-2 pb-2">
                     <div class="col-lg-2">
-                        {{ task.assigned_dear_soul.profile.spiritual_name }}
+                        {{ task.assigned_profile.profile.spiritual_name }}
                     </div>
                     <div class="col-lg-4">
                         <p><a href="{% url 'task' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a> <a href="{% url 'task-update' task.id %}" class="btn btn-outline-CCL-Blue btn-sm">Update</a></p>
