@@ -223,7 +223,7 @@ class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             messages.SUCCESS,
             f'The Task "{message}" has been added'
         )
-        return super(TaskCreate, self).form_valid(form)
+        return super(TaskLibraryCreate, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super(TaskLibraryCreate, self).get_context_data(**kwargs)
