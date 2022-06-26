@@ -98,7 +98,7 @@ class CreateServiceGroupForm(forms.ModelForm):
         model = ServiceGroup
         fields = [
             'service_group',
-            'members',
+            # 'members',
             'purpose',
             'qualified_intentions',
             'service_group_type',
@@ -117,7 +117,7 @@ class UpdateServiceGroupForm(forms.ModelForm):
         model = ServiceGroup
         fields = [
             'service_group',
-            'members',
+            # 'members',
             'purpose',
             'qualified_intentions',
             'service_group_type',
