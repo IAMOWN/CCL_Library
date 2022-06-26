@@ -23,8 +23,18 @@
     </section>
     <section class="content-section text-CCL-Gold">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-6">
+                <p><strong>Dear Souls in Service Group:</strong><br>
+                {% for dear_soul_in_service_group in service_group.dear_souls_in_service_group.all %}
+                    {{ dear_soul_in_service_group }};
+                {% endfor %}
+                </p>
+            </div>
+            <div class="col-lg-3">
                 <p><strong>Type:</strong> {{ service_group.service_group_type }}</p>
+            </div>
+            <div class="col-lg-3">
+                <p><strong>Status:</strong> {{ service_group.service_group_status }}</p>
             </div>
         </div>
         <div class="row">
