@@ -58,14 +58,14 @@
     </section>
     <section class="content-section">
         <div class="row">
-            <div class="col-lg-3">
+            <div class="col-lg-3 pt-2 pb-2">
                 <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-12">Back</a>
             </div>
             {% if user.is_staff %}
-            <div class="col-lg-3 pt-2 pb-2 text-center">
+            <div class="col-lg-3 pt-2 pb-2">
                 <a href="{% url 'task-update' task.id %}" class="btn btn-CCL-Blue col-12">Edit Task</a>
             </div>
-            <div class="col-lg-3 pt-2 pb-2 text-center">
+            <div class="col-lg-3 pt-2 pb-2">
             </div>
             {% endif %}
             {% if user.is_superuser %}
