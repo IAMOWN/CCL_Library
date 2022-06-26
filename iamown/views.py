@@ -126,7 +126,7 @@ class TaskCreate(LoginRequiredMixin, CreateView):
         context = super(TaskCreate, self).get_context_data(**kwargs)
         context['current_user'] = self.request.user
         context['page_type'] = 'Create'
-        context['tasks'] = Task.objects.filter(assigned_user=self.request.user)
+        context['tasks'] = Task.objects.filter(task_status='Completed')
         context['tasks_count'] = context['tasks'].exclude(task_status='Completed').count()
 
         return context
@@ -152,7 +152,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         context = super(TaskUpdate, self).get_context_data(**kwargs)
         context['current_user'] = self.request.user
         context['page_type'] = 'Update'
-        context['tasks'] = Task.objects.filter(assigned_dear_soul=self.request.user)
+        context['tasks'] = Task.objects.filter(task_status='Completed')
         context['tasks_count'] = context['tasks'].exclude(task_status='Completed').count()
 
         return context
