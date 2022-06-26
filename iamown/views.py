@@ -15,6 +15,7 @@ from datetime import datetime
 
 from .models import (
     Task,
+    ServiceGroup,
 )
 from .forms import (
     CreateTaskForm,
