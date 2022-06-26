@@ -44,13 +44,17 @@
                 <p><a href="{% url 'service-group' group.id %}" class="text-CCL-Blue">{{ group.service_group }}</a></p>
             </div>
             <div class="col-lg-3">
+                {% for dear_souls_in_service_group in record.dear_souls_in_service_group.all %}
+                    {{ dear_souls_in_service_group }};
+                {% endfor %}
+            </div>
+            <div class="col-lg-3">
                 {{ group.purpose }}
             </div>
             <div class="col-lg-3">
                 {{ group.service_group_type }}
             </div>
         </div>
-{#    {% if user.is_superuser %}<a href="{% url 'service-group-delete' group.id %}" class="text-danger float-end mt-1"><i class="far fa-times-circle h6-plus"></i></a>{% endif %}#}
     </section>
     {% endfor %}
 {% endblock content %}

@@ -100,6 +100,7 @@ class CreateServiceGroupForm(forms.ModelForm):
             'qualified_intentions',
             'service_group_type',
             'service_group_status',
+            'dear_souls_in_service_group',
         ]
 
     def clean(self):
@@ -118,6 +119,7 @@ class UpdateServiceGroupForm(forms.ModelForm):
             'qualified_intentions',
             'service_group_type',
             'service_group_status',
+            'dear_souls_in_service_group',
         ]
 
     def clean(self):

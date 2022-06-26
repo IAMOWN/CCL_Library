@@ -31,11 +31,16 @@ def get_current_year():
 
 
 # ####################### TASK VIEWS #######################
-class TaskList(LoginRequiredMixin, ListView):
+class TaskList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """Task ListView for user's tasks."""
     model = Task
     template_name = 'iamown/tasks.html'
     context_object_name = 'tasks'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -105,15 +110,19 @@ class TaskDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
 
 # ####################### Task - Create View #######################
-class TaskCreate(LoginRequiredMixin, CreateView):
+class TaskCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     """Task CreateView for user's tasks."""
     model = Task
     form_class = CreateTaskForm
 
     template_name = 'iamown/task_form.html'
 
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
+
     def form_valid(self, form):
-        form.instance.assigned_dear_soul = self.request.user
         message = form.instance.task_title
         messages.add_message(
             self.request,
@@ -159,7 +168,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 # ####################### Task - Completed View #######################
-class TaskCompletedList(LoginRequiredMixin, ListView):
+class TaskCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """Task ListView for user's completed tasks."""
     model = Task
     template_name = 'iamown/tasks_completed.html'
@@ -188,8 +197,7 @@ class TaskDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = 'iamown/task_confirm_delete.html'
 
     def test_func(self):
-        task = self.get_object()
-        if self.request.user == task.assigned_dear_soul:
+        if self.request.user.is_staff:
             return True
         return False
 
@@ -203,10 +211,15 @@ class TaskDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 # ####################### SERVICE GROUP VIEWS #######################
-class ServiceGroupList(LoginRequiredMixin, ListView):
+class ServiceGroupList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = ServiceGroup
     template_name = 'iamown/service_groups.html'
     context_object_name = 'service_groups'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -217,10 +230,15 @@ class ServiceGroupList(LoginRequiredMixin, ListView):
 
 
 # ####################### Service Group - Detail View #######################
-class ServiceGroupDetail(LoginRequiredMixin, DetailView):
+class ServiceGroupDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = ServiceGroup
     template_name = 'iamown/service_group_detail.html'
     context_object_name = 'service_group'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -238,10 +256,15 @@ class ServiceGroupDetail(LoginRequiredMixin, DetailView):
 
 
 # ####################### Service Group - Create View #######################
-class ServiceGroupCreate(LoginRequiredMixin, CreateView):
+class ServiceGroupCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = ServiceGroup
     form_class = CreateServiceGroupForm
     template_name = 'iamown/service_group_form.html'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
     def form_valid(self, form):
         message = form.instance.service_group
@@ -261,10 +284,15 @@ class ServiceGroupCreate(LoginRequiredMixin, CreateView):
 
 
 # ####################### Service Group - Update View #######################
-class ServiceGroupUpdate(LoginRequiredMixin, UpdateView):
+class ServiceGroupUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = ServiceGroup
     form_class = UpdateServiceGroupForm
     template_name = 'iamown/service_group_form.html'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
     def form_valid(self, form):
         message = form.instance.service_group
@@ -290,7 +318,7 @@ class ServiceGroupDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_url = reverse_lazy('service-groups')
 
     def test_func(self):
-        if self.request.user.is_superuser:
+        if self.request.user.is_staff:
             return True
         return False
 
