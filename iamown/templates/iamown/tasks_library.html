@@ -31,97 +31,98 @@
             </div>
         </div>
     </section>
-    {% if tasks_count > 1 %}
 
-    {% if search_off %}
-    <section class="content-section">
-    {% elif search_count == 0 %}
-    <section class="content-section-danger">
-    {% else %}
-    <section class="content-section-success">
-    {% endif %}
-        <form method="get" class="pt-2">
-            <div class="row">
-                <div class="col-lg-3 pb-2">
-                    <button type="submit" class="btn btn-outline-CCL-Blue col-12">Filter Tasks</button>
-                </div>
-                <div class="col-lg-3 pb-2">
-                    <input
-                            type="text"
-                            name="assignee-search-area"
-                            class="button-margin-tlr form-control"
-                            value="{{ assignee_search_input }}"
-                            placeholder="By Assigned Dear Soul"
-                    >
-                </div>
-                <div class="col-lg-3 pb-2">
-                    <select name="status-search-area" class="pe-2 form-control">
-                        <option value="">by Status</option>
-                        <option value='1) Not started'>1) Not started</option>
-                        <option value='2) In progress'>2) In progress</option>
-                        <option value='3) Deferred'>3) Deferred</option>
-                        <option value='Completed'>Completed</option>
-                    </select>
-                </div>
-                <div class="col-lg-3 pb-2">
-                    <select name="priority-search-area" class="pe-2 form-control">
-                        <option value="">by Priority</option>
-                        <option value='1) High'>1) High</option>
-                        <option value='2) Normal'>2) Normal</option>
-                        <option value='3) Low'>3) Low</option>
-                    </select>
-                </div>
-            </div>
-        </form>
-    {% if not search_off %}
-        {% if search_type == 'Team' %}
-            {% if search_count == 0 %}
-                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the Team field.</p>
-            {% else %}
-                <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} active task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the team field.</p>
-            {% endif %}
-        {% elif search_type == 'Task' %}
-            {% if search_count == 0 %}
-                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the Team field.</p>
-            {% else %}
-                <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the task title field.</p>
-            {% endif %}
-        {% elif search_type == 'Status' %}
-            {% if search_count == 0 %}
-                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the task status field.</p>
-            {% else %}
-                <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the task status field.</p>
-            {% endif %}
-        {% elif search_type == 'Priority' %}
-            {% if search_count == 0 %}
-                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the task priority field.</p>
-            {% else %}
-                <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} active task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the task priority field.</p>
-            {% endif %}
-        {% endif %}
-    {% endif %}
-    </section>
-    {% endif %}
+{#    {% if tasks_count > 1 %}#}
+{#    {% if search_off %}#}
+{#    <section class="content-section">#}
+{#    {% elif search_count == 0 %}#}
+{#    <section class="content-section-danger">#}
+{#    {% else %}#}
+{#    <section class="content-section-success">#}
+{#    {% endif %}#}
+{#        <form method="get" class="pt-2">#}
+{#            <div class="row">#}
+{#                <div class="col-lg-3 pb-2">#}
+{#                    <button type="submit" class="btn btn-outline-CCL-Blue col-12">Filter Tasks</button>#}
+{#                </div>#}
+{#                <div class="col-lg-3 pb-2">#}
+{#                    <input#}
+{#                            type="text"#}
+{#                            name="assignee-search-area"#}
+{#                            class="button-margin-tlr form-control"#}
+{#                            value="{{ assignee_search_input }}"#}
+{#                            placeholder="By Assigned Dear Soul"#}
+{#                    >#}
+{#                </div>#}
+{#                <div class="col-lg-3 pb-2">#}
+{#                    <select name="status-search-area" class="pe-2 form-control">#}
+{#                        <option value="">by Status</option>#}
+{#                        <option value='1) Not started'>1) Not started</option>#}
+{#                        <option value='2) In progress'>2) In progress</option>#}
+{#                        <option value='3) Deferred'>3) Deferred</option>#}
+{#                        <option value='Completed'>Completed</option>#}
+{#                    </select>#}
+{#                </div>#}
+{#                <div class="col-lg-3 pb-2">#}
+{#                    <select name="priority-search-area" class="pe-2 form-control">#}
+{#                        <option value="">by Priority</option>#}
+{#                        <option value='1) High'>1) High</option>#}
+{#                        <option value='2) Normal'>2) Normal</option>#}
+{#                        <option value='3) Low'>3) Low</option>#}
+{#                    </select>#}
+{#                </div>#}
+{#            </div>#}
+{#        </form>#}
+{#    {% if not search_off %}#}
+{#        {% if search_type == 'Team' %}#}
+{#            {% if search_count == 0 %}#}
+{#                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the Team field.</p>#}
+{#            {% else %}#}
+{#                <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} active task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the team field.</p>#}
+{#            {% endif %}#}
+{#        {% elif search_type == 'Task' %}#}
+{#            {% if search_count == 0 %}#}
+{#                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the Team field.</p>#}
+{#            {% else %}#}
+{#                <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the task title field.</p>#}
+{#            {% endif %}#}
+{#        {% elif search_type == 'Status' %}#}
+{#            {% if search_count == 0 %}#}
+{#                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the task status field.</p>#}
+{#            {% else %}#}
+{#                <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the task status field.</p>#}
+{#            {% endif %}#}
+{#        {% elif search_type == 'Priority' %}#}
+{#            {% if search_count == 0 %}#}
+{#                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the task priority field.</p>#}
+{#            {% else %}#}
+{#                <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} active task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the task priority field.</p>#}
+{#            {% endif %}#}
+{#        {% endif %}#}
+{#    {% endif %}#}
+{#    </section>#}
+{#    {% endif %}#}
 
     <section class="content-section d-none d-xl-block text-CCL-Gold">
         <div class="row">
-            <div class="col-lg-2">
+            <div class="col-lg-2 pt-2">
                 <h5>Dear Soul</h5>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4 pt-2">
                 <h5>Task</h5>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-2 pt-2">
                 <h5>Status</h5>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-2 pt-2">
                 <h5>Priority</h5>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-2 pt-2">
                 <h5>Due Date</h5>
             </div>
         </div>
     </section>
+
     {% if search_off %}
         {% for task in tasks %}
             {% if task.task_status != 'Completed' %}

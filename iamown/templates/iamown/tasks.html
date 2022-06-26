@@ -105,19 +105,19 @@
 
     <section class="content-section d-none d-xl-block text-CCL-Gold">
         <div class="row">
-            <div class="col-lg-2">
+            <div class="col-lg-2 pt-2">
                 <h5>Dear Soul</h5>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4 pt-2">
                 <h5>Task</h5>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-2 pt-2">
                 <h5>Status</h5>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-2 pt-2">
                 <h5>Priority</h5>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-2 pt-2">
                 <h5>Due Date</h5>
             </div>
         </div>
@@ -127,9 +127,11 @@
             {% if task.task_status != 'Completed' %}
             <section class="list-group-item list-group-item-light text-CCL-Gold {% cycle 'row1' 'row2' %}">
                 <div class="row pt-2 pb-2">
+                    {% if task.assigned_profile %}
                     <div class="col-lg-2">
                         {{ task.assigned_profile }}
                     </div>
+                    {% endif %}
                     <div class="col-lg-4">
                         <p><a href="{% url 'task' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a></p>
                     </div>

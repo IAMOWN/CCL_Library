@@ -44,11 +44,14 @@ class TaskList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['current_user'] = self.request.user
-        tasks = Task.objects.filter().exclude(task_status='Completed').order_by('due_date')
+        tasks = Task.objects.filter().exclude(task_status='Completed').order_by(
+            'task_status',
+            'task_priority',
+            'due_date',
+        )
         context['tasks'] = tasks
         context['tasks_count'] = tasks.count()
-        context['completed_tasks_count'] = Task.objects.filter(task_status='Completed')
+        context['completed_tasks_count'] = Task.objects.filter(task_status='Completed').count()
 
         search_input = self.request.GET.get('search-area') or ''
         if search_input:
@@ -103,13 +106,20 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['current_user'] = self.request.user
+
         tasks = Task.objects.filter().filter(
             task_type='Library Observation',
-        ).exclude(task_status='Completed').order_by('due_date')
+        ).exclude(task_status='Completed').order_by(
+            'task_status',
+            'task_priority',
+            'due_date',
+        )
         context['tasks'] = tasks
         context['tasks_count'] = tasks.count()
-        context['completed_tasks_count'] = Task.objects.filter(task_status='Completed')
+        context['completed_tasks_count'] = Task.objects.filter(
+            task_type='Library Observation',
+            task_status='Completed',
+        ).count()
 
         search_input = self.request.GET.get('search-area') or ''
         if search_input:
