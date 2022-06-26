@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.contrib.auth.models import User
 
 from users.models import (
@@ -158,5 +159,5 @@ class Task(models.Model):
         ]
 
     def get_absolute_url(self):
-        # return reverse('task', kwargs={'pk': self.pk})
-        return reverse('tasks')
+        return reverse('task', kwargs={'pk': self.pk})
+        # return reverse('tasks')
