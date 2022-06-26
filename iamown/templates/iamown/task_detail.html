@@ -14,12 +14,15 @@
         </section>
     {% endif %}
 {#    TODO Check for message.tags type with Corey Schafer #}
-    <section class="media content-section text-CCL-Gold">
+    <section class="content-section text-CCL-Gold">
         <div class="row">
             <div class="col-lg-12">
                 <h3><strong>Task: {{ task.task_title }} {% if user.is_superuser or task.assigned_dear_soul == request.user %}<a href="{% url 'task-update' task.id %}" class="pb-2 text-success"><i class="far fa-plus-square h5-plus"></i></a>{% endif %}{% if user.is_superuser %}<a href="{% url 'task-delete' task.id %}" class="delete-link float-end pt-2"><i class="far fa-times-circle h5-plus"></i></a>{% endif %}</strong></h3>
             </div>
         </div>
+    </section>
+
+    <section class="content-section text-CCL-Gold">
         <div class="row pt-4">
             <div class="col-lg-3">
                 <p><strong>Priority:</strong> {{ task.task_priority }}</p>
@@ -34,26 +37,16 @@
                 <p><strong>Assigned to:</strong> {{ task.assigned_dear_soul.profile.spiritual_name }}</p>
             </div>
         </div>
-    </section>
-    <section class="media content-section text-CCL-Gold">
         <div class="row pt-2">
             <div class="col-lg-12">
                 <h6><strong>Description</strong></h6>
             </div>
         </div>
         <div class="row">
-            {% if task.task_type == '---' %}
-                <div class="col pb-2">
-                    {{ task.task_description |linebreaksbr }}
-                </div>
-            {% else %}
-                <div class="col pb-2">
-                    {{ task.task_description |safe }}
-                </div>
-            {% endif %}
+            <div class="col pb-2">
+                {{ task.task_description |linebreaksbr }}
+            </div>
         </div>
-    </section>
-    <section class="media content-section text-CCL-Gold">
         <div class="row">
             <div class="col-lg-6">
                 <p><strong>Due date:</strong> {{ task.due_date|date:'F j, Y' }}</p>
@@ -63,13 +56,10 @@
             </div>
         </div>
     </section>
-    <section class="media content-section text-CCL-Gold">
+    <section class="content-section text-CCL-Gold">
         <div class="row pt-2 pb-2">
             <div class="col-lg-3">
-                {% if task.assigned_dear_soul == user %}
-                    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-BlueGray col-12">Go Back</a>
-    {#                <a href="{% url 'pips-task-delete' task.id %}" class="btn btn-danger btn-sm float-end">Delete Task</a>#}
-                {% endif %}
+                <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-BlueGray col-12">Go Back</a>
             </div>
         </div>
     </section>
