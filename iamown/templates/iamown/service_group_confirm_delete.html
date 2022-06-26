@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Delete Service Group
+{% endblock %}
+{% block content %}
+    <section class="alert-section">
+        <div class="row">
+            <div class="col">
+                <h3 class="alert-danger"><strong>Delete Service Group</strong></h3>
+            </div>
+        </div>
+        <form method="post" action="" enctype="multipart/form-data">
+            <div class="row text-CCL-Gold">
+                <div class="col">
+                {% csrf_token %}
+                    <p><span class="bold-character">Are you sure you want to delete this Service Group: <strong>{{ servicegroup }}</strong></span></p>
+                    <p><strong>THIS IS A PERMANENT DECISION!</strong></p>
+                    <p class="pb-4">Please be absolutely certain you want to delete this record.</p>
+                </div>
+            </div>
+            <div class="row pt-2">
+                <div class="col pb-2">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 pb-2">
+                    <a class="btn btn-CCL-Blue col-12" href="{% url 'service-group' servicegroup.id %}">Go Back</a>
+                </div>
+                <div class="col-lg-6"></div>
+                <div class="col-lg-3 pb-2">
+                    <input type="submit" value="Delete Service Group" class="btn btn-danger col-12">
+                </div>
+            </div>
+        </form>
+    </section>
+{% endblock %}

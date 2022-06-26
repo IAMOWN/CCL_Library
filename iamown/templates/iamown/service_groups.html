@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+    <section class="content-section">
+        <div class="media-body">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="mb-2 pt-2"><strong>Elemental Grace Alliance Service Groups</strong></h3>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="row">
+            <div class="col-lg-3 pb-2 pt-2">
+                <a class="btn btn-CCL-Blue col-12" href="{% url 'service-group-create' %}">Add A Service Group</a>
+            </div>
+        </div>
+    </section>
+    <section class="content-section text-CCL-Gold d-none d-xl-block">
+        <div class="row pt-2">
+            <div class="col-lg-3">
+                <h6><strong>Service group</strong></h6>
+            </div>
+            <div class="col-lg-3">
+                <h6><strong>Members</strong></h6>
+            </div>
+            <div class="col-lg-3">
+                <h6><strong>Purpose</strong></h6>
+            </div>
+            <div class="col-lg-3">
+                <h6><strong>Type</strong></h6>
+            </div>
+        </div>
+    </section>
+    {% for group in service_groups %}
+    <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
+        <div class="row pt-2">
+            <div class="col-lg-3">
+                <p><a href="{% url 'service-group' group.id %}" class="text-CCL-Blue">{{ group.service_group }}</a></p>
+
+            </div>
+            <div class="col-lg-3">
+                {% for member in group.members.all %}
+                    {{ member }};
+                {% endfor %}
+            </div>
+            <div class="col-lg-3">
+                {{ group.purpose }}
+            </div>
+            <div class="col-lg-3">
+                {{ group.service_group_type }}
+            </div>
+        </div>
+{#    {% if user.is_superuser %}<a href="{% url 'service-group-delete' group.id %}" class="text-danger float-end mt-1"><i class="far fa-times-circle h6-plus"></i></a>{% endif %}#}
+    </section>
+    {% endfor %}
+{% endblock content %}
