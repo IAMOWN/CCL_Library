@@ -27,6 +27,7 @@
         <option value="$MODULE_DIR$/library/templates" />
         <option value="$MODULE_DIR$/home/templates" />
         <option value="$MODULE_DIR$/iamown/templates" />
+        <option value="$MODULE_DIR$/users/templates" />
       </list>
     </option>
   </component>
