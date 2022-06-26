@@ -142,6 +142,13 @@ class Task(models.Model):
         related_name='profile_in_library_task',
         verbose_name='Assigned Dear Soul',
     )
+    assigned_service_group = models.ForeignKey(
+        ServiceGroup,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='service_group_assigned_task',
+    )
 
     task_created_date = models.DateTimeField(
         auto_now_add=True
