@@ -67,6 +67,11 @@ class ServiceGroup(models.Model):
         choices=SERVICE_GROUP_STATUS,
         default='1) Active'
     )
+    dear_souls_in_service_group = models.ManyToManyField(
+        Profile,
+        verbose_name='Dear Souls in the service group',
+        related_name='profiles_in_service_group',
+    )
 
     # Record metadata
     date_created = models.DateTimeField(
@@ -97,13 +102,6 @@ class Task(models.Model):
         blank=True,
         default=''
     )
-    # assigned_dear_soul = models.ForeignKey(
-    #     User,
-    #     on_delete=models.CASCADE,
-    #     null=True,
-    #     blank=True,
-    #     verbose_name='Assigned to'
-    # )
     task_description = HTMLField(
         default='',
         blank=True,
