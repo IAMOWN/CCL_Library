@@ -42,12 +42,6 @@
         <div class="row pt-2">
             <div class="col-lg-3">
                 <p><a href="{% url 'service-group' group.id %}" class="text-CCL-Blue">{{ group.service_group }}</a></p>
-
-            </div>
-            <div class="col-lg-3">
-                {% for member in group.members.all %}
-                    {{ member }};
-                {% endfor %}
             </div>
             <div class="col-lg-3">
                 {{ group.purpose }}

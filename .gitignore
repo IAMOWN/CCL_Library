@@ -78,3 +78,8 @@ fabric.properties
 
 *.pyc
 CCL_Library/__pycache__/*.pyc
+iamown/__pycache__/*.pyc
+iamown/__pycache__/forms.cpython-310.pyc
+iamown/__pycache__/models.cpython-310.pyc
+iamown/__pycache__/views.cpython-310.pyc
+iamown/__pycache__/admin.cpython-310.pyc
