@@ -103,13 +103,6 @@ class Task(models.Model):
     #     blank=True,
     #     verbose_name='Assigned to'
     # )
-    # assigned_profile = models.ForeignKey(
-    #     Profile,
-    #     on_delete=models.CASCADE,
-    #     null=True,
-    #     blank=True,
-    #     related_name='profile_in_library_task',
-    # )
     task_description = HTMLField(
         default='',
         blank=True,
@@ -151,6 +144,13 @@ class Task(models.Model):
         blank=True,
         related_name='approval_task',
         on_delete=models.CASCADE
+    )
+    assigned_profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='profile_in_library_task',
     )
 
     task_created_date = models.DateTimeField(
