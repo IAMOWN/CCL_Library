@@ -106,7 +106,7 @@ class CreateServiceGroupForm(forms.ModelForm):
         ]
 
     def clean(self):
-        objective_form_validation(self, CreateServiceGroupForm)
+        service_group_form_validation(self, CreateServiceGroupForm)
         return self.cleaned_data
 
 
@@ -125,5 +125,5 @@ class UpdateServiceGroupForm(forms.ModelForm):
         ]
 
     def clean(self):
-        objective_form_validation(self, UpdateServiceGroupForm)
+        service_group_form_validation(self, UpdateServiceGroupForm)
         return self.cleaned_data
