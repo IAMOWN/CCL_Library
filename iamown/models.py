@@ -124,6 +124,8 @@ class Task(models.Model):
     )
     task_type = models.CharField(
         choices=TASK_TYPE_CHOICES,
+        null=True,
+        blank=True,
         max_length=50,
         default='---',
     )
