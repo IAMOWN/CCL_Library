@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from users.models import (
+    Profile,
+)
+
 from datetime import date
 
 from tinymce.models import HTMLField
@@ -35,9 +39,16 @@ class Task(models.Model):
     assigned_dear_soul = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        null=True,  # models.SET_NULL to not delete
+        null=True,
         blank=True,
         verbose_name='Assigned to'
+    )
+    assigned_profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='profile_in_library_task',
     )
     task_description = HTMLField(
         default='',

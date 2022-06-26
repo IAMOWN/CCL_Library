@@ -30,11 +30,16 @@
             <div class="col-lg-3">
                 <p><strong>Status:</strong> {{ task.task_status }}</p>
             </div>
+        </div>
+        <div class="row">
             <div class="col-lg-3">
-                <p><strong>Service Group:</strong> TBD </p>
+                <p><strong>Sphere/Circle:</strong> TBD </p>
             </div>
             <div class="col-lg-3">
-                <p><strong>Assigned to:</strong> {{ task.assigned_dear_soul.profile.spiritual_name }}</p>
+                <p><strong>Assigned Dear Soul:</strong> {{ task.assigned_dear_soul }}</p>
+            </div>
+            <div class="col-lg-3">
+                <p><strong>Assigned Profile:</strong> {{ task.assigned_dear_soul.profile.spiritual_name }}</p>
             </div>
         </div>
         <div class="row pt-2">

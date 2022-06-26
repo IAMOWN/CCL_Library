@@ -7,6 +7,10 @@ from .models import (
     Task,
 )
 
+from users.models import (
+    Profile,
+)
+
 
 # ############ Task form validation logic ############
 def task_form_validation(form, form_type):
@@ -31,6 +35,7 @@ class CreateTaskForm(forms.ModelForm):
         fields = [
             'task_title',
             'assigned_dear_soul',
+            'assigned_profile',
             'task_description',
             # 'assigned_team',
             'task_status',
@@ -58,6 +63,7 @@ class UpdateTaskForm(forms.ModelForm):
         fields = [
             'task_title',
             'assigned_dear_soul',
+            'assigned_profile',
             'task_description',
             # 'assigned_team',
             'task_status',
@@ -68,6 +74,6 @@ class UpdateTaskForm(forms.ModelForm):
             'due_date': DatePickerInput(format='%Y-%m-%d'),
         }
 
-    # def clean(self):
-    #     task_form_validation(self, UpdateTaskForm)
-    #     return self.cleaned_data
+    def clean(self):
+        task_form_validation(self, UpdateTaskForm)
+        return self.cleaned_data
