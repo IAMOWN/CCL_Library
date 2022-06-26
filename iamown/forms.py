@@ -40,7 +40,7 @@ class CreateTaskForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['assigned_dear_soul'].queryset = Profile.objects.filter(user__is_staff=True)
+        self.fields['assigned_profile'].queryset = Profile.objects.filter(user__is_staff=True)
 
         # self.fields['assigned_dear_soul'].queryset = User.objects.filter(is_staff=True)
 
@@ -68,7 +68,7 @@ class UpdateTaskForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['assigned_dear_soul'].queryset = Profile.objects.filter(user__is_staff=True)
+        self.fields['assigned_profile'].queryset = Profile.objects.filter(user__is_staff=True)
 
     class Meta:
         model = Task
