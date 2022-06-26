@@ -214,7 +214,7 @@ class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return False
 
     def form_valid(self, form):
-        library_task = Task.objects.get(id=form.instance.task.id)
+        library_task = Task.objects.get(id=self.kwargs['id'])
         library_task.task_type = 'Library Observation'
         library_task.save(update_fields=['task_type'])
         message = form.instance.task_title
