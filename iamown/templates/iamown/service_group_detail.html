@@ -22,13 +22,6 @@
         </div>
     </section>
     <section class="content-section text-CCL-Gold">
-        <div class="row pt-2">
-            <div class="col-lg-12">
-                <p>
-{#                    <strong>Members: </strong> {% for member in service_group.members.all %}{{ member }}; {% endfor %}#}
-                </p>
-            </div>
-        </div>
         <div class="row">
             <div class="col-lg-12">
                 <p><strong>Type:</strong> {{ service_group.service_group_type }}</p>
@@ -36,12 +29,12 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <p><strong>Purpose:</strong> {{ service_group.purpose|linebreaksbr }}</p>
+                <p><strong>Purpose:</strong> {{ service_group.purpose|safe }}</p>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <p><strong>Qualified Intentions:</strong> {{ service_group.qualified_intentions|linebreaksbr }}</p>
+                <p><strong>Qualified Intentions:</strong> {{ service_group.qualified_intentions|safe }}</p>
             </div>
         </div>
     </section>
@@ -54,7 +47,7 @@
                 <a href="{% url 'service-group-update' service_group.id %}" class="btn btn-CCL-Blue col-12">Edit Service Group</a>
             </div>
             <div class="col-lg-3"></div>
-            <div class="col-lg-2 pb-2">
+            <div class="col-lg-3 pb-2">
                 <a href="{% url 'service-group-delete' service_group.id %}" class="btn btn-outline-danger col-12">Delete Service Group</a>
             </div>
         </div>
