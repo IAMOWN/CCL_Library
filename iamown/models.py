@@ -66,10 +66,6 @@ class ServiceGroup(models.Model):
         choices=SERVICE_GROUP_STATUS,
         default='1) Active'
     )
-    profiles = models.ManyToManyField(
-        Profile,
-        related_name='profiles_in_service_group',
-    )
 
     # Record metadata
     date_created = models.DateTimeField(
