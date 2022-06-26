@@ -353,4 +353,4 @@ class Profile(models.Model):
     date_joined = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return f"{self.spiritual_name} - Profile"
+        return {self.spiritual_name}

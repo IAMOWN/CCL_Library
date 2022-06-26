@@ -9,6 +9,7 @@ from datetime import date
 
 from tinymce.models import HTMLField
 
+# ####################### CONSTANTS #######################
 TASK_STATUS_CHOICES = [
     ('1) Not started', '1) Not started'),
     ('2) In progress', '2) In progress'),
@@ -24,6 +25,67 @@ TASK_TYPE_CHOICES = [
     ('---', '---'),
     ('Library Observation', 'Library Observation'),
 ]
+SERVICE_GROUP_TYPES = [
+    ('---', '---'),
+    ('1) Esoteric', '1) Esoteric'),
+    ('2) Exoteric', '2) Exoteric'),
+]
+SERVICE_GROUP_STATUS = [
+    ('1) Active', '1) Active'),
+    ('2) Inactive', '2) Inactive'),
+]
+
+
+# ####################### Service Group #######################
+class ServiceGroup(models.Model):
+    """Groups users into related Service Groups."""
+    service_group = models.CharField(
+        max_length=150,
+        unique=True,
+        null=True,
+        blank=True,
+        default=''
+    )
+    members = models.ManyToManyField(Profile)
+    purpose = models.TextField(
+        default='',
+        blank=True,
+        null=True,
+    )
+    qualified_intentions = models.TextField(
+        default='',
+        blank=True,
+        null=True,
+    )
+    service_group_type = models.CharField(
+        max_length=20,
+        choices=SERVICE_GROUP_TYPES,
+        default='---'
+    )
+    service_group_status = models.CharField(
+        max_length=20,
+        choices=SERVICE_GROUP_STATUS,
+        default='1) Active'
+    )
+
+    # Record metadata
+    date_created = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+        return self.service_group
+
+    class Meta:
+        verbose_name_plural = 'Service Groups'
+        verbose_name = 'Service Group'
+        ordering = [
+            'service_group_type',
+            'service_group',
+        ]
+
+    # def get_absolute_url(self):
+    #     return reverse('service-group', kwargs={'pk': self.pk})
 
 
 # ####################### Tasks #######################
