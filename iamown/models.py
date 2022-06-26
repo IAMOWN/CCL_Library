@@ -142,6 +142,7 @@ class Task(models.Model):
         null=True,
         blank=True,
         related_name='profile_in_library_task',
+        verbose_name='Assigned Dear Soul',
     )
 
     task_created_date = models.DateTimeField(
