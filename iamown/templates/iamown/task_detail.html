@@ -23,7 +23,7 @@
     </section>
 
     <section class="content-section text-CCL-Gold">
-        <div class="row pt-4">
+        <div class="row pt-2">
             <div class="col-lg-3">
                 <p><strong>Priority:</strong> {{ task.task_priority }}</p>
             </div>
@@ -57,11 +57,10 @@
         </div>
     </section>
     <section class="content-section">
-        <div class="row pt-2 pb-2">
+        <div class="row">
             <div class="col-lg-3">
                 <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-12">Back</a>
             </div>
-        </div>
             {% if user.is_staff %}
             <div class="col-lg-3 pt-2 pb-2 text-center">
                 <a href="{% url 'task-update' task.id %}" class="btn btn-CCL-Blue col-12">Edit Task</a>
@@ -74,5 +73,6 @@
                 <a href="{% url 'task-delete' task.id %}" class="btn btn-outline-danger col-12">Delete Task</a>
             </div>
             {% endif %}
+        </div>
     </section>
 {% endblock %}
