@@ -58,14 +58,9 @@
                 </div>
             </div>
             <div class="row">
-                {% if user.is_staff %}
                 <div class="col-lg-3">
-{#                    {{ form.assigned_dear_soul|as_crispy_field }}#}
+                    {{ form.assigned_profile|as_crispy_field }}
                 </div>
-                <div class="col-lg-3">
-{#                    {{ form.assigned_profile.profile.spiritual_name|as_crispy_field }}#}
-                </div>
-                {% endif %}
             </div>
             <div class="row">
                 <div class="col-lg-6">

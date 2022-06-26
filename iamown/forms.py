@@ -47,7 +47,7 @@ class CreateTaskForm(forms.ModelForm):
         fields = [
             'task_title',
             'task_description',
-            # 'assigned_team',
+            'assigned_profile',
             'task_status',
             'task_priority',
             'due_date',
@@ -73,7 +73,7 @@ class UpdateTaskForm(forms.ModelForm):
         fields = [
             'task_title',
             'task_description',
-            # 'assigned_team',
+            'assigned_profile',
             'task_status',
             'task_priority',
             'due_date',
