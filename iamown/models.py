@@ -96,20 +96,20 @@ class Task(models.Model):
         blank=True,
         default=''
     )
-    assigned_dear_soul = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        verbose_name='Assigned to'
-    )
-    assigned_profile = models.ForeignKey(
-        Profile,
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        related_name='profile_in_library_task',
-    )
+    # assigned_dear_soul = models.ForeignKey(
+    #     User,
+    #     on_delete=models.CASCADE,
+    #     null=True,
+    #     blank=True,
+    #     verbose_name='Assigned to'
+    # )
+    # assigned_profile = models.ForeignKey(
+    #     Profile,
+    #     on_delete=models.CASCADE,
+    #     null=True,
+    #     blank=True,
+    #     related_name='profile_in_library_task',
+    # )
     task_description = HTMLField(
         default='',
         blank=True,
