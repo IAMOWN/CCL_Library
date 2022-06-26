@@ -87,8 +87,8 @@ class ServiceGroup(models.Model):
             'service_group',
         ]
 
-    # def get_absolute_url(self):
-    #     return reverse('service-group', kwargs={'pk': self.pk})
+    def get_absolute_url(self):
+        return reverse('service-group', kwargs={'pk': self.pk})
 
 
 # ####################### Tasks #######################
