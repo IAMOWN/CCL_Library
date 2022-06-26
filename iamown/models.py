@@ -38,7 +38,7 @@ SERVICE_GROUP_STATUS = [
 
 # ####################### Service Group #######################
 class ServiceGroup(models.Model):
-    """Groups users into related Service Groups."""
+    """Service Groups within the human collective of the EGA Divine Plan."""
     service_group = models.CharField(
         max_length=150,
         unique=True,
@@ -89,8 +89,7 @@ class ServiceGroup(models.Model):
 
 # ####################### Tasks #######################
 class Task(models.Model):
-    """Task model. Captures the independent tasks for any given user or service group
-    Related to User/Profile as each task belongs to a user."""
+    """Allows for independent tasks for any given user or service group"""
     task_title = models.CharField(
         max_length=200,
         null=True,

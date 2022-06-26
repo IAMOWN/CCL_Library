@@ -38,15 +38,14 @@ def service_group_form_validation(form, form_type):
 # ####################### Create Task Form #######################
 class CreateTaskForm(forms.ModelForm):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['assigned_dear_soul'].queryset = User.objects.filter(is_staff=True)
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['assigned_dear_soul'].queryset = User.objects.filter(is_staff=True)
 
     class Meta:
         model = Task
         fields = [
             'task_title',
-            'assigned_dear_soul',
             'assigned_profile',
             'task_description',
             # 'assigned_team',
@@ -66,15 +65,14 @@ class CreateTaskForm(forms.ModelForm):
 # ####################### Update Task Form #######################
 class UpdateTaskForm(forms.ModelForm):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['assigned_dear_soul'].queryset = User.objects.filter(is_staff=True)
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['assigned_dear_soul'].queryset = User.objects.filter(is_staff=True)
 
     class Meta:
         model = Task
         fields = [
             'task_title',
-            'assigned_dear_soul',
             'assigned_profile',
             'task_description',
             # 'assigned_team',
@@ -98,7 +96,6 @@ class CreateServiceGroupForm(forms.ModelForm):
         model = ServiceGroup
         fields = [
             'service_group',
-            # 'members',
             'purpose',
             'qualified_intentions',
             'service_group_type',
@@ -117,7 +114,6 @@ class UpdateServiceGroupForm(forms.ModelForm):
         model = ServiceGroup
         fields = [
             'service_group',
-            # 'members',
             'purpose',
             'qualified_intentions',
             'service_group_type',
