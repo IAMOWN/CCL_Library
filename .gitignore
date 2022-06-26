@@ -79,6 +79,3 @@ fabric.properties
 *.pyc
 CCL_Library/__pycache__/settings.cpython-310.pyc
 iamown/__pycache__/views.cpython-310.pyc
-CCL_Library/__pycache__/settings.cpython-310.pyc
-
-

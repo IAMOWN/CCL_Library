@@ -46,13 +46,12 @@ class ServiceGroup(models.Model):
         blank=True,
         default=''
     )
-    members = models.ManyToManyField(Profile)
-    purpose = models.TextField(
+    purpose = HTMLField(
         default='',
         blank=True,
         null=True,
     )
-    qualified_intentions = models.TextField(
+    qualified_intentions = HTMLField(
         default='',
         blank=True,
         null=True,
