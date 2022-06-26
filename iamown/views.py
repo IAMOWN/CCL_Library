@@ -98,8 +98,8 @@ class TaskDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         context = super(TaskDetail, self).get_context_data(**kwargs)
         context['current_user'] = self.request.user
 
-        context['tasks'] = Task.objects.filter(assigned_dear_soul=self.request.user)
-        context['tasks_count'] = context['tasks'].exclude(task_status='Completed').count()
+        # context['tasks'] = Task.objects.filter(assigned_dear_soul=self.request.user)
+        # context['tasks_count'] = context['tasks'].exclude(task_status='Completed').count()
 
         return context
 
