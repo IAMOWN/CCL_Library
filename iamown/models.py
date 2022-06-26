@@ -158,4 +158,5 @@ class Task(models.Model):
         ]
 
     def get_absolute_url(self):
-        return reverse('task', kwargs={'pk': self.pk})
+        # return reverse('task', kwargs={'pk': self.pk})
+        return reverse('tasks')
