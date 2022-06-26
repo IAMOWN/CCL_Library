@@ -89,6 +89,69 @@ class TaskList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return context
 
 
+# ####################### Library Tasks - List View #######################
+class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    """Task ListView for Library Observation tasks."""
+    model = Task
+    template_name = 'iamown/tasks_library.html'
+    context_object_name = 'tasks'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_user'] = self.request.user
+        tasks = Task.objects.filter().filter(
+            task_type='Library Observation',
+        ).exclude(task_status='Completed').order_by('due_date')
+        context['tasks'] = tasks
+        context['tasks_count'] = tasks.count()
+        context['completed_tasks_count'] = Task.objects.filter(task_status='Completed')
+
+        search_input = self.request.GET.get('search-area') or ''
+        if search_input:
+            context['tasks'] = context['tasks'].filter(task_title__icontains=search_input)  # Can also use __startswith
+        context['search_input'] = search_input
+
+        context['search_off'] = True
+        assignee_search_input = self.request.GET.get('assignee-search-area') or ''
+        task_search_input = self.request.GET.get('task-search-area') or ''
+        status_search_input = self.request.GET.get('status-search-area') or ''
+        priority_search_input = self.request.GET.get('priority-search-area') or ''
+        context['search_count'] = 0
+        if assignee_search_input:
+            context['search_off'] = False
+            context['tasks'] = context['tasks'].filter(assigned_user__username=assignee_search_input)
+            context['search_count'] = context['tasks'].count()
+            context['search_type'] = 'Assignee'
+            context['search_entered'] = assignee_search_input
+        # elif task_search_input:
+        #     context['search_off'] = False
+        #     context['tasks'] = context['tasks'].filter(task_title__icontains=task_search_input)
+        #     context['search_count'] = context['tasks'].count()
+        #     context['search_type'] = 'Task'
+        #     context['search_entered'] = task_search_input
+        elif status_search_input:
+            context['search_off'] = False
+            context['tasks'] = context['tasks'].filter(task_status__icontains=status_search_input)
+            context['search_count'] = context['tasks'].count()
+            context['search_type'] = 'Status'
+            context['search_entered'] = status_search_input
+        elif priority_search_input:
+            context['search_off'] = False
+            context['tasks'] = context['tasks'].filter(task_priority__icontains=priority_search_input)
+            context['search_count'] = context['tasks'].exclude(task_status='Completed').count()
+            context['search_type'] = 'Priority'
+            context['search_entered'] = priority_search_input
+
+        context['title'] = 'Library Observation Tasks'
+
+        return context
+
+
 # ####################### Task - Detail View #######################
 class TaskDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     """Task DetailView for user's tasks."""
@@ -103,10 +166,6 @@ class TaskDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(TaskDetail, self).get_context_data(**kwargs)
-        context['current_user'] = self.request.user
-
-        # context['tasks'] = Task.objects.filter(assigned_dear_soul=self.request.user)
-        # context['tasks_count'] = context['tasks'].exclude(task_status='Completed').count()
 
         return context
 
@@ -137,8 +196,39 @@ class TaskCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         context = super(TaskCreate, self).get_context_data(**kwargs)
         context['current_user'] = self.request.user
         context['page_type'] = 'Create'
-        # context['tasks'] = Task.objects.filter(task_status='Completed')
-        # context['tasks_count'] = context['tasks'].exclude(task_status='Completed').count()
+
+        return context
+
+
+# ####################### Task - Library Create View #######################
+class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    """Task CreateView for user's tasks."""
+    model = Task
+    form_class = CreateTaskForm
+
+    template_name = 'iamown/task_form.html'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
+
+    def form_valid(self, form):
+        library_task = Task.objects.get(id=form.instance.task.id)
+        library_task.task_type = 'Library Observation'
+        library_task.save(update_fields=['task_type'])
+        message = form.instance.task_title
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            f'The Task "{message}" has been added'
+        )
+        return super(TaskCreate, self).form_valid(form)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(TaskLibraryCreate, self).get_context_data(**kwargs)
+        context['current_user'] = self.request.user
+        context['page_type'] = 'Create'
 
         return context
 
