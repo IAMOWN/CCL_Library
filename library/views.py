@@ -1694,7 +1694,7 @@ def record_observation(request, pk):
             task_title=f'Record Observation: {observation_type}',
             task_type='Library Observation',
             task_description=task_description,
-            task_history_log=f'''>>> <strong>Library Observation</strong> >>> submitted by <strong>{observer}</strong><br>''',
+            task_history_log=f'''>>> <strong>Library Observation</strong> >>> submitted by <strong>{observer}</strong><p>''',
             assigned_service_group=service_group,
         )
 
@@ -1702,8 +1702,7 @@ def record_observation(request, pk):
             'name': observer,
             'valid': True,
             'confirm_message_1': "Beloved ",
-            'confirm_message_2': "We thank you for taking the time to share this Observation with us. The Digital Librarian Circle of Light have been assigned a task and will be looking into this.",
-            'confirm_message_3': "Love and Blessings, The Elemental Grace Alliance",
+            'confirm_message_2': '''We thank you for taking the time to share this Observation with us.<br>The Digital Librarian Circle of Light have been assigned a task and will be looking into this.<p>Love and Blessings,<br>GRACE (Guiding Responsive Assistant for Curriculum and Education)''',
             'pk': pk,
         }
 
