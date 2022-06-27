@@ -268,19 +268,24 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         assignee_search_input = self.request.GET.get('assignee-search-area') or ''
         status_search_input = self.request.GET.get('status-search-area') or ''
         priority_search_input = self.request.GET.get('priority-search-area') or ''
+
+        # Process searches - Dear Soul
         context['search_count'] = 0
         if assignee_search_input:
             context['search_off'] = False
+
             context['tasks'] = tasks.filter(assigned_profile__user__username=assignee_search_input)
             context['search_count'] = context['tasks'].count()
             context['search_type'] = 'Dear Soul'
             context['search_entered'] = assignee_search_input
+        # Task Status
         elif status_search_input:
             context['search_off'] = False
             context['tasks'] = tasks.filter(task_status__icontains=status_search_input)
             context['search_count'] = context['tasks'].count()
             context['search_type'] = 'Status'
             context['search_entered'] = status_search_input
+        # Task Priority
         elif priority_search_input:
             context['search_off'] = False
             context['tasks'] = context['tasks'].filter(task_priority__icontains=priority_search_input)
