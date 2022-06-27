@@ -1683,7 +1683,7 @@ def record_observation(request, pk):
         observer = request.user.profile.spiritual_name
         observation = request.POST['observation']
         observation_type = request.POST['observation-type']
-        task_description = f'''An automated Record Observation has been submitted. When self-selecting this task please edit and change the Task Status to 2) In Progress.<p>
+        task_description = f'''An automated Record Observation led to the creation of this task. When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.<p>
         <strong>Record: </strong><a href='{DOMAIN}library_record/{pk}/' class='text-CCL-Blue' target='_blank'>{record_title}</a><br>
         <strong>Observer: </strong>{observer}<br>
         <strong>Observation type: </strong>{observation_type}<br>

@@ -261,27 +261,21 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
             context['tasks'] = context['tasks'].filter(task_title__icontains=search_input)  # Can also use __startswith
         context['search_input'] = search_input
 
+        # Search Inputs
         context['search_off'] = True
         assignee_search_input = self.request.GET.get('assignee-search-area') or ''
-        task_search_input = self.request.GET.get('task-search-area') or ''
         status_search_input = self.request.GET.get('status-search-area') or ''
         priority_search_input = self.request.GET.get('priority-search-area') or ''
         context['search_count'] = 0
         if assignee_search_input:
             context['search_off'] = False
-            context['tasks'] = context['tasks'].filter(assigned_user__username=assignee_search_input)
+            context['tasks'] = tasks.filter(assigned_profile__user__username=assignee_search_input)
             context['search_count'] = context['tasks'].count()
-            context['search_type'] = 'Assignee'
+            context['search_type'] = 'Dear Soul'
             context['search_entered'] = assignee_search_input
-        # elif task_search_input:
-        #     context['search_off'] = False
-        #     context['tasks'] = context['tasks'].filter(task_title__icontains=task_search_input)
-        #     context['search_count'] = context['tasks'].count()
-        #     context['search_type'] = 'Task'
-        #     context['search_entered'] = task_search_input
         elif status_search_input:
             context['search_off'] = False
-            context['tasks'] = context['tasks'].filter(task_status__icontains=status_search_input)
+            context['tasks'] = tasks.filter(task_status__icontains=status_search_input)
             context['search_count'] = context['tasks'].count()
             context['search_type'] = 'Status'
             context['search_entered'] = status_search_input
