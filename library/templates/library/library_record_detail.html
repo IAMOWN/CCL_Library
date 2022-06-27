@@ -77,17 +77,17 @@
 
     {% if user.is_authenticated %}
     <section class="media content-section text-CCL-Gold">
-        <div class="row pt-2">
-            <div class="col-lg-4">
-                <h5><strong>Library Record Metadata</strong></h5>
-            </div>
-        </div>
         <div class="row">
             <div class="col-lg-9 pt-2">
-                <p><strong>Tags: </strong>{% for tag in library_record.tags.all %}{{ tag }}; {% endfor %}</p>
+                <h5><strong>Library Record Metadata</strong></h5>
             </div>
             <div class="col-lg-3 pt-2">
                 <a href="{% url 'record-observation' library_record.id %}" class="btn btn-CCL-Blue col-12">Submit Record Observation</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 pt-2">
+                <p><strong>Tags: </strong>{% for tag in library_record.tags.all %}{{ tag }}; {% endfor %}</p>
             </div>
         </div>
         <div class="row">
