@@ -129,7 +129,9 @@
             <section class="list-group-item list-group-item-light text-CCL-Gold {% cycle 'row1' 'row2' %}">
                 <div class="row pt-2 pb-2">
                     <div class="col-lg-2">
+                    {% if task.assigned_profile %}
                         {{ task.assigned_profile }}
+                    {% endif %}
                     </div>
                     <div class="col-lg-4">
                         <p><a href="{% url 'task' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a></p>
@@ -154,8 +156,8 @@
             <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
                 <div class="row">
                     <div class="col-lg-2">
-                    {% if task.assigned_dear_soul %}
-                        {{ task.assigned_dear_soul }}
+                    {% if task.assigned_profile %}
+                        {{ task.assigned_profile }}
                     {% endif %}
                     </div>
                     <div class="col-lg-4">
