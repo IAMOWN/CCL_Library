@@ -22,16 +22,16 @@
     {% else %}
     <section class="media content-section container-sm">
         <h3 class="pt-2">Submit A Record Observation</h3>
-        <form action="{% url 'contact' %}" method="post">
+        <form action="{% url 'record-observation' pk %}" method="post">
             {% csrf_token %}
             <div class="row">
-                <div class="col-lg-12 pt-2">
+                <div class="col-lg-12">
                     <label for="obs">Observation:</label>
                     <textarea id="obs" name="observation" class="form-control mb-30" minlength="3" placeholder="Record Observation" required></textarea>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3 pt-4 pb-2">
+                <div class="col-lg-3 pb-2">
                 <label for="type">Type:</label>
                     <select id="type" name="observation-type" class="form-control mb-30" minlength="3" >
                         <option value="Typo">Typo</option>
@@ -40,8 +40,8 @@
                         <option value="Other">Other</option>
                     </select>
                 </div>
-                <div class="col-lg-6 pt-4 pb-2"></div>
-                <div class="col-lg-3 pt-4 pb-2">
+                <div class="col-lg-6 pb-2"></div>
+                <div class="col-lg-3 pb-2">
                     <input type="submit" class="btn btn-CCL-Blue col-12" value="Submit Record Observation">
                 </div>
             </div>
