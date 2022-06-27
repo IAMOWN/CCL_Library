@@ -17,14 +17,14 @@
         <div class="row">
             <div class="col-lg-12">
                 {% if completed_tasks_count > 0 %}
-                    <p>You currently have {{ completed_tasks_count|intcomma }} completed task{{ completed_tasks_count|pluralize:"s" }}.</p>
+                    <p>There {{ tasks_count|pluralize:"is,are" }} currently {{ completed_tasks_count|intcomma }} completed Library Observation task{{ completed_tasks_count|pluralize:"s" }}.</p>
                 {% else %}
-                    <p>You currently have no completed tasks.</p>
+                    <p>There are currently no Library Observation completed tasks.</p>
                 {% endif %}
                 {% if tasks_count == 0 %}
-                    <p>You currently have no <a class="text-CCL-Blue" href="{% url 'tasks-library' %}">active tasks</a>.</p>
+                    <p>There {{ tasks_count|pluralize:"is,are" }} currently no <a class="text-CCL-Blue" href="{% url 'tasks-library' %}">active Library Observation tasks</a>.</p>
                 {% elif tasks_count > 0 %}
-                    <p>You also have <a class="text-CCL-Blue" href="{% url 'tasks-library' %}">{{ tasks_count|intcomma }} active task{{ tasks_count|pluralize:"s" }}</a>.</p>
+                    <p>There {{ tasks_count|pluralize:"is,are" }} currently <a class="text-CCL-Blue" href="{% url 'tasks-library' %}">{{ tasks_count|intcomma }} active Library Observation task{{ tasks_count|pluralize:"s" }}</a>.</p>
                 {% endif %}
             </div>
         </div>
