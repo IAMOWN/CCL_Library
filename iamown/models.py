@@ -112,8 +112,7 @@ class Task(models.Model):
         max_length=20,
         choices=TASK_PRIORITY_CHOICES,
         default='2) Normal',
-        help_text="Selecting '1) High' will not only place the task higher in the task list but will also "
-                  "result in it showing in the 'My High Priority' section of the dashboard."
+        help_text="Selecting '1) High' will not only place the task higher in the task list."
     )
     due_date = models.DateField(
         auto_now=False,
