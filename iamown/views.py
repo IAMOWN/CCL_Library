@@ -262,7 +262,6 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['search_input'] = search_input
 
         context['dear_souls'] = Profile.objects.filter(user__is_staff=True)
-        print(f'dear_souls" {dear_souls}')
 
         # Search Inputs
         context['search_off'] = True
