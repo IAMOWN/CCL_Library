@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {{ task.task_title }}
+{% endblock %}
+{% block content %}
+    {% if messages %}
+        <section>
+            <div>
+                <p class="alert-{{ message.tags }}">
+                    {{ message }}
+                </p>
+            </div>
+        </section>
+    {% endif %}
+{#    TODO Check for message.tags type with Corey Schafer #}
+    <section class="content-section text-CCL-Gold">
+        <div class="row pt-2">
+            <div class="col-lg-12">
+                <h3><strong>Task: {{ task.task_title }} </strong></h3>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section text-CCL-Gold">
+        <div class="row pt-2">
+            <div class="col-lg-3">
+                <p><strong>Priority:</strong> {{ task.task_priority }}</p>
+            </div>
+            <div class="col-lg-3">
+                <p><strong>Status:</strong> {{ task.task_status }}</p>
+            </div>
+            <div class="col-lg-3">
+                <p><strong>Sphere/Circle:</strong> {{ task.assigned_service_group }} </p>
+            </div>
+            {% if task.assigned_profile %}
+            <div class="col-lg-3">
+                <p><strong>Dear Soul:</strong> {{ task.assigned_profile }}</p>
+            </div>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col-lg-3">
+                <p><strong>Due date:</strong> {{ task.due_date|date:'F j, Y' }}</p>
+            </div>
+        </div>
+        <div class="row pt-2">
+            <div class="col-lg-12">
+                <p><strong>Description:</strong><br>
+                    {{ task.task_description|safe }}
+                </p>
+            </div>
+        </div>
+        <div class="row pt-2">
+            <div class="col-lg-9">
+                <p><strong>Task history log:</strong><br>
+                    {{ task.task_history_log|safe }}
+                </p>
+            </div>
+            <div class="col-lg-3">
+                <p><strong>Created:</strong> {{ task.task_created_date|date:'F j, Y' }}</p>
+            </div>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="row">
+            <div class="col-lg-3 pt-2 pb-2">
+                <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-12">Back</a>
+            </div>
+            <div class="col-lg-3 pt-2 pb-2">
+                <a href="{% url 'task-update' task.id %}" class="btn btn-CCL-Blue col-12">Edit Task</a>
+            </div>
+            <div class="col-lg-3 pt-2 pb-2">
+                <a href="{% url 'task-create-library' %}" class="btn btn-CCL-Blue col-12">Add A Library Observation Task</a>
+            </div>
+            {% if user.is_superuser %}
+            <div class="col-lg-3 pt-2 pb-2">
+                <a href="{% url 'task-delete-library' task.id %}" class="btn btn-outline-danger col-12">Delete Library Observation Task</a>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

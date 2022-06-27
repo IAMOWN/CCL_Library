@@ -223,6 +223,7 @@ class TaskDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(TaskDelete, self).get_context_data(**kwargs)
+
         return context
 
 
@@ -296,6 +297,24 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return context
 
 
+# ####################### Task Libary - Detail View #######################
+class TaskLibraryDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    """Task DetailView for Library Observation tasks."""
+    model = Task
+    template_name = 'iamown/task_detail_library.html'
+    context_object_name = 'task'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(TaskLibraryDetail, self).get_context_data(**kwargs)
+
+        return context
+
+
 # ####################### Tasks Library - Completed View #######################
 class TaskLibraryCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """Task TaskLibraryCompletedList for completed Library Observation tasks."""
@@ -359,6 +378,26 @@ class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         context = super(TaskLibraryCreate, self).get_context_data(**kwargs)
         context['current_user'] = self.request.user
         context['page_type'] = 'Create'
+
+        return context
+
+
+# ####################### Task Library - Delete View #######################
+class TaskLibraryDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """Task DeleteView for Library Observation tasks."""
+    model = Task
+    context_object_name = 'task'
+    success_url = reverse_lazy('tasks-library')
+    template_name = 'iamown/task_confirm_delete_library.html'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(TaskLibraryDelete, self).get_context_data(**kwargs)
+        context['title'] = 'Delete Library Observation Task'
 
         return context
 
