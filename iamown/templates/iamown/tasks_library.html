@@ -178,8 +178,8 @@
         {% else %}
             {% for task in tasks %}
                 {% if task.task_status != 'Completed' %}
-                <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
-                    <div class="row text-CCL-Gold">
+                <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
+                    <div class="row">
                         <div class="col-lg-2">
                             {{ task.assigned_dear_soul }}
                         </div>
