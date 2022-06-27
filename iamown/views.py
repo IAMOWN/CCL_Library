@@ -361,8 +361,7 @@ class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         library_task = form.save()
         library_task.task_type = 'Library Observation'
         task_creator = Profile.objects.get(user__username=self.request.user).spiritual_name
-        library_task.task_history_log = f'''
-        >>> <strong>Library Observation</strong> task manually created by <strong>{task_creator}</strong>.<p>
+        library_task.task_history_log = f'''>>> <strong>Library Observation</strong> task manually created by <strong>{task_creator}</strong>.<p>
         '''
         library_task.save(update_fields=['task_type', 'task_history_log',])
         message = form.instance.task_title
