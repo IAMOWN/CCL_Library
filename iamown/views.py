@@ -176,9 +176,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         library_task.task_history_log = library_task.task_history_log + f'''
         >>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br>
         Status: {form.instance.task_status} >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date}<br>
-        Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}<br>
-        Description:<br>
-        {form.instance.task_description}<p>
+        Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}<p>
         '''
         library_task.save(update_fields=['task_history_log',])
         message = form.instance.task_title
