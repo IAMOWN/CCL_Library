@@ -223,10 +223,6 @@ class TaskDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(TaskDelete, self).get_context_data(**kwargs)
-        context['current_user'] = self.request.user
-        context['tasks'] = Task.objects.filter(assigned_user=self.request.user)
-        context['tasks_count'] = context['tasks'].exclude(task_status='Completed').count()
-
         return context
 
 
