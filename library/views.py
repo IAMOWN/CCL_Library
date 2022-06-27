@@ -1682,15 +1682,15 @@ def record_observation(request, pk):
         record_title = LibraryRecord.objects.get(id=pk).title
         observer = request.user.profile.spiritual_name
         observation = request.POST['observation']
-        type = request.POST['type']
+        observation_type = request.POST['observation-type']
         task_description = f'''<strong>Record: </strong><a href='{DOMAIN}library_record/{pk}/' class='text-CCL-Blue' target='_blank'>{record_title}</a><br>
         <strong>Observer: </strong>{observer}
-        <strong>Observation type: </strong>{type}<br>
+        <strong>Observation type: </strong>{observation_type}<br>
         <strong>Observation:</strong><br>
         {observation}'''
 
         Task.objects.create(
-            task_title=f'Record Observation: {type}',
+            task_title=f'Record Observation: {observation_type}',
             task_type='Library Observation',
             task_description=task_description,
             task_history_log=f'''>>> <strong>Library Observation</strong> >>> submitted by <strong>{observer}</strong><br>''',
