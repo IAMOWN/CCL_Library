@@ -63,7 +63,7 @@
             <div class="col-lg-3">
                 <a href="{% url 'service-group-create' %}" class="btn btn-CCL-Blue col-12">Add A Service Group</a>
             </div>
-            {% if user.is_superuser or service_group.service_group != 'Digital Librarians' %}
+            {% if user.is_superuser and service_group.service_group != 'Digital Librarians' %}
             <div class="col-lg-3 pb-2">
                 <a href="{% url 'service-group-delete' service_group.id %}" class="btn btn-outline-danger col-12">Delete Service Group</a>
             </div>

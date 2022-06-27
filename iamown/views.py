@@ -359,7 +359,8 @@ class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     def form_valid(self, form):
         library_task = form.save()
-        library_task.assigned_service_group = 'Digital Librarians'
+        service_group = ServiceGroup.objects.get(service_group='Digital Librarians')
+        library_task.assigned_service_group = service_group
         library_task.task_type = 'Library Observation'
         task_creator = Profile.objects.get(user__username=self.request.user).spiritual_name
         library_task.task_history_log = f'''>>> <strong>Library Observation</strong> task manually created by <strong>{task_creator}</strong>.<p>
