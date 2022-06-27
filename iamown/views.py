@@ -171,18 +171,24 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return context
 
     def form_valid(self, form):
+        task = Task.objects.get(id=library_task.id)
         library_task = form.save()
-        task_type = Task.objects.get(id=library_task.id).task_type
         task_updater = Profile.objects.get(user__username=self.request.user).spiritual_name
         library_task.task_history_log = library_task.task_history_log + f'''
-        >>> Task type: <strong>{task_type}</strong> manually updated by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<p>
+        >>> Task type: <strong>{task.task_type}</strong> manually updated by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br>
+        Status: {task.task_status}<br>
+        Priority: {task.task_priority}<br> 
+        Due date: {task.due_date}<br>
+        Assigned Dear Soul: {task.assigned_profile}<br>
+        Assigned Group: {task.assigned_service_group}<br>
+        Description: {task.task_description}<p>
         '''
         library_task.save(update_fields=['task_history_log',])
         message = form.instance.task_title
         messages.add_message(
             self.request,
             messages.SUCCESS,
-            f'The Task "{message}" has been added'
+            f'The Task "{message}" has been updated'
         )
         return super(TaskUpdate, self).form_valid(form)
 

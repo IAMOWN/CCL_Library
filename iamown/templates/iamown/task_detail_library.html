@@ -51,16 +51,6 @@
                 </p>
             </div>
         </div>
-        <div class="row pt-2">
-            <div class="col-lg-9">
-                <p><strong>Task history log:</strong><br>
-                    {{ task.task_history_log|safe }}
-                </p>
-            </div>
-            <div class="col-lg-3">
-                <p><strong>Created:</strong> {{ task.task_created_date|date:'F j, Y' }}</p>
-            </div>
-        </div>
     </section>
     <section class="content-section">
         <div class="row">
@@ -78,6 +68,18 @@
                 <a href="{% url 'task-delete-library' task.id %}" class="btn btn-outline-danger col-12">Delete Library Observation Task</a>
             </div>
             {% endif %}
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="row">
+            <div class="col-lg-9 pt-2">
+                <p><strong>Task history log:</strong><br>
+                    {{ task.task_history_log|safe }}
+                </p>
+            </div>
+            <div class="col-lg-3 pt-2">
+                <p><strong>Created:</strong> {{ task.task_created_date|date:'F j, Y' }}</p>
+            </div>
         </div>
     </section>
 {% endblock %}
