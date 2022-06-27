@@ -261,6 +261,9 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
             context['tasks'] = context['tasks'].filter(task_title__icontains=search_input)  # Can also use __startswith
         context['search_input'] = search_input
 
+        context['dear_souls'] = Profile.objects.filter(user__is_staff=True)
+        print(f'dear_souls" {dear_souls}')
+
         # Search Inputs
         context['search_off'] = True
         assignee_search_input = self.request.GET.get('assignee-search-area') or ''

@@ -12,9 +12,9 @@
             </div>
         </div>
     </section>
-    <section class="content-section text-CCL-Gold">
+    <section class="content-section">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 text-CCL-Blue">
             {% if tasks_count > 0 %}
                 <p>There {{ tasks_count|pluralize:"is,are" }} currently {{ tasks_count|intcomma }} active Library Observation task{{ tasks_count|pluralize:"s" }}.</p>
             {% else %}
@@ -33,26 +33,19 @@
     </section>
 
     {% if tasks_count > 1 %}
-    {% if search_off %}
     <section class="content-section">
-    {% elif search_count == 0 %}
-    <section class="content-section-danger">
-    {% else %}
-    <section class="content-section-success">
-    {% endif %}
         <form method="get" class="pt-2">
             <div class="row">
                 <div class="col-lg-3 pb-2">
                     <button type="submit" class="btn btn-outline-CCL-Blue col-12">Filter Librarian Tasks</button>
                 </div>
                 <div class="col-lg-3 pb-2">
-                    <input
-                            type="text"
-                            name="assignee-search-area"
-                            class="button-margin-tlr form-control"
-                            value="{{ assignee_search_input }}"
-                            placeholder="By Assigned Dear Soul"
-                    >
+                    <select name="assignee-search-area" class="form-control" placeholder="By Assigned Dear Soul">
+                        <option value="">Series</option>
+                        {% for dear_soul in dear_souls %}
+                        <option value='{{ dear_soul.spiritual_name }}'>{{ dear_soul.spiritual_name }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="col-lg-3 pb-2">
                     <select name="status-search-area" class="pe-2 form-control">
@@ -73,25 +66,25 @@
                 </div>
             </div>
         </form>
-        
+
     {% if not search_off %}
         {% if search_type == 'Dear Soul' %}
             {% if search_count == 0 %}
-                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the Dear Soul field.</p>
+                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the Dear Soul field. <span class="text-CCL-Gold">(search type: {{ search_type }}</span></p>
             {% else %}
-                <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} active task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the Dear Soul field.</p>
+                <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} active task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the Dear Soul field. <span class="text-CCL-Gold">(search type: {{ search_type }}</span></p>
             {% endif %}
         {% elif search_type == 'Status' %}
             {% if search_count == 0 %}
-                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the task status field.</p>
+                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the task status field. <span class="text-CCL-Gold">(search type: {{ search_type }}</span></p>
             {% else %}
-                <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the task status field.</p>
+                <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the task status field. <span class="text-CCL-Gold">(search type: {{ search_type }}</span></p>
             {% endif %}
         {% elif search_type == 'Priority' %}
             {% if search_count == 0 %}
-                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the task priority field.</p>
+                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the task priority field. <span class="text-CCL-Gold">(search type: {{ search_type }}</span></p>
             {% else %}
-                <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} active task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the task priority field.</p>
+                <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} active task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the task priority field. <span class="text-CCL-Gold">(search type: {{ search_type }}</span></p>
             {% endif %}
         {% endif %}
     {% endif %}
