@@ -13,7 +13,7 @@
             </div>
         </section>
     {% endif %}
-    <section class="media content-section text-CCL-Gold">
+    <section class="content-section text-CCL-Gold">
         <div class="row text-center">
             <div class="col-lg-12 pt-2">
             {% if library_record.discourse_series %}
@@ -45,7 +45,7 @@
         </div>
     </section>
 
-    <section class="media content-section text-CCL-Gold">
+    <section class="content-section text-CCL-Gold">
         {% if library_record.library_record_type == 'Invocation' %}
         <div class="row">
             <div class="col-lg-12">
@@ -75,36 +75,8 @@
         {% endif %}
     </section>
 
-    {% if user.is_authenticated %}
-    <section class="media content-section text-CCL-Gold">
-        <div class="row">
-            <div class="col-lg-9 pt-2">
-                <h5><strong>Library Record Metadata</strong></h5>
-            </div>
-            <div class="col-lg-3 pt-2">
-                <a href="{% url 'record-observation' library_record.id %}" class="btn btn-CCL-Blue col-12">Submit Record Observation</a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12 pt-2">
-                <p><strong>Tags: </strong>{% for tag in library_record.tags.all %}{{ tag }}; {% endfor %}</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <p><strong>Supporting Masters: </strong>{% for master in library_record.supporting_cosmic_authors.all %}{{ master }}; {% endfor %}</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <p><strong>Record in the following Collection{{ collection_list_count|pluralize:'s' }}: </strong>{{ collection_list_str }}</p>
-            </div>
-        </div>
-    </section>
-    {% endif %}
-
     {% if library_record.pdf_url or library_record.doc_url or library_record.mp3_url  %}
-    <section class="media content-section text-CCL-Gold">
+    <section class="content-section text-CCL-Gold">
         <div class="row pt-2">
             <div class="col-lg-4">
                 <h5><strong>Downloadable files</strong></h5>
@@ -113,7 +85,7 @@
         <div class="row pt-2">
             {% if library_record.pdf_url %}
             <div class="col-lg-3 text-center">
-                <p><a href="{{ library_record.pdf_url }}" class="text-CCL-Blue"><strong>PDF</strong></a> </p>
+                <p><a href="{{ library_record.pdf_url }}" class="text-CCL-Blue" target="_blank"><strong>PDF</strong></a> </p>
             </div>
             {% endif %}
             {% if library_record.mp3_url %}
@@ -130,8 +102,35 @@
     </section>
     {% endif %}
 
+    {% if user.is_authenticated %}
+    <section class="content-section text-CCL-Gold">
+        <div class="row">
+            <div class="col-lg-9 pt-2">
+                <h5><strong>Library Record Metadata</strong></h5>
+            </div>
+            <div class="col-lg-3 pt-2">
+                <a href="{% url 'record-observation' library_record.id %}" class="btn btn-CCL-Blue col-12">Submit Record Observation</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <p><strong>Tags: </strong>{% for tag in library_record.tags.all %}{{ tag }}; {% endfor %}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <p><strong>Supporting Masters: </strong>{% for master in library_record.supporting_cosmic_authors.all %}{{ master }}; {% endfor %}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <p><strong>Record in the following Collection{{ collection_list_count|pluralize:'s' }}: </strong>{{ collection_list_str }}</p>
+            </div>
+        </div>
+    </section>
+    {% endif %}
 
-    <section class="media content-section">
+    <section class="content-section">
         <form method="get">
             <div class="row">
             {% if series %}
@@ -175,7 +174,7 @@
         </form>
     </section>
 
-    <section class="media content-section">
+    <section class="content-section">
         <div class="row">
             <div class="col-lg-3 pt-2 pb-2">
                 <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-12">Back</a>

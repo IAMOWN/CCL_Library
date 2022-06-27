@@ -1683,11 +1683,12 @@ def record_observation(request, pk):
         observer = request.user.profile.spiritual_name
         observation = request.POST['observation']
         observation_type = request.POST['observation-type']
-        task_description = f'''<strong>Record: </strong><a href='{DOMAIN}library_record/{pk}/' class='text-CCL-Blue' target='_blank'>{record_title}</a><br>
-        <strong>Observer: </strong>{observer}
+        task_description = f'''An automated Record Observation has been submitted. When self-selecting this task please edit and change the Task Status to 2) In Progress.<p>
+        <strong>Record: </strong><a href='{DOMAIN}library_record/{pk}/' class='text-CCL-Blue' target='_blank'>{record_title}</a><br>
+        <strong>Observer: </strong>{observer}<br>
         <strong>Observation type: </strong>{observation_type}<br>
         <strong>Observation:</strong><br>
-        {observation}'''
+        {observation}<p>'''
 
         Task.objects.create(
             task_title=f'Record Observation: {observation_type}',
@@ -1701,7 +1702,7 @@ def record_observation(request, pk):
             'name': observer,
             'valid': True,
             'confirm_message_1': "Beloved ",
-            'confirm_message_2': "We thank you for taking the time to share this Observation with us.",
+            'confirm_message_2': "We thank you for taking the time to share this Observation with us. The Digital Librarian Circle of Light have been assigned a task and will be looking into this.",
             'confirm_message_3': "Love and Blessings, The Elemental Grace Alliance",
             'pk': pk,
         }

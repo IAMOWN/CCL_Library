@@ -5,22 +5,22 @@
 {% endblock %}
 {% block content %}
     {% if valid %}
-    <section class="media content-section container-sm pt-2">
+    <section class="content-section container-sm pt-2 text-CCL-Gold">
         <div class="row">
-            <div class="col-xxl-12">
+            <div class="col-lg-12">
                 <p class="text-CCL-Blue pt-2">{{ confirm_message_1 }} {{ name }},</p>
                 <p class="text-CCL-Blue">{{ confirm_message_2 }}</p>
                 <p class="text-CCL-Blue">{{ confirm_message_3 }}</p>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 pb-2">>
-                <a class="btn btn-CCL-Blue col-12" href="{% url 'library-records' %}">Return to the Library</a>
+            <div class="col-lg-3 pb-2">>
+                <a class="btn btn-CCL-Blue col-12" href="{% url 'library-record' pk %}">Return to the Record</a>
             </div>
         </div>
     </section>
     {% else %}
-    <section class="media content-section container-sm text-CCL-Gold">
+    <section class="content-section container-sm text-CCL-Gold">
         <h3 class="pt-2">Submit A Record Observation</h3>
         <form action="{% url 'record-observation' pk %}" method="post">
             {% csrf_token %}
