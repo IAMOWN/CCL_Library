@@ -273,7 +273,11 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['search_count'] = 0
         if assignee_search_input:
             context['search_off'] = False
-            search_result = Task.objects.filter(assigned_profile__user__username=assignee_search_input)
+            search_result = Task.objects.filter(assigned_profile__spiritual_name=assignee_search_input).order_by(
+                'task_status',
+                'task_priority',
+                'due_date',
+            )
             context['tasks'] = search_result
             context['search_count'] = search_result.count()
             context['search_type'] = 'Dear Soul'
@@ -281,7 +285,11 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         # Task Status
         elif status_search_input:
             context['search_off'] = False
-            search_result = Task.objects.filter(task_status__icontains=status_search_input)
+            search_result = Task.objects.filter(task_status__icontains=status_search_input).order_by(
+                'task_status',
+                'task_priority',
+                'due_date',
+            )
             context['tasks'] = search_result
             context['search_count'] = search_result.count()
             context['search_type'] = 'Status'
@@ -289,7 +297,11 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         # Task Priority
         elif priority_search_input:
             context['search_off'] = False
-            search_result = Task.objects.filter(task_priority__icontains=priority_search_input)
+            search_result = Task.objects.filter(task_priority__icontains=priority_search_input).order_by(
+                'task_status',
+                'task_priority',
+                'due_date',
+            )
             context['tasks'] = search_result
             context['search_count'] = search_result.count()
             context['search_type'] = 'Priority'
