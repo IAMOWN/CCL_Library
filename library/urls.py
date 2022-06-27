@@ -49,6 +49,8 @@ from .views import (
 
     SearchView,
 
+    record_observation,
+
     CollectionENACAList,
     CollectionGESARAList,
     CollectionIAMFreedomList,
@@ -119,4 +121,7 @@ urlpatterns = [
 
     # Search
     path('library_records/search/', SearchView.as_view(), name='search'),
+
+    # Record Observation
+    path('library_record/<int:pk>/observation/', record_observation, name='record-observation'),
 ]

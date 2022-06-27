@@ -41,6 +41,13 @@ from .forms import (
     CollectionRecordFormSet,
 )
 
+from iamown.models import (
+    Task,
+    ServiceGroup,
+)
+
+DOMAIN = settings.DOMAIN
+
 
 # FUNCTIONS
 def get_current_year():
@@ -1665,3 +1672,40 @@ class ReadingListItemDelete(LoginRequiredMixin, DeleteView):
             f'The {record_type}, "{record_title}" has been removed from your Reading List.'
         )
         return super(ReadingListItemDelete, self).form_valid(form)
+
+
+# ####################### Record Observation #######################
+@login_required
+def record_observation(request, pk):
+    if request.method == 'POST':
+        service_group = ServiceGroup.objects.get(service_group='Digital Librarians')
+        record_title = LibraryRecord.objects.get(id=pk).title
+        observer = request.user.profile.spiritual_name
+        observation = request.POST['observation']
+        type = request.POST['type']
+        task_description = f'''<strong>Record: </strong><a href='{DOMAIN}library_record/{pk}/' class='text-CCL-Blue' target='_blank'>{record_title}</a><br>
+        <strong>Observer: </strong>{observer}
+        <strong>Observation type: </strong>{type}<br>
+        <strong>Observation:</strong><br>
+        {observation}'''
+
+        Task.objects.create(
+            task_title=f'Record Observation: {type}',
+            task_type='Library Observation',
+            task_description=task_description,
+            task_history_log=f'''>>> <strong>Library Observation</strong> >>> submitted by <strong>{observer}</strong><br>''',
+            assigned_service_group=service_group,
+        )
+
+        context = {
+            'name': observer,
+            'valid': True,
+            'confirm_message_1': "Beloved ",
+            'confirm_message_2': "We thank you for taking the time to share this Observation with us.",
+            'confirm_message_3': "Love and Blessings, The Elemental Grace Alliance",
+        }
+
+        return render(request, pk, 'library/observation.html', context)
+
+    else:
+        return render(request, pk, 'library/observation.html')

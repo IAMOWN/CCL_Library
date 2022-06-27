@@ -159,7 +159,7 @@ DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 SERVER_EMAIL = os.environ.get('SERVER_EMAIL')
 
 COMPANY_NAME = os.environ.get('COMPANY_NAME')
-DOMAIN  = os.environ.get('WHURTHY_DOMAIN')
+DOMAIN  = os.environ.get('DOMAIN')
 
 TINY_API = os.environ.get('TINY_API')
 # TINY_JWK = os.environ.get('TINY_JWK')
