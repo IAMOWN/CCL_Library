@@ -171,18 +171,14 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return context
 
     def form_valid(self, form):
-        task = Task.objects.none()
-        task = Task.objects.get(id=library_task.id)
-        library_task = form.save()
+        library_task = form.save(commit=False)
         task_updater = Profile.objects.get(user__username=self.request.user).spiritual_name
         library_task.task_history_log = library_task.task_history_log + f'''
-        >>> Task type: <strong>{task.task_type}</strong> manually updated by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br>
-        Status: {task.task_status}<br>
-        Priority: {task.task_priority}<br> 
-        Due date: {task.due_date}<br>
-        Assigned Dear Soul: {task.assigned_profile}<br>
-        Assigned Group: {task.assigned_service_group}<br>
-        Description: {task.task_description}<p>
+        >>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br>
+        Status: {form.instance.task_status} >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date}<br>
+        Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}<br>
+        Description:<br>
+        {form.instance.task_description}<p>
         '''
         library_task.save(update_fields=['task_history_log',])
         message = form.instance.task_title
