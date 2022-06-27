@@ -1703,9 +1703,10 @@ def record_observation(request, pk):
             'confirm_message_1': "Beloved ",
             'confirm_message_2': "We thank you for taking the time to share this Observation with us.",
             'confirm_message_3': "Love and Blessings, The Elemental Grace Alliance",
+            'pk': pk,
         }
 
-        return render(request, pk, 'library/observation.html', context)
+        return render(request, 'library/observation.html', context)
 
     else:
-        return render(request, pk, 'library/observation.html')
+        return render(request, 'library/observation.html', context={'pk': pk,})
