@@ -73,12 +73,14 @@
     <section class="content-section">
         <div class="row">
             <div class="col-lg-9 pt-2">
-                <p><strong>Task history log:</strong><br>
-                    {{ task.task_history_log|safe }}
-                </p>
+                <h5>Task history log:</h5>
             </div>
             <div class="col-lg-3 pt-2">
                 <p><strong>Created:</strong> {{ task.task_created_date|date:'F j, Y' }}</p>
+            </div>
+        <div class="row">
+            <div class="col-lg-12 pt-2">
+            {{ task.task_history_log|safe }}
             </div>
         </div>
     </section>

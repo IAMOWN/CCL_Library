@@ -171,6 +171,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return context
 
     def form_valid(self, form):
+        task = Task.objects.none()
         task = Task.objects.get(id=library_task.id)
         library_task = form.save()
         task_updater = Profile.objects.get(user__username=self.request.user).spiritual_name
