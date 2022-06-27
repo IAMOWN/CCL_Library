@@ -248,6 +248,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
             'task_priority',
             'due_date',
         )
+        # TODO Check tasks count on tasks library template
         context['tasks'] = tasks
         context['tasks_count'] = tasks.count()
         context['completed_tasks_count'] = Task.objects.filter(
@@ -377,7 +378,6 @@ class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(TaskLibraryCreate, self).get_context_data(**kwargs)
-        context['current_user'] = self.request.user
         context['page_type'] = 'Create'
 
         return context
