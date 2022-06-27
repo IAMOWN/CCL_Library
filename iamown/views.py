@@ -175,7 +175,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         task_type = Task.objects.get(id=library_task.id).task_type
         task_updater = Profile.objects.get(user__username=self.request.user).spiritual_name
         library_task.task_history_log = f'''
-        Task type: <strong>{task_type}</strong> manually updated by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<p>
+        >>> Task type: <strong>{task_type}</strong> manually updated by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<p>
         '''
         library_task.save(update_fields=['task_history_log',])
         message = form.instance.task_title
@@ -348,7 +348,7 @@ class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         library_task.task_type = 'Library Observation'
         task_creator = Profile.objects.get(user__username=self.request.user).spiritual_name
         library_task.task_history_log = f'''
-        <strong>Library Observation</strong> task manually created by <strong>{task_creator}</strong>.<p>
+        >>> <strong>Library Observation</strong> task manually created by <strong>{task_creator}</strong>.<p>
         '''
         library_task.save(update_fields=['task_type', 'task_history_log',])
         message = form.instance.task_title

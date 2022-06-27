@@ -43,9 +43,6 @@
             <div class="col-lg-3">
                 <p><strong>Due date:</strong> {{ task.due_date|date:'F j, Y' }}</p>
             </div>
-            <div class="col-lg-3">
-                <p><strong>Created:</strong> {{ task.task_created_date|date:'F j, Y' }}</p>
-            </div>
         </div>
         <div class="row pt-2">
             <div class="col-lg-12">
@@ -55,10 +52,13 @@
             </div>
         </div>
         <div class="row pt-2">
-            <div class="col-lg-12">
+            <div class="col-lg-9">
                 <p><strong>Task history log:</strong><br>
                     {{ task.task_history_log|safe }}
                 </p>
+            </div>
+            <div class="col-lg-3">
+                <p><strong>Created:</strong> {{ task.task_created_date|date:'F j, Y' }}</p>
             </div>
         </div>
     </section>
