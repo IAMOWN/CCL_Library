@@ -134,7 +134,7 @@
                     {% endif %}
                     </div>
                     <div class="col-lg-4">
-                        <p><a href="{% url 'task' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a></p>
+                        <p><a href="{% url 'task-library' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a></p>
                     </div>
                     <div class="col-lg-2">
                         {{ task.task_status }}
@@ -161,7 +161,7 @@
                     {% endif %}
                     </div>
                     <div class="col-lg-4">
-                        <p><a href="{% url 'task' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a> {% if user.is_superuser %}<a href="{% url 'task-update' task.id %}" class="text-CCL-Gold mt-1"><i class="far fa-plus-square h6-plus"></i></a></p>{% endif %}
+                        <p><a href="{% url 'task-library' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a>
 
                     </div>
                     <div class="col-lg-2">
@@ -171,7 +171,7 @@
                         {{ task.task_priority }}
                     </div>
                     <div class="col-lg-2">
-                        {{ task.due_date|date:"d/m/Y" }} <a href="{% url 'task-delete' task.id %}" class="delete-link float-end mt-1"><i class="far fa-times-circle h6-plus"></i></a>
+                        {{ task.due_date|date:"d/m/Y" }} 
                     </div>
                 </div>
                 <div class="row">
