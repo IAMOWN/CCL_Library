@@ -184,7 +184,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             messages.SUCCESS,
             f'The Task "{message}" has been added'
         )
-        return super(TaskLibraryCreate, self).form_valid(form)
+        return super(TaskUpdate, self).form_valid(form)
 
 
 # ####################### Task - Completed View #######################
