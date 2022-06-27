@@ -290,6 +290,33 @@ class TaskCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return context
 
 
+# ####################### Tasks Library - Completed View #######################
+class TaskLibraryCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    """Task TaskLibraryCompletedList for completed Library Observation tasks."""
+    model = Task
+    template_name = 'iamown/tasks_completed_library.html'
+    context_object_name = 'tasks'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_user'] = self.request.user
+        tasks = Task.objects.all().filter(
+            task_type='Library Observation',
+            task_status='Completed',
+        ).order_by(
+            '-due_date',
+        )
+        context['tasks'] = tasks
+        context['completed_tasks_count'] = tasks.count()
+        context['tasks_count'] = Task.objects.all().exclude(task_status='Completed').count()
+
+        return context
+
+
 # ####################### Task - Delete View #######################
 class TaskDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """Task DeleteView for user's tasks."""

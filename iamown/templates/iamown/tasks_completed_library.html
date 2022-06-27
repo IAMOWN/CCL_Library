@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+{% block title %}
+    Completed Tasks
+{% endblock %}
+{% block content %}
+    <section class="content-section">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3><strong>Completed Tasks</strong></h3>
+
+            </div>
+        </div>
+    </section>
+    <section class="content-section">
+        <div class="row">
+            <div class="col-lg-12">
+                {% if completed_tasks_count > 0 %}
+                    <p>You currently have {{ completed_tasks_count|intcomma }} completed task{{ completed_tasks_count|pluralize:"s" }}.</p>
+                {% else %}
+                    <p>You currently have no completed tasks.</p>
+                {% endif %}
+                {% if tasks_count == 0 %}
+                    <p>You currently have no <a class="text-CCL-Blue" href="{% url 'tasks-library' %}">active tasks</a>.</p>
+                {% elif tasks_count > 0 %}
+                    <p>You also have <a class="text-CCL-Blue" href="{% url 'tasks-library' %}">{{ tasks_count|intcomma }} active task{{ tasks_count|pluralize:"s" }}</a>.</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 pb-2">
+                <a class="btn btn-success col-12" href="{% url 'task-create' %}">Add A Task</a>
+            </div>
+        </div>
+    </section>
+    <section class="content-section d-none d-xl-block">
+        <div class="row">
+            <div class="col-lg-2">
+                <p><strong>Assignee</strong></p>
+            </div>
+            <div class="col-lg-6">
+                <p><strong>Task</strong></p>
+            </div>
+            <div class="col-lg-2">
+                <p><strong>Priority</strong></p>
+            </div>
+            <div class="col-lg-2">
+                <p><strong>Due Date</strong></p>
+            </div>
+        </div>
+    </section>
+    {% for task in tasks %}
+    <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
+        <div class="row pt-2 pb-2">
+            <div class="col-lg-2">
+{#                {{ task.assigned_user }}#}
+            </div>
+            <div class="col-lg-6">
+                <p><a href="{% url 'task' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a> {% if user.is_superuser %}<a href="{% url 'task-update' task.id %}" class="text-CCL-Gold mt-1"><i class="far fa-plus-square h6-plus"></i></a></p>{% endif %}
+
+            </div>
+            <div class="col-lg-2">
+                {{ task.task_priority }}
+            </div>
+            <div class="col-lg-2">
+                {{ task.due_date|date:"d/m/Y" }} {% if user.is_superuser %}<a href="{% url 'task-delete' task.id %}" class="text-danger float-end mt-1"><i class="far fa-times-circle h6-plus"></i></a>{% endif %}
+            </div>
+        </div>
+        <div class="row"></div>
+    </section>
+    {% endfor %}
+    <p class="pb-2"></p>
+{#    DONE Build Completed Tasks page #}
+{% endblock %}

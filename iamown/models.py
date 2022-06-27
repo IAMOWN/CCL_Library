@@ -151,6 +151,11 @@ class Task(models.Model):
         blank=True,
         related_name='service_group_assigned_task',
     )
+    task_history_log = HTMLField(
+        default='',
+        blank=True,
+        null=True,
+    )
 
     task_created_date = models.DateTimeField(
         auto_now_add=True

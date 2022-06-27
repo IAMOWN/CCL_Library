@@ -39,22 +39,26 @@
             </div>
             {% endif %}
         </div>
-        <div class="row pt-2">
-            <div class="col-lg-12">
-                <p><strong>Description:</strong></p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col pb-2">
-                {{ task.task_description|safe }}
-            </div>
-        </div>
         <div class="row">
             <div class="col-lg-3">
                 <p><strong>Due date:</strong> {{ task.due_date|date:'F j, Y' }}</p>
             </div>
             <div class="col-lg-3">
                 <p><strong>Created:</strong> {{ task.task_created_date|date:'F j, Y' }}</p>
+            </div>
+        </div>
+        <div class="row pt-2">
+            <div class="col-lg-12">
+                <p><strong>Description:</strong><br>
+                    {{ task.task_description|safe }}
+                </p>
+            </div>
+        </div>
+        <div class="row pt-2">
+            <div class="col-lg-12">
+                <p><strong>Task history log:</strong><br>
+                    {{ task.task_history_log|safe }}
+                </p>
             </div>
         </div>
     </section>
