@@ -174,7 +174,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         library_task = form.save()
         task_type = Task.objects.get(id=library_task.id).task_type
         task_updater = Profile.objects.get(user__username=self.request.user).spiritual_name
-        library_task.task_history_log = f'''
+        library_task.task_history_log = library_task.task_history_log + f'''
         >>> Task type: <strong>{task_type}</strong> manually updated by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<p>
         '''
         library_task.save(update_fields=['task_history_log',])
