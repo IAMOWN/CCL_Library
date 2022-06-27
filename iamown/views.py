@@ -24,10 +24,16 @@ from .forms import (
     UpdateServiceGroupForm,
 )
 
+from users.models import (
+    Profile,
+)
 
 # FUNCTIONS
 def get_current_year():
     return datetime.now().year
+
+def get_current_date():
+    return datetime.now().date()
 
 
 # ####################### TASK VIEWS #######################
@@ -88,6 +94,138 @@ class TaskList(LoginRequiredMixin, UserPassesTestMixin, ListView):
             context['search_count'] = context['tasks'].exclude(task_status='Completed').count()
             context['search_type'] = 'Priority'
             context['search_entered'] = priority_search_input
+
+        return context
+
+
+# ####################### Task - Detail View #######################
+class TaskDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    """Task DetailView for user's tasks."""
+    model = Task
+    template_name = 'iamown/task_detail.html'
+    context_object_name = 'task'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(TaskDetail, self).get_context_data(**kwargs)
+
+        return context
+
+
+# ####################### Task - Create View #######################
+class TaskCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    """Task CreateView for user's tasks."""
+    model = Task
+    form_class = CreateTaskForm
+
+    template_name = 'iamown/task_form.html'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
+
+    def form_valid(self, form):
+        message = form.instance.task_title
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            f'The Task "{message}" has been added'
+        )
+        return super(TaskCreate, self).form_valid(form)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(TaskCreate, self).get_context_data(**kwargs)
+        context['current_user'] = self.request.user
+        context['page_type'] = 'Create'
+
+        return context
+
+
+# ####################### Task - Update View #######################
+class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    """Task UpdateView for user's tasks."""
+    model = Task
+    form_class = UpdateTaskForm
+
+    template_name = 'iamown/task_form.html'
+
+    def test_func(self):
+        # task = self.get_object()
+        if self.request.user.is_staff:
+            return True
+        return False
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(TaskUpdate, self).get_context_data(**kwargs)
+
+        context['current_user'] = self.request.user
+        context['page_type'] = 'Update'
+        # context['tasks'] = Task.objects.filter(task_status='Completed')
+        # context['tasks_count'] = context['tasks'].exclude(task_status='Completed').count()
+
+        return context
+
+    def form_valid(self, form):
+        library_task = form.save()
+        task_type = Task.objects.get(id=library_task.id).task_type
+        task_updater = Profile.objects.get(user__username=self.request.user).spiritual_name
+        library_task.task_history_log = f'''
+        Task type: <strong>{task_type}</strong> manually updated by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<p>
+        '''
+        library_task.save(update_fields=['task_history_log',])
+        message = form.instance.task_title
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            f'The Task "{message}" has been added'
+        )
+        return super(TaskLibraryCreate, self).form_valid(form)
+
+
+# ####################### Task - Completed View #######################
+class TaskCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    """Task ListView for user's completed tasks."""
+    model = Task
+    template_name = 'iamown/tasks_completed.html'
+    context_object_name = 'tasks'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_user'] = self.request.user
+        context['tasks'] = Task.objects.all().filter(task_status='Completed')
+        context['completed_tasks_count'] = Task.objects.filter(task_status='Completed').count()
+        context['tasks_count'] = Task.objects.all().exclude(task_status='Completed').count()
+
+        return context
+
+
+# ####################### Task - Delete View #######################
+class TaskDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """Task DeleteView for user's tasks."""
+    model = Task
+    context_object_name = 'task'
+    success_url = reverse_lazy('tasks')
+    template_name = 'iamown/task_confirm_delete.html'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(TaskDelete, self).get_context_data(**kwargs)
+        context['current_user'] = self.request.user
+        context['tasks'] = Task.objects.filter(assigned_user=self.request.user)
+        context['tasks_count'] = context['tasks'].exclude(task_status='Completed').count()
 
         return context
 
@@ -162,134 +300,6 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return context
 
 
-# ####################### Task - Detail View #######################
-class TaskDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
-    """Task DetailView for user's tasks."""
-    model = Task
-    template_name = 'iamown/task_detail.html'
-    context_object_name = 'task'
-
-    def test_func(self):
-        if self.request.user.is_staff:
-            return True
-        return False
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(TaskDetail, self).get_context_data(**kwargs)
-
-        return context
-
-
-# ####################### Task - Create View #######################
-class TaskCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
-    """Task CreateView for user's tasks."""
-    model = Task
-    form_class = CreateTaskForm
-
-    template_name = 'iamown/task_form.html'
-
-    def test_func(self):
-        if self.request.user.is_staff:
-            return True
-        return False
-
-    def form_valid(self, form):
-        message = form.instance.task_title
-        messages.add_message(
-            self.request,
-            messages.SUCCESS,
-            f'The Task "{message}" has been added'
-        )
-        return super(TaskCreate, self).form_valid(form)
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(TaskCreate, self).get_context_data(**kwargs)
-        context['current_user'] = self.request.user
-        context['page_type'] = 'Create'
-
-        return context
-
-
-# ####################### Task - Library Create View #######################
-class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
-    """Task CreateView for user's tasks."""
-    model = Task
-    form_class = CreateTaskForm
-
-    template_name = 'iamown/task_form.html'
-
-    def test_func(self):
-        if self.request.user.is_staff:
-            return True
-        return False
-
-    def form_valid(self, form):
-        library_task = form.save()
-        library_task.task_type = 'Library Observation'
-        library_task.save(update_fields=['task_type'])
-        message = form.instance.task_title
-        messages.add_message(
-            self.request,
-            messages.SUCCESS,
-            f'The Task "{message}" has been added'
-        )
-        return super(TaskLibraryCreate, self).form_valid(form)
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(TaskLibraryCreate, self).get_context_data(**kwargs)
-        context['current_user'] = self.request.user
-        context['page_type'] = 'Create'
-
-        return context
-
-
-# ####################### Task - Update View #######################
-class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    """Task UpdateView for user's tasks."""
-    model = Task
-    form_class = UpdateTaskForm
-
-    template_name = 'iamown/task_form.html'
-
-    # success_url = reverse_lazy('tasks')
-
-    def test_func(self):
-        # task = self.get_object()
-        if self.request.user.is_staff:
-            return True
-        return False
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(TaskUpdate, self).get_context_data(**kwargs)
-        context['current_user'] = self.request.user
-        context['page_type'] = 'Update'
-        # context['tasks'] = Task.objects.filter(task_status='Completed')
-        # context['tasks_count'] = context['tasks'].exclude(task_status='Completed').count()
-
-        return context
-
-
-# ####################### Task - Completed View #######################
-class TaskCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    """Task ListView for user's completed tasks."""
-    model = Task
-    template_name = 'iamown/tasks_completed.html'
-    context_object_name = 'tasks'
-
-    def test_func(self):
-        if self.request.user.is_staff:
-            return True
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['current_user'] = self.request.user
-        context['tasks'] = Task.objects.all().filter(task_status='Completed')
-        context['completed_tasks_count'] = Task.objects.filter(task_status='Completed').count()
-        context['tasks_count'] = Task.objects.all().exclude(task_status='Completed').count()
-
-        return context
-
-
 # ####################### Tasks Library - Completed View #######################
 class TaskLibraryCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """Task TaskLibraryCompletedList for completed Library Observation tasks."""
@@ -315,28 +325,44 @@ class TaskLibraryCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView
         context['tasks_count'] = Task.objects.filter(
             task_type='Library Observation',
         ).exclude(task_status='Completed').count()
+        context['title'] = 'Completed Library Observation Tasks'
 
         return context
 
 
-# ####################### Task - Delete View #######################
-class TaskDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    """Task DeleteView for user's tasks."""
+# ####################### Task Library - Create View #######################
+class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    """Task CreateView for user's tasks."""
     model = Task
-    context_object_name = 'task'
-    success_url = reverse_lazy('tasks')
-    template_name = 'iamown/task_confirm_delete.html'
+    form_class = CreateTaskForm
+
+    template_name = 'iamown/task_form.html'
 
     def test_func(self):
         if self.request.user.is_staff:
             return True
         return False
 
+    def form_valid(self, form):
+        library_task = form.save()
+        library_task.task_type = 'Library Observation'
+        task_creator = Profile.objects.get(user__username=self.request.user).spiritual_name
+        library_task.task_history_log = f'''
+        <strong>Library Observation</strong> task manually created by <strong>{task_creator}</strong>.<p>
+        '''
+        library_task.save(update_fields=['task_type', 'task_history_log',])
+        message = form.instance.task_title
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            f'The Task "{message}" has been added'
+        )
+        return super(TaskLibraryCreate, self).form_valid(form)
+
     def get_context_data(self, *args, **kwargs):
-        context = super(TaskDelete, self).get_context_data(**kwargs)
+        context = super(TaskLibraryCreate, self).get_context_data(**kwargs)
         context['current_user'] = self.request.user
-        context['tasks'] = Task.objects.filter(assigned_user=self.request.user)
-        context['tasks_count'] = context['tasks'].exclude(task_status='Completed').count()
+        context['page_type'] = 'Create'
 
         return context
 
