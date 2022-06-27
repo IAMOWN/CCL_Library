@@ -21,7 +21,7 @@
                 <p>There are currently no Library Observation tasks.</p>
             {% endif %}
             {% if completed_tasks_count > 0 %}
-                <p>There {{ tasks_count|pluralize:"is,are" }} <a class="text-CCL-Blue" href="{% url 'tasks-completed-library' %}">completed {{ completed_tasks_count }} Library Observation task{{ completed_tasks_count|pluralize:"s" }}</a>.</p>
+                <p>There {{ completed_tasks_count|pluralize:"is,are" }} <a class="text-CCL-Blue" href="{% url 'tasks-completed-library' %}">completed {{ completed_tasks_count }} Library Observation task{{ completed_tasks_count|pluralize:"s" }}</a>.</p>
             {% endif %}
             </div>
         </div>
