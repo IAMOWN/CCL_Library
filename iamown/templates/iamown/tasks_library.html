@@ -103,6 +103,7 @@
 {#    </section>#}
 {#    {% endif %}#}
 
+    {% if tasks_count > 0 %}
     <section class="content-section d-none d-xl-block text-CCL-Gold">
         <div class="row">
             <div class="col-lg-2 pt-2">
@@ -122,6 +123,7 @@
             </div>
         </div>
     </section>
+    {% endif %}
 
     {% if search_off %}
         {% for task in tasks %}
