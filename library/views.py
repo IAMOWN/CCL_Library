@@ -1691,7 +1691,7 @@ def record_observation(request, pk):
         {observation}<p>'''
 
         Task.objects.create(
-            task_title=f'Record Observation - {observation_type}',
+            task_title=f'Record Observation - {observation_type} made by {observer}',
             task_type='Library Observation',
             task_description=task_description,
             task_history_log=f'''>>> <strong>Library Observation</strong> >>> submitted by <strong>{observer}</strong><p><br>''',
