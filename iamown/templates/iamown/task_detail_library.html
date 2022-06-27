@@ -29,9 +29,11 @@
             <div class="col-lg-3">
                 <p><strong>Status:</strong> {{ task.task_status }}</p>
             </div>
+            {% if task.assigned_service_group %}
             <div class="col-lg-3">
                 <p><strong>Sphere/Circle:</strong> {{ task.assigned_service_group }} </p>
             </div>
+            {% endif %}
             {% if task.assigned_profile %}
             <div class="col-lg-3">
                 <p><strong>Dear Soul:</strong> {{ task.assigned_profile }}</p>
