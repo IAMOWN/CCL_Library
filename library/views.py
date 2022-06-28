@@ -1687,32 +1687,34 @@ def record_observation(request, pk):
         record_title = LibraryRecord.objects.get(id=pk).title
         observer = request.user.profile.spiritual_name
 
-        if request.GET['observation-type'] == 'Typo' and not display_typo:
-            display_typo = True
-        elif request.GET['observation-type'] != 'Typo' and not display_observation:
-            display_observation = True
-
-        elif request.POST['observation-type'] == 'Typo' and display_typo:
-            typo = request.POST['typo']
-            correct_text = request.POST['correct-text']
-            observation_type = request.POST['observation-type']
-            task_description = f'''An automated Record Observation led to the creation of this task. When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.<p>
-            <strong>Record: </strong><a href='{DOMAIN}library_record/{pk}/' class='text-CCL-Blue' target='_blank'>{record_title}</a><br>
-            <strong>Observer: </strong>{observer}<br>
-            <strong>Typo: </strong>{typo}<br>
-            <strong>Corrected text: </strong>{correct_text}<br>
-            <strong>Observation type: </strong>{observation_type}<p>'''
-            create_task = True
-
-        elif request.POST['observation-type'] != 'Typo' and display_observation:
-            observation = request.POST['observation']
-            observation_type = request.POST['observation-type']
-            task_description = f'''An automated Record Observation led to the creation of this task. When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.<p>
-            <strong>Record: </strong><a href='{DOMAIN}library_record/{pk}/' class='text-CCL-Blue' target='_blank'>{record_title}</a><br>
-            <strong>Observer: </strong>{observer}<br>
-            <strong>Observation type: </strong>{observation_type}<br>
-            <strong>Observation:</strong>{observation}<p>'''
-            create_task = True
+        if not display_typo:
+            if request.GET['observation-type'] == 'Typo':
+                display_typo = True
+        elif not display_observation:
+            if request.GET['observation-type'] != 'Typo':
+                display_observation = True
+        elif display_typo:
+            if request.POST['observation-type'] == 'Typo':
+                typo = request.POST['typo']
+                correct_text = request.POST['correct-text']
+                observation_type = request.POST['observation-type']
+                task_description = f'''An automated Record Observation led to the creation of this task. When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.<p>
+                <strong>Record: </strong><a href='{DOMAIN}library_record/{pk}/' class='text-CCL-Blue' target='_blank'>{record_title}</a><br>
+                <strong>Observer: </strong>{observer}<br>
+                <strong>Typo: </strong>{typo}<br>
+                <strong>Corrected text: </strong>{correct_text}<br>
+                <strong>Observation type: </strong>{observation_type}<p>'''
+                create_task = True
+        elif display_observation:
+            if request.POST['observation-type'] != 'Typo':
+                observation = request.POST['observation']
+                observation_type = request.POST['observation-type']
+                task_description = f'''An automated Record Observation led to the creation of this task. When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.<p>
+                <strong>Record: </strong><a href='{DOMAIN}library_record/{pk}/' class='text-CCL-Blue' target='_blank'>{record_title}</a><br>
+                <strong>Observer: </strong>{observer}<br>
+                <strong>Observation type: </strong>{observation_type}<br>
+                <strong>Observation:</strong>{observation}<p>'''
+                create_task = True
 
         if create_task:
             Task.objects.create(
