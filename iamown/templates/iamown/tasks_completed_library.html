@@ -36,36 +36,22 @@
     </section>
     <section class="content-section d-none d-xl-block text-CCL-Gold">
         <div class="row">
-            <div class="col-lg-2">
-                <h5><strong>Dear Soul</strong></h5>
-            </div>
             <div class="col-lg-6">
                 <h5><strong>Task</strong></h5>
             </div>
-            <div class="col-lg-2">
-                <h5><strong>Priority</strong></h5>
-            </div>
-            <div class="col-lg-2">
-                <h5><strong>Due Date</strong></h5>
+            <div class="col-lg-6">
+                <h5><strong>Actions Taken</strong></h5>
             </div>
         </div>
     </section>
     {% for task in tasks %}
     <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
         <div class="row pt-2 pb-2">
-            <div class="col-lg-2">
-            {% if task.assigned_profile %}
-                {{ task.assigned_profile }}
-            {% endif %}
-            </div>
             <div class="col-lg-6">
                 <p><a href="{% url 'task-library' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a>
             </div>
-            <div class="col-lg-2">
-                {{ task.task_priority }}
-            </div>
-            <div class="col-lg-2">
-                {{ task.due_date|date:"d/m/Y" }}
+            <div class="col-lg-6">
+                {{ task.actions_taken }}
             </div>
         </div>
         <div class="row"></div>
