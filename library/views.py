@@ -1687,9 +1687,9 @@ def record_observation(request, pk):
         record_title = LibraryRecord.objects.get(id=pk).title
         observer = request.user.profile.spiritual_name
 
-        if request.GET['observation-type'] == 'Typo':
+        if request.GET['observation-type'] == 'Typo' and not display_typo:
             display_typo = True
-        elif request.GET['observation-type'] != 'Typo':
+        elif request.GET['observation-type'] != 'Typo' and not display_observation:
             display_observation = True
 
         elif request.POST['observation-type'] == 'Typo' and display_typo:
