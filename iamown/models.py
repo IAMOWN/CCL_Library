@@ -160,6 +160,12 @@ class Task(models.Model):
         blank=True,
         null=True,
     )
+    date_completed = models.DateField(
+        auto_now=False,
+        auto_now_add=False,
+        null=True,
+        blank=True,
+    )
 
     task_created_date = models.DateTimeField(
         auto_now_add=True
