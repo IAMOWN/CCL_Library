@@ -9,9 +9,9 @@
         <div class="row">
             <div class="col-lg-12">
                 <p class="text-CCL-Gold pt-2">
-                {{ confirm_message_1 }} {{ name }},<br><br>
+                {{ confirm_message_1 }} {{ name }},<br>
                 {{ confirm_message_2 }}<br>
-                {{ confirm_message_3 }}<br><br>
+                {{ confirm_message_3 }}<br>
                 {{ confirm_message_4 }}
                 </p>
             </div>
@@ -28,15 +28,9 @@
         <form action="{% url 'record-observation' pk %}" method="post">
             {% csrf_token %}
             <div class="row">
-                <div class="col-lg-12 pt-2">
-                    <label for="obs">Observation:</label>
-                    <textarea id="obs" name="observation" class="form-control mb-30" minlength="6" placeholder="Describe what you have observed..." required></textarea>
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-lg-3 pt-1 pb-2">
-                <label for="type">Observation Type:</label>
-                    <select id="type" name="observation-type" class="form-control mb-30" required>
+                    <label for="obs-type-field">Observation Type:</label>
+                    <select id="obs-type-field" name="observation-type" class="form-control mb-30" required>
                         <option value="">Select Type...</option>
                         <option value="Typo">Typo</option>
                         <option value="Missing Image">Missing Image</option>
@@ -44,7 +38,27 @@
                         <option value="Other">Other</option>
                     </select>
                 </div>
-                <div class="col-lg-6"></div>
+            </div>
+            {% if display_typo %}
+            <div class="row">
+                <div class="col-lg-6 pt-2">
+                    <label for="typo-field">Typo:</label>
+                    <input type="text" id="typo-field" name="typo" class="form-control mb-30" minlength="6" placeholder="Copy in the typo..." required></input>
+                </div>
+                <div class="col-lg-6 pt-2">
+                    <label for="typo-correction-field">Correct text:</label>
+                    <input type="text" id="typo-correction-field" name="correct-text" class="form-control mb-30" minlength="6" placeholder="Enter in the suggested correct text..." required></input>
+                </div>
+            </div>
+            {% elif display_observation %}
+            <div class="row">
+                <div class="col-lg-6 pt-2">
+                    <label for="obs-field">Observation:</label>
+                    <textarea id="obs-field" name="observation" class="form-control mb-30" minlength="6" placeholder="Describe what you have observed..." required></textarea>
+                </div>
+            </div>
+            {% endif %}
+            <div class="row">
                 <div class="col-lg-3 pt-4">
                     <input type="submit" class="btn btn-CCL-Blue col-12" value="Submit Record Observation">
                 </div>

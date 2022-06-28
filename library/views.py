@@ -1677,40 +1677,67 @@ class ReadingListItemDelete(LoginRequiredMixin, DeleteView):
 # ####################### Record Observation #######################
 @login_required
 def record_observation(request, pk):
+    display_typo = False
+    display_observation = False
+    create_task = False
+
     if request.method == 'POST':
+
         service_group = ServiceGroup.objects.get(service_group='Digital Librarians')
         record_title = LibraryRecord.objects.get(id=pk).title
         observer = request.user.profile.spiritual_name
-        observation = request.POST['observation']
-        observation_type = request.POST['observation-type']
-        task_description = f'''An automated Record Observation led to the creation of this task. When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.<p>
-        <strong>Record: </strong><a href='{DOMAIN}library_record/{pk}/' class='text-CCL-Blue' target='_blank'>{record_title}</a><br>
-        <strong>Observer: </strong>{observer}<br>
-        <strong>Observation type: </strong>{observation_type}<br>
-        <strong>Observation:</strong><br>
-        {observation}<p>'''
 
-        Task.objects.create(
-            task_title=f'Record Observation - {observation_type} made by {observer}',
-            task_type='Library Observation',
-            task_description=task_description,
-            task_history_log=f'''>>> <strong>Library Observation</strong> >>> submitted by <strong>{observer}</strong><p><br>''',
-            assigned_service_group=service_group,
-        )
+        if request.GET['observation-type'] == 'Typo':
+            display_typo = True
+        elif request.GET['observation-type'] != 'Typo':
+            display_observation = True
+
+        elif request.POST['observation-type'] == 'Typo':
+            typo = request.POST['typo']
+            correct_text = request.POST['correct-text']
+            observation_type = request.POST['observation-type']
+            task_description = f'''An automated Record Observation led to the creation of this task. When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.<p>
+            <strong>Record: </strong><a href='{DOMAIN}library_record/{pk}/' class='text-CCL-Blue' target='_blank'>{record_title}</a><br>
+            <strong>Observer: </strong>{observer}<br>
+            <strong>Typo: </strong>{typo}<br>
+            <strong>Corrected text: </strong>{correct_text}<br>
+            <strong>Observation type: </strong>{observation_type}<p>'''
+            create_task = True
+
+        elif request.POST['observation-type'] != 'Typo':
+            observation = request.POST['observation']
+            observation_type = request.POST['observation-type']
+            task_description = f'''An automated Record Observation led to the creation of this task. When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.<p>
+            <strong>Record: </strong><a href='{DOMAIN}library_record/{pk}/' class='text-CCL-Blue' target='_blank'>{record_title}</a><br>
+            <strong>Observer: </strong>{observer}<br>
+            <strong>Observation type: </strong>{observation_type}<br>
+            <strong>Observation:</strong>{observation}<p>'''
+            create_task = True
+
+        if create_task:
+            Task.objects.create(
+                task_title=f'Record Observation - {observation_type} made by {observer}',
+                task_type='Library Observation',
+                task_description=task_description,
+                task_history_log=f'''>>> <strong>Library Observation</strong> >>> submitted by <strong>{observer}</strong><p><br>''',
+                assigned_service_group=service_group,
+            )
 
         context = {
             'name': observer,
             'valid': True,
+            'typo': True,
             'confirm_message_1': "Beloved ",
             'confirm_message_2': '''We thank you for taking the time to share this Observation with us.''',
             'confirm_message_3': '''The Digital Librarian Circle of Light have been assigned a task and will be looking into this.''',
-            'confirm_message_4': '''Love and Blessings,''',
-            # 'confirm_message_5': '''GRACE (Guiding Responsive Assistant for Circles and Education)''',
-
+            'confirm_message_4': '''Love and Blessings.''',
             'pk': pk,
         }
 
         return render(request, 'library/observation.html', context)
 
     else:
-        return render(request, 'library/observation.html', context={'pk': pk,})
+        context = {
+            'pk': pk,
+        }
+        return render(request, 'library/observation.html', context)
