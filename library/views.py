@@ -1692,7 +1692,7 @@ def record_observation(request, pk):
         elif request.GET['observation-type'] != 'Typo':
             display_observation = True
 
-        elif request.POST['observation-type'] == 'Typo':
+        elif request.POST['observation-type'] == 'Typo' and display_typo:
             typo = request.POST['typo']
             correct_text = request.POST['correct-text']
             observation_type = request.POST['observation-type']
@@ -1704,7 +1704,7 @@ def record_observation(request, pk):
             <strong>Observation type: </strong>{observation_type}<p>'''
             create_task = True
 
-        elif request.POST['observation-type'] != 'Typo':
+        elif request.POST['observation-type'] != 'Typo' and display_observation:
             observation = request.POST['observation']
             observation_type = request.POST['observation-type']
             task_description = f'''An automated Record Observation led to the creation of this task. When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.<p>
