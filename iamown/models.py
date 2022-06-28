@@ -121,6 +121,11 @@ class Task(models.Model):
         blank=True,
         help_text='Enter the date you are aiming to complete this task by.'
     )
+    actions_taken = HTMLField(
+        default='',
+        blank=True,
+        null=True,
+    )
     task_type = models.CharField(
         choices=TASK_TYPE_CHOICES,
         null=True,
