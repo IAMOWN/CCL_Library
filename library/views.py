@@ -1705,7 +1705,7 @@ def record_observation(request, pk):
             'confirm_message_2': '''We thank you for taking the time to share this Observation with us.''',
             'confirm_message_3': '''The Digital Librarian Circle of Light have been assigned a task and will be looking into this.''',
             'confirm_message_4': '''Love and Blessings,''',
-            'confirm_message_5': '''GRACE (Guiding Responsive Assistant for Circles and Education)''',
+            # 'confirm_message_5': '''GRACE (Guiding Responsive Assistant for Circles and Education)''',
 
             'pk': pk,
         }
