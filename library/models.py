@@ -392,6 +392,8 @@ class LibraryObservation(models.Model):
         max_length=30,
         choices=OBSERVATION_TYPE,
         default='Typo',
+        null=True,
+        blank=True,
         help_text='''Please select the applicable observation type.'''
     )
     observer = models.ForeignKey(
