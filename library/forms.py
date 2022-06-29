@@ -99,23 +99,20 @@ def library_observation_form_validation(form, form_type):
             'suggested_correction',
             'Please provide a suggested correction for this typo.'
         )
-        
-    print(f"cleaned_data.get('observation_type'): {cleaned_data.get('observation_type')}")
-    print(f"cleaned_data.get('image_observation'): {cleaned_data.get('image_observation')}")
 
-    if cleaned_data.get('observation_type') == "Missing Image" and cleaned_data.get('image_observation') is None:
+    if cleaned_data.get('observation_type') == "Missing Image" and cleaned_data.get('image_observation') == "":
         form.add_error(
             'image_observation',
             'Please describe the image you expect to see, or what appears in the record..'
         )
 
-    if cleaned_data.get('observation_type') == "Broken Link" and cleaned_data.get('link_observation') is None:
+    if cleaned_data.get('observation_type') == "Broken Link" and cleaned_data.get('link_observation') == "":
         form.add_error(
             'link_observation',
             'Please provide copy/paste in the broken link from the record.'
         )
 
-    if cleaned_data.get('observation_type') == "Other" and cleaned_data.get('general_observation') is None:
+    if cleaned_data.get('observation_type') == "Other" and cleaned_data.get('general_observation') == "":
         form.add_error(
             'general_observation',
             'Please enter a description for what you are observing.'
