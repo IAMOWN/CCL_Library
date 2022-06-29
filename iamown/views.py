@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.conf import settings
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
