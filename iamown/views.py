@@ -249,9 +249,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context = super().get_context_data(**kwargs)
 
         tasks = Task.objects.filter().filter(
-            task_type='Library Observation',
-        ).filter(
-            task_type='Book Edit',
+            task_type__in=['Library Observation', 'Book Edit']
         ).exclude(task_status='Completed').order_by(
             'task_status',
             'task_priority',
@@ -261,10 +259,8 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['tasks'] = tasks
         context['tasks_count'] = tasks.count()
         context['completed_tasks_count'] = Task.objects.filter(
-            task_type='Library Observation',
+            task_type__in=['Library Observation', 'Book Edit'],
             task_status='Completed',
-        ).filter(
-            task_type='Book Edit',
         ).count()
 
         search_input = self.request.GET.get('search-area') or ''
