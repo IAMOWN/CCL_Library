@@ -352,10 +352,8 @@ class TaskLibraryCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView
         context = super().get_context_data(**kwargs)
         context['current_user'] = self.request.user
         tasks = Task.objects.all().filter(
-            task_type='Library Observation',
+            task_type__in=['Library Observation', 'Book Edit'],
             task_status='Completed',
-        ).filter(
-            task_type='Book Edit',
         ).order_by(
             '-due_date',
         )
@@ -364,7 +362,7 @@ class TaskLibraryCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView
         context['tasks_count'] = Task.objects.filter(
             task_type='Library Observation',
         ).exclude(task_status='Completed').count()
-        context['title'] = 'Completed Library Observation Tasks'
+        context['title'] = 'Completed Library Tasks'
 
         return context
 

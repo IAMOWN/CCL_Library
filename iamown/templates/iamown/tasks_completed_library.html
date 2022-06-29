@@ -17,20 +17,20 @@
         <div class="row">
             <div class="col-lg-12">
                 {% if completed_tasks_count > 0 %}
-                    <p>There {{ tasks_count|pluralize:"is,are" }} currently {{ completed_tasks_count|intcomma }} completed Library Observation task{{ completed_tasks_count|pluralize:"s" }}.</p>
+                    <p>There {{ tasks_count|pluralize:"is,are" }} currently {{ completed_tasks_count|intcomma }} completed Library task{{ completed_tasks_count|pluralize:"s" }}.</p>
                 {% else %}
-                    <p>There are currently no Library Observation completed tasks.</p>
+                    <p>There are currently no Library completed tasks.</p>
                 {% endif %}
                 {% if tasks_count == 0 %}
-                    <p>There {{ tasks_count|pluralize:"is,are" }} currently no <a class="text-CCL-Blue" href="{% url 'tasks-library' %}">active Library Observation tasks</a>.</p>
+                    <p>There {{ tasks_count|pluralize:"is,are" }} currently no <a class="text-CCL-Blue" href="{% url 'tasks-library' %}">active Library tasks</a>.</p>
                 {% elif tasks_count > 0 %}
-                    <p>There {{ tasks_count|pluralize:"is,are" }} currently <a class="text-CCL-Blue" href="{% url 'tasks-library' %}">{{ tasks_count|intcomma }} active Library Observation task{{ tasks_count|pluralize:"s" }}</a>.</p>
+                    <p>There {{ tasks_count|pluralize:"is,are" }} currently <a class="text-CCL-Blue" href="{% url 'tasks-library' %}">{{ tasks_count|intcomma }} active Library task{{ tasks_count|pluralize:"s" }}</a>.</p>
                 {% endif %}
             </div>
         </div>
 {#        <div class="row">#}
 {#            <div class="col-lg-3 pb-2">#}
-{#                <a class="btn btn-CCL-Blue col-12" href="{% url 'task-create-library' %}">Add A Library Observation Task</a>#}
+{#                <a class="btn btn-CCL-Blue col-12" href="{% url 'task-create-library' %}">Add A Library Task</a>#}
 {#            </div>#}
 {#        </div>#}
     </section>
