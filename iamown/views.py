@@ -429,6 +429,13 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         library_task = form.save(commit=False)
         task_updater = Profile.objects.get(user__username=self.request.user).spiritual_name
         if library_task.task_status == 'Completed':
+            if library_task.actions_taken == "":
+                form.add_error(
+                    'actions_taken',
+                    'Please enter the actions taken as a part of completing this task.'
+                )
+                return self.form_invalid(form)
+
             library_task.date_completed = get_current_date()
             library_task.task_history_log = library_task.task_history_log + f'''>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br>
             Date completed: <strong>{library_task.date_completed}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}<p>
@@ -450,10 +457,11 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             <strong>Preceeding Library task description:</strong><br>
             {library_task.task_description}<p>
             <strong>Preceeding actions taken:</strong></br>
-            {library_task.actions_taken}<p>
-            '''
+            {library_task.actions_taken}<p>'''
 
-            Task.objects.create(
+            print(f'Before Book edit task create')
+
+            created_task = Task.objects.create(
                 task_title=f'Book Edit on the record {library_task.library_record}',
                 task_type='Book Edit',
                 task_description=task_description,
@@ -462,6 +470,8 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 related_task=related_task,
                 library_record=library_task.library_record,
             )
+
+            print(f'created_task.id: {created_task.id}')
 
         else:
             library_task.task_history_log = library_task.task_history_log + f'''>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br>
