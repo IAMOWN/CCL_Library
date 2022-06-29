@@ -11,6 +11,7 @@ from .views import (
     TaskLibraryDetail,
     TaskLibraryCompletedList,
     TaskLibraryCreate,
+    TaskLibraryUpdate,
     TaskLibraryDelete,
     ServiceGroupList,
     ServiceGroupDetail,
@@ -31,6 +32,7 @@ urlpatterns = [
     path('tasks/library/', TaskLibraryList.as_view(), name='tasks-library'),
     path('task/library/<int:pk>/', TaskLibraryDetail.as_view(), name='task-library'),
     path('task_create/library/', TaskLibraryCreate.as_view(), name='task-create-library'),
+    path('task_update/library/<int:pk>/', TaskLibraryUpdate.as_view(), name='task-update-library'),
     path('tasks/completed/library/', TaskLibraryCompletedList.as_view(), name='tasks-completed-library'),
     path('task_delete/library/<int:pk>/', TaskLibraryDelete.as_view(), name='task-delete-library'),
 

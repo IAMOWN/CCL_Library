@@ -405,6 +405,51 @@ class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return context
 
 
+# ####################### Task Library - Update View #######################
+class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    """Task UpdateView for Library tasks."""
+    model = Task
+    form_class = UpdateTaskForm
+
+    template_name = 'iamown/task_form_library.html'
+
+    def test_func(self):
+        # task = self.get_object()
+        if self.request.user.is_staff:
+            return True
+        return False
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(TaskLibraryUpdate, self).get_context_data(**kwargs)
+        context['page_type'] = 'Update'
+
+        return context
+
+    def form_valid(self, form):
+        library_task = form.save(commit=False)
+        task_updater = Profile.objects.get(user__username=self.request.user).spiritual_name
+        if library_task.task_status == 'Completed':
+            library_task.date_completed = get_current_date()
+            library_task.task_history_log = library_task.task_history_log + f'''>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br>
+            Date completed: <strong>{library_task.date_completed}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}<p>
+            '''
+            library_task.save(update_fields=['task_history_log','date_completed',])
+        else:
+            library_task.task_history_log = library_task.task_history_log + f'''>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br>
+            Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}<p>
+            '''
+            library_task.save(update_fields=['task_history_log',])
+
+
+        message = form.instance.task_title
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            f'The Task "{message}" has been updated'
+        )
+        return super(TaskLibraryUpdate, self).form_valid(form)
+
+
 # ####################### Task Library - Delete View #######################
 class TaskLibraryDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """Task DeleteView for Library Observation tasks."""

@@ -184,7 +184,7 @@
                             {{ task.assigned_dear_soul }}
                         </div>
                             <div class="col-lg-4">
-                                <p><a href="{% url 'task' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a> {% if user.is_superuser %}<a href="{% url 'task-update' task.id %}" class="text-CCL-Gold mt-1"><i class="far fa-plus-square h6-plus"></i></a></p>{% endif %}
+                                <p><a href="{% url 'task' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a> {% if user.is_superuser %}<a href="{% url 'task-update-library' task.id %}" class="text-CCL-Gold mt-1"><i class="far fa-plus-square h6-plus"></i></a></p>{% endif %}
 
                             </div>
                             <div class="col-lg-2">
