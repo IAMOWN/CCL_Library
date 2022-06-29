@@ -84,12 +84,7 @@ def library_record_form_validation(form, form_type):
 # ############ Library Observation form validation logic ############
 def library_observation_form_validation(form, form_type):
     cleaned_data = super(form_type, form).clean()
-    if cleaned_data.get('observation_type') =="Typo" and cleaned_data.get('typo') is None and cleaned_data.get('suggested_correction') is None:
-        form.add_error(
-            'observation_type',
-            'An observation type must be selected.'
-        )
-    elif cleaned_data.get('observation_type') =="Typo" and cleaned_data.get('typo') is None:
+    if cleaned_data.get('observation_type') =="Typo" and cleaned_data.get('typo') is None:
         form.add_error(
             'typo',
             'Please provide the observed typographical error.'
