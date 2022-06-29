@@ -442,5 +442,5 @@ class LibraryObservation(models.Model):
     def __str__(self):
         return f'{self.observation_type} - {self.observer} - {self.date_created}'
 
-    # def get_absolute_url(self):
-    #     return reverse('library-record', kwargs={'pk': self.pk})
+    def get_absolute_url(self):
+        return reverse('library-record', kwargs={'pk': self.pk})
