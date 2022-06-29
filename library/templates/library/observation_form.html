@@ -9,6 +9,23 @@
         Submit a Library Observation
     {% endif %}
 {% endblock %}
+{% block script_header %}
+    <script>
+        $(document).ready(function() {
+            $('#id_observation_type').change(function() {
+            if ($(this).val() === "Typo") {
+                $('#div_id_typo').show();
+                $('#div_id_suggested_correction').show();
+                $('#div_id_image_observation').hide();
+                $('#div_id_link_observation').hide();
+                $('#div_id_header_title_observation').hide();
+            }
+            });
+            $("#id_observation_type").trigger("change")
+        })
+    </script>
+
+{% endblock %}
 {% block content %}
     <section class="media content-section">
     {% if page_type == 'Update' %}
@@ -39,17 +56,42 @@
             {{ form.media }}
             <div class="row">
                 <div class="col-sm-12">
-                    {{ form.tag|as_crispy_field }}
+                    {{ form.observation_type|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form.typo|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form.suggested_correction|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form.image_observation|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form.link_observation|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form.header_title_observation|as_crispy_field }}
                 </div>
             </div>
         <div class="row pt-4">
             <div class="col-sm-12">
                 {% if page_type == 'Update' %}
                     <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-sm-2">Go Back</a>
-                    <input type="submit" value="Update Tag" class="btn btn-CCL-Blue float-end col-sm-2">
+                    <input type="submit" value="Update Observation" class="btn btn-CCL-Blue float-end col-sm-2">
                 {% else %}
                     <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-sm-2">Go Back</a>
-                    <input type="submit" value="Add Tag" class="btn btn-CCL-Blue float-end col-sm-2">
+                    <input type="submit" value="Submit Observation" class="btn btn-CCL-Blue float-end col-sm-2">
                 {% endif %}
             </div>
         </div>

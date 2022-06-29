@@ -294,7 +294,6 @@ class CreateLibraryObservationForm(forms.ModelForm):
         model = LibraryObservation
         fields = [
             'observation_type',
-            'observer',
             'typo',
             'suggested_correction',
             'image_observation',
