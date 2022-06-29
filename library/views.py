@@ -1689,7 +1689,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         record = LibraryRecord.objects.get(id=self.kwargs['pk'])
-        observer = Profile.objects.get(user__username=self.request.user)
+        observer = Profile.objects.get(user__username=self.request.user).spiritual_name
         service_group = ServiceGroup.objects.get(service_group='Digital Librarians')
         observation_type = form.instance.observation_type
         observed_typo = form.instance.typo
@@ -1710,7 +1710,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             <strong>Record: </strong><a href='{DOMAIN}library_record/{record.id}/' class='text-CCL-Blue' target='_blank'>{record.title}</a><br>
             <strong>Observer: </strong>{observer}<br>
             <strong>Observation type: </strong>{observation_type}<p>
-            <strong>Typo: </strong>{observation_type}<br>
+            <strong>Typo: </strong>{observed_typo}<br>
             <strong>Suggested correction: </strong>{suggested_correction}<br>'''
 
             Task.objects.create(
@@ -1723,6 +1723,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
 
 
         messages.add_message(
+            self.request,
             messages.SUCCESS,
             f'Beloved {observer}, your "{form.instance.observation_type}" observation has been submitted and will be seen to by the Circle of Digital Librarians. Love and Blessings.',
         )
