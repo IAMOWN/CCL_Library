@@ -58,17 +58,19 @@
     <section class="content-section">
     {% if form.errors %}
         <article class="content-section alert-section pt-2">
-            <div>
-            <p class="alert-danger">Please review the following:</p>
-                <ul>
-                {% for key, value in form.errors.items %}
-                    {% for error in value %}
-                        {% if error != '' %}
-                            <li class="alert-danger">{{ error }}</li>
-                        {% endif %}
+            <div class="row">
+                <div class="col-lg-12 pt-2">
+                    <p class="alert-danger">Please review the following:</p>
+                    <ul>
+                    {% for key, value in form.errors.items %}
+                        {% for error in value %}
+                            {% if error != '' %}
+                                <li class="alert-danger">{{ error }}</li>
+                            {% endif %}
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
-                </ul>
+                    </ul>
+                </div>
             </div>
         </article>
     {% endif %}
