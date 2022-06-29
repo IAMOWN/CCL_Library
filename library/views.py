@@ -1685,11 +1685,14 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
     model = LibraryObservation
     form_class = CreateLibraryObservationForm
     template_name = 'library/observation_form.html'
-    reverse_lazy('library-record', kwargs=['pk'])
+    reverse_lazy('library-records')
 
     def form_valid(self, form):
         record = LibraryRecord.objects.get(id=self.kwargs['pk'])
-        observer = Profile.objects.get(user__username=self.request.user).spiritual_name
+
+        observer_obj = Profile.objects.get(user__username=self.request.user)
+        observer = observer_obj.spiritual_name
+
         service_group = ServiceGroup.objects.get(service_group='Digital Librarians')
         observation_type = form.instance.observation_type
         observed_typo = form.instance.typo
@@ -1697,6 +1700,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
         history_log = f'''>>> <strong>Library Observation</strong> >>> submitted by <strong>{observer}</strong><p><br>'''
 
         if observation_type == 'Typo':
+            form.instance.observer = observer_obj
             form.save()
 
             # TODO Build LEE and update this task description
