@@ -430,13 +430,16 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         context = super(TaskLibraryUpdate, self).get_context_data(**kwargs)
         context['page_type'] = 'Update'
 
+        print(f"CONTEXT library_task.task_status: {library_task.task_status}")
+        print(f"CONTEXT library_task.task_type: {library_task.task_type}")
+
         return context
 
     def form_valid(self, form):
         library_task = form.save(commit=False)
 
-        print(f"library_task.task_status: {library_task.task_status}")
-        print(f"library_task.task_type: {library_task.task_type}")
+        print(f"FORM_VALID library_task.task_status: {library_task.task_status}")
+        print(f"FORM_VALID library_task.task_type: {library_task.task_type}")
 
         if library_task.task_status == 'Completed' and library_task.task_type == 'Libary Observation':
             print("#1 BRANCH successful")
@@ -480,6 +483,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 related_task=related_task,
                 library_record=library_task.library_record,
             )
+            created_task.save()
 
         elif library_task.task_status == 'Completed':
             if library_task.actions_taken == "":
