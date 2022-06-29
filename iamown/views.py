@@ -28,6 +28,8 @@ from users.models import (
     Profile,
 )
 
+DOMAIN = settings.DOMAIN
+
 # FUNCTIONS
 def get_current_year():
     return datetime.now().year
