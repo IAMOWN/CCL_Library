@@ -6,6 +6,10 @@ from datetime import date
 
 from tinymce.models import HTMLField
 
+from users.models import (
+    Profile,
+)
+
 
 # ####################### Date logic #######################
 def current_year():
@@ -381,3 +385,53 @@ class ReadingProgress(models.Model):
 
     # def get_absolute_url(self):
     #     return reverse('library-record', kwargs={'pk': self.pk})
+
+
+# ####################### Record Observation #######################
+class LibraryObservation(models.Model):
+    observation_type = models.CharField(
+        max_length=30,
+        choices=OBSERVATION_TYPE,
+        default='---',
+        help_text='''Please select the applicable observation type.'''
+    )
+    observer = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+    typo = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        default='',
+        help_text='''Please copy/paste in the incorrect text as observed from the record.'''
+    )
+    suggested_correction = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        default='',
+        help_text='''Please enter in your suggested correction.''',
+    )
+    image_observation = HTMLField(
+        null=True,
+        blank=True,
+    )
+    link_observation = HTMLField(
+        null=True,
+        blank=True,
+    )
+    header_title_observation = HTMLField(
+        null=True,
+        blank=True,
+    )
+
+    # Record metadata
+    date_created = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+        return f'{self.observation_type} - {self.observer} - {self.date_created}'

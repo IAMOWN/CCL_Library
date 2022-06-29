@@ -49,7 +49,7 @@ from .views import (
 
     SearchView,
 
-    record_observation,
+    ObervationCreate,
 
     CollectionENACAList,
     CollectionGESARAList,
@@ -123,5 +123,5 @@ urlpatterns = [
     path('library_records/search/', SearchView.as_view(), name='search'),
 
     # Record Observation
-    path('library_record/<int:pk>/observation/', record_observation, name='record-observation'),
+    path('library_record/<int:pk>/observation/create/', ObervationCreate.as_view(), name='record-observation-create'),
 ]

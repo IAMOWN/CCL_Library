@@ -8,6 +8,7 @@ from .models import (
     Collection,
     CollectionOrder,
     ReadingProgress,
+    LibraryObservation,
 )
 
 
@@ -25,3 +26,4 @@ admin.site.register(LibraryRecord)
 admin.site.register(DiscourseSeries)
 admin.site.register(Collection, CollectionAdmin)
 admin.site.register(ReadingProgress)
+admin.site.register(LibraryObservation)

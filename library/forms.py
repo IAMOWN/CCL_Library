@@ -10,6 +10,7 @@ from .models import (
     LibraryRecord,
     CollectionOrder,
     DiscourseSeries,
+    LibraryObservation,
 )
 
 from users.models import User
@@ -76,6 +77,17 @@ def library_record_form_validation(form, form_type):
         form.add_error(
             'date_communicated',
             'A date must be entered.'
+        )
+    return
+
+
+# ############ Library Observation form validation logic ############
+def library_observation_form_validation(form, form_type):
+    cleaned_data = super(form_type, form).clean()
+    if cleaned_data.get('observation_type') is None:
+        form.add_error(
+            'observation_type',
+            'An observation type must be selected.'
         )
     return
 
@@ -273,3 +285,23 @@ CollectionRecordFormSet = inlineformset_factory(
     extra=1,
     max_num=99,
 )
+
+
+# ####################### Create Library Observation Form #######################
+class CreateLibraryObservationForm(forms.ModelForm):
+
+    class Meta:
+        model = LibraryObservation
+        fields = [
+            'observation_type',
+            'observer',
+            'typo',
+            'suggested_correction',
+            'image_observation',
+            'link_observation',
+            'header_title_observation',
+        ]
+
+    def clean(self):
+        library_observation_form_validation(self, CreateLibraryObservationForm)
+        return self.cleaned_data

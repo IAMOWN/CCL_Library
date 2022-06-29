@@ -24,6 +24,7 @@ from .models import (
     CollectionOrder,
     DiscourseSeries,
     ReadingProgress,
+    LibraryObservation,
 )
 
 from .forms import (
@@ -39,11 +40,16 @@ from .forms import (
     UpdateLibraryRecordForm,
     CollectionRecordForm,
     CollectionRecordFormSet,
+    CreateLibraryObservationForm,
 )
 
 from iamown.models import (
     Task,
     ServiceGroup,
+)
+
+from users.models import (
+    Profile,
 )
 
 DOMAIN = settings.DOMAIN
@@ -1675,6 +1681,61 @@ class ReadingListItemDelete(LoginRequiredMixin, DeleteView):
 
 
 # ####################### Record Observation #######################
+class ObervationCreate(LoginRequiredMixin, CreateView):
+    model = LibraryObservation
+    form_class = CreateLibraryObservationForm
+    template_name = 'library/observation_form.html'
+    reverse_lazy('library-record', kwargs=['pk'])
+
+    def form_valid(self, form):
+        record = LibraryRecord.objects.get(id=self.kwargs['pk'])
+        observer = Profile.objects.get(user__username=self.request.user)
+        service_group = ServiceGroup.objects.get(service_group='Digital Librarians')
+        observation_type = form.instance.observation_type
+        observed_typo = form.instance.typo
+        suggested_correction = form.instance.suggested_correction
+        history_log = f'''>>> <strong>Library Observation</strong> >>> submitted by <strong>{observer}</strong><p><br>'''
+
+        if observation_type == 'Typo':
+            form.save()
+
+            # TODO Build LEE and update this task description
+            # TODO Build Book Editor task to follow this ServiceFlow for Typo
+            task_description = f'''An automated Record Observation led to the creation of this task:
+            <ul>
+            <li>When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.</li>
+            <li>Please check if the record has a PDF and/or DOCX link and make adjustments to these files as applicable.</li>
+            <li>When all elements of this task have been addressed please change Task Status to Completed.</li>
+            </ul>
+            <strong>Record: </strong><a href='{DOMAIN}library_record/{record.id}/' class='text-CCL-Blue' target='_blank'>{record.title}</a><br>
+            <strong>Observer: </strong>{observer}<br>
+            <strong>Observation type: </strong>{observation_type}<p>
+            <strong>Typo: </strong>{observation_type}<br>
+            <strong>Suggested correction: </strong>{suggested_correction}<br>'''
+
+            Task.objects.create(
+                task_title=f'Record Observation - {observation_type} made by {observer}',
+                task_type='Library Observation',
+                task_description=task_description,
+                task_history_log=history_log,
+                assigned_service_group=service_group,
+            )
+
+
+        messages.add_message(
+            messages.SUCCESS,
+            f'Beloved {observer}, your "{form.instance.observation_type}" observation has been submitted and will be seen to by the Circle of Digital Librarians. Love and Blessings.',
+        )
+        return super(ObervationCreate, self).form_valid(form)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ObervationCreate, self).get_context_data(**kwargs)
+        context['page_type'] = 'Create'
+
+        return context
+
+
+
 @login_required
 def record_observation(request, pk):
     display_typo = False
@@ -1736,10 +1797,10 @@ def record_observation(request, pk):
             'pk': pk,
         }
 
-        return render(request, 'library/observation.html', context)
+        return render(request, 'library/observation_old.html', context)
 
     else:
         context = {
             'pk': pk,
         }
-        return render(request, 'library/observation.html', context)
+        return render(request, 'library/observation_old.html', context)
