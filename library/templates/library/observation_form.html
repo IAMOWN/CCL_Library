@@ -18,28 +18,28 @@
                 $('#div_id_suggested_correction').show();
                 $('#div_id_image_observation').hide();
                 $('#div_id_link_observation').hide();
-                $('#div_id_header_title_observation').hide();
+                $('#div_id_general_observation').hide();
             }
             else if ($(this).val() === "Missing Image") {
                 $('#div_id_typo').hide();
                 $('#div_id_suggested_correction').hide();
                 $('#div_id_image_observation').show();
                 $('#div_id_link_observation').hide();
-                $('#div_id_header_title_observation').hide();
+                $('#div_id_general_observation').hide();
             }
             else if ($(this).val() === "Broken Link") {
                 $('#div_id_typo').hide();
                 $('#div_id_suggested_correction').hide();
                 $('#div_id_image_observation').hide();
                 $('#div_id_link_observation').show();
-                $('#div_id_header_title_observation').hide();
+                $('#div_id_general_observation').hide();
             }
             else if ($(this).val() === "Incorrect Header/Title") {
                 $('#div_id_typo').hide();
                 $('#div_id_suggested_correction').hide();
                 $('#div_id_image_observation').hide();
                 $('#div_id_link_observation').hide();
-                $('#div_id_header_title_observation').show();
+                $('#div_id_general_observation').show();
             }
             });
             $("#id_observation_type").trigger("change")
@@ -104,7 +104,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    {{ form.header_title_observation|as_crispy_field }}
+                    {{ form.general_observation|as_crispy_field }}
                 </div>
             </div>
         <div class="row pt-4">

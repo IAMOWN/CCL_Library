@@ -51,7 +51,7 @@ OBSERVATION_TYPE = [
     ('Typo', 'Typo'),
     ('Missing Image', 'Missing Image'),
     ('Broken Link', 'Broken Link'),
-    ('Incorrect Header/Title', 'Incorrect Header/Title'),
+    ('Other', 'Other'),
 ]
 
 
@@ -435,10 +435,10 @@ class LibraryObservation(models.Model):
         help_text='''Please describe what happens when you click the link. Is the link broken? Does it take you to a 
         webpage you were not expecting?'''
     )
-    header_title_observation = HTMLField(
+    general_observation = HTMLField(
         null=True,
         blank=True,
-        help_text='''Please describe what is not correct in the Header or Title of the record.'''
+        help_text='''Please describe what you are observing and what you believe could be changed or corrected.'''
     )
 
     # Record metadata
