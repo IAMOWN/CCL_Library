@@ -84,27 +84,32 @@ def library_record_form_validation(form, form_type):
 # ############ Library Observation form validation logic ############
 def library_observation_form_validation(form, form_type):
     cleaned_data = super(form_type, form).clean()
-    if cleaned_data.get('observation_type') =="Typo" and cleaned_data.get('typo') is None:
+    if cleaned_data.get('observation_type') is None:
+        form.add_error(
+            'observation_type',
+            'Please select an observation type.'
+        )
+    elif cleaned_data.get('observation_type') == "Typo" and cleaned_data.get('typo') is None:
         form.add_error(
             'typo',
             'Please provide the observed typographical error.'
         )
-    elif cleaned_data.get('observation_type') =="Typo" and cleaned_data.get('suggested_correction') is None:
+    elif cleaned_data.get('observation_type') == "Typo" and cleaned_data.get('suggested_correction') is None:
         form.add_error(
             'suggested_correction',
             'Please provide a suggested correction for this typo.'
         )
-    if cleaned_data.get('observation_type') =="Missing Image" and cleaned_data.get('image_observation') is None:
+    elif cleaned_data.get('observation_type') == "Missing Image" and cleaned_data.get('image_observation') is None:
         form.add_error(
             'image_observation',
             'Please describe the image you expect to see, or what appears in the record..'
         )
-    if cleaned_data.get('observation_type') =="Broken Link" and cleaned_data.get('link_observation') is None:
+    elif cleaned_data.get('observation_type') == "Broken Link" and cleaned_data.get('link_observation') is None:
         form.add_error(
             'link_observation',
             'Please provide copy/paste in the broken link from the record.'
         )
-    if cleaned_data.get('observation_type') =="Other" and cleaned_data.get('general_observation') is None:
+    elif cleaned_data.get('observation_type') == "Other" and cleaned_data.get('general_observation') is None:
         form.add_error(
             'general_observation',
             'Please enter a description for what you are observing.'
