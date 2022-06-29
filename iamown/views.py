@@ -433,7 +433,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return context
 
     def form_valid(self, form):
-        library_task = form.save(commit=False)
+        library_task = form.save()
 
         print(f"FORM_VALID form.instance.task_status: {form.instance.task_status}")
         print(f"FORM_VALID form.instance.task_type: {form.instance.task_type}")
@@ -482,7 +482,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             )
             created_task.save()
 
-        elif library_task.task_status == 'Completed':
+        elif form.instance.task_status == 'Completed':
             if library_task.actions_taken == "":
                 form.add_error(
                     'actions_taken',
