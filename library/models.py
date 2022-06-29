@@ -396,6 +396,13 @@ class LibraryObservation(models.Model):
         blank=True,
         help_text='''Please select the applicable observation type.'''
     )
+    library_record = models.ForeignKey(
+        LibraryRecord,
+        related_name='record_in_observation',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
     observer = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
@@ -443,4 +450,5 @@ class LibraryObservation(models.Model):
         return f'{self.observation_type} - {self.observer} - {self.date_created}'
 
     def get_absolute_url(self):
-        return reverse('library-record', kwargs={'pk': self.pk})
+        # return reverse('library-record', kwargs={'pk': self.pk})
+        return reverse('library-record', kwargs={'pk': self.library_record.id})

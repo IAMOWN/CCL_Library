@@ -1685,7 +1685,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
     model = LibraryObservation
     form_class = CreateLibraryObservationForm
     template_name = 'library/observation_form.html'
-    reverse_lazy('library-records')
+    reverse_lazy('library_records/')
 
     def form_valid(self, form):
         record = LibraryRecord.objects.get(id=self.kwargs['pk'])
@@ -1701,6 +1701,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
 
         if observation_type == 'Typo':
             form.instance.observer = observer_obj
+            form.instance.library_record = record
             form.save()
 
             # TODO Build LEE and update this task description
