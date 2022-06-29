@@ -25,6 +25,10 @@ from .forms import (
     UpdateServiceGroupForm,
 )
 
+from library.models import (
+    LibraryRecord,
+)
+
 from users.models import (
     Profile,
 )
@@ -430,8 +434,11 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def form_valid(self, form):
         library_task = form.save(commit=False)
+
+        record = LibraryRecord.objects.get(id=library_task.library_record__id)
         task_updater = Profile.objects.get(user__username=self.request.user).spiritual_name
-        if library_task.task_status == 'Completed':
+
+        if library_task.task_status == 'Completed' and library_task.task_type == 'Libary Observation':
             if library_task.actions_taken == "":
                 form.add_error(
                     'actions_taken',
@@ -447,12 +454,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
             service_group = ServiceGroup.objects.get(service_group='Book Editors')
             related_task = Task.objects.get(id=self.kwargs['pk'])
-            # try:
-            #     related_task = Task.objects.get(id=self.kwargs['pk'])
-            # except Task.DoesNotExist:
-            #     related_task = Task.objects.none()
 
-            print(f'related_task: {related_task}')
             history_log = f'''>>> <strong>Book Editing</strong> task created from completed Library Observation task: {related_task.task_title}<p>'''
             task_description = f'''The completion of a Record Observation task by a Librarian led to the creation of this task:
             <ul>
@@ -461,17 +463,15 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             <li>Make adjustments to any related DOCX or PDF files stored for the purposes of book editing.</li>
             <li>When all elements of this task have been addressed please change Task Status to Completed.</li>
             </ul>
-            <strong>Record: </strong><a href='{DOMAIN}library_record/{library_task.library_record.id}/' class='text-CCL-Blue' target='_blank'>{library_task.library_record}</a><br>
-            <strong>Librarian: </strong>{library_task.assigned_profile}<br>
-            <strong>Preceeding Library task description:</strong><br>
+            <strong>Librarian: </strong>{library_task.assigned_profile}
+            <hr>
+            Preceeding Library task description:<br>
             {library_task.task_description}<p>
-            <strong>Preceeding actions taken:</strong></br>
-            {library_task.actions_taken}<p>'''
-
-            print(f'Before Book edit task create')
+            Preceeding actions taken:<br>
+            {library_task.actions_taken}<hr>'''
 
             created_task = Task.objects.create(
-                task_title=f'Book Edit on the record {library_task.library_record}',
+                task_title=f'Book Edit on the record {record.title}',
                 task_type='Book Edit',
                 task_description=task_description,
                 task_history_log=history_log,
@@ -480,7 +480,19 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 library_record=library_task.library_record,
             )
 
-            print(f'created_task.id: {created_task.id}')
+        elif library_task.task_status == 'Completed':
+            if library_task.actions_taken == "":
+                form.add_error(
+                    'actions_taken',
+                    'Please enter the actions taken as a part of completing this task.'
+                )
+                return self.form_invalid(form)
+
+            library_task.date_completed = get_current_date()
+            library_task.task_history_log = library_task.task_history_log + f'''>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br>
+            Date completed: <strong>{library_task.date_completed}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}<p>
+            '''
+            library_task.save(update_fields=['task_history_log','date_completed',])
 
         else:
             library_task.task_history_log = library_task.task_history_log + f'''>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br>
