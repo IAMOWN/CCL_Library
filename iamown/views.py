@@ -443,7 +443,12 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             library_task.save(update_fields=['task_history_log','date_completed',])
 
             service_group = ServiceGroup.objects.get(service_group='Book Editors')
-            related_task = Task.objects.get(id=self.kwargs['id'])
+            try:
+                related_task = Task.objects.get(id=self.kwargs['id'])
+            except Task.DoesNotExist:
+                related_task = Task.objects.none()
+
+            print(f'related_task: {related_task}')
             history_log = f'''>>> <strong>Book Editing</strong> task created from completed Library Observation task: {related_task.task_title}<p>'''
             task_description = f'''The completion of a Record Observation task by a Librarian led to the creation of this task:
             <ul>
