@@ -435,7 +435,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         library_task = form.save(commit=False)
 
-        record = LibraryRecord.objects.get(id=library_task.library_record__id)
+        record = LibraryRecord.objects.get(title=library_task.library_record)
         task_updater = Profile.objects.get(user__username=self.request.user).spiritual_name
 
         if library_task.task_status == 'Completed' and library_task.task_type == 'Libary Observation':
