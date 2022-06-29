@@ -435,10 +435,10 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         library_task = form.save(commit=False)
 
-        print(f"FORM_VALID library_task.task_status: {library_task.task_status}")
-        print(f"FORM_VALID library_task.task_type: {library_task.task_type}")
+        print(f"FORM_VALID form.instance.task_status: {form.instance.task_status}")
+        print(f"FORM_VALID form.instance.task_type: {form.instance.task_type}")
 
-        if library_task.task_status == 'Completed' and library_task.task_type == 'Libary Observation':
+        if form.instance.task_status == 'Completed' and form.instance.task_type == 'Libary Observation':
             print("#1 BRANCH successful")
             if library_task.actions_taken == "":
                 form.add_error(
