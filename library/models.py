@@ -48,7 +48,6 @@ READING_PROGRESS = [
 ]
 
 OBSERVATION_TYPE = [
-    ('---', '---'),
     ('Typo', 'Typo'),
     ('Missing Image', 'Missing Image'),
     ('Broken Link', 'Broken Link'),
@@ -392,7 +391,7 @@ class LibraryObservation(models.Model):
     observation_type = models.CharField(
         max_length=30,
         choices=OBSERVATION_TYPE,
-        default='---',
+        default='Typo',
         help_text='''Please select the applicable observation type.'''
     )
     observer = models.ForeignKey(
@@ -418,14 +417,19 @@ class LibraryObservation(models.Model):
     image_observation = HTMLField(
         null=True,
         blank=True,
+        help_text='''Please describe your observation about images in the record, such as if an image is missing, not 
+        displaying correctly and showing as broken.'''
     )
     link_observation = HTMLField(
         null=True,
         blank=True,
+        help_text='''Please describe what happens when you click the link. Is the link broken? Does it take you to a 
+        webpage you were not expecting?'''
     )
     header_title_observation = HTMLField(
         null=True,
         blank=True,
+        help_text='''Please describe what is not correct in the Header or Title of the record.'''
     )
 
     # Record metadata
