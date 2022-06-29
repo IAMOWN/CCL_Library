@@ -430,9 +430,6 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         context = super(TaskLibraryUpdate, self).get_context_data(**kwargs)
         context['page_type'] = 'Update'
 
-        print(f"CONTEXT library_task.task_status: {self.task_status}")
-        print(f"CONTEXT library_task.task_type: {self.task_type}")
-
         return context
 
     def form_valid(self, form):
