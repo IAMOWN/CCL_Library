@@ -435,9 +435,6 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         library_task = form.save(commit=False)
 
-        record = LibraryRecord.objects.get(title=library_task.library_record)
-        task_updater = Profile.objects.get(user__username=self.request.user).spiritual_name
-
         if library_task.task_status == 'Completed' and library_task.task_type == 'Libary Observation':
             if library_task.actions_taken == "":
                 form.add_error(
@@ -447,7 +444,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 return self.form_invalid(form)
 
             library_task.date_completed = get_current_date()
-            library_task.task_history_log = library_task.task_history_log + f'''>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br>
+            library_task.task_history_log = library_task.task_history_log + f'''>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{library_task.assigned_profile}</strong> on <strong>{get_current_date()}</strong>.<br>
             Date completed: <strong>{library_task.date_completed}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}<p>
             '''
             library_task.save(update_fields=['task_history_log','date_completed',])
@@ -471,7 +468,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             {library_task.actions_taken}<hr>'''
 
             created_task = Task.objects.create(
-                task_title=f'Book Edit on the record {record.title}',
+                task_title=f'Check Files related to Library Observation',
                 task_type='Book Edit',
                 task_description=task_description,
                 task_history_log=history_log,
