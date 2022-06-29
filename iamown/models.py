@@ -6,6 +6,10 @@ from users.models import (
     Profile,
 )
 
+from library.models import (
+    LibraryRecord,
+)
+
 from datetime import date
 
 from tinymce.models import HTMLField
@@ -25,6 +29,7 @@ TASK_PRIORITY_CHOICES = [
 TASK_TYPE_CHOICES = [
     ('---', '---'),
     ('Library Observation', 'Library Observation'),
+    ('Book Edit', 'Book Edit'),
 ]
 SERVICE_GROUP_TYPES = [
     ('---', '---'),
@@ -154,6 +159,13 @@ class Task(models.Model):
         null=True,
         blank=True,
         related_name='service_group_assigned_task',
+    )
+    library_record = models.ForeignKey(
+        LibraryRecord,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='library_record_in_task',
     )
     task_history_log = HTMLField(
         default='',

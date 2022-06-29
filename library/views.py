@@ -1723,6 +1723,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 task_description=task_description,
                 task_history_log=history_log,
                 assigned_service_group=service_group,
+                library_record=record,
             )
         elif observation_type == 'Missing Image':
             history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p>'''
