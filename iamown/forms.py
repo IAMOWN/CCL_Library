@@ -21,6 +21,8 @@ def task_form_validation(form, form_type):
             'task_title',
             'A title for the task must be entered.'
         )
+        
+    print(f"cleaned_data.get('task_type'): {cleaned_data.get('task_type')}")
 
     if cleaned_data.get('task_status') == 'Completed' \
             and cleaned_data.get('book_text_impacted') == '---' \
