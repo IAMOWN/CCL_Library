@@ -1789,7 +1789,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             <strong>Record: </strong><a href='{DOMAIN}library_record/{record.id}/' class='text-CCL-Blue' target='_blank'>{record.title}</a><br>
             <strong>Observer: </strong>{observer}<br>
             <strong>Observation type: </strong>{observation_type}<p>
-            <strong>Header/Title comments: </strong>{general_observation}<br>'''
+            <strong>General observations: </strong>{general_observation}<br>'''
 
             Task.objects.create(
                 task_title=f'Record Observation - {observation_type} made by {observer}',
