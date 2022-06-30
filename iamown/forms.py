@@ -21,6 +21,16 @@ def task_form_validation(form, form_type):
             'task_title',
             'A title for the task must be entered.'
         )
+
+    if cleaned_data.get('task_status') == 'Completed' \
+            and cleaned_data.get('book_text_impacted') == '---' \
+            and cleaned_data.get('task_type') == 'Library Observation':
+        form.add_error(
+            'book_text_impacted',
+            '''If uncertain, it is recommended that you select "Yes". Completing the task with "Yes" selected for book 
+            text impacted will assign a task to the Book Editing Circle.'''
+        )
+
     return
 
 

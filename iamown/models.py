@@ -41,6 +41,7 @@ SERVICE_GROUP_STATUS = [
     ('2) Inactive', '2) Inactive'),
 ]
 YES_NO_CHOICES = [
+    ('---', '---'),
     ('No', 'No'),
     ('Yes', 'Yes'),
 ]
@@ -176,7 +177,12 @@ class Task(models.Model):
         null=True,
         blank=True,
         max_length=10,
-        default='No',
+        default='---',
+        help_text='''Select "Yes" if you believe that the changes made will also need to be made in book files. Select 
+        "No" if you believe that this observation only has an impact in the Library Record. For example, if there is 
+        a typo where the "ENEDICTION" required correction to "BENEDICTION" then this would unlikely be an error in the 
+        book files, and was likely caused by a copy and paste error when the record was uploaded. If you are uncertain 
+        if the book text will be impacted select "Yes".'''
     )
     task_history_log = HTMLField(
         default='',
