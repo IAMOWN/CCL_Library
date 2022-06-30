@@ -40,13 +40,20 @@
             </div>
             {% endif %}
         </div>
-        {% if task.due_date %}
+
         <div class="row">
+            {% if task.due_date %}
             <div class="col-lg-3">
                 <p><strong>Due date:</strong> {{ task.due_date|date:'F j, Y' }}</p>
             </div>
+            {% endif %}
+            {% if task.related_task %}
+            <div class="col-lg-3">
+                <p><strong>Library Observation task:</strong> {{ task.related_task }}</p>
+            </div>
+            {% endif %}
         </div>
-        {% endif %}
+
         <div class="row pt-2">
             <div class="col-lg-12">
                 <p><strong>Description:</strong><br>

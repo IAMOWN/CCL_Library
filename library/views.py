@@ -1063,8 +1063,6 @@ class LibraryRecordUpdate(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(LibraryRecordUpdate, self).get_context_data(**kwargs)
-
-        context['TINY_API'] = settings.TINY_API
         context['page_type'] = 'Update'
         context['year'] = get_current_year()
 

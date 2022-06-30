@@ -434,11 +434,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def form_valid(self, form):
         library_task = form.save(commit=False)
-        print(f"FORM_VALID form.instance.task_status: {form.instance.task_status}")
-
         if form.instance.task_status == 'Completed':
-            print(f'book_text_impacted: {form.instance.book_text_impacted}')
-
             if form.instance.book_text_impacted == 'Yes':
                 if library_task.actions_taken == "":
                     form.add_error(
@@ -468,9 +464,9 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 </ul>
                 <strong>Librarian: </strong>{library_task.assigned_profile}
                 <hr>
-                Preceeding Library task description:<br>
+                <h6>Preceeding Library task description</h6>
                 {library_task.task_description}<p>
-                Preceeding actions taken:<br>
+                <h6>Preceeding actions taken</h6>
                 {library_task.actions_taken}<hr>'''
 
                 created_task = Task.objects.create(
