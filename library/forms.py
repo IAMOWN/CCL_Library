@@ -251,8 +251,8 @@ class CreateLibraryRecordForm(forms.ModelForm):
             'language',
             'date_communicated',
             'pdf_url',
-            'doc_url',
             'mp3_url',
+            'book_urls',
         ]
         widgets = {
             'date_communicated': DatePickerInput(format='%Y-%m-%d'),
@@ -282,8 +282,8 @@ class UpdateLibraryRecordForm(forms.ModelForm):
             'language',
             'date_communicated',
             'pdf_url',
-            'doc_url',
             'mp3_url',
+            'book_urls',
         ]
         widgets = {
             'date_communicated': DatePickerInput(format='%Y-%m-%d'),

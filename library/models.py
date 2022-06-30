@@ -247,6 +247,11 @@ class LibraryRecord(models.Model):
         blank=True,
         default=''
     )
+    book_urls = HTMLField(
+        default='',
+        blank=True,
+        null=True,
+    )
 
     # Record metadata
     date_created = models.DateTimeField(
