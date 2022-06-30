@@ -204,7 +204,8 @@ class LibraryRecord(models.Model):
         on_delete=models.PROTECT,
         null=True,
         blank=True,
-        verbose_name='Discourse series title'
+        verbose_name='Discourse series title',
+        help_text='Select the Series with which this record was originally communicated, or associated with.'
     )
     principal_cosmic_author = models.ForeignKey(
         CosmicAuthor,
@@ -213,11 +214,13 @@ class LibraryRecord(models.Model):
         null=True,
         blank=True,
         verbose_name='Master',
+        help_text='Select the principal, or primary, Master of this record.'
     )
     supporting_cosmic_authors = models.ManyToManyField(
         CosmicAuthor,
         blank=True,
         verbose_name='Supporting Masters',
+        help_text='If applicable, select one or more, supporting Masters that contributed to the record.'
     )
     tags = models.ManyToManyField(
         Tag,
@@ -226,31 +229,43 @@ class LibraryRecord(models.Model):
     language = models.CharField(
         max_length=20,
         choices=LIBRARY_RECORD_LANGUAGE,
-        default='English'
+        default='English',
+        help_text='By default all records are assumed to be in English. If a translated version of a record is uploaded '
+                  'then select the applicable language.'
     )
-    date_communicated = models.DateField(default=date.today)
+    date_communicated = models.DateField(
+        default=date.today,
+        help_text='Enter the date that the record was originally communicated.'
+    )
     pdf_url = models.CharField(
         max_length=255,
         null=True,
         blank=True,
-        default=''
+        default='',
+        help_text='''Enter the URL for the PDF file in the soul-synthesis-storage S3 server. This url is used to 
+        present the downloadable PDF link in the library record.'''
     )
     doc_url = models.CharField(
         max_length=255,
         null=True,
         blank=True,
-        default=''
+        default='',
     )
     mp3_url = models.CharField(
         max_length=255,
         null=True,
         blank=True,
-        default=''
+        default='',
+        help_text='''Enter the URL for the MP3 file in the soul-synthesis-storage S3 server. This url is used to 
+        present the downloadable audio file in the library record.''',
     )
     book_urls = HTMLField(
         default='',
         blank=True,
         null=True,
+        help_text='''Enter any URLs related directly to book editing (such as links to the docx/pdf files stored in 
+        ProtonDrive. This information is used to support book editing activities and is not used within the CCL Library.
+        '''
     )
 
     # Record metadata

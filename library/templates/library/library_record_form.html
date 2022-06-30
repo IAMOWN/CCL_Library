@@ -61,7 +61,7 @@
 {% block content %}
     <section class="media content-section">
         <div class="row">
-            <div class="col-sm-12 pt-2">
+            <div class="col-lg-12 pt-2">
             {% if page_type == 'Update' %}
                 <h3><strong>Edit Library Record: {{ libraryrecord.title }}</strong> </h3>
             {% else %}
@@ -90,101 +90,89 @@
             {% csrf_token %}
             {{ form.media }}
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-lg-4">
                     {{ form.library_record_type|as_crispy_field }}
                 </div>
-                <div class="col-sm-8">
+                <div class="col-lg-8">
                     {{ form.title|as_crispy_field }}
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-lg-4">
                     {{ form.part_number|as_crispy_field }}
                 </div>
-                <div class="col-sm-8">
+                <div class="col-lg-8">
                     {{ form.discourse_series|as_crispy_field }}
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-lg-12">
                     {{ form.invocation|as_crispy_field }}
                 </div>
             </div>
             <div class="row pb-2" id="tinydrive-upload">
-                <div class="col-sm-12">
+                <div class="col-lg-12">
                     {{ form.text|as_crispy_field }}
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-lg-12">
                     {{ form.benediction|as_crispy_field }}
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-lg-4">
                     {{ form.principal_cosmic_author|as_crispy_field }}
                 </div>
-                <div class="col-sm-4">
+                <div class="col-lg-4">
                     {{ form.supporting_cosmic_authors|as_crispy_field }}
                 </div>
-                <div class="col-sm-4">
+                <div class="col-lg-4">
                     {{ form.tags|as_crispy_field }}
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-lg-4">
                     {{ form.date_communicated|as_crispy_field }}
                 </div>
-                <div class="col-sm-4">
+                <div class="col-lg-4">
                     {{ form.language|as_crispy_field }}
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-lg-4">
                     {{ form.pdf_url|as_crispy_field }}
                 </div>
-                <div class="col-sm-4">
+                <div class="col-lg-4">
                     {{ form.mp3_url|as_crispy_field }}
+                </div>
+                <div class="col-lg-4">
+                    {{ form.book_urls|as_crispy_field }}
                 </div>
             </div>
             <div class="row pt-4">
-                {% if page_type == 'Update' %}
-                <div class="col-sm-2 pt-2">
-                    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-sm-12">Go Back</a>
+                <div class="col-lg-2 pt-2">
+                    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-lg-12">Go Back</a>
                 </div>
-                <div class="col-sm-2 pt-2">
+                <div class="col-lg-2 pt-2">
                     <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'collection-create' %}">Add A Collection</a>
                 </div>
-                <div class="col-sm-2 pt-2">
+                <div class="col-lg-2 pt-2">
                     <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'discourse-series-create' %}">Add A Series Title</a>
                 </div>
-                <div class="col-sm-2 pt-2">
+                <div class="col-lg-2 pt-2">
                     <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'master-create' %}">Add An Author</a>
                 </div>
-                <div class="col-sm-2 pt-2">
+                <div class="col-lg-2 pt-2">
                     <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'tag-create' %}">Add A Tag</a>
                 </div>
-                <div class="col-sm-2 pt-2">
-                    <input type="submit" value="Update Library Record" class="btn btn-CCL-Blue col-sm-12">
+                {% if page_type == 'Update' %}
+                <div class="col-lg-2 pt-2">
+                    <input type="submit" value="Update Library Record" class="btn btn-CCL-Blue col-lg-12">
                 </div>
                 {% else %}
-                <div class="col-sm-2 pt-2">
-                    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-sm-12">Go Back</a>
-                </div>
-                <div class="col-sm-2 pt-2">
-                    <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'collection-create' %}">Add A Collection</a>
-                </div>
-                <div class="col-sm-2 pt-2">
-                    <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'discourse-series-create' %}">Add A Series Title</a>
-                </div>
-                <div class="col-sm-2 pt-2">
-                    <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'master-create' %}">Add A Master</a>
-                </div>
-                <div class="col-sm-2 pt-2">
-                    <a class="btn btn-outline-CCL-Blue col-12" href="{% url 'tag-create' %}">Add A Tag</a>
-                </div>
-                <div class="col-sm-2 pt-2">
-                    <input type="submit" value="Add Library Record" class="btn btn-CCL-Blue col-sm-12">
+                <div class="col-lg-2 pt-2">
+                    <input type="submit" value="Add Library Record" class="btn btn-CCL-Blue col-lg-12">
                 </div>
                 {% endif %}
             </div>
