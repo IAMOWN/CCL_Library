@@ -44,12 +44,15 @@
         </article>
     {% endif %}
 
-    <section class="content-section text-CCL-Gold">
+    <section class="content-section pt-2">
     {% if page_type == 'Update' %}
         <h3><strong>Edit Task: {{ task.task_title }}</strong> </h3>
     {% else %}
         <h3><strong>Add A Task</strong></h3>
     {% endif %}
+    </section>
+
+    <section class="content-section text-CCL-Gold">
         <form method="post" action="" enctype="multipart/form-data" class="pb-2">
             {% csrf_token %}
             {{ form.media}}
