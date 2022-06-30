@@ -9,6 +9,23 @@
         Add A Library Task
     {% endif %}
 {% endblock %}
+
+{% block script_header %}
+    <script>
+        $(document).ready(function() {
+          $('#id_task_status').change(function() {
+            if ($(this).val() === "Cosmic Review") {
+              $('#div_id_book_text_impacted').show();
+            }
+            else {
+              $('#div_id_book_text_impacted').hide();
+            }
+          });
+          $("#id_task_status").trigger("change")
+        })
+    </script>
+{% endblock %}
+
 {% block content %}
     {% if form.errors %}
         <article class="content-section-danger alert-section">
@@ -61,8 +78,11 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-8">
                     {{ form.actions_taken|as_crispy_field }}
+                </div>
+                <div class="col-lg-4">
+                    {{ form.book_text_impacted|as_crispy_field }}
                 </div>
             </div>
             <div class="row pt-4">

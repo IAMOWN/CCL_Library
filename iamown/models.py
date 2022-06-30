@@ -40,6 +40,10 @@ SERVICE_GROUP_STATUS = [
     ('1) Active', '1) Active'),
     ('2) Inactive', '2) Inactive'),
 ]
+YES_NO_CHOICES = [
+    ('No', 'No'),
+    ('Yes', 'Yes'),
+]
 
 
 # ####################### Service Group #######################
@@ -166,6 +170,13 @@ class Task(models.Model):
         null=True,
         blank=True,
         related_name='library_record_in_task',
+    )
+    book_text_impacted = models.CharField(
+        choices=YES_NO_CHOICES,
+        null=True,
+        blank=True,
+        max_length=10,
+        default='No',
     )
     task_history_log = HTMLField(
         default='',

@@ -54,6 +54,7 @@ class CreateTaskForm(forms.ModelForm):
             'task_status',
             'task_priority',
             'due_date',
+            'book_text_impacted',
         ]
         widgets = {
             'due_date': DatePickerInput(format='%Y-%m-%d'),
@@ -81,6 +82,7 @@ class UpdateTaskForm(forms.ModelForm):
             'task_status',
             'task_priority',
             'due_date',
+            'book_text_impacted',
         ]
         widgets = {
             'due_date': DatePickerInput(format='%Y-%m-%d'),
