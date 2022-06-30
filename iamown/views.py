@@ -460,7 +460,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                         'Please enter the actions taken as a part of completing this task.'
                     )
                     return self.form_invalid(form)
-                
+
                 print("#1 BRANCH successful")
 
                 library_task.date_completed = get_current_date()
