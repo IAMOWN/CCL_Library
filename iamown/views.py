@@ -19,8 +19,8 @@ from .models import (
     ServiceGroup,
 )
 from .forms import (
-    CreateTaskForm,
-    UpdateTaskForm,
+    CreateLibraryTaskForm,
+    UpdateLibraryTaskForm,
     CreateServiceGroupForm,
     UpdateServiceGroupForm,
 )
@@ -127,7 +127,7 @@ class TaskDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 class TaskCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     """Task CreateView for user's tasks."""
     model = Task
-    form_class = CreateTaskForm
+    form_class = CreateLibraryTaskForm
 
     template_name = 'iamown/task_form.html'
 
@@ -157,7 +157,7 @@ class TaskCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """Task UpdateView for user's tasks."""
     model = Task
-    form_class = UpdateTaskForm
+    form_class = UpdateLibraryTaskForm
 
     template_name = 'iamown/task_form.html'
 
@@ -378,7 +378,7 @@ class TaskLibraryCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView
 class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     """Task CreateView for user's tasks."""
     model = Task
-    form_class = CreateTaskForm
+    form_class = CreateLibraryTaskForm
 
     template_name = 'iamown/task_form.html'
 
@@ -416,7 +416,7 @@ class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """Task UpdateView for Library tasks."""
     model = Task
-    form_class = UpdateTaskForm
+    form_class = UpdateLibraryTaskForm
 
     template_name = 'iamown/task_form_library.html'
 
@@ -437,23 +437,9 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         print(f"FORM_VALID form.instance.task_status: {form.instance.task_status}")
 
         if form.instance.task_status == 'Completed':
-            print(f"FORM_VALID form.instance.task_type: {form.instance.task_type}")
+            print(f'book_text_impacted: {form.instance.book_text_impacted}')
 
-            if form.instance.task_type != 'Libary Observation':
-                if library_task.actions_taken == "":
-                    form.add_error(
-                        'actions_taken',
-                        'Please enter the actions taken as a part of completing this task.'
-                    )
-                    return self.form_invalid(form)
-                print("#2 BRANCH successful")
-
-                library_task.date_completed = get_current_date()
-                library_task.task_history_log = library_task.task_history_log + f'''>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{library_task.assigned_profile}</strong> on <strong>{get_current_date()}</strong>.<br>
-                Date completed: <strong>{library_task.date_completed}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}<p>
-                '''
-
-            else:
+            if form.instance.book_text_impacted == 'Yes':
                 if library_task.actions_taken == "":
                     form.add_error(
                         'actions_taken',
@@ -497,6 +483,20 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     library_record=library_task.library_record,
                 )
                 created_task.save()
+
+            else:
+                if library_task.actions_taken == "":
+                    form.add_error(
+                        'actions_taken',
+                        'Please enter the actions taken as a part of completing this task.'
+                    )
+                    return self.form_invalid(form)
+                print("#2 BRANCH successful")
+
+                library_task.date_completed = get_current_date()
+                library_task.task_history_log = library_task.task_history_log + f'''>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{library_task.assigned_profile}</strong> on <strong>{get_current_date()}</strong>.<br>
+                Date completed: <strong>{library_task.date_completed}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}<p>
+                '''
 
             library_task.save(update_fields=['task_history_log','date_completed',])
 

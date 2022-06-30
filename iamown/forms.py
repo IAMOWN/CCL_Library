@@ -13,23 +13,19 @@ from users.models import (
 )
 
 
-# ############ Task form validation logic ############
-def task_form_validation(form, form_type):
+# ############ Libary Task form validation logic ############
+def library_task_form_validation(form, form_type):
     cleaned_data = super(form_type, form).clean()
     if cleaned_data.get('task_title') is None:
         form.add_error(
             'task_title',
             'A title for the task must be entered.'
         )
-        
-    print(f"cleaned_data.get('task_type'): {cleaned_data.get('task_type')}")
 
-    if cleaned_data.get('task_status') == 'Completed' \
-            and cleaned_data.get('book_text_impacted') == '---' \
-            and cleaned_data.get('task_type') == 'Library Observation':
+    if cleaned_data.get('task_status') == 'Completed' and cleaned_data.get('book_text_impacted') == '---':
         form.add_error(
             'book_text_impacted',
-            '''If uncertain, it is recommended that you select "Yes". Completing the task with "Yes" selected for book 
+            '''If you are uncertain then select "Yes". Completing the task with "Yes" selected for book 
             text impacted will assign a task to the Book Editing Circle.'''
         )
 
@@ -47,8 +43,8 @@ def service_group_form_validation(form, form_type):
     return
 
 
-# ####################### Create Task Form #######################
-class CreateTaskForm(forms.ModelForm):
+# ####################### Create Library Task Form #######################
+class CreateLibraryTaskForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -66,7 +62,6 @@ class CreateTaskForm(forms.ModelForm):
             'task_status',
             'task_priority',
             'due_date',
-            'task_type',
             'book_text_impacted',
         ]
         widgets = {
@@ -74,12 +69,12 @@ class CreateTaskForm(forms.ModelForm):
         }
 
     def clean(self):
-        task_form_validation(self, CreateTaskForm)
+        library_task_form_validation(self, CreateLibraryTaskForm)
         return self.cleaned_data
 
 
-# ####################### Update Task Form #######################
-class UpdateTaskForm(forms.ModelForm):
+# ####################### Update Library Task Form #######################
+class UpdateLibraryTaskForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -95,7 +90,6 @@ class UpdateTaskForm(forms.ModelForm):
             'task_status',
             'task_priority',
             'due_date',
-            'task_type',
             'book_text_impacted',
         ]
         widgets = {
@@ -103,7 +97,7 @@ class UpdateTaskForm(forms.ModelForm):
         }
 
     def clean(self):
-        task_form_validation(self, UpdateTaskForm)
+        library_task_form_validation(self, UpdateLibraryTaskForm)
         return self.cleaned_data
 
 
