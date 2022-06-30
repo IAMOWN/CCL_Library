@@ -66,6 +66,7 @@ class CreateTaskForm(forms.ModelForm):
             'task_status',
             'task_priority',
             'due_date',
+            'task_type',
             'book_text_impacted',
         ]
         widgets = {
@@ -94,6 +95,7 @@ class UpdateTaskForm(forms.ModelForm):
             'task_status',
             'task_priority',
             'due_date',
+            'task_type',
             'book_text_impacted',
         ]
         widgets = {
