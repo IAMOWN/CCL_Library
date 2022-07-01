@@ -22,8 +22,6 @@ def library_task_form_validation(form, form_type):
             'A title for the task must be entered.'
         )
 
-    print(f"form.instance.task_type: {form.instance.task_type}")
-
     if cleaned_data.get('task_status') == 'Completed' and cleaned_data.get('book_text_impacted') == '---' and form.instance.task_type == 'Library Observation':
         form.add_error(
             'book_text_impacted',

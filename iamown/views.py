@@ -501,6 +501,8 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                         'Please enter the actions taken as a part of completing this task.'
                     )
                     return self.form_invalid(form)
+
+                record = LibraryRecord.objects.get(title=library_task.library_record)
                 library_task.date_completed = get_current_date()
                 library_task.task_history_log = library_task.task_history_log + f'''>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{library_task.assigned_profile}</strong> on <strong>{get_current_date()}</strong>.<br>
                 Date completed: <strong>{library_task.date_completed}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}<p>
@@ -510,14 +512,17 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 service_group = ServiceGroup.objects.get(service_group='Book Editors')
                 related_task = Task.objects.get(id=self.kwargs['pk'])
 
-                history_log = f'''>>> <strong>Book Editing</strong> task created from completed Library Observation task: {related_task.task_title}<p>'''
+                history_log = f'''>>> <strong>Book Editing</strong> task created from completed Library Observation task: {related_task.task_title}<p><br>'''
                 task_description = f'''The completion of a Record Observation task by a Librarian led to the creation of this task:
                 <ul>
                 <li>When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.</li>
                 <li>Please review the information below to determine what was changed for the Library Record.</li>
                 <li>Make adjustments to any related DOCX or PDF files stored for the purposes of book editing.</li>
                 <li>When all elements of this task have been addressed please change Task Status to Completed.</li>
-                </ul>'''
+                </ul>
+                <strong>Book urls:</strong><br>
+                {record.book_urls}
+                '''
 
                 created_task = Task.objects.create(
                     task_title=f'Check Files related to Library Observation',
@@ -529,6 +534,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     library_record=library_task.library_record,
                     library_task_description=library_task.task_description,
                     library_task_actions_taken=library_task.actions_taken,
+                    library_observation=library_task.library_observation,
                 )
                 created_task.save()
 

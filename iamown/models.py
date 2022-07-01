@@ -8,6 +8,7 @@ from users.models import (
 
 from library.models import (
     LibraryRecord,
+    LibraryObservation,
 )
 
 from datetime import date
@@ -150,6 +151,13 @@ class Task(models.Model):
         related_name='approval_task',
         on_delete=models.CASCADE
     )
+    library_observation = models.ForeignKey(
+        LibraryObservation,
+        null=True,
+        blank=True,
+        related_name='library_observation_in_library_task',
+        on_delete=models.CASCADE
+    )
     assigned_profile = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
@@ -209,7 +217,7 @@ class Task(models.Model):
     )
 
     def __str__(self):
-        return f'{self.task_title} ** Status - {self.task_status} ({self.id})'
+        return f'{self.task_title} (Status: {self.task_status})'
 
     class Meta:
         ordering = [
