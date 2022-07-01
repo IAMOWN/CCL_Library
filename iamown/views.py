@@ -37,7 +37,6 @@ from users.models import (
 # ####################### CONSTANTS #######################
 DOMAIN = settings.DOMAIN
 FROM_EMAIL = 'info@lanesflow.io'
-
 EMAIL_MESSAGE_1 = '''
                     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                     <html xmlns="http://www.w3.org/1999/xhtml">
@@ -52,7 +51,7 @@ EMAIL_MESSAGE_1 = '''
                           <tr>
                             <td style="width: 100%;">
                               <div style="text-align: left;">
-                                <img src="https://django-whurthy.s3.us-west-1.amazonaws.com/whurthy-static/Whurthy-emailheader-600x150px.png" alt="Whurthy email header banner" width: 600px;"/>
+                                <img src="https://cdn.cosmicchrist.love/ccl-library-static/CCL_Library/Soul%20Synthesis%20Email%20Header.png" alt="Soul Synthesis email header banner" width: 600px;"/>
                               </div>
                             </td>
                           </tr>
@@ -70,7 +69,7 @@ EMAIL_MESSAGE_2 = '''
                           <tr>
                             <td style="width: 100%;">
                               <div style="text-align: left;">
-                                <img src="https://django-whurthy.s3.us-west-1.amazonaws.com/whurthy-static/Whurthy-emailfooter-600x125px.png" alt="Whurthy email header banner" width: 600px;"/>
+                                <img src="https://cdn.cosmicchrist.love/ccl-library-static/CCL_Library/Soul%20Synthesis%20Email%20Footer%20-%2072.png" alt="Whurthy email header banner" width: 600px;"/>
                               </div>
                             </td>
                           </tr>
@@ -476,6 +475,8 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     form_class = UpdateLibraryTaskForm
 
     template_name = 'iamown/task_form_library.html'
+
+    success_url = 'tasks/library/'
 
     def test_func(self):
         # task = self.get_object()
