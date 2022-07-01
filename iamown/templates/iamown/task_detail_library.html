@@ -47,11 +47,6 @@
                 <p><strong>Due date:</strong> {{ task.due_date|date:'F j, Y' }}</p>
             </div>
             {% endif %}
-            {% if task.related_task %}
-            <div class="col-lg-9">
-                <p><strong>Library Observation task:</strong> {{ task.related_task }}</p>
-            </div>
-            {% endif %}
         </div>
         <hr>
         <div class="row pt-2">
@@ -81,6 +76,8 @@
             <div class="col-lg-6">
                 <h6>Precending Actions Taken</h6>
                 {{ task.library_task_actions_taken|safe }}
+                <h6>Library Observation Task</h6>
+                <a href="{% url 'task-library' task.related_task_id %}" class="text-CCL-Blue">{{ task.related_task }}</a>
             </div>
         {% else %}
             <div class="col-lg-12">
