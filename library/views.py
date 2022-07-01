@@ -100,6 +100,7 @@ EMAIL_MESSAGE_2 = '''
 '''
 LIBRARY_TASK_URL = 'https://cosmicchrist.love/tasks/library/'
 DIGITAL_LIBRARIAN_GROUP_NAME = 'Librarians'
+SOUL_SYNTHESIS_S3_STORAGE = 'https://cloud.digitalocean.com/spaces/soul-synthesis-storage?i=1420f9'
 
 # ####################### FUNCTIONS #######################
 def get_current_year():
@@ -1751,7 +1752,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
 
         if observation_type == 'Typo':
             observed_typo = form.instance.typo
-            history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p>'''
+            history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p><br>'''
             suggested_correction = form.instance.suggested_correction
             form.instance.observer = observer_obj
             form.instance.library_record = record
@@ -1763,14 +1764,16 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             task_description = f'''An automated Record Observation led to the creation of this task:
             <ul>
             <li>When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.</li>
-            <li>Please check if the record has a PDF and/or DOCX link and make adjustments to these files as applicable.</li>
+            <li>Please check if the record has a PDF link and make adjustments to the file in 
+            <a href="{SOUL_SYNTHESIS_S3_STORAGE}" class="text-CCL-Blue" target="_blank">Soul Synthesis S3 storage</a>  
+            as applicable. Note: If you cannot access this link please notify Carewen.</li>
             <li>When all elements of this task have been addressed please change Task Status to Completed.</li>
             </ul>
-            <strong>Record: </strong><a href='{DOMAIN}library_record/{record.id}/' class='text-CCL-Blue' target='_blank'>{record.title}</a><br>
-            <strong>Observer: </strong>{observer}<br>
-            <strong>Observation type: </strong>{observation_type}<p>
-            <strong>Typo: </strong>{observed_typo}<br>
-            <strong>Suggested correction: </strong>{suggested_correction}<br>'''
+            Record: <a href='{DOMAIN}library_record/{record.id}/' class='text-CCL-Blue' target='_blank'>{record.title}</a><br>
+            Observer: {observer}<br>
+            Observation type: {observation_type}<p>
+            Typo: {observed_typo}<br>
+            Suggested correction: {suggested_correction}<br>'''
 
             Task.objects.create(
                 task_title=f'Record Observation - {observation_type} made by {observer}',
@@ -1782,7 +1785,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 library_observation=observation_obj,
             )
         elif observation_type == 'Missing Image':
-            history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p>'''
+            history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p><br>'''
             form.instance.observer = observer_obj
             form.instance.library_record = record
             image_observation = form.instance.image_observation
@@ -1791,7 +1794,9 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             task_description = f'''An automated Record Observation led to the creation of this task:
             <ul>
             <li>When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.</li>
-            <li>Please check if the record has a PDF and/or DOCX link and make adjustments to these files as applicable.</li>
+            <li>Please check if the record has a PDF link and make adjustments to the file in 
+            <a href="{SOUL_SYNTHESIS_S3_STORAGE}" class="text-CCL-Blue" target="_blank">Soul Synthesis S3 storage</a>  
+            as applicable. Note: If you cannot access this link please notify Carewen.</li>
             <li>When all elements of this task have been addressed please change Task Status to Completed.</li>
             </ul>
             <strong>Record: </strong><a href='{DOMAIN}library_record/{record.id}/' class='text-CCL-Blue' target='_blank'>{record.title}</a><br>
@@ -1808,7 +1813,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 library_observation=observation_obj,
             )
         elif observation_type == 'Broken Link':
-            history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p>'''
+            history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p><br>'''
             form.instance.observer = observer_obj
             form.instance.library_record = record
             link_observation = form.instance.link_observation
@@ -1817,7 +1822,9 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             task_description = f'''An automated Record Observation led to the creation of this task:
             <ul>
             <li>When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.</li>
-            <li>Please check if the record has a PDF and/or DOCX link and make adjustments to these files as applicable.</li>
+            <li>Please check if the record has a PDF link and make adjustments to the file in 
+            <a href="{SOUL_SYNTHESIS_S3_STORAGE}" class="text-CCL-Blue" target="_blank">Soul Synthesis S3 storage</a>  
+            as applicable. Note: If you cannot access this link please notify Carewen.</li>
             <li>When all elements of this task have been addressed please change Task Status to Completed.</li>
             </ul>
             <strong>Record: </strong><a href='{DOMAIN}library_record/{record.id}/' class='text-CCL-Blue' target='_blank'>{record.title}</a><br>
@@ -1834,7 +1841,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 library_observation=observation_obj,
             )
         elif observation_type == 'Other':
-            history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p>'''
+            history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p><br>'''
             form.instance.observer = observer_obj
             form.instance.library_record = record
             general_observation = form.instance.general_observation
@@ -1843,7 +1850,9 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             task_description = f'''An automated Record Observation led to the creation of this task:
             <ul>
             <li>When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.</li>
-            <li>Please check if the record has a PDF and/or DOCX link and make adjustments to these files as applicable.</li>
+            <li>Please check if the record has a PDF link and make adjustments to the file in 
+            <a href="{SOUL_SYNTHESIS_S3_STORAGE}" class="text-CCL-Blue" target="_blank">Soul Synthesis S3 storage</a>  
+            as applicable. Note: If you cannot access this link please notify Carewen.</li>
             <li>When all elements of this task have been addressed please change Task Status to Completed.</li>
             </ul>
             <strong>Record: </strong><a href='{DOMAIN}library_record/{record.id}/' class='text-CCL-Blue' target='_blank'>{record.title}</a><br>
