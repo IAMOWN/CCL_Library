@@ -1748,9 +1748,6 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
 
         service_group = ServiceGroup.objects.get(service_group='Digital Librarians')
         observation_type = form.instance.observation_type
-        observation_id = self.kwargs['pk']
-        observation_obj = LibraryObservation.objects.get(id=observation_id)
-        print(f'observation_obj: {observation_obj}')
 
         if observation_type == 'Typo':
             observed_typo = form.instance.typo
@@ -1760,6 +1757,8 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             form.instance.library_record = record
             form.save()
 
+            observation_obj = LibraryObservation.objects.get(id=self.kwargs['pk'])
+            print(f'observation_obj: {observation_obj}')
 
             # TODO Build LEE and update these task descriptions
             # TODO Build Book Editor task to follow this ServiceFlow for Typo
@@ -1791,6 +1790,9 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             image_observation = form.instance.image_observation
             form.save()
 
+            observation_obj = LibraryObservation.objects.get(id=self.kwargs['pk'])
+            print(f'observation_obj: {observation_obj}')
+
             task_description = f'''An automated Record Observation led to the creation of this task:
             <ul>
             <li>When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.</li>
@@ -1817,6 +1819,9 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             link_observation = form.instance.link_observation
             form.save()
 
+            observation_obj = LibraryObservation.objects.get(id=self.kwargs['pk'])
+            print(f'observation_obj: {observation_obj}')
+
             task_description = f'''An automated Record Observation led to the creation of this task:
             <ul>
             <li>When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.</li>
@@ -1842,6 +1847,9 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             form.instance.library_record = record
             general_observation = form.instance.general_observation
             form.save()
+
+            observation_obj = LibraryObservation.objects.get(id=self.kwargs['pk'])
+            print(f'observation_obj: {observation_obj}')
 
             task_description = f'''An automated Record Observation led to the creation of this task:
             <ul>
