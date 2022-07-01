@@ -540,7 +540,6 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
                 book_editors = User.objects.filter(groups__name=BOOK_EDITOR_GROUP_NAME)
                 for editor in book_editors:
-                    print(f'Emailing: {editor.profile.spiritual_name}...')
                     email_address = editor.email
                     email_subject = f'[CCL NOTIFY] A corrected Library observation has been marked as having an impact on book text.'
                     email_message = f"""

@@ -1778,7 +1778,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 task_history_log=history_log,
                 assigned_service_group=service_group,
                 library_record=record,
-                library_observation=self,
+                library_observation=get_object_or_404(LibraryObservation, id=self.kwargs['pk']),
             )
         elif observation_type == 'Missing Image':
             history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p>'''
@@ -1804,7 +1804,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 task_description=task_description,
                 task_history_log=history_log,
                 assigned_service_group=service_group,
-                library_observation=self,
+                library_observation=get_object_or_404(LibraryObservation, id=self.kwargs['pk']),
             )
         elif observation_type == 'Broken Link':
             history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p>'''
@@ -1830,7 +1830,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 task_description=task_description,
                 task_history_log=history_log,
                 assigned_service_group=service_group,
-                library_observation=self,
+                library_observation=get_object_or_404(LibraryObservation, id=self.kwargs['pk']),
             )
         elif observation_type == 'Other':
             history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p>'''
@@ -1856,12 +1856,11 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 task_description=task_description,
                 task_history_log=history_log,
                 assigned_service_group=service_group,
-                library_observation=self,
+                library_observation=get_object_or_404(LibraryObservation, id=self.kwargs['pk']),
             )
 
         digital_librarians = User.objects.filter(groups__name=DIGITAL_LIBRARIAN_GROUP_NAME)
         for librarian in digital_librarians:
-            print(f'Emailing: {librarian.profile.spiritual_name}...')
             email_address = librarian.email
             email_subject = f'[CCL NOTIFY] A Record Observation has been submitted by {observer}'
             email_message = f"""
