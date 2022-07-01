@@ -79,6 +79,8 @@ class UpdateLibraryTaskForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['assigned_profile'].queryset = Profile.objects.filter(user__is_staff=True)
+        self.fields['task_description'].label = False
+        self.fields['actions_taken'].label = False
 
     class Meta:
         model = Task
@@ -91,6 +93,8 @@ class UpdateLibraryTaskForm(forms.ModelForm):
             'task_priority',
             'due_date',
             'book_text_impacted',
+            'library_task_description',
+            'library_task_actions_taken',
         ]
         widgets = {
             'due_date': DatePickerInput(format='%Y-%m-%d'),
