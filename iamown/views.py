@@ -28,6 +28,7 @@ from .forms import (
 
 from library.models import (
     LibraryRecord,
+    LibraryObservation,
 )
 
 from users.models import (
@@ -510,6 +511,8 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 service_group = ServiceGroup.objects.get(service_group='Book Editors')
                 related_task = Task.objects.get(id=self.kwargs['pk'])
 
+                library_observation = LibraryObservation.objects.get(library_observation=library_task.library_observation)
+
                 history_log = f'''>>> <strong>Book Editing</strong> task created from completed Library Observation task: {related_task.task_title}<p><br>'''
                 task_description = f'''The completion of a Record Observation task by a Librarian led to the creation of this task:
                 <ul>
@@ -532,7 +535,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     library_record=library_task.library_record,
                     library_task_description=library_task.task_description,
                     library_task_actions_taken=library_task.actions_taken,
-                    library_observation=library_task.library_observation,
+                    library_observation=library_observation,
                 )
                 created_task.save()
 
