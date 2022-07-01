@@ -111,13 +111,13 @@
                     <h6>Actions Taken</h6>
                     {{ form.actions_taken|as_crispy_field }}
                 </div>
-                {{ form.library_task_actions_taken.as_hidden }}
+{#                {{ form.library_task_actions_taken.as_hidden }}#}
             {% endif %}
             </div>
             {% if object.task_type == 'Library Observation' %}
             <div class="row pt-2">
-                <div class="col-lg-6">
-                    {{ form.library_task_actions_taken|as_crispy_field }}
+                <div class="col-lg-12">
+                    {{ form.book_text_impacted|as_crispy_field }}
                 </div>
             </div>
             {% endif %}

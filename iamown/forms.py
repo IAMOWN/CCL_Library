@@ -79,8 +79,10 @@ class UpdateLibraryTaskForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['assigned_profile'].queryset = Profile.objects.filter(user__is_staff=True)
-        self.fields['task_description'].label = False
-        self.fields['actions_taken'].label = False
+        # self.fields['task_description'].label = False
+        # self.fields['actions_taken'].label = False
+        # self.fields['library_task_description'].label = False
+        # self.fields['library_task_actions_taken'].label = False
 
     class Meta:
         model = Task
