@@ -1755,7 +1755,9 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             suggested_correction = form.instance.suggested_correction
             form.instance.observer = observer_obj
             form.instance.library_record = record
-            form.save()
+            self.object = form.save()
+            observation_obj = LibraryObservation.objects.get(id=self.object.id)
+            print(f'self: {observation_obj.id}')
 
             # TODO Build LEE and update these task descriptions
             # TODO Build Book Editor task to follow this ServiceFlow for Typo
@@ -1778,7 +1780,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 task_history_log=history_log,
                 assigned_service_group=service_group,
                 library_record=record,
-                library_observation=observation_obj,
+                # library_observation=observation_obj,
             )
         elif observation_type == 'Missing Image':
             history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p>'''
@@ -1804,7 +1806,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 task_description=task_description,
                 task_history_log=history_log,
                 assigned_service_group=service_group,
-                library_observation=observation_obj,
+                # library_observation=observation_obj,
             )
         elif observation_type == 'Broken Link':
             history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p>'''
@@ -1830,7 +1832,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 task_description=task_description,
                 task_history_log=history_log,
                 assigned_service_group=service_group,
-                library_observation=observation_obj,
+                # library_observation=observation_obj,
             )
         elif observation_type == 'Other':
             history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p>'''
@@ -1856,7 +1858,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 task_description=task_description,
                 task_history_log=history_log,
                 assigned_service_group=service_group,
-                library_observation=observation_obj,
+                # library_observation=observation_obj,
             )
 
         digital_librarians = User.objects.filter(groups__name=DIGITAL_LIBRARIAN_GROUP_NAME)
