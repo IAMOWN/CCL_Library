@@ -53,39 +53,51 @@
             </div>
             {% endif %}
         </div>
-
+        <hr>
+        <hr>
         <div class="row pt-2">
+            {% if object.task_type == 'Book Edit' %}
+                {% if task.library_task_description %}
+                <div class="row pt-2">
+                    <div class="col-lg-6">
+                        <h6>Task Description</h6>
+                        {{ task.task_description|safe }}
+                    </div>
+                    <div class="col-lg-6">
+                        <h6>Preceding Task Description</h6>
+                        {{ task.library_task_description|safe }}
+                    </div>
+                </div>
+                {% endif %}
+            {% else %}
             <div class="col-lg-12">
-                <p><strong>Description:</strong><br>
-                    {{ task.task_description|safe }}
-                </p>
+                <h6>Task Description</h6>
+                {{ task.task_description|safe }}
             </div>
+            {% endif %}
         </div>
-        {% if task.library_task_description %}
-        <div class="row pt-2">
-            <div class="col-lg-12">
-                <p><strong>Preceding Task Description:</strong><br>
-                    {{ task.library_task_description|safe }}
-                </p>
-            </div>
-        </div>
-        {% endif %}
-        <div class="row pt-2">
-            <div class="col-lg-12">
-                <p><strong>Actions taken:</strong><br>
+        <hr>
+        <div class="row pt-2">>
+            {% if object.task_type == 'Book Edit' %}
+                <div class="col-lg-6">
+                    <h6>Actions Taken</h6>
                     {{ task.actions_taken|safe }}
-                </p>
-            </div>
-        </div>
-        {% if task.library_task_actions_taken %}
-        <div class="row pt-2">
+                </div>
+                {% if task.library_task_actions_taken %}
+                <div class="row pt-2">
+                    <div class="col-lg-12">
+                        <h6>Precending Actions Taken</h6>
+                        {{ task.library_task_actions_taken|safe }}
+                    </div>
+                </div>
+                {% endif %}
+            {% else %}
             <div class="col-lg-12">
-                <p><strong>Precending Actions taken:</strong><br>
-                    {{ task.library_task_actions_taken|safe }}
-                </p>
+                <h6>Actions Taken</h6>
+                {{ task.actions_taken|safe }}
             </div>
+            {% endif %}
         </div>
-        {% endif %}
     </section>
     <section class="content-section">
         <div class="row">
