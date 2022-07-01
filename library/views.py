@@ -1789,7 +1789,8 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             form.instance.observer = observer_obj
             form.instance.library_record = record
             image_observation = form.instance.image_observation
-            form.save()
+            self.object = form.save()
+            observation_obj = LibraryObservation.objects.get(id=self.object.id)
 
             task_description = f'''An automated Record Observation led to the creation of this task:
             <ul>
@@ -1817,7 +1818,8 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             form.instance.observer = observer_obj
             form.instance.library_record = record
             link_observation = form.instance.link_observation
-            form.save()
+            self.object = form.save()
+            observation_obj = LibraryObservation.objects.get(id=self.object.id)
 
             task_description = f'''An automated Record Observation led to the creation of this task:
             <ul>
@@ -1845,7 +1847,8 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             form.instance.observer = observer_obj
             form.instance.library_record = record
             general_observation = form.instance.general_observation
-            form.save()
+            self.object = form.save()
+            observation_obj = LibraryObservation.objects.get(id=self.object.id)
 
             task_description = f'''An automated Record Observation led to the creation of this task:
             <ul>
