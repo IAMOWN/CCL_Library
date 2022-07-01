@@ -501,8 +501,6 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                         'Please enter the actions taken as a part of completing this task.'
                     )
                     return self.form_invalid(form)
-
-                record = LibraryRecord.objects.get(title=library_task.library_record)
                 library_task.date_completed = get_current_date()
                 library_task.task_history_log = library_task.task_history_log + f'''>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{library_task.assigned_profile}</strong> on <strong>{get_current_date()}</strong>.<br>
                 Date completed: <strong>{library_task.date_completed}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}<p>
@@ -521,7 +519,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 <li>When all elements of this task have been addressed please change Task Status to Completed.</li>
                 </ul>
                 <strong>Book urls:</strong><br>
-                {record.book_urls}
+                {library_task.library_record.book_urls}
                 '''
 
                 created_task = Task.objects.create(
