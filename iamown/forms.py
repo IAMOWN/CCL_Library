@@ -22,7 +22,9 @@ def library_task_form_validation(form, form_type):
             'A title for the task must be entered.'
         )
 
-    if cleaned_data.get('task_status') == 'Completed' and cleaned_data.get('book_text_impacted') == '---':
+    print(f"form.instance.task_type: {form.instance.task_type}")
+
+    if cleaned_data.get('task_status') == 'Completed' and cleaned_data.get('book_text_impacted') == '---' and form.instance.task_type == 'Library Observation':
         form.add_error(
             'book_text_impacted',
             '''If you are uncertain then select "Yes". Completing the task with "Yes" selected for book 
@@ -79,10 +81,10 @@ class UpdateLibraryTaskForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['assigned_profile'].queryset = Profile.objects.filter(user__is_staff=True)
-        # self.fields['task_description'].label = False
-        # self.fields['actions_taken'].label = False
-        # self.fields['library_task_description'].label = False
-        # self.fields['library_task_actions_taken'].label = False
+        self.fields['task_description'].label = False
+        self.fields['actions_taken'].label = False
+        self.fields['library_task_description'].label = False
+        self.fields['library_task_actions_taken'].label = False
 
     class Meta:
         model = Task
