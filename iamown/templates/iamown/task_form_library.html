@@ -75,34 +75,35 @@
                     {{ form.assigned_profile|as_crispy_field }}
                 </div>
             </div>
-            {% if object.library_task_description %}
-            <div class="row pt-2">
-                <div class="col-lg-12">
-                    <p><strong>Preceding Task Description:</strong><br>
-                        {{ object.library_task_description|safe }}
-                    </p>
-                </div>
-            </div>
-            {% endif %}
+            <hr>
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-6">
+                    <h6>Task Description:</h6>
                     {{ form.task_description|as_crispy_field }}
                 </div>
-            </div>
-            {% if object.library_task_actions_taken %}
-            <div class="row pt-2">
-                <div class="col-lg-8">
-                    <p><strong>Precending Actions taken:</strong><br>
-                        {{ object.library_task_actions_taken|safe }}
-                    </p>
+                {% if object.library_task_description %}
+                <div class="col-lg-6">
+                    <h6>Preceding Task Description:</h6>
+                    {{ object.library_task_description|safe }}
                 </div>
+                {% endif %}
             </div>
-            {% endif %}
-            <div class="row">
-                <div class="col-lg-8">
+            <hr>
+            <div class="row pt-2">
+                <div class="col-lg-6">
+                    <h6>Actions Taken:</h6>
                     {{ form.actions_taken|as_crispy_field }}
                 </div>
-                <div class="col-lg-4">
+                {% if object.library_task_actions_taken %}
+                <div class="col-lg-6">
+                    <h6>Precending Actions taken:</h6>
+                    {{ object.library_task_actions_taken|safe }}
+                </div>
+                {% endif %}
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-lg-12">
                     {{ form.book_text_impacted|as_crispy_field }}
                 </div>
             </div>
