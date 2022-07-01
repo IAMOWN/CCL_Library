@@ -54,7 +54,6 @@ from users.models import (
 )
 
 
-
 # ####################### CONSTANTS #######################
 DOMAIN = settings.DOMAIN
 FROM_EMAIL = 'info@lanesflow.io'
@@ -100,7 +99,7 @@ EMAIL_MESSAGE_2 = '''
                     </html>
 '''
 LIBRARY_TASK_URL = 'https://cosmicchrist.love/tasks/library/'
-DIGITAL_LIBRARIAN_GROUP_NAME = 'Digital Librarians'
+DIGITAL_LIBRARIAN_GROUP_NAME = 'Librarians'
 
 # ####################### FUNCTIONS #######################
 def get_current_year():
