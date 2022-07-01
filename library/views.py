@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-
+from django.core.mail import send_mail
 # from django.db.models import Case, F, Q, Value, When, DateTimeField
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
@@ -15,6 +15,7 @@ from django.views.generic.edit import (
     UpdateView,
     DeleteView,
 )
+from django.contrib.auth.models import User
 
 from .models import (
     Tag,
@@ -52,15 +53,71 @@ from users.models import (
     Profile,
 )
 
+
+
+# ####################### CONSTANTS #######################
 DOMAIN = settings.DOMAIN
+FROM_EMAIL = 'info@lanesflow.io'
+EMAIL_MESSAGE_1 = '''
+                    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                    <html xmlns="http://www.w3.org/1999/xhtml">
+                      <head>
+                      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                      <title>Whurthy Notification</title>
+                      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                    </head>
+                    <body style="margin: 0; padding: 0;">
+                      <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border: none; border-collapse: collapse; font-family:  Arial, sans-serif; font-size: 14px; line-height: 1.5;">
+                        <tbody>
+                          <tr>
+                            <td style="width: 100%;">
+                              <div style="text-align: left;">
+                                <img src="https://cdn.cosmicchrist.love/ccl-library-static/CCL_Library/Soul%20Synthesis%20Email%20Header.png" alt="Soul Synthesis email header banner" width: 600px;"/>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="ms-rteTableEvenCol-0" align="left">
+                              <div>
+                                <p>
+                                <span style="color: #000000; background-color: transparent; font-family: arial;">
+'''
+EMAIL_MESSAGE_2 = '''
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="width: 100%;">
+                              <div style="text-align: left;">
+                                <img src="https://cdn.cosmicchrist.love/ccl-library-static/CCL_Library/Soul%20Synthesis%20Email%20Footer%20-%2072.png" alt="Whurthy email header banner" width: 600px;"/>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </body>
+                    </html>
+'''
+LIBRARY_TASK_URL = 'https://cosmicchrist.love/tasks/library/'
+DIGITAL_LIBRARIAN_GROUP_NAME = 'Digital Librarians'
 
-
-# FUNCTIONS
+# ####################### FUNCTIONS #######################
 def get_current_year():
     return datetime.now().year
 
 def get_current_date():
     return datetime.now().date()
+
+def send_email(subject, to_email, message):
+    send_mail(
+        subject,
+        message,
+        FROM_EMAIL,
+        [to_email],
+        fail_silently=False,
+        html_message=message,
+    )
 
 
 # ####################### TAG VIEWS #######################
@@ -1798,6 +1855,23 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 task_history_log=history_log,
                 assigned_service_group=service_group,
             )
+
+        digital_librarians = User.objects.filter(groups__name=DIGITAL_LIBRARIAN_GROUP_NAME)
+        for librarian in digital_librarians:
+            print(f'Emailing: {librarian.profile.spiritual_name}...')
+            email_address = librarian.email
+            email_subject = f'[CCL NOTIFY] A Record Observation has been submitted by {observer}'
+            email_message = f"""
+            {EMAIL_MESSAGE_1}
+            Beloved {librarian.profile.spiritual_name},<p>
+            {observer} has submitted a Library Observation, {form.instance.title}.<p> 
+            Please review <a href='{LIBRARY_TASK_URL}'>Library Tasks</a> at your earliest convenience.<p>
+            Note: It is possible that another Dear Soul may respond to this task before you do. When reviewing the task 
+            check the task status and the Assigned Dear Soul.<p>
+            Love and Blessings
+            {EMAIL_MESSAGE_2}
+            """
+            send_email(email_subject, email_address, email_message)
 
         messages.add_message(
             self.request,

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.conf import settings
-
+from django.core.mail import send_mail
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -33,14 +33,68 @@ from users.models import (
     Profile,
 )
 
+# ####################### CONSTANTS #######################
 DOMAIN = settings.DOMAIN
+FROM_EMAIL = 'info@lanesflow.io'
 
-# FUNCTIONS
+EMAIL_MESSAGE_1 = '''
+                    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                    <html xmlns="http://www.w3.org/1999/xhtml">
+                      <head>
+                      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                      <title>Whurthy Notification</title>
+                      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                    </head>
+                    <body style="margin: 0; padding: 0;">
+                      <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border: none; border-collapse: collapse; font-family:  Arial, sans-serif; font-size: 14px; line-height: 1.5;">
+                        <tbody>
+                          <tr>
+                            <td style="width: 100%;">
+                              <div style="text-align: left;">
+                                <img src="https://django-whurthy.s3.us-west-1.amazonaws.com/whurthy-static/Whurthy-emailheader-600x150px.png" alt="Whurthy email header banner" width: 600px;"/>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="ms-rteTableEvenCol-0" align="left">
+                              <div>
+                                <p>
+                                <span style="color: #000000; background-color: transparent; font-family: arial;">
+'''
+EMAIL_MESSAGE_2 = '''
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="width: 100%;">
+                              <div style="text-align: left;">
+                                <img src="https://django-whurthy.s3.us-west-1.amazonaws.com/whurthy-static/Whurthy-emailfooter-600x125px.png" alt="Whurthy email header banner" width: 600px;"/>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </body>
+                    </html>
+'''
+
+# ####################### FUNCTIONS #######################
 def get_current_year():
     return datetime.now().year
 
 def get_current_date():
     return datetime.now().date()
+
+def send_email(subject, to_email, message):
+    send_mail(
+        subject,
+        message,
+        FROM_EMAIL,
+        [to_email],
+        fail_silently=False,
+        html_message=message,
+    )
 
 
 # ####################### TASK VIEWS #######################
@@ -435,6 +489,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         library_task = form.save(commit=False)
         if form.instance.task_status == 'Completed':
+
             if form.instance.book_text_impacted == 'Yes':
                 if library_task.actions_taken == "":
                     form.add_error(
@@ -442,9 +497,6 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                         'Please enter the actions taken as a part of completing this task.'
                     )
                     return self.form_invalid(form)
-
-                print("#1 BRANCH successful")
-
                 library_task.date_completed = get_current_date()
                 library_task.task_history_log = library_task.task_history_log + f'''>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{library_task.assigned_profile}</strong> on <strong>{get_current_date()}</strong>.<br>
                 Date completed: <strong>{library_task.date_completed}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}<p>
@@ -487,7 +539,6 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                         'Please enter the actions taken as a part of completing this task.'
                     )
                     return self.form_invalid(form)
-                print("#2 BRANCH successful")
 
                 library_task.date_completed = get_current_date()
                 library_task.task_history_log = library_task.task_history_log + f'''>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{library_task.assigned_profile}</strong> on <strong>{get_current_date()}</strong>.<br>
@@ -497,7 +548,6 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             library_task.save(update_fields=['task_history_log','date_completed',])
 
         else:
-            print("#3 BRANCH successful")
             library_task.task_history_log = library_task.task_history_log + f'''>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{library_task.assigned_profile}</strong> on <strong>{get_current_date()}</strong>.<br>
             Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}<p>
             '''
