@@ -518,12 +518,8 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 <li>Make adjustments to any related DOCX or PDF files stored for the purposes of book editing.</li>
                 <li>When all elements of this task have been addressed please change Task Status to Completed.</li>
                 </ul>
-                <strong>Librarian: </strong>{library_task.assigned_profile}
-                <hr>
-                <h6>Preceeding Library task description</h6>
-                {library_task.task_description}<p>
-                <h6>Preceeding actions taken</h6>
-                {library_task.actions_taken}<hr>'''
+                <strong>Librarian: </strong>{library_task.assigned_profile}'''
+
 
                 created_task = Task.objects.create(
                     task_title=f'Check Files related to Library Observation',
@@ -533,6 +529,8 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     assigned_service_group=service_group,
                     related_task=related_task,
                     library_record=library_task.library_record,
+                    library_task_description=library_task.task_description,
+                    library_task_actions_taken=library_task.actions_taken,
                 )
                 created_task.save()
 

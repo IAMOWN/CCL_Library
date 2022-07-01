@@ -1866,7 +1866,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             {observer} has submitted a "{observation_type}" Library Observation.<p> 
             Please review the <a href='{LIBRARY_TASK_URL}'>Library Tasks</a> at your earliest convenience.<p>
             Note: It is possible that another Librarian may respond to this task before you do. When reviewing the task 
-            be sure check the task status as well as the Assigned Dear Soul for the task.<p>
+            be sure to check the task status as well as the Assigned Dear Soul for the task.<p>
             Love and Blessings
             {EMAIL_MESSAGE_2}
             """

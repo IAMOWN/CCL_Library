@@ -172,6 +172,16 @@ class Task(models.Model):
         blank=True,
         related_name='library_record_in_task',
     )
+    library_task_description = HTMLField(
+        default='',
+        blank=True,
+        null=True,
+    )
+    library_task_actions_taken = HTMLField(
+        default='',
+        blank=True,
+        null=True,
+    )
     book_text_impacted = models.CharField(
         choices=YES_NO_CHOICES,
         null=True,
@@ -179,10 +189,8 @@ class Task(models.Model):
         max_length=10,
         default='---',
         help_text='''Select "Yes" if you believe that the changes made will also need to be made in book files. Select 
-        "No" if you believe that this observation only has an impact in the Library Record. For example, if there is 
-        a typo where the "ENEDICTION" required correction to "BENEDICTION" then this would unlikely be an error in the 
-        book files, and was likely caused by a copy and paste error when the record was uploaded. If you are uncertain 
-        if the book text will be impacted select "Yes".'''
+        "No" if you believe that this observation only has an impact in the Library Record. For example, if a hyperlink 
+        is broken this would have no impact upon book copy. If you are uncertain if the book text will be impacted select "Yes".'''
     )
     task_history_log = HTMLField(
         default='',
