@@ -79,6 +79,7 @@ EMAIL_MESSAGE_2 = '''
                     </body>
                     </html>
 '''
+LIBRARY_TASK_URL = 'https://cosmicchrist.love/tasks/library/'
 BOOK_EDITOR_GROUP_NAME = 'Book Editors'
 
 # ####################### FUNCTIONS #######################
