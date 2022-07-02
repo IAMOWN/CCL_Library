@@ -190,6 +190,11 @@ class Task(models.Model):
         blank=True,
         null=True,
     )
+    book_urls_for_record = HTMLField(
+        default='',
+        blank=True,
+        null=True,
+    )
     book_text_impacted = models.CharField(
         choices=YES_NO_CHOICES,
         null=True,

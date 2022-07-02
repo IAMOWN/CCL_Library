@@ -1783,6 +1783,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 assigned_service_group=service_group,
                 library_record=record,
                 library_observation=observation_obj,
+                book_urls_for_record=record.book_urls,
             )
         elif observation_type == 'Missing Image':
             history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p><br>'''
@@ -1812,6 +1813,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 task_history_log=history_log,
                 assigned_service_group=service_group,
                 library_observation=observation_obj,
+                book_urls_for_record=record.book_urls,
             )
         elif observation_type == 'Broken Link':
             history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p><br>'''
@@ -1841,6 +1843,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 task_history_log=history_log,
                 assigned_service_group=service_group,
                 library_observation=observation_obj,
+                book_urls_for_record=record.book_urls,
             )
         elif observation_type == 'Other':
             history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p><br>'''
@@ -1870,6 +1873,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 task_history_log=history_log,
                 assigned_service_group=service_group,
                 library_observation=observation_obj,
+                book_urls_for_record=record.book_urls,
             )
 
         digital_librarians = User.objects.filter(groups__name=DIGITAL_LIBRARIAN_GROUP_NAME)
