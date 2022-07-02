@@ -134,3 +134,14 @@ def librian_training(request):
     }
 
     return render(request, 'librarian_training.html', context)
+
+
+# ####################### Release Notes #######################
+@login_required
+def release_notes(request):
+    context = {
+        'title': 'Release Notes',
+        'year': get_current_year(),
+    }
+
+    return render(request, 'release_notes.html', context)
