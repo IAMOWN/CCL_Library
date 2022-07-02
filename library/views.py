@@ -1785,7 +1785,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 library_observation=observation_obj,
                 book_urls_for_record=record.book_urls,
             )
-        elif observation_type == 'Missing Image':
+        elif observation_type == 'Image':
             history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p><br>'''
             form.instance.observer = observer_obj
             form.instance.library_record = record

@@ -49,7 +49,7 @@ READING_PROGRESS = [
 
 OBSERVATION_TYPE = [
     ('Typo', 'Typo'),
-    ('Missing Image', 'Missing Image'),
+    ('Image', 'Image'),
     ('Broken Link', 'Broken Link'),
     ('Other', 'Other'),
 ]
