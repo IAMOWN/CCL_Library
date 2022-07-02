@@ -511,7 +511,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 service_group = ServiceGroup.objects.get(service_group='Book Editors')
                 related_task = Task.objects.get(id=self.kwargs['pk'])
 
-                library_record_title = Task.objects.get(id=self.kwargs['id']).library_record
+                library_record_title = Task.objects.get(id=self.kwargs['pk']).library_record
                 print(f'library_record_title: {library_record_title}')
                 book_urls = LibraryRecord.objects.get(title=library_record_title).book_urls
 
