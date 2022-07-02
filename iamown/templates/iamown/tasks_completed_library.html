@@ -17,14 +17,14 @@
         <div class="row">
             <div class="col-lg-12">
                 {% if completed_tasks_count > 0 %}
-                    <p>There {{ tasks_count|pluralize:"is,are" }} currently {{ completed_tasks_count|intcomma }} completed Library task{{ completed_tasks_count|pluralize:"s" }}.</p>
+                    <p>There {{ completed_tasks_count|pluralize:"is,are" }} currently {{ completed_tasks_count|intcomma }} completed Library task{{ completed_tasks_count|pluralize:"s" }}.</p>
                 {% else %}
-                    <p>There are currently no Library completed tasks.</p>
+                    <p>There are currently no completed Library tasks.</p>
                 {% endif %}
-                {% if tasks_count == 0 %}
-                    <p>There {{ tasks_count|pluralize:"is,are" }} currently no <a class="text-CCL-Blue" href="{% url 'tasks-library' %}">active Library tasks</a>.</p>
-                {% elif tasks_count > 0 %}
-                    <p>There {{ tasks_count|pluralize:"is,are" }} currently <a class="text-CCL-Blue" href="{% url 'tasks-library' %}">{{ tasks_count|intcomma }} active Library task{{ tasks_count|pluralize:"s" }}</a>.</p>
+                {% if active_tasks_count == 0 %}
+                    <p>There are currently no <a class="text-CCL-Blue" href="{% url 'tasks-library' %}">active Library tasks</a>.</p>
+                {% elif active_tasks_count > 0 %}
+                    <p>There {{ active_tasks_count|pluralize:"is,are" }} currently <a class="text-CCL-Blue" href="{% url 'tasks-library' %}">{{ active_tasks_count|intcomma }} active Library task{{ active_tasks_count|pluralize:"s" }}</a>.</p>
                 {% endif %}
             </div>
         </div>

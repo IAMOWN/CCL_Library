@@ -423,7 +423,7 @@ class TaskLibraryCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView
         )
         context['tasks'] = tasks
         context['completed_tasks_count'] = tasks.count()
-        context['tasks_count'] = Task.objects.filter(
+        context['active_tasks_count'] = Task.objects.filter(
             task_type='Library Observation',
         ).exclude(task_status='Completed').count()
         context['title'] = 'Completed Library Tasks'
