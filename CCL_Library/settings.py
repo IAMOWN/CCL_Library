@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'library.apps.LibraryConfig',
     'users.apps.UsersConfig',
     'home.apps.HomeConfig',
+    # 'admin_honeypot',
     'crispy_forms',
     'crispy_bootstrap5',
     'bootstrap4',
@@ -94,11 +95,17 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT'),
+        # 'NAME': os.environ.get('DB_NAME'),
+        # 'USER': os.environ.get('DB_USER'),
+        # 'PASSWORD': os.environ.get('DB_PASSWORD'),
+        # 'HOST': os.environ.get('DB_HOST'),
+        # 'PORT': os.environ.get('DB_PORT'),
+
+        'NAME': 'SoulSynthesis',
+        'HOST': 'db-postgresql-nyc3-144000-do-user-11428500-0.b.db.ondigitalocean.com',
+        'PORT': 25060,
+        'USER': 'SoulSynthesis',
+        'PASSWORD': 'AVNS_5vMBcPB8izLT5ML4NwV',
 
     }
 }
