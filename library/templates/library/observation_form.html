@@ -48,12 +48,16 @@
 
 {% endblock %}
 {% block content %}
-    <section class="content-section pt-2">
-    {% if page_type == 'Update' %}
-        <h3><strong>Edit Library Observation: {{ tag.tag }}</strong> </h3>
-    {% else %}
-        <h3><strong>Submit A Library Observation</strong></h3>
-    {% endif %}
+    <section class="content-section">
+    <div class="row">
+        <div class="col-lg-12 pt-2">
+        {% if page_type == 'Update' %}
+            <h3><strong>Edit Library Observation: {{ tag.tag }}</strong> </h3>
+        {% else %}
+            <h3 class="pt-2"><strong>Submit A Library Observation</strong></h3>
+        {% endif %}
+        </div>
+    </div>
     </section>
     <section class="content-section">
     {% if form.errors %}
