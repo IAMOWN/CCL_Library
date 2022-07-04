@@ -538,20 +538,21 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
                 book_editors = User.objects.filter(groups__name=BOOK_EDITOR_GROUP_NAME)
                 for editor in book_editors:
-                    email_address = editor.email
-                    email_subject = f'[CCL NOTIFY] A corrected Library observation has been marked as having an impact on book text.'
-                    email_message = f"""
-                    {EMAIL_MESSAGE_1}
-                    Beloved {editor.profile.spiritual_name},<p>
-                    A Library Observation has just been completed, and has been marked as having an impact on book text 
-                    related to the Library record.<p> 
-                    Please review the <a href='{LIBRARY_TASK_URL}'>Library Tasks</a> at your earliest convenience.<p>
-                    Note: It is possible that another Book Editor may respond to this task before you do. When 
-                    reviewing the task be sure check the task status as well as the Assigned Dear Soul for the task.<p>
-                    Love and Blessings
-                    {EMAIL_MESSAGE_2}
-                    """
-                    send_email(email_subject, email_address, email_message)
+                    if editor.profile.notification_preference == 'EMail':
+                        email_address = editor.email
+                        email_subject = f'[CCL] A corrected Library observation has been marked as having an impact on book text.'
+                        email_message = f"""
+                        {EMAIL_MESSAGE_1}
+                        Beloved {editor.profile.spiritual_name},<p>
+                        A Library Observation has just been completed, and has been marked as having an impact on book text 
+                        related to the Library record.<p> 
+                        Please review the <a href='{LIBRARY_TASK_URL}'>Library Tasks</a> at your earliest convenience.<p>
+                        Note: It is possible that another Book Editor may respond to this task before you do. When 
+                        reviewing the task be sure check the task status as well as the Assigned Dear Soul for the task.<p>
+                        Love and Blessings
+                        {EMAIL_MESSAGE_2}
+                        """
+                        send_email(email_subject, email_address, email_message)
 
             else:
                 if library_task.actions_taken == "":

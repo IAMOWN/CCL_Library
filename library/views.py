@@ -1878,19 +1878,20 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
 
         digital_librarians = User.objects.filter(groups__name=DIGITAL_LIBRARIAN_GROUP_NAME)
         for librarian in digital_librarians:
-            email_address = librarian.email
-            email_subject = f'[CCL NOTIFY] A Record Observation has been submitted by {observer}'
-            email_message = f"""
-            {EMAIL_MESSAGE_1}
-            Beloved {librarian.profile.spiritual_name},<p>
-            {observer} has submitted a "{observation_type}" Library Observation.<p> 
-            Please review the <a href='{LIBRARY_TASK_URL}'>Library Tasks</a> at your earliest convenience.<p>
-            Note: It is possible that another Librarian may respond to this task before you do. When reviewing the task 
-            be sure to check the task status as well as the Assigned Dear Soul for the task.<p>
-            Love and Blessings
-            {EMAIL_MESSAGE_2}
-            """
-            send_email(email_subject, email_address, email_message)
+            if librarian.profile.notification_preference == 'Email':
+                email_address = librarian.email
+                email_subject = f'[CCL] A Record Observation has been submitted by {observer}'
+                email_message = f"""
+                {EMAIL_MESSAGE_1}
+                Beloved {librarian.profile.spiritual_name},<p>
+                {observer} has submitted a "{observation_type}" Library Observation.<p> 
+                Please review the <a href='{LIBRARY_TASK_URL}'>Library Tasks</a> at your earliest convenience.<p>
+                Note: It is possible that another Librarian may respond to this task before you do. When reviewing the task 
+                be sure to check the task status as well as the Assigned Dear Soul for the task.<p>
+                Love and Blessings
+                {EMAIL_MESSAGE_2}
+                """
+                send_email(email_subject, email_address, email_message)
 
         messages.add_message(
             self.request,
