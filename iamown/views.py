@@ -98,7 +98,6 @@ def send_email(subject, to_email, message):
         fail_silently=False,
         html_message=message,
     )
-    print(f'Email sent to: {to_email}')
     return
 
 
