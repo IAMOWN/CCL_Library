@@ -98,6 +98,8 @@ def send_email(subject, to_email, message):
         fail_silently=False,
         html_message=message,
     )
+    print(f'Email sent to: {to_email}')
+    return
 
 
 # ####################### TASK VIEWS #######################
@@ -544,6 +546,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     print(f"editor.profile.notification_preference: {editor.profile.notification_preference}")
                     if editor.profile.notification_preference == 'EMail':
                         email_address = editor.email
+                        print(f'editor.email: {editor.email}')
                         email_subject = f'[CCL] A corrected Library observation has been marked as having an impact on book text.'
                         email_message = f"""
                         {EMAIL_MESSAGE_1}
