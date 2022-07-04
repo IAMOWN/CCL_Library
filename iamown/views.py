@@ -83,9 +83,6 @@ LIBRARY_TASK_URL = 'https://cosmicchrist.love/tasks/library/'
 BOOK_EDITOR_GROUP_NAME = 'Book Editors'
 
 # ####################### FUNCTIONS #######################
-def get_current_year():
-    return datetime.now().year
-
 def get_current_date():
     return datetime.now().date()
 
@@ -95,7 +92,7 @@ def send_email(subject, to_email, message):
         message,
         FROM_EMAIL,
         [to_email],
-        fail_silently=False,
+        fail_silently=True,
         html_message=message,
     )
     return
@@ -618,7 +615,6 @@ class ServiceGroupList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['year'] = get_current_year()
         context['title'] = 'EGA Service Groups'
 
         return context
@@ -637,7 +633,6 @@ class ServiceGroupDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['year'] = get_current_year()
         context['title'] = f"EGA Service Group: {ServiceGroup.objects.get(pk=self.kwargs['pk'])}"
 
         service_group = ServiceGroup.objects.get(id=self.kwargs['pk'])
@@ -673,7 +668,6 @@ class ServiceGroupCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     def get_context_data(self, *args, **kwargs):
         context = super(ServiceGroupCreate, self).get_context_data(**kwargs)
         context['page_type'] = 'Create'
-        context['year'] = get_current_year()
 
         return context
 
@@ -701,7 +695,6 @@ class ServiceGroupUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_context_data(self, *args, **kwargs):
         context = super(ServiceGroupUpdate, self).get_context_data(**kwargs)
         context['page_type'] = 'Update'
-        context['year'] = get_current_year()
 
         return context
 
@@ -719,6 +712,5 @@ class ServiceGroupDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ServiceGroupDelete, self).get_context_data(**kwargs)
-        context['year'] = get_current_year()
 
         return context

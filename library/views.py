@@ -103,9 +103,6 @@ DIGITAL_LIBRARIAN_GROUP_NAME = 'Librarians'
 SOUL_SYNTHESIS_S3_STORAGE = 'https://cloud.digitalocean.com/spaces/soul-synthesis-storage?i=1420f9'
 
 # ####################### FUNCTIONS #######################
-def get_current_year():
-    return datetime.now().year
-
 def get_current_date():
     return datetime.now().date()
 
@@ -115,7 +112,7 @@ def send_email(subject, to_email, message):
         message,
         FROM_EMAIL,
         [to_email],
-        fail_silently=False,
+        fail_silently=True,
         html_message=message,
     )
 
@@ -133,7 +130,6 @@ class TagList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['year'] = get_current_year()
         context['title'] = 'Library Record Tags'
 
         return context
@@ -152,7 +148,6 @@ class TagDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['year'] = get_current_year()
         context['title'] = f"Tag: {Tag.objects.get(pk=self.kwargs['pk'])}"
 
         return context
@@ -182,7 +177,6 @@ class TagCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     def get_context_data(self, *args, **kwargs):
         context = super(TagCreate, self).get_context_data(**kwargs)
         context['page_type'] = 'Create'
-        context['year'] = get_current_year()
 
         return context
 
@@ -201,8 +195,6 @@ class TagUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_context_data(self, *args, **kwargs):
         context = super(TagUpdate, self).get_context_data(**kwargs)
         context['page_type'] = 'Update'
-        context['year'] = get_current_year()
-
         return context
 
 
@@ -224,7 +216,6 @@ class TagDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         records_with_tag = LibraryRecord.objects.filter(tags__tag=tag_to_delete)
         context['records_with_tag'] = records_with_tag
         context['records_with_tag_count'] = records_with_tag.count()
-        context['year'] = get_current_year()
 
         return context
 
@@ -242,7 +233,6 @@ class CollectionList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['year'] = get_current_year()
         context['title'] = 'Library Collections'
 
         return context
@@ -261,7 +251,6 @@ class CollectionDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['year'] = get_current_year()
         context['title'] = f"Collection: {Collection.objects.get(pk=self.kwargs['pk'])}"
 
         return context
@@ -291,7 +280,6 @@ class CollectionCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     def get_context_data(self, *args, **kwargs):
         context = super(CollectionCreate, self).get_context_data(**kwargs)
         context['page_type'] = 'Create'
-        context['year'] = get_current_year()
 
         return context
 
@@ -310,7 +298,6 @@ class CollectionUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_context_data(self, *args, **kwargs):
         context = super(CollectionUpdate, self).get_context_data(**kwargs)
         context['page_type'] = 'Update'
-        context['year'] = get_current_year()
 
         return context
 
@@ -339,7 +326,6 @@ class CollectionDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         context['library_records_with_collection'] = library_records_with_collection
         context['library_records_with_collection_count'] = record_count
         context['collection_id'] = self.kwargs['pk']
-        context['year'] = get_current_year()
 
         return context
 
@@ -357,7 +343,6 @@ class DiscourseSeriesList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['year'] = get_current_year()
         context['title'] = 'Library Record Discourse Series Titles'
 
         return context
@@ -376,7 +361,6 @@ class DiscourseSeriesDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['year'] = get_current_year()
         context['title'] = f"Discourse Series: {DiscourseSeries.objects.get(pk=self.kwargs['pk'])}"
 
         return context
@@ -405,7 +389,6 @@ class DiscourseSeriesCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView)
     def get_context_data(self, *args, **kwargs):
         context = super(DiscourseSeriesCreate, self).get_context_data(**kwargs)
         context['page_type'] = 'Create'
-        context['year'] = get_current_year()
 
         return context
 
@@ -424,7 +407,6 @@ class DiscourseSeriesUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
     def get_context_data(self, *args, **kwargs):
         context = super(DiscourseSeriesUpdate, self).get_context_data(**kwargs)
         context['page_type'] = 'Update'
-        context['year'] = get_current_year()
 
         return context
 
@@ -447,7 +429,6 @@ class DiscourseSeriesDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView)
         records_with_series = LibraryRecord.objects.filter(discourse_series__discourse_series=series_to_delete)
         context['records_with_series'] = records_with_series
         context['records_with_series_count'] = records_with_series.count()
-        context['year'] = get_current_year()
 
         return context
 
@@ -465,7 +446,6 @@ class CosmicAuthorList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['year'] = get_current_year()
         context['title'] = 'Masters'
 
         return context
@@ -484,7 +464,6 @@ class CosmicAuthorDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['year'] = get_current_year()
         context['title'] = f"Master: {CosmicAuthor.objects.get(pk=self.kwargs['pk'])}"
 
         return context
@@ -513,7 +492,6 @@ class CosmicAuthorCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     def get_context_data(self, *args, **kwargs):
         context = super(CosmicAuthorCreate, self).get_context_data(**kwargs)
         context['page_type'] = 'Create'
-        context['year'] = get_current_year()
 
         return context
 
@@ -532,7 +510,6 @@ class CosmicAuthorUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_context_data(self, *args, **kwargs):
         context = super(CosmicAuthorUpdate, self).get_context_data(**kwargs)
         context['page_type'] = 'Update'
-        context['year'] = get_current_year()
 
         return context
 
@@ -557,7 +534,6 @@ class CosmicAuthorDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         context['records_with_master'] = records_with_master
         context['records_with_master_count'] = records_with_master.count() + records_with_supporting_master.count()
         context['records_with_supporting_master'] = records_with_supporting_master
-        context['year'] = get_current_year()
 
         return context
 
@@ -573,7 +549,6 @@ class LibraryRecordList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['year'] = get_current_year()
         context['title'] = 'Library Records'
 
         return context
@@ -593,7 +568,6 @@ class BooksList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['year'] = get_current_year()
         context['title'] = 'EGA Books'
         context['page_type'] = 'Books'
 
@@ -614,7 +588,6 @@ class CosmicReviewsList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['year'] = get_current_year()
         context['title'] = 'EGA Cosmic Reviews'
         context['page_type'] = 'Cosmic Reviews'
 
@@ -635,7 +608,6 @@ class DiscoursesList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['year'] = get_current_year()
         context['title'] = 'EGA Discourses'
         context['page_type'] = 'Discourses'
 
@@ -656,7 +628,6 @@ class InvocationsList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['year'] = get_current_year()
         context['title'] = 'EGA Invocations'
         context['page_type'] = 'Invocations'
 
@@ -677,7 +648,6 @@ class PetitionsList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['year'] = get_current_year()
         context['title'] = 'EGA Petitions'
         context['page_type'] = 'Petitions'
 
@@ -692,7 +662,6 @@ class LibraryRecordDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['year'] = get_current_year()
         current_date = datetime.now().date()
 
         record_title = LibraryRecord.objects.get(id=self.kwargs['pk']).title
@@ -902,7 +871,6 @@ class SeriesBootCampList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['year'] = get_current_year()
         context['title'] = 'Boot Camp Alchemy Class Discourse Series'
         context['page_type'] = 'Discourses'
 
@@ -949,7 +917,6 @@ class CollectionTrueConstitutionList(ListView):
                     )
                     new_reading_progress_obj.save()
 
-        context['year'] = get_current_year()
         context['title'] = "The True Constitution Collection"
 
         return context
@@ -988,7 +955,6 @@ class CollectionENACAList(ListView):
                     )
                     new_reading_progress_obj.save()
 
-        context['year'] = get_current_year()
         context['title'] = 'The ENACA (Earth Nuclear And Chemical Affairs) Collection'
 
         return context
@@ -1035,7 +1001,6 @@ class CollectionIAMFreedomList(ListView):
                     )
                     new_reading_progress_obj.save()
 
-        context['year'] = get_current_year()
         context['title'] = "The St Germain 'I AM' Freedom Alchemy Class Collection"
 
         return context
@@ -1074,7 +1039,6 @@ class CollectionGESARAList(ListView):
                     )
                     new_reading_progress_obj.save()
 
-        context['year'] = get_current_year()
         context['title'] = 'The GESARA (Global Economic Security and Reformation Act) Collection'
 
         return context
@@ -1098,7 +1062,6 @@ class LibraryRecordCreate(LoginRequiredMixin, CreateView):
     def get_context_data(self, *args, **kwargs):
         context = super(LibraryRecordCreate, self).get_context_data(**kwargs)
         context['page_type'] = 'Create'
-        context['year'] = get_current_year()
 
         return context
 
@@ -1121,7 +1084,6 @@ class LibraryRecordUpdate(LoginRequiredMixin, UpdateView):
     def get_context_data(self, *args, **kwargs):
         context = super(LibraryRecordUpdate, self).get_context_data(**kwargs)
         context['page_type'] = 'Update'
-        context['year'] = get_current_year()
 
         return context
 
@@ -1139,7 +1101,6 @@ class LibraryRecordDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(LibraryRecordDelete, self).get_context_data(**kwargs)
-        context['year'] = get_current_year()
 
         return context
 
@@ -1522,7 +1483,6 @@ class SearchView(ListView):
         context['collections'] = Collection.objects.all().order_by('collection')
         context['same_day_search'] = same_day_search
 
-        context['year'] = get_current_year()
         context['title'] = 'Search the Library'
 
         return context
@@ -1704,7 +1664,6 @@ class ReadingList(LoginRequiredMixin, ListView):
         else:
             context['records_exist'] = False
 
-        context['year'] = get_current_year()
         context['title'] = 'Reading List'
 
         return context
@@ -1718,7 +1677,6 @@ class ReadingListItemDelete(LoginRequiredMixin, DeleteView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ReadingListItemDelete, self).get_context_data(**kwargs)
-        context['year'] = get_current_year()
         context['title'] = 'Delete Reading List Item'
 
         return context
