@@ -493,8 +493,10 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def form_valid(self, form):
         library_task = form.save(commit=False)
+        print(f'form.instance.task_status: {form.instance.task_status}')
         if form.instance.task_status == 'Completed':
 
+            print(f'form.instance.book_text_impacted: {form.instance.book_text_impacted}')
             if form.instance.book_text_impacted == 'Yes':
                 if library_task.actions_taken == "":
                     form.add_error(
@@ -537,7 +539,9 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 created_task.save()
 
                 book_editors = User.objects.filter(groups__name=BOOK_EDITOR_GROUP_NAME)
+                print(f"book_editors: {book_editors}")
                 for editor in book_editors:
+                    print(f"editor.profile.notification_preference: {editor.profile.notification_preference}")
                     if editor.profile.notification_preference == 'EMail':
                         email_address = editor.email
                         email_subject = f'[CCL] A corrected Library observation has been marked as having an impact on book text.'
