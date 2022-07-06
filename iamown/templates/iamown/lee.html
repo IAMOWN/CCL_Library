@@ -5,30 +5,23 @@
 {% endblock %}
 {% block content %}
     <div class="content-section">
-        <div class="media-body">
-            <div>
-                <h3><strong>Learned Experience Engine (LEE)</strong></h3>
-            </div>
+        <div>
+            <h3><strong>Learned Experience Engine (LEE)</strong></h3>
         </div>
     </div>
-    {% if user.is_superuser %}
     <div class="content-section">
-        <div class="media-body pt-2 pb-2">
-            <div class="row">
-                <div class="col-lg-3">
-                    <a class="btn btn-CCL-Blue col-12" href="{% url 'lee-create' %}">Create LEE Entry</a>
-                </div>
+        <div class="row pt-2 pb-2">
+            <div class="col-lg-3">
+                <a class="btn btn-CCL-Blue col-12" href="{% url 'lee-create' %}">Create LEE Entry</a>
             </div>
         </div>
     </div>
-    {% endif %}
 
     <article class="content-section">
-    {% endif %}
         <div class="pb-2">
             <div>
                 <h5><strong>Filter LEE</strong></h5>
-                <form method="get" class="">
+                <form method="get">
                     <div class="row">
                         <div class="col-lg-3 pb-2">
                             <button type="submit" class="btn btn-outline-CCL-Blue col-12">Filter LEE</button>
@@ -67,49 +60,50 @@
                         {% if search_count == 0 %}
                             <p class="text-danger">There are no entries with "{{ search_entered }}" in the field, Task Name.</p>
                         {% else %}
-                            <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} entr{% if search_count == 1 %}y{% else %}ies{% endif %} with "{{ search_entered }}" in the field, Task Name.</p>
+                            <p class="text-CCL-Blue">There {{ search_count|pluralize:"is,are" }} {{ search_count }} entr{{ search_count|pluralize:"y,ies" }} with "{{ search_entered }}" in the field, Task Name.</p>
                         {% endif %}
                     {% elif search_type == 'App' %}
                         {% if search_count == 0 %}
                             <p class="text-danger">There are no entries with "{{ search_entered }}" in the field, Applications.</p>
                         {% else %}
-                            <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} entr{% if search_count == 1 %}y{% else %}ies{% endif %} with "{{ search_entered }}" in the field, Application.</p>
+                            <p class="text-CCL-Blue">There {{ search_count|pluralize:"is,are" }} {{ search_count }} entr{{ search_count|pluralize:"y,ies" }} with "{{ search_entered }}" in the field, Application.</p>
                         {% endif %}
                     {% elif search_type == 'Owner' %}
                         {% if search_count == 0 %}
                             <p class="text-danger">There are no entries with "{{ search_entered }}" in the field, Responsible For Entry.</p>
                         {% else %}
-                            <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} entr{% if search_count == 1 %}y{% else %}ies{% endif %} with "{{ search_entered }}" in the field, Responsible For Entry.</p>
+                            <p class="text-CCL-Blue">There {{ search_count|pluralize:"is,are" }} {{ search_count }} entr{{ search_count|pluralize:"y,ies" }} with "{{ search_entered }}" in the field, Responsible For Entry.</p>
                         {% endif %}
                     {% endif %}
                 {% endif %}
             </div>
         </div>
     </article>
+
     <div class="content-section d-none d-xl-block">
-        <div class="media-body">
-            <div class="row">
-                <div class="col-lg-3">
-                    <h6><strong>Task Name</strong></h6>
-                </div>
-                <div class="col-lg-3">
-                    <h6><strong>Application</strong></h6>
-                </div>
-                <div class="col-lg-3">
-                    <h6><strong>Responsible</strong></h6>
-                </div>
-                <div class="col-lg-3">
-                    <h6><strong>Process Code</strong></h6>
-                </div>
+        <div class="row">
+            <div class="col-lg-3">
+                <h6><strong>Task Name</strong></h6>
+            </div>
+            <div class="col-lg-3">
+                <h6><strong>Application</strong></h6>
+            </div>
+            <div class="col-lg-3">
+                <h6><strong>Responsible</strong></h6>
+            </div>
+            <div class="col-lg-3">
+                <h6><strong>Process Code</strong></h6>
             </div>
         </div>
     </div>
+    
     {% for LEE_entry in LEE %}
     <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
         <div class="row">
             <div class="col-lg-3">
-                <h6><a href="{% url 'lee-entry' LEE_entry.id %}" class="text-BlueGray"><strong>{{ LEE_entry.task_name }}</strong></a>
+                <h6><a href="{% url 'lee-entry' LEE_entry.id %}" class="text-BlueGray"><strong>{{ LEE_entry.task_name }}</strong></a><h6>
             </div>
+
             <div class="col-lg-3">
                 {{ LEE_entry.application }}
             </div>
