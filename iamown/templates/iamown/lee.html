@@ -22,7 +22,7 @@
         <form method="get">
             <div class="row">
                 <div class="col-lg-3 pb-2">
-                    <button type="submit" class="btn btn-outline-CCL-Blue col-12">Filter LEE</button>
+                    <button type="submit" class="btn btn-CCL-Blue col-12">Filter LEE</button>
                 </div>
                 <div class="col-lg-3 pb-2">
                     <input
@@ -53,27 +53,31 @@
             </div>
         </form>
         {% if not search_off %}
-            {% if search_type == 'Task' %}
-                {% if search_count == 0 %}
-                    <p class="text-danger">There are no entries with "{{ search_entered }}" in the field, Task Name.</p>
-                {% else %}
-                    <p class="text-CCL-Blue">There {{ search_count|pluralize:"is,are" }} {{ search_count }} entr{{ search_count|pluralize:"y,ies" }} with "{{ search_entered }}" in the field, Task Name.</p>
+            <div class="row">
+                <div class="col-lg-9 pb-2">
+                {% if search_type == 'Task' %}
+                    {% if search_count == 0 %}
+                        <p class="text-danger">There are no entries with "{{ search_entered }}" in the field, Task Name.</p>
+                    {% else %}
+                        <p class="text-CCL-Blue">There {{ search_count|pluralize:"is,are" }} {{ search_count }} entr{{ search_count|pluralize:"y,ies" }} with "{{ search_entered }}" in the field, Task Name.</p>
+                    {% endif %}
+                {% elif search_type == 'App' %}
+                    {% if search_count == 0 %}
+                        <p class="text-danger">There are no entries with "{{ search_entered }}" in the field, Applications.</p>
+                    {% else %}
+                        <p class="text-CCL-Blue">There {{ search_count|pluralize:"is,are" }} {{ search_count }} entr{{ search_count|pluralize:"y,ies" }} with "{{ search_entered }}" in the field, Application.</p>
+                    {% endif %}
+                {% elif search_type == 'Owner' %}
+                    {% if search_count == 0 %}
+                        <p class="text-danger">There are no entries with "{{ search_entered }}" in the field, Responsible For Entry.</p>
+                    {% else %}
+                        <p class="text-CCL-Blue">There {{ search_count|pluralize:"is,are" }} {{ search_count }} entr{{ search_count|pluralize:"y,ies" }} with "{{ search_entered }}" in the field, Responsible For Entry.</p>
+                    {% endif %}
                 {% endif %}
-            {% elif search_type == 'App' %}
-                {% if search_count == 0 %}
-                    <p class="text-danger">There are no entries with "{{ search_entered }}" in the field, Applications.</p>
-                {% else %}
-                    <p class="text-CCL-Blue">There {{ search_count|pluralize:"is,are" }} {{ search_count }} entr{{ search_count|pluralize:"y,ies" }} with "{{ search_entered }}" in the field, Application.</p>
-                {% endif %}
-            {% elif search_type == 'Owner' %}
-                {% if search_count == 0 %}
-                    <p class="text-danger">There are no entries with "{{ search_entered }}" in the field, Responsible For Entry.</p>
-                {% else %}
-                    <p class="text-CCL-Blue">There {{ search_count|pluralize:"is,are" }} {{ search_count }} entr{{ search_count|pluralize:"y,ies" }} with "{{ search_entered }}" in the field, Responsible For Entry.</p>
-                {% endif %}
-            {% endif %}
-            <div class="col-lg-3 pb-2">
-                <a href="{% url 'search' %}" class="btn btn-outline-CCL-Blue col-12">Clear Search</a>
+                </div>
+                <div class="col-lg-3 pb-2">
+                    <a href="{% url 'lee' %}" class="btn btn-outline-CCL-Blue col-3 float-end">Clear Search</a>
+                </div>
             </div>
         {% endif %}
     </article>
