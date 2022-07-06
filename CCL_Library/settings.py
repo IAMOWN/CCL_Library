@@ -41,13 +41,14 @@ INSTALLED_APPS = [
     'library.apps.LibraryConfig',
     'users.apps.UsersConfig',
     'home.apps.HomeConfig',
-    # 'admin_honeypot',
+
     'crispy_forms',
     'crispy_bootstrap5',
     'bootstrap4',
     'bootstrap_datepicker_plus',
     'phone_field',
     'tinymce',
+
     'django.contrib.humanize',
     'django.contrib.admin',
     'django.contrib.auth',
