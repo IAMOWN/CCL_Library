@@ -160,7 +160,7 @@ class CreateLEEForm(forms.ModelForm):
             'process_description',
             'responsible_for_entry',
             'process_code',
-            'process_outcome'
+            'process_outcome',
             'application',
             'relevant_django_file',
         ]
@@ -180,7 +180,7 @@ class UpdateLEEForm(forms.ModelForm):
             'process_description',
             'responsible_for_entry',
             'process_code',
-            'process_outcome'
+            'process_outcome',
             'application',
             'relevant_django_file',
         ]
