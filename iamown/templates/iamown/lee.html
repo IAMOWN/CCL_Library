@@ -43,13 +43,12 @@
                     >
                 </div>
                 <div class="col-lg-3 pb-2">
-                    <input
-                            type="text"
-                            name="owner-search-area"
-                            class="button-margin-tlr form-control"
-                            value="{{ owner_search_input }}"
-                            placeholder="by Dear Soul Responsible"
-                    >
+                    <select name="owner-search-area" class="form-control">
+                        <option value="">by Dear Soul Responsible</option>
+                        {% for dear_soul in dear_souls %}
+                        <option value='{{ dear_soul.profile.spiritual_name }}'>{{ dear_soul.profile.spiritual_name }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
             </div>
         </form>
@@ -78,7 +77,7 @@
 
     <div class="content-section d-none d-xl-block">
         <div class="row pt-2">
-            <div class="col-lg-3">
+            <div class="col-lg-6">
                 <h6><strong>Task Name</strong></h6>
             </div>
             <div class="col-lg-3">
@@ -87,16 +86,13 @@
             <div class="col-lg-3">
                 <h6><strong>Responsible</strong></h6>
             </div>
-            <div class="col-lg-3">
-                <h6><strong>Process Code</strong></h6>
-            </div>
         </div>
     </div>
 
     {% for LEE_entry in LEE %}
         <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
             <div class="row pt-2">
-                <div class="col-lg-3">
+                <div class="col-lg-6">
                     <p>
                         <a href="{% url 'lee-entry' LEE_entry.id %}" class="text-CCL-Blue"><strong>{{ LEE_entry.task_name }}</strong></a>
                     </p>
@@ -106,9 +102,6 @@
                 </div>
                 <div class="col-lg-3">
                     {{ LEE_entry.responsible_for_entry }}
-                </div>
-                <div class="col-lg-3">
-                    {{ LEE_entry.process_code }}
                 </div>
             </div>
         </section>

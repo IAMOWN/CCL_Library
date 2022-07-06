@@ -114,6 +114,8 @@ class LEEListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        context['dear_souls'] = User.objects.filter(is_staff=True)
+
         context['search_off'] = True
         search_input = self.request.GET.get('search-area') or ''
         code_search_input = self.request.GET.get('code-search-area') or ''
