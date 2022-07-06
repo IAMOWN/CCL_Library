@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 from users.models import (
     Profile,
@@ -45,6 +46,12 @@ YES_NO_CHOICES = [
     ('---', '---'),
     ('No', 'No'),
     ('Yes', 'Yes'),
+]
+APPLICATION_CHOICES = [
+    ('Library', 'Library'),
+    ('IAMOWN', 'IAMOWN'),
+    ('Users', 'Users'),
+    ('Other', 'Other'),
 ]
 
 
@@ -234,3 +241,69 @@ class Task(models.Model):
     def get_absolute_url(self):
         return reverse('task', kwargs={'pk': self.pk})
         # return reverse('tasks')
+
+
+# ####################### LEE #######################
+class LEE(models.Model):
+    """
+    Learned Experience Engine model. Captures process descriptions for tasks and form errors.
+    """
+    task_name = models.CharField(
+        max_length=100,
+        default='',
+        unique=True,
+        help_text='Enter the specific task name. This should not be changed once it has been coded into the application '
+                  'as this will be used in task assignment. Do not change this value unless you know what you are doing.'
+    )
+    process_description = HTMLField(
+        default='',
+        help_text='Enter the process description for the task. Whatever is entered into this field will be the '
+                  'process description provided for the task assignment/notification to the assignee.'
+    )
+    responsible_for_entry = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='lEE_responsible_for_entry',
+        help_text='If applicable, enter the Dear Soul responsible for this entry.'
+    )
+    process_code = models.CharField(
+        max_length=12,
+        default='LIB',
+        null=True,
+        blank=True,
+        help_text="Enter the process code for this process activity. The recommended format should be abbreviations of "
+                  "the organization's name and the process name. For example, the Whurthy employee on-boarding "
+                  "process could have the process code of WON. There is a limit of 12 characters for the Process Code."
+    )
+    process_outcome = HTMLField(
+        null=True,
+        blank=True,
+        help_text='If applicable, enter a description of the outcome of this activity.'
+    )
+    application = models.CharField(
+        max_length=100,
+        default='Library',
+        choices=APPLICATION_CHOICES,
+        help_text='Please select the application that this entry applies to.'
+    )
+    relevant_django_file = models.CharField(
+        default='events/ views.py',
+        max_length=100,
+        null=True,
+        blank=True,
+        help_text='If applicable, enter the specific file path and file name within the Django web app.'
+    )
+
+    date_created = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f'{self.process_role} ({self.whurthy_application})'
+
+    class Meta:
+        ordering = [
+            'task_name'
+        ]
+        verbose_name_plural = 'LEE'
+        verbose_name = 'LEE'
