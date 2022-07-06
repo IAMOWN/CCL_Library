@@ -53,7 +53,7 @@
             </div>
         </form>
         {% if not search_off %}
-            <div class="row">
+            <div class="row pt-2">
                 <div class="col-lg-9 pb-2">
                 {% if search_type == 'Task' %}
                     {% if search_count == 0 %}
@@ -76,7 +76,7 @@
                 {% endif %}
                 </div>
                 <div class="col-lg-3 pb-2">
-                    <a href="{% url 'lee' %}" class="btn btn-outline-CCL-Blue col-12 float-end pt-2">Clear Search</a>
+                    <a href="{% url 'lee' %}" class="btn btn-outline-CCL-Blue col-12 float-end">Clear Search</a>
                 </div>
             </div>
         {% endif %}
