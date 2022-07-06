@@ -72,6 +72,9 @@
                     <p class="text-CCL-Blue">There {{ search_count|pluralize:"is,are" }} {{ search_count }} entr{{ search_count|pluralize:"y,ies" }} with "{{ search_entered }}" in the field, Responsible For Entry.</p>
                 {% endif %}
             {% endif %}
+            <div class="col-lg-3 pb-2">
+                <a href="{% url 'search' %}" class="btn btn-outline-CCL-Blue col-12">Clear Search</a>
+            </div>
         {% endif %}
     </article>
 
