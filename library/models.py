@@ -63,6 +63,7 @@ class CosmicAuthor(models.Model):
         null=True,
         blank=True,
         default='',
+        unique=True,
         verbose_name='master'
     )
 
@@ -91,6 +92,7 @@ class Tag(models.Model):
         max_length=100,
         null=True,
         blank=True,
+        unique=True,
         default=''
     )
 
@@ -118,6 +120,7 @@ class DiscourseSeries(models.Model):
         max_length=100,
         null=True,
         blank=True,
+        unique=True,
         default='',
     )
 
@@ -147,6 +150,7 @@ class Collection(models.Model):
         max_length=100,
         null=True,
         blank=True,
+        unique=True,
         default=''
     )
 
@@ -177,7 +181,7 @@ class LibraryRecord(models.Model):
     )
     title = models.CharField(
         max_length=200,
-        default=''
+        default='',
     )
     part_number = models.PositiveIntegerField(
         blank=True,
