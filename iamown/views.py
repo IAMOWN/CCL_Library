@@ -119,19 +119,19 @@ class LEEListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         code_search_input = self.request.GET.get('code-search-area') or ''
         owner_search_input = self.request.GET.get('owner-search-area') or ''
         if search_input:
-            context['LEE'] = context['LEE'].filter(process_role__icontains=search_input)
+            context['LEE'] = context['LEE'].filter(task_name__icontains=search_input)
             context['search_count'] = context['LEE'].count()
             context['search_entered'] = search_input
-            context['search_type'] = 'Role'
+            context['search_type'] = 'Task'
             context['search_off'] = False
         if code_search_input:
-            context['LEE'] = context['LEE'].filter(whurthy_application__icontains=code_search_input)
+            context['LEE'] = context['LEE'].filter(application__icontains=code_search_input)
             context['search_count'] = context['LEE'].count()
             context['search_entered'] = code_search_input
             context['search_type'] = 'App'
             context['search_off'] = False
         if owner_search_input:
-            context['LEE'] = context['LEE'].filter(entry_owner__username__icontains=owner_search_input)
+            context['LEE'] = context['LEE'].filter(responsible_for_entry__username__icontains=owner_search_input)
             context['search_count'] = context['LEE'].count()
             context['search_entered'] = owner_search_input
             context['search_type'] = 'Owner'
