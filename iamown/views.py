@@ -170,8 +170,7 @@ class LEECreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return self.request.user.is_staff
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
-        message = form.instance.process_role
+        message = form.instance.task_name
         messages.add_message(
             self.request,
             messages.SUCCESS,
