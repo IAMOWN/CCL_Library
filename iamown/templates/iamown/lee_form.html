@@ -9,47 +9,47 @@
     {% endif %}
 {% endblock %}
 {% block content %}
-    <section class="media content-section">
+    <section class="content-section">
         {% if page_type == 'Update' %}
             <h3><strong>Edit LEE entry</strong></h3>
         {% else %}
             <h3><strong>Create LEE entry</strong></h3>
         {% endif %}
     </section>
-    <section class="media content-section pt-2 pb-4">
+    <section class="content-section pt-2 pb-4">
         <form method="post" action="" enctype="multipart/form-data" class="padding-below-element">
             {% csrf_token %}
             {{ form.media }}
             <div class="row">
                 <div class="col-lg-3">
                 {% if user.is_superuser %}
-                    {{ form.process_role|as_crispy_field }}
+                    {{ form.task_name|as_crispy_field }}
                 {% elif user.is_staff %}
-                    <p>Process Role</p>
-                    <strong>{{ LEE_obj.process_role }}</strong>
-                    {{ form.process_role.as_hidden }}
+                    <p>Task Name</p>
+                    <strong>{{ LEE_obj.task_name }}</strong>
+                    {{ form.task_name.as_hidden }}
                 {% endif %}
                 </div>
                 <div class="col-lg-3">
                 {% if user.is_superuser %}
-                    {{ form.whurthy_application|as_crispy_field }}
+                    {{ form.application|as_crispy_field }}
                 {% elif user.is_staff %}
                     <p>Whurthy Application</p>
-                    <strong>{{ LEE_obj.whurthy_application }}</strong>
-                    {{ form.whurthy_application.as_hidden }}
+                    <strong>{{ LEE_obj.application }}</strong>
+                    {{ form.application.as_hidden }}
                 {% endif %}
                 </div>
                 <div class="col-lg-3">
                 {% if user.is_superuser %}
-                    {{ form.relevant_file|as_crispy_field }}
+                    {{ form.relevant_django_file|as_crispy_field }}
                 {% elif user.is_staff %}
-                    <p>Relevant File</p>
-                    <strong>{{ LEE_obj.relevant_file }}</strong>
-                    {{ form.relevant_file.as_hidden }}
+                    <p>Relevant Django File</p>
+                    <strong>{{ LEE_obj.relevant_django_file }}</strong>
+                    {{ form.relevant_django_file.as_hidden }}
                 {% endif %}
                 </div>
                 <div class="col-lg-3">
-                    {{ form.entry_owner|as_crispy_field }}
+                    {{ form.responsible_for_entry|as_crispy_field }}
                 </div>
             </div>
         <hr>
@@ -57,24 +57,24 @@
                 <div class="col-lg-6">
                     {{ form.process_description|as_crispy_field }}
                 </div>
-                <div class="col-sm-3">
+                <div class="col-lg-3">
                     {{ form.process_code|as_crispy_field }}
                 </div>
-                <div class="col-sm-3">
+                <div class="col-lg-3">
                     {{ form.process_outcome|as_crispy_field }}
                 </div>
             </div>
             <div class="row pt-4">
-                <div class="col-sm-3">
+                <div class="col-lg-3">
                     <a href="{% url 'lee' %}" class="btn btn-outline-BlueGray col-12">Back to LEE Dashboard</a>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-lg-6">
                 </div>
-                <div class="col-sm-3">
+                <div class="col-lg-3">
                     {% if page_type == 'Update' %}
-                    <input type="submit" value="Update LEE Entry" class="btn btn-success float-end col-12">
+                    <input type="submit" value="Update LEE Entry" class="btn btn-CCL-Blue float-end col-12">
                     {% else %}
-                    <input type="submit" value="Add LEE Entry" class="btn btn-success float-end col-12">
+                    <input type="submit" value="Add LEE Entry" class="btn btn-CCL-Blue float-end col-12">
                     {% endif %}
                 </div>
             </div>

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}
-    LEE entry: {{ LEE.process_role }}
+    LEE entry: {{ LEE.task_name }}
 {% endblock %}
 {% block content %}
 
@@ -18,41 +18,34 @@
     <section class="media content-section">
         <div class="row">
             <div class="col">
-            {% if user.is_superuser %}
-                <h3><strong>Process Role: {{ LEE.process_role }}</strong> <a href="{% url 'lee-update' LEE.id %}" class="text-success"><i class="far fa-plus-square h5-plus"></i></a><a href="{% url 'lee-delete' LEE.id %}" class="text-danger float-end"><i class="far fa-times-circle h5-plus"></i></a></h3>
-            {% elif user.is_staff %}
-                <h3><strong>Process Role: {{ LEE.process_role }}</strong> <a href="{% url 'lee-update' LEE.id %}" class="text-success"><i class="far fa-plus-square h5-plus"></i></a>
-            {% endif %}
+                <h3><strong>Process Role: {{ LEE.task_name }}</strong></h3>
             </div>
         </div>
     </section>
     <section class="media content-section">
         <div class="row">
             <div class="col-lg-6">
-                <p><strong>Whurthy Application: </strong>{{ LEE.whurthy_application }}</p>
-            </div>
-            <div class="col-lg-6">
-                <p><strong>Whurthy File: </strong>{{ LEE.whurthy_application }}</p>
+                <p><strong>Application: </strong>{{ LEE.application }}</p>
             </div>
         </div>
         <div class="row pb-4">
-            <div class="col">
+            <div class="col-lg-12">
                 <p><strong>Process Description</strong></p>
                 {{ LEE.process_description|safe }}
             </div>
         </div>
         <div class="row">
-            <div class="col">
-                <p><strong>Entry Owner: </strong>{{ LEE.entry_owner }}</p>
+            <div class="col-lg-12">
+                <p><strong>Entry Owner: </strong>{{ LEE.responsible_for_entry }}</p>
             </div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col-lg-12">
                 <p><strong>Process Code: </strong>{{ LEE.process_code }}</p>
             </div>
         </div>
         <div class="row pb-4">
-            <div class="col">
+            <div class="col-lg-12">
                 <p><strong>Process Outcome:</strong></p>
                 {{ LEE.process_outcome|safe }}
             </div>
@@ -60,6 +53,14 @@
         <div class="row">
             <div class="col-lg-3 pb-2">
                 <a href="{% url 'lee' %}" class="btn btn-outline-BlueGray col-12">Back to LEE Dashboard</a>
+            </div>
+            <div class="col-lg-3 pb-2">
+                <a href="{% url 'lee-update' LEE.id %}" class="btn btn-outline-BlueGray col-12">Edit LEE Record</a>
+            </div>
+            <div class="col-lg-3 pb-2">
+            </div>
+            <div class="col-lg-3 pb-2">
+                <a href="{% url 'lee-delete' LEE.id %}" class="btn btn-outline-danger col-12">Delete LEE Record</a>
             </div>
         </div>
     </section>
