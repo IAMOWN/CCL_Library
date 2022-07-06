@@ -299,7 +299,7 @@ class LEE(models.Model):
     date_created = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return f'{self.process_role} ({self.whurthy_application})'
+        return f'{self.task_name} ({self.application})'
 
     class Meta:
         ordering = [
@@ -307,3 +307,6 @@ class LEE(models.Model):
         ]
         verbose_name_plural = 'LEE'
         verbose_name = 'LEE'
+
+    def get_absolute_url(self):
+        return reverse('lee-entry', kwargs={'pk': self.pk})
