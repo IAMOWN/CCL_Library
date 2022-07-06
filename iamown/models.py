@@ -270,12 +270,12 @@ class LEE(models.Model):
     )
     process_code = models.CharField(
         max_length=12,
-        default='LIB',
+        default='',
         null=True,
         blank=True,
-        help_text="Enter the process code for this process activity. The recommended format should be abbreviations of "
-                  "the organization's name and the process name. For example, the Whurthy employee on-boarding "
-                  "process could have the process code of WON. There is a limit of 12 characters for the Process Code."
+        help_text="If applicable. enter the process code for this process activity. The recommended format should be "
+                  "abbreviations of the organism's name and the process name. There is a 12 character limit for the "
+                  "Process Code."
     )
     process_outcome = HTMLField(
         null=True,
@@ -289,7 +289,7 @@ class LEE(models.Model):
         help_text='Please select the application that this entry applies to.'
     )
     relevant_django_file = models.CharField(
-        default='events/ views.py',
+        default='library/views.py',
         max_length=100,
         null=True,
         blank=True,
