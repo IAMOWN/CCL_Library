@@ -9,14 +9,14 @@
     {% endif %}
 {% endblock %}
 {% block content %}
-    <section class="content-section">
+    <section class="content-section pt-2">
         {% if page_type == 'Update' %}
             <h3><strong>Edit LEE entry</strong></h3>
         {% else %}
             <h3><strong>Create LEE entry</strong></h3>
         {% endif %}
     </section>
-    <section class="content-section pt-2 pb-4">
+    <section class="content-section pt-2 pb-4 text-CCL-Gold">
         <form method="post" action="" enctype="multipart/form-data" class="padding-below-element">
             {% csrf_token %}
             {{ form.media }}
@@ -66,7 +66,7 @@
             </div>
             <div class="row pt-4">
                 <div class="col-lg-3">
-                    <a href="{% url 'lee' %}" class="btn btn-outline-BlueGray col-12">Back to LEE Dashboard</a>
+                    <a href="{% url 'lee' %}" class="btn btn-outline-CCL-Blue col-12">Back to LEE Dashboard</a>
                 </div>
                 <div class="col-lg-6">
                 </div>
