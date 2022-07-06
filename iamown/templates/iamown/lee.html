@@ -94,11 +94,11 @@
     </div>
 
     {% for LEE_entry in LEE %}
-        <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
-            <div class="row">
+        <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
+            <div class="row pt-2">
                 <div class="col-lg-3">
                     <p>
-                        <a href="{% url 'lee-entry' LEE_entry.id %}" class="text-BlueGray"><strong>{{ LEE_entry.task_name }}</strong></a>
+                        <a href="{% url 'lee-entry' LEE_entry.id %}" class="text-CCL-Blue"><strong>{{ LEE_entry.task_name }}</strong></a>
                     </p>
                 </div>
                 <div class="col-lg-3">
