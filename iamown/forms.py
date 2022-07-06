@@ -6,6 +6,7 @@ from bootstrap_datepicker_plus.widgets import DatePickerInput
 from .models import (
     Task,
     ServiceGroup,
+    LEE,
 )
 
 from users.models import (
@@ -143,3 +144,43 @@ class UpdateServiceGroupForm(forms.ModelForm):
     def clean(self):
         service_group_form_validation(self, UpdateServiceGroupForm)
         return self.cleaned_data
+
+
+# ####################### LEE Create Form #######################
+class CreateLEEForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['responsible_for_entry'].queryset = User.objects.filter(is_staff=True)
+
+    class Meta:
+        model = LEE
+        fields = [
+            'task_name',
+            'process_description',
+            'responsible_for_entry',
+            'process_code',
+            'process_outcome'
+            'application',
+            'relevant_django_file',
+        ]
+
+
+# ####################### LEE Update Form #######################
+class UpdateLEEForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['responsible_for_entry'].queryset = User.objects.filter(is_staff=True)
+
+    class Meta:
+        model = LEE
+        fields = [
+            'task_name',
+            'process_description',
+            'responsible_for_entry',
+            'process_code',
+            'process_outcome'
+            'application',
+            'relevant_django_file',
+        ]
