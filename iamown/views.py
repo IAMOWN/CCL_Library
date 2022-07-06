@@ -18,6 +18,7 @@ from datetime import datetime
 from .models import (
     Task,
     ServiceGroup,
+    LEE,
 )
 from .forms import (
     CreateLibraryTaskForm,
@@ -96,6 +97,126 @@ def send_email(subject, to_email, message):
         html_message=message,
     )
     return
+
+
+# ####################### LEE #######################
+class LEEListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    """LEE ListView."""
+    model = LEE
+    template_name = 'iamown/lee.html'
+    context_object_name = 'LEE'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['search_off'] = True
+        search_input = self.request.GET.get('search-area') or ''
+        code_search_input = self.request.GET.get('code-search-area') or ''
+        owner_search_input = self.request.GET.get('owner-search-area') or ''
+        if search_input:
+            context['LEE'] = context['LEE'].filter(process_role__icontains=search_input)
+            context['search_count'] = context['LEE'].count()
+            context['search_entered'] = search_input
+            context['search_type'] = 'Role'
+            context['search_off'] = False
+        if code_search_input:
+            context['LEE'] = context['LEE'].filter(whurthy_application__icontains=code_search_input)
+            context['search_count'] = context['LEE'].count()
+            context['search_entered'] = code_search_input
+            context['search_type'] = 'App'
+            context['search_off'] = False
+        if owner_search_input:
+            context['LEE'] = context['LEE'].filter(entry_owner__username__icontains=owner_search_input)
+            context['search_count'] = context['LEE'].count()
+            context['search_entered'] = owner_search_input
+            context['search_type'] = 'Owner'
+            context['search_off'] = False
+
+        context['search_input'] = search_input
+
+        return context
+
+
+class LEEDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    """LEE DetailView."""
+    model = LEE
+    template_name = 'iamown/lee_detail.html'
+    context_object_name = 'LEE'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(LEEDetailView, self).get_context_data(**kwargs)
+
+        return context
+
+
+class LEECreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    """LEE CreateView."""
+    model = LEE
+    form_class = CreateLEEForm
+
+    template_name = 'iamown/lee_form.html'
+
+    success_url = reverse_lazy('support-lee')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        message = form.instance.process_role
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            f'The LEE entry "{message}" has been added.'
+        )
+        return super(LEECreateView, self).form_valid(form)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(LEECreateView, self).get_context_data(**kwargs)
+        context['page_type'] = 'Create'
+
+        return context
+
+
+class LEEUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    """LEE entry UpdateView."""
+    model = LEE
+    form_class = UpdateLEEForm
+
+    template_name = 'iamown/lee_form.html'
+    success_url = reverse_lazy('support-lee')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(LEEUpdateView, self).get_context_data(**kwargs)
+        context['LEE_obj'] = LEE.objects.get(id=self.kwargs['pk'])
+        context['page_type'] = 'Update'
+
+        return context
+
+
+class LEEDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """LEE entry DeleteView."""
+    model = LEE
+    context_object_name = 'LEE'
+    success_url = reverse_lazy('support-lee')
+    template_name = 'iamown/lee_confirm_delete.html'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(LEEDeleteView, self).get_context_data(**kwargs)
+
+        return context
 
 
 # ####################### TASK VIEWS #######################

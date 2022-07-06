@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Learned Experience Engine (LEE)
+{% endblock %}
+{% block content %}
+    <div class="content-section">
+        <div class="media-body">
+            <div>
+                <h3><strong>Learned Experience Engine (LEE)</strong></h3>
+            </div>
+        </div>
+    </div>
+    {% if user.is_superuser %}
+    <div class="content-section">
+        <div class="media-body pt-2 pb-2">
+            <div class="row">
+                <div class="col-lg-3">
+                    <a class="btn btn-success col-12" href="{% url 'lee-create' %}">Create LEE Entry</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if search_off %}
+    <article class="media content-section">
+    {% elif search_count == 0 %}
+    <article class="media content-section-danger">
+    {% else %}
+    <article class="media content-section-success">
+    {% endif %}
+        <div class="media-body pb-2">
+            <div>
+                <h5><strong>Filter LEE</strong></h5>
+                <form method="get" class="">
+                    <div class="row">
+                        <div class="col-lg-3 pb-2">
+                            <button type="submit" class="btn btn-outline-success col-12">Filter LEE</button>
+                        </div>
+                        <div class="col-lg-3 pb-2">
+                            <input
+                                    type="text"
+                                    name="search-area"
+                                    class="button-margin-tlr form-control"
+                                    value="{{ search_input }}"
+                                    placeholder="by Process Role"
+                            >
+                        </div>
+                        <div class="col-lg-3 pb-2">
+                            <input
+                                    type="text"
+                                    name="code-search-area"
+                                    class="button-margin-tlr form-control"
+                                    value="{{ code_search_input }}"
+                                    placeholder="by Whurthy Application"
+                            >
+                        </div>
+                        <div class="col-lg-3 pb-2">
+                            <input
+                                    type="text"
+                                    name="owner-search-area"
+                                    class="button-margin-tlr form-control"
+                                    value="{{ owner_search_input }}"
+                                    placeholder="by Entry Owner"
+                            >
+                        </div>
+                    </div>
+                </form>
+                {% if not search_off %}
+                    {% if search_type == 'Role' %}
+                        {% if search_count == 0 %}
+                            <p class="text-danger">There are no entries with "{{ search_entered }}" in the field, Process Role.</p>
+                        {% else %}
+                            <p class="text-success">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} entr{% if search_count == 1 %}y{% else %}ies{% endif %} with "{{ search_entered }}" in the field, Process Role.</p>
+                        {% endif %}
+                    {% elif search_type == 'App' %}
+                        {% if search_count == 0 %}
+                            <p class="text-danger">There are no entries with "{{ search_entered }}" in the field, Whurthy Applications.</p>
+                        {% else %}
+                            <p class="text-success">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} entr{% if search_count == 1 %}y{% else %}ies{% endif %} with "{{ search_entered }}" in the field, Whurthy Application.</p>
+                        {% endif %}
+                    {% elif search_type == 'Owner' %}
+                        {% if search_count == 0 %}
+                            <p class="text-danger">There are no entries with "{{ search_entered }}" in the field, Entry Owner.</p>
+                        {% else %}
+                            <p class="text-success">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} entr{% if search_count == 1 %}y{% else %}ies{% endif %} with "{{ search_entered }}" in the field, Entry Owner.</p>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </article>
+    <div class="content-section d-none d-xl-block">
+        <div class="media-body">
+            <div class="row">
+                <div class="col-lg-5">
+                    <h6><strong>Process Role</strong></h6>
+                </div>
+                <div class="col-lg-2">
+                    <h6><strong>App</strong></h6>
+                </div>
+                <div class="col-lg-2">
+                    <h6><strong>Entry Owner</strong></h6>
+                </div>
+                <div class="col-lg-2">
+                    <h6><strong>Process Code</strong></h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% for LEE_entry in LEE %}
+    <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
+        <div class="row">
+            <div class="col-lg-5">
+            {% if user.is_superuser %}
+                <h6><a href="{% url 'lee-entry' LEE_entry.id %}" class="text-BlueGray"><strong>{{ LEE_entry.process_role }}</strong></a> <a href="{% url 'lee-update' LEE_entry.id %}" class="text-success pt-2"><i class="far fa-plus-square h6-plus"></i></a></h6>
+            {% elif user.is_staff %}
+                <h6><a href="{% url 'lee-entry' LEE_entry.id %}" class="text-BlueGray"><strong>{{ LEE_entry.process_role }}</strong></a>
+            {% endif %}
+            </div>
+            <div class="col-lg-2">
+                {{ LEE_entry.whurthy_application }}
+            </div>
+            <div class="col-lg-2">
+                {{ LEE_entry.entry_owner }}
+            </div>
+            <div class="col-lg-2">
+                {{ LEE_entry.process_code }}
+            </div>
+            <div class="col-lg-1">
+            {% if user.is_superuser %}
+                <a href="{% url 'lee-delete' LEE_entry.id %}" class="delete-link float-end mt-1"><i class="far fa-times-circle h6-plus"></i></a>
+            {% endif %}
+            </div>
+        </div>
+    </section>
+    {% endfor %}
+    <p class="pb-2"></p>
+{% endblock %}

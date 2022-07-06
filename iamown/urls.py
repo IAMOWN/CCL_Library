@@ -18,6 +18,11 @@ from .views import (
     ServiceGroupCreate,
     ServiceGroupUpdate,
     ServiceGroupDelete,
+    LEEListView,
+    LEEDetailView,
+    LEECreateView,
+    LEEUpdateView,
+    LEEDeleteView,
 )
 
 urlpatterns = [
@@ -42,4 +47,11 @@ urlpatterns = [
     path('service_group_create/', ServiceGroupCreate.as_view(), name='service-group-create'),
     path('service_group_update/<int:pk>/', ServiceGroupUpdate.as_view(), name='service-group-update'),
     path('service_group_delete/<int:pk>/', ServiceGroupDelete.as_view(), name='service-group-delete'),
+
+    # LEE
+    path('lee/', LEEListView.as_view(), name='lee'),
+    path('lee/<int:pk>/', LEEDetailView.as_view(), name='lee-entry'),
+    path('lee_create/', LEECreateView.as_view(), name='lee-create'),
+    path('lee_update/<int:pk>/', LEEUpdateView.as_view(), name='lee-update'),
+    path('lee_delete/<int:pk>/', LEEDeleteView.as_view(), name='lee-delete'),
 ]

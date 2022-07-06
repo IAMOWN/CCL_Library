@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Delete LEE entry
+{% endblock %}
+{% block content %}
+    <section class="media alert-section">
+        <div class="row">
+            <div class="col">
+                <h3 class="alert-danger"><strong>Delete LEE Entry</strong></h3>
+            </div>
+        </div>
+        <form method="post" action="" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col">
+                    {% csrf_token %}
+                    <p><span class="bold-character">Are you sure you want to delete this LEE entry: <strong>{{ LEE.process_role }}</strong></span></p>
+                    <p><strong>THIS IS A PERMANENT DECISION! <span class="text-danger">Deleting this record will likely break something in Whurthy and lead to workflow failure.</span></strong></p>
+                    <p class="pb-4">Please be absolutely certain you want to delete this record.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 pb-2">
+                    <a class="btn btn-BlueGray col-12" href="{{ request.META.HTTP_REFERER }}">Go Back</a>
+                </div>
+                <div class="col-lg-6"></div>
+                <div class="col-lg-3 pb-2">
+                    <input type="submit" value="Delete LEE entry" class="btn btn-danger col-12">
+                </div>
+            </div>
+        </form>
+    </section>
+{% endblock %}
