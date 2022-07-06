@@ -5,13 +5,13 @@
     Delete LEE entry
 {% endblock %}
 {% block content %}
-    <section class="media alert-section">
+    <section class="alert-section">
         <div class="row">
             <div class="col">
                 <h3 class="alert-danger"><strong>Delete LEE Entry</strong></h3>
             </div>
         </div>
-        <form method="post" action="" enctype="multipart/form-data">
+        <form method="post" action="" enctype="multipart/form-data" class="text-CCL-Gold">
             <div class="row">
                 <div class="col">
                     {% csrf_token %}
@@ -22,7 +22,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-3 pb-2">
-                    <a class="btn btn-BlueGray col-12" href="{{ request.META.HTTP_REFERER }}">Go Back</a>
+                    <a class="btn btn-CCL-Blue col-12" href="{{ request.META.HTTP_REFERER }}">Go Back</a>
                 </div>
                 <div class="col-lg-6"></div>
                 <div class="col-lg-3 pb-2">
