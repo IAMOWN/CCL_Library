@@ -640,6 +640,8 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     task_description = task_description + f'''<strong>Book urls:</strong><br>
                     {library_task.book_urls_for_record}
                 '''
+                else:
+                    task_description = task_description + '<strong>There are no book urls listed for this record.</strong>'
 
                 created_task = Task.objects.create(
                     task_title=f'{LEE_TASK_NAME_BOOK_FILE_REVIEW} Check Book Files related to Library Observation',
