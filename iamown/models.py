@@ -310,3 +310,65 @@ class LEE(models.Model):
 
     def get_absolute_url(self):
         return reverse('lee-entry', kwargs={'pk': self.pk})
+
+
+# ####################### PEeP #######################
+class PEeP(models.Model):
+    """
+    PEeP (Process Expertise Profile) model. Captures Team members by function/responsibility for task
+    assignment. Related to User as each entry relates to a Team member.
+    """
+    functional_activity = models.CharField(
+        unique=True,
+        max_length=50,
+        default='',
+        help_text='Enter the functional activity. Note: the application will only be able to act on this record if the '
+                  'applicable feature has been built into the application. However, please feel free to enter PEeP '
+                  'records for your reference, and to identify future ServiceFlow automation opportunities.'
+    )
+    detailed_description = models.TextField(
+        null=True,
+        blank=True,
+        help_text='If applicable, enter a description for this record. While this description will not be utilized '
+                  'directly as a part of a ServiceFlow, providing a description in this field should support '
+                  'understanding when and why this particular record is used, and what ServiceFlow it supports.'
+    )
+    dear_soul_responsible = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        help_text='Select the Dear Soul responsible for this task. Please note that this required field is integral to '
+                  'ServiceFlow automation in that information in both this field and Process function is used to, where '
+                  'appropriate, assign tasks as a part of ServiceFlow.'
+    )
+    service_group = models.ForeignKey(
+        ServiceGroup,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name='service_group_in_PEeP',
+        help_text='If this PEeP entry belongs to a ServiceFlow associated with a Service Group then select them. This '
+                  'field is optional and is use for reference only.'
+    )
+    process_code = models.CharField(
+        max_length=20,
+        default='',
+        null=True,
+        blank=True,
+        help_text="Enter the process code for this process activity. The recommended format should be abbreviations of "
+                  "the organization's name and the process name. For example, the Whurthy employee on-boarding "
+                  "process could have the process code of LFON. There is a limit of 20 characters for the Process Code."
+    )
+    date_created = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.process_function
+
+    class Meta:
+        ordering = [
+            'functional_activity',
+        ]
+        verbose_name_plural = 'PEeP'
+        verbose_name = 'PEeP'
+
+    # def get_absolute_url(self):
+    #     return reverse('peep', kwargs={'pk': self.pk})
