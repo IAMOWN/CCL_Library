@@ -47,6 +47,7 @@ from .forms import (
 from iamown.models import (
     Task,
     ServiceGroup,
+    LEE,
 )
 
 from users.models import (
@@ -101,6 +102,7 @@ EMAIL_MESSAGE_2 = '''
 LIBRARY_TASK_URL = 'https://cosmicchrist.love/tasks/library/'
 DIGITAL_LIBRARIAN_GROUP_NAME = 'Librarians'
 SOUL_SYNTHESIS_S3_STORAGE = 'https://cloud.digitalocean.com/spaces/soul-synthesis-storage?i=1420f9'
+DIGITAL_LIBRARIAN_SERVICE_GROUP = 'Digital Librarians'
 
 # ####################### FUNCTIONS #######################
 def get_current_date():
@@ -1705,7 +1707,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
         observer_obj = Profile.objects.get(user__username=self.request.user)
         observer = observer_obj.spiritual_name
 
-        service_group = ServiceGroup.objects.get(service_group='Digital Librarians')
+        service_group = ServiceGroup.objects.get(service_group=DIGITAL_LIBRARIAN_SERVICE_GROUP)
         observation_type = form.instance.observation_type
 
         if observation_type == 'Typo':
@@ -1719,19 +1721,20 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
 
             # TODO Build LEE and update these task descriptions
             # TODO Build Book Editor task to follow this ServiceFlow for Typo
-            task_description = f'''An automated Record Observation led to the creation of this task:
-            <ul>
-            <li>When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.</li>
-            <li>Please check if the record has a PDF link and make adjustments to the file in 
-            <a href="{SOUL_SYNTHESIS_S3_STORAGE}" class="text-CCL-Blue" target="_blank">Soul Synthesis S3 storage</a>  
-            as applicable. Note: If you cannot access this link please notify Carewen.</li>
-            <li>When all elements of this task have been addressed please change Task Status to Completed.</li>
-            </ul>
-            Record: <a href='{DOMAIN}library_record/{record.id}/' class='text-CCL-Blue' target='_blank'>{record.title}</a><br>
-            Observer: {observer}<br>
-            Observation type: {observation_type}<p>
-            Typo: {observed_typo}<br>
-            Suggested correction: {suggested_correction}<br>'''
+            task_description = LEE.objects.filter(task_name='Record Observation')
+            # task_description = f'''An automated Record Observation led to the creation of this task:
+            # <ul>
+            # <li>When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.</li>
+            # <li>Please check if the record has a PDF link and make adjustments to the file in
+            # <a href="{SOUL_SYNTHESIS_S3_STORAGE}" class="text-CCL-Blue" target="_blank">Soul Synthesis S3 storage</a>
+            # as applicable. Note: If you cannot access this link please notify Carewen.</li>
+            # <li>When all elements of this task have been addressed please change Task Status to Completed.</li>
+            # </ul>
+            # Record: <a href='{DOMAIN}library_record/{record.id}/' class='text-CCL-Blue' target='_blank'>{record.title}</a><br>
+            # Observer: {observer}<br>
+            # Observation type: {observation_type}<p>
+            # Typo: {observed_typo}<br>
+            # Suggested correction: {suggested_correction}<br>'''
 
             Task.objects.create(
                 task_title=f'Record Observation - {observation_type} made by {observer}',

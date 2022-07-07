@@ -166,7 +166,7 @@ class LEECreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     template_name = 'iamown/lee_form.html'
 
-    success_url = reverse_lazy('support-lee')
+    success_url = reverse_lazy('lee')
 
     def test_func(self):
         return self.request.user.is_staff
@@ -193,7 +193,7 @@ class LEEUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     form_class = UpdateLEEForm
 
     template_name = 'iamown/lee_form.html'
-    success_url = reverse_lazy('support-lee')
+    success_url = reverse_lazy('lee')
 
     def test_func(self):
         return self.request.user.is_staff
@@ -210,7 +210,7 @@ class LEEDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """LEE entry DeleteView."""
     model = LEE
     context_object_name = 'LEE'
-    success_url = reverse_lazy('support-lee')
+    success_url = reverse_lazy('lee')
     template_name = 'iamown/lee_confirm_delete.html'
 
     def test_func(self):
