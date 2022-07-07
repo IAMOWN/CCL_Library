@@ -636,8 +636,9 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
                 history_log = f'''>>> <strong>{LEE_TASK_NAME_BOOK_FILE_REVIEW}</strong> task created from completed Library Observation task: {related_task.task_title}<p><br>'''
                 task_description = LEE.objects.get(task_name=LEE_TASK_NAME_BOOK_FILE_REVIEW).process_description
-                task_description = task_description + f'''<strong>Book urls:</strong><br>
-                {library_task.book_urls_for_record}
+                if library_task.book_urls_for_record:
+                    task_description = task_description + f'''<strong>Book urls:</strong><br>
+                    {library_task.book_urls_for_record}
                 '''
 
                 created_task = Task.objects.create(
