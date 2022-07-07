@@ -1721,7 +1721,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             self.object = form.save()
             observation_obj = LibraryObservation.objects.get(id=self.object.id)
 
-            task_description = LEE.objects.filter(task_name=LEE_TASK_NAME_RECORD_OBSERVATION)
+            task_description = LEE.objects.get(task_name=LEE_TASK_NAME_RECORD_OBSERVATION).process_description
 
             Task.objects.create(
                 task_title=f'{LEE_TASK_NAME_RECORD_OBSERVATION} - {observation_type} made by {observer}',

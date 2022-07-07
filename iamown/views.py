@@ -635,7 +635,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 related_task = Task.objects.get(id=self.kwargs['pk'])
 
                 history_log = f'''>>> <strong>{LEE_TASK_NAME_BOOK_FILE_REVIEW}</strong> task created from completed Library Observation task: {related_task.task_title}<p><br>'''
-                task_description = LEE.objects.get(task_name=LEE_TASK_NAME_BOOK_FILE_REVIEW)
+                task_description = LEE.objects.get(task_name=LEE_TASK_NAME_BOOK_FILE_REVIEW).process_description
                 # task_description = f'''The completion of a Record Observation task by a Librarian led to the creation of this task:
                 # <ul>
                 # <li>When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.</li>
