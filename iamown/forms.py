@@ -282,6 +282,7 @@ class CreateAudienceForm(forms.ModelForm):
 
         fields = [
             'audience',
+            'scope',
             'audience_notes',
         ]
 
@@ -298,6 +299,7 @@ class UpdateAudienceForm(forms.ModelForm):
 
         fields = [
             'audience',
+            'scope',
             'audience_notes',
         ]
 

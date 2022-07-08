@@ -24,7 +24,10 @@
             <div class="col-lg-3">
                 <h6><strong>Audience</strong></h6>
             </div>
-            <div class="col-lg-9">
+            <div class="col-lg-3">
+                <h6><strong>Scope</strong></h6>
+            </div>
+            <div class="col-lg-6">
                 <h6><strong>Audience Notes</strong></h6>
             </div>
         </div>
@@ -34,11 +37,12 @@
     <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
         <div class="row pt-2">
             <div class="col-lg-3">
-                <p>
-                    <a href="{% url 'audience-entry' audience.id %}" class="text-CCL-Blue"><strong>{{ audience.audience }}</strong></a>
-                </p>
+                <p><a href="{% url 'audience-entry' audience.id %}" class="text-CCL-Blue"><strong>{{ audience.audience }}</strong></a></p>
             </div>
-            <div class="col-lg-9">
+            <div class="col-lg-3">
+                <p><strong>Scope: </strong>{{ audience.scope }}</p>
+            </div>
+            <div class="col-lg-6">
                 {{ audience.audience_notes|safe }}
             </div>
         </div>
