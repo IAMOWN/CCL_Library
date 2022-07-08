@@ -28,6 +28,11 @@ from .views import (
     PEePCreateView,
     PEePUpdateView,
     PEePDeleteView,
+    AudienceListView,
+    AudienceDetailView,
+    AudienceCreateView,
+    AudienceUpdateView,
+    AudienceDeleteView,
 )
 
 urlpatterns = [
@@ -66,4 +71,11 @@ urlpatterns = [
     path('peep_create/', PEePCreateView.as_view(), name='peep-create'),
     path('peep_update/<int:pk>/', PEePUpdateView.as_view(), name='peep-update'),
     path('peep_delete/<int:pk>/', PEePDeleteView.as_view(), name='peep-delete'),
+
+    # Audiences
+    path('audiences/', AudienceListView.as_view(), name='audiences'),
+    path('audience/<int:pk>/', AudienceDetailView.as_view(), name='audience-entry'),
+    path('audience_create/', AudienceCreateView.as_view(), name='audience-create'),
+    path('audience_update/<int:pk>/', AudienceUpdateView.as_view(), name='audience-update'),
+    path('audience_delete/<int:pk>/', AudienceDeleteView.as_view(), name='audience-delete'),
 ]

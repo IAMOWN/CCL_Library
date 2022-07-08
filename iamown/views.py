@@ -31,6 +31,8 @@ from .forms import (
     UpdateLEEForm,
     CreatePEePForm,
     UpdatePEePForm,
+    CreateAudienceForm,
+    UpdateAudienceForm,
 )
 
 from library.models import (
@@ -983,128 +985,96 @@ class PEePDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 # ####################### Audiences #######################
 class AudienceListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    """PEeP ListView."""
-    model = PEeP
-    template_name = 'iamown/peeps.html'
-    context_object_name = 'peeps'
+    """Audience ListView."""
+    model = Audience
+    template_name = 'iamown/audiences.html'
+    context_object_name = 'audiences'
 
     def test_func(self):
         return self.request.user.is_staff
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        context['dear_souls'] = User.objects.filter(is_staff=True)
-        context['service_groups'] = ServiceGroup.objects.all()
-
-        context['search_off'] = True
-        search_input = self.request.GET.get('search-area') or ''
-        resp_search_input = self.request.GET.get('resp-search-area') or ''
-        group_search_input = self.request.GET.get('group-search-area') or ''
-        if search_input:
-            context['search_off'] = False
-            context['peeps'] = context['peeps'].filter(functional_activity__icontains=search_input)
-            context['search_count'] = context['peeps'].count()
-            context['search_entered'] = search_input
-            context['search_type'] = 'Function'
-        if resp_search_input:
-            context['search_off'] = False
-            context['peeps'] = context['peeps'].filter(dear_soul_responsible__username__icontains=resp_search_input)
-            context['search_count'] = context['peeps'].count()
-            context['search_entered'] = resp_search_input
-            context['search_type'] = 'Resp'
-        if group_search_input:
-            context['search_off'] = False
-            context['peeps'] = context['peeps'].filter(service_group__service_group=group_search_input)
-            context['search_count'] = context['peeps'].count()
-            context['search_entered'] = group_search_input
-            context['search_type'] = 'Group'
-        context['search_input'] = search_input
-
         return context
 
 
 class AudienceDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
-    """PEeP DetailView."""
-    model = PEeP
-    template_name = 'iamown/peep_detail.html'
-    context_object_name = 'peep'
+    """Audience DetailView."""
+    model = Audience
+    template_name = 'iamown/audience_detail.html'
+    context_object_name = 'audience'
 
     def test_func(self):
         return self.request.user.is_staff
 
     def get_context_data(self, *args, **kwargs):
-        context = super(PEePDetailView, self).get_context_data(**kwargs)
-
+        context = super(AudienceDetailView, self).get_context_data(**kwargs)
         return context
 
 
 class AudienceCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
-    """PEeP CreateView."""
-    model = PEeP
-    form_class = CreatePEePForm
+    """Audience CreateView."""
+    model = Audience
+    form_class = CreateAudienceForm
 
-    template_name = 'iamown/peep_form.html'
+    template_name = 'iamown/audience_form.html'
 
-    success_url = reverse_lazy('peeps')
+    success_url = reverse_lazy('audiences')
 
     def test_func(self):
         return self.request.user.is_staff
 
     def form_valid(self, form):
-        message = form.instance.functional_activity
+        message = form.instance.audience
         messages.add_message(
             self.request,
             messages.SUCCESS,
-            f'The PEeP entry "{message}" has been added.'
+            f'The audience "{message}" has been added.'
         )
-        return super(PEePCreateView, self).form_valid(form)
+        return super(AudienceCreateView, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(PEePCreateView, self).get_context_data(**kwargs)
+        context = super(AudienceCreateView, self).get_context_data(**kwargs)
         context['page_type'] = 'Create'
-
         return context
 
 
 class AudienceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    """PEeP entry UpdateView."""
-    model = PEeP
-    form_class = UpdatePEePForm
+    """Audience UpdateView."""
+    model = Audience
+    form_class = UpdateAudienceForm
 
-    template_name = 'iamown/peep_form.html'
-    success_url = reverse_lazy('peeps')
+    template_name = 'iamown/audience_form.html'
+    success_url = reverse_lazy('audiences')
 
     def test_func(self):
         return self.request.user.is_staff
 
     def form_valid(self, form):
-        message = form.instance.functional_activity
+        message = form.instance.audience
         messages.add_message(
             self.request,
             messages.SUCCESS,
-            f'The PEeP entry "{message}" has been updated.'
+            f'The audience "{message}" has been updated.'
         )
-        return super(PEePUpdateView, self).form_valid(form)
+        return super(AudienceUpdateView, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(PEePUpdateView, self).get_context_data(**kwargs)
+        context = super(AudienceUpdateView, self).get_context_data(**kwargs)
         context['page_type'] = 'Update'
-
         return context
 
 
 class AudienceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    """PEeP entry DeleteView."""
-    model = PEeP
-    context_object_name = 'peep'
-    success_url = reverse_lazy('peeps')
-    template_name = 'iamown/peep_confirm_delete.html'
+    """Audience DeleteView."""
+    model = Audience
+    context_object_name = 'audience'
+    success_url = reverse_lazy('audiences')
+    template_name = 'iamown/audience_confirm_delete.html'
 
     def test_func(self):
         return self.request.user.is_superuser
 
     def get_context_data(self, *args, **kwargs):
-        context = super(PEePDeleteView, self).get_context_data(**kwargs)
-
+        context = super(AudienceDeleteView, self).get_context_data(**kwargs)
         return context

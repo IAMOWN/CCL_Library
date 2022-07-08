@@ -1,115 +1,45 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}
-    Learned Experience Engine (LEE)
+    Audiences
 {% endblock %}
 {% block content %}
     <div class="content-section">
         <div class="row pt-2">
             <div class="col-lg-12">
-                <h3><strong>Learned Experience Engine (LEE)</strong></h3>
+                <h3><strong>Audiences</strong></h3>
             </div>
         </div>
     </div>
     <div class="content-section">
         <div class="row pt-2 pb-2">
             <div class="col-lg-3">
-                <a class="btn btn-CCL-Blue col-12" href="{% url 'lee-create' %}">Create LEE Entry</a>
+                <a class="btn btn-CCL-Blue col-12" href="{% url 'audience-create' %}">Add Audience</a>
             </div>
         </div>
     </div>
-
-    <article class="content-section">
-        <form method="get">
-            <div class="row pt-2">
-                <div class="col-lg-3 pb-2">
-                    <button type="submit" class="btn btn-CCL-Blue col-12">Filter LEE</button>
-                </div>
-                <div class="col-lg-3 pb-2">
-                    <input
-                            type="text"
-                            name="search-area"
-                            class="button-margin-tlr form-control"
-                            value="{{ search_input }}"
-                            placeholder="by Task Name"
-                    >
-                </div>
-                <div class="col-lg-3 pb-2">
-                    <input
-                            type="text"
-                            name="code-search-area"
-                            class="button-margin-tlr form-control"
-                            value="{{ code_search_input }}"
-                            placeholder="by Application"
-                    >
-                </div>
-                <div class="col-lg-3 pb-2">
-                    <select name="owner-search-area" class="form-control">
-                        <option value="">by Dear Soul Responsible</option>
-                        {% for dear_soul in dear_souls %}
-                        <option value='{{ dear_soul.profile.spiritual_name }}'>{{ dear_soul.profile.spiritual_name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-        </form>
-        {% if not search_off %}
-            <div class="row pt-2">
-                <div class="col-lg-9 pb-2">
-                {% if search_type == 'Task' %}
-                    {% if search_count == 0 %}
-                        <p class="text-danger">There are no entries with "{{ search_entered }}" in the field, Task Name.</p>
-                    {% else %}
-                        <p class="text-CCL-Blue">There {{ search_count|pluralize:"is,are" }} {{ search_count }} entr{{ search_count|pluralize:"y,ies" }} with "{{ search_entered }}" in the field, Task Name.</p>
-                    {% endif %}
-                {% elif search_type == 'App' %}
-                    {% if search_count == 0 %}
-                        <p class="text-danger">There are no entries with "{{ search_entered }}" in the field, Applications.</p>
-                    {% else %}
-                        <p class="text-CCL-Blue">There {{ search_count|pluralize:"is,are" }} {{ search_count }} entr{{ search_count|pluralize:"y,ies" }} with "{{ search_entered }}" in the field, Application.</p>
-                    {% endif %}
-                {% elif search_type == 'Owner' %}
-                    {% if search_count == 0 %}
-                        <p class="text-danger">There are no entries with "{{ search_entered }}" in the field, Responsible For Entry.</p>
-                    {% else %}
-                        <p class="text-CCL-Blue">There {{ search_count|pluralize:"is,are" }} {{ search_count }} entr{{ search_count|pluralize:"y,ies" }} with "{{ search_entered }}" in the field, Responsible For Entry.</p>
-                    {% endif %}
-                {% endif %}
-                </div>
-                <div class="col-lg-3 pb-2">
-                    <a href="{% url 'lee' %}" class="btn btn-outline-CCL-Blue col-12 float-end">Clear Search</a>
-                </div>
-            </div>
-        {% endif %}
-    </article>
 
     <div class="content-section d-none d-xl-block">
         <div class="row pt-2">
-            <div class="col-lg-6">
-                <h6><strong>Task Name</strong></h6>
-            </div>
             <div class="col-lg-3">
-                <h6><strong>Application</strong></h6>
+                <h6><strong>Audience</strong></h6>
             </div>
-            <div class="col-lg-3">
-                <h6><strong>Responsible</strong></h6>
+            <div class="col-lg-9">
+                <h6><strong>Audience Notes</strong></h6>
             </div>
         </div>
     </div>
 
-    {% for LEE_entry in LEE %}
+    {% for audience in audiences %}
     <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
         <div class="row pt-2">
             <div class="col-lg-6">
                 <p>
-                    <a href="{% url 'lee-entry' LEE_entry.id %}" class="text-CCL-Blue"><strong>{{ LEE_entry.task_name }}</strong></a>
+                    <a href="{% url 'lee-entry' audience.id %}" class="text-CCL-Blue"><strong>{{ audience.audience }}</strong></a>
                 </p>
             </div>
             <div class="col-lg-3">
-                {{ LEE_entry.application }}
-            </div>
-            <div class="col-lg-3">
-                {{ LEE_entry.responsible_for_entry }}
+                {{ audience.audience_notes }}
             </div>
         </div>
     </section>
