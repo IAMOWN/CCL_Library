@@ -5,52 +5,51 @@
     <section class="pt-4"></section>
     <section class="pt-4"></section>
     <article class="content-section">
-        <div class="media-body">
-            <h3><strong>{{ title }}</strong></h3>
+        <div class="row pt-2">
+            <div class="col-lg-12">
+                <h3>{{ title }}</h3>
+            </div>
         </div>
     </article>
-    <article class="content-section">
-        <div class="media-body pb-2 pt-2">
-            <form method="get">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <button type="submit" class="btn btn-outline-CCL-Blue col-12">Search Profiles</button>
-                    </div>
-                    <div class="col-lg-3 pb-2">
-                        <select name="search-area" class="form-control">
-                            <option value="">by Dear Soul</option>
-                            {% for dear_soul in dear_souls %}
-                            <option value='{{ dear_soul.profile.spiritual_name }}'>{{ dear_soul.profile.spiritual_name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-            </form>
-            {% if not search_off %}
-            <div class="row pt-2 pb-2">
-                <div class="col-lg-9">
-                {% if search_type == 'Spiritual' %}
-                    {% if search_count == 0 %}
-                    <p class="text-danger">There are no profiles matching the search for, "{{ search_entered }}".</p>
-                    {% else %}
-                    <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} profile{% if search_count == 1 %}{% else %}s{% endif %} with "{{ search_entered }}" in their first name.</p>
-                    {% endif %}
-                {% endif %}
-                </div>
+    <article class="content-section text-CCL-Gold">
+        <form method="get">
+            <div class="row pt-2">
                 <div class="col-lg-3">
-                    <a href="{% url 'profiles' %}" class="btn btn-outline-CCL-Blue col-12 float-end">Clear Search</a>
+                    <button type="submit" class="btn btn-outline-CCL-Blue col-12">Search Profiles</button>
+                </div>
+                <div class="col-lg-3 pb-2">
+                    <select name="search-area" class="form-control">
+                        <option value="">by Dear Soul</option>
+                        {% for dear_soul in dear_souls %}
+                        <option value='{{ dear_soul.profile.spiritual_name }}'>{{ dear_soul.profile.spiritual_name }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
             </div>
+        </form>
+        {% if not search_off %}
+        <div class="row pt-2 pb-2">
+            <div class="col-lg-9">
+            {% if search_type == 'Spiritual' %}
+                {% if search_count == 0 %}
+                <p class="text-danger">There are no profiles matching the search for, "{{ search_entered }}".</p>
+                {% else %}
+                <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} profile{% if search_count == 1 %}{% else %}s{% endif %} with "{{ search_entered }}" in their first name.</p>
+                {% endif %}
             {% endif %}
+            </div>
+            <div class="col-lg-3">
+                <a href="{% url 'profiles' %}" class="btn btn-outline-CCL-Blue col-12 float-end">Clear Search</a>
+            </div>
         </div>
+        {% endif %}
     </article>
-
-{#    DONE Add search/filter to profile page #}
+    
     {% for profile in profiles %}
-    <article class="content-section">
-        <div class="row pb-2 pt-2">
+    <article class="content-section text-CCL-Gold">
+        <div class="row pt-2">
             <div class="col-lg-12">
-                <h5><strong>Profile for <a class="text-BlueGray" href="#}">{{ profile.spiritual_name }}</a></strong></h5>
+                <h5><strong>Profile for <a class="text-CCL-Blue" href="#}">{{ profile.spiritual_name }}</a></strong></h5>
             </div>
         </div>
         <div class="row">
