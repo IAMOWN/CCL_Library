@@ -394,4 +394,42 @@ class Audience(models.Model):
     def __str__(self):
         return self.audience
 
+    def get_absolute_url(self):
+        return reverse('audience-entry', kwargs={'pk': self.pk})
 
+
+# ####################### Mailing List #######################
+class MailingList(models.Model):
+    email = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='user_in_mailing_list',
+    )
+    audience = models.ForeignKey(
+        Audience,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='audience_in_mailing_list',
+    )
+    subscribed = models.CharField(
+        choices=YES_NO_CHOICES,
+        null=True,
+        blank=True,
+        max_length=10,
+        default='---',
+    )
+    date_created = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        if self.email:
+            return self.email
+        else:
+            return self.audience
