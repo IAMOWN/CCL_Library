@@ -4,101 +4,66 @@
     <section class="pt-2"></section>
     <section class="pt-4"></section>
     <section class="pt-4"></section>
-    <article class="media content-section">
+    <article class="content-section">
         <div class="media-body">
             <h3><strong>{{ title }}</strong></h3>
         </div>
     </article>
-    <article class="media content-section">
-        <div class="media">
-            <div class="media-body pb-2 pt-2">
-                <form method="get">
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <button type="submit" class="btn btn-outline-CCL-Blue col-12">Search Profiles</button>
-                        </div>
-                        <div class="col-lg-3">
-                            <input
-                                    type="text"
-                                    name="search-area"
-                                    class="form-control"
-                                    value="{{ search_input }}"
-                                    placeholder="by First Name"
-                            >
-                        </div>
-                        <div class="col-lg-3">
-                            <input
-                                    type="text"
-                                    name="last-search-area"
-                                    class="form-control"
-                                    value="{{ last_search_input }}"
-                                    placeholder="by Last Name"
-                            >
-                        </div>
+    <article class="content-section">
+        <div class="media-body pb-2 pt-2">
+            <form method="get">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <button type="submit" class="btn btn-outline-CCL-Blue col-12">Search Profiles</button>
                     </div>
-                </form>
-                {% if not search_off %}
-                    {% if search_type == 'first' %}
-                        {% if search_count == 0 %}
-                        <p class="text-danger">There are no profiles with "{{ search_entered }} in their first name".</p>
-                        {% else %}
-                        <p class="text-success">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} profile{% if search_count == 1 %}{% else %}s{% endif %} with "{{ search_entered }}" in their first name.</p>
-                        {% endif %}
-                    {% elif search_type == 'last' %}
-                        {% if search_count == 0 %}
-                        <p class="text-danger">There are no profiles with "{{ search_entered }} in their last name".</p>
-                        {% else %}
-                        <p class="text-success">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} profile{% if search_count == 1 %}{% else %}s{% endif %} with "{{ search_entered }}" in their last name.</p>
-                        {% endif %}
+                    <div class="col-lg-3 pb-2">
+                        <select name="search-area" class="form-control">
+                            <option value="">by Dear Soul</option>
+                            {% for dear_soul in dear_souls %}
+                            <option value='{{ dear_soul.profile.spiritual_name }}'>{{ dear_soul.profile.spiritual_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </form>
+            {% if not search_off %}
+            <div class="row pt-2 pb-2">
+                <div class="col-lg-9">
+                {% if search_type == 'Spiritual' %}
+                    {% if search_count == 0 %}
+                    <p class="text-danger">There are no profiles matching the search for, "{{ search_entered }}".</p>
+                    {% else %}
+                    <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} profile{% if search_count == 1 %}{% else %}s{% endif %} with "{{ search_entered }}" in their first name.</p>
                     {% endif %}
                 {% endif %}
+                </div>
+                <div class="col-lg-3">
+                    <a href="{% url 'profiles' %}" class="btn btn-outline-CCL-Blue col-12 float-end">Clear Search</a>
+                </div>
             </div>
+            {% endif %}
         </div>
     </article>
 
 {#    DONE Add search/filter to profile page #}
     {% for profile in profiles %}
-        {% if profile.loyalty_tier == 'VIP' %}
-        <article class="media content-section border-success">
-        {% elif profile.loyalty_tier == 'Member' %}
-        <article class="media content-section border-BlueGray">
-        {% else %}
-        <article class="media content-section">
-        {% endif %}
-            <div class="media-body">
-                <h5 class="article-title pb-2 pt-2"><strong>Profile for <a class="text-BlueGray" href="{% url 'profile-customer' profile.id profile.user_id %}">{{ profile.first_name }} {{ profile.last_name }}</a></strong></h5>
-                <div class="row">
-                    {% if profile.loyalty_tier == 'VIP' %}
-                        <div class="col-lg-6">
-                            <p class="article-content text-success"><strong>Loyalty tier:</strong> {{ profile.loyalty_tier }}</p>
-                        </div>
-                    {% elif profile.loyalty_tier == 'Member' %}
-                        <div class="col-lg-6">
-                            <p class="article-content text-BlueGray"><strong>Loyalty tier:</strong> {{ profile.loyalty_tier }}</p>
-                        </div>
-                    {% else %}
-                        <div class="col-lg-6">
-                            <p class="article-content"><strong>Loyalty tier:</strong> {{ profile.loyalty_tier }}</p>
-                        </div>
-                    {% endif %}
-                    <div class="col-lg-6">
-                        <p class="article-content"><strong>Loyalty counter:</strong> {{ profile.loyalty_counter }}</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <p class="article-content"><strong>Pronoun:</strong> {{ profile.pronoun }}</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <p class="article-content"><strong>Email:</strong> {{ profile.user.email }}</p>
-                    </div>
-                    <div class="col-lg-6">
-                        <p class="article-content"><strong>Phone:</strong> {{ profile.phone }}</p>
-                    </div>
-                </div>
+    <article class="content-section">
+        <div class="row pb-2 pt-2">
+            <div class="col-lg-12">
+                <h5><strong>Profile for <a class="text-BlueGray" href="#}">{{ profile.spiritual_name }}</a></strong></h5>
             </div>
-        </article>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <p><strong>Notification Preference:</strong> {{ profile.notification_preference }}</p>
+            </div>
+            <div class="col-lg-3">
+                <p><strong>Email:</strong> {{ profile.user.email }}</p>
+            </div>
+            <div class="col-lg-3">
+                <p><strong>Phone:</strong> {{ profile.phone }}</p>
+            </div>
+        </div>
+    </article>
     {% endfor %}
 {% endblock content %}

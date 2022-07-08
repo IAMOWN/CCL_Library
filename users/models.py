@@ -284,6 +284,7 @@ class Profile(models.Model):
     spiritual_name = models.CharField(
         max_length=200,
         default='',
+        unique=True,
         help_text='''Please enter the name you now identify with. 
         Where applicable this will be used as the name by which you are identified in Soul Synthesis.''',
     )

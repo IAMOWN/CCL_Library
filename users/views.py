@@ -4,11 +4,12 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
     ListView,
     DetailView,
 )
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Profile
@@ -87,25 +88,19 @@ class ProfileListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def get_context_data(self, *args, **kwargs):
         context = super(ProfileListView, self).get_context_data(**kwargs)
         context['year'] = get_current_year()
-        context['title'] = 'Whurthy Profiles'
+        context['title'] = 'Soul Synthesis Profiles'
 
         search_input = self.request.GET.get('search-area') or ''
 
-        last_search_input = self.request.GET.get('last-search-area') or ''
+        context['dear_souls'] = Profile.objects.all().order_by('spiritual_name')
 
         # ### SEARCH ###
         context['search_off'] = True
         if search_input:
-            context['profiles'] = Profile.objects.filter(first_name__contains=search_input)
+            context['profiles'] = Profile.objects.get(spiritual_name=search_input)
             context['search_count'] = context['profiles'].count()
             context['search_entered'] = search_input
-            context['search_type'] = 'first'
-            context['search_off'] = False
-        if last_search_input:
-            context['profiles'] = Profile.objects.filter(last_name__contains=last_search_input)
-            context['search_count'] = context['profiles'].count()
-            context['search_entered'] = last_search_input
-            context['search_type'] = 'last'
+            context['search_type'] = 'Spiritual'
             context['search_off'] = False
 
         return context

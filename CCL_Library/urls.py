@@ -1,3 +1,4 @@
+import users.views
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
@@ -35,4 +36,7 @@ urlpatterns = [
     path('training/', views.training, name='training'),
     path('librarian-training/', views.librian_training, name='librarian-training'),
     path('release-notes/', views.release_notes, name='release-notes'),
+
+    # User Profile
+    path('profiles/', users.views.ProfileListView.as_view(), name='profiles'),
 ]
