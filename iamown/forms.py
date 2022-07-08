@@ -8,6 +8,7 @@ from .models import (
     ServiceGroup,
     LEE,
     PEeP,
+    Audience,
 )
 
 from users.models import (
@@ -23,14 +24,12 @@ def library_task_form_validation(form, form_type):
             'task_title',
             'A title for the task must be entered.'
         )
-
     if cleaned_data.get('task_status') == 'Completed' and cleaned_data.get('book_text_impacted') == '---' and form.instance.task_type == 'Library Observation':
         form.add_error(
             'book_text_impacted',
             '''If you are uncertain then select "Yes". Completing the task with "Yes" selected for book 
             text impacted will assign a task to the Book Editing Circle.'''
         )
-
     return
 
 
@@ -42,6 +41,40 @@ def service_group_form_validation(form, form_type):
             'service_group',
             'A name for the Service Group must be entered.'
         )
+    return
+
+
+# ############ PEeP validation logic ############
+def PEeP_form_validation(form, form_type):
+    cleaned_data = super(form_type, form).clean()
+    if cleaned_data.get('functional_activity') is None:
+        form.add_error(
+            'functional_activity',
+            'A Functional Activity must be entered.'
+        )
+    return
+
+
+# ############ LEE validation logic ############
+def LEE_form_validation(form, form_type):
+    cleaned_data = super(form_type, form).clean()
+    if cleaned_data.get('task_name') is None:
+        form.add_error(
+            'task_name',
+            'A Task Name must be entered.'
+        )
+    return
+
+
+# ############ Audience form validation logic ############
+def audience_form_validation(form, form_type):
+    cleaned_data = super(form_type, form).clean()
+    if cleaned_data.get('audience') is None:
+        form.add_error(
+            'audience',
+            'An audience must be entered.'
+        )
+
     return
 
 
@@ -166,6 +199,10 @@ class CreateLEEForm(forms.ModelForm):
             'relevant_django_file',
         ]
 
+    def clean(self):
+        LEE_form_validation(self, CreateLEEForm)
+        return self.cleaned_data
+
 
 # ####################### LEE Update Form #######################
 class UpdateLEEForm(forms.ModelForm):
@@ -186,6 +223,10 @@ class UpdateLEEForm(forms.ModelForm):
             'relevant_django_file',
         ]
 
+    def clean(self):
+        LEE_form_validation(self, UpdateLEEForm)
+        return self.cleaned_data
+
 
 # ####################### PEeP Create Form #######################
 class CreatePEePForm(forms.ModelForm):
@@ -205,6 +246,10 @@ class CreatePEePForm(forms.ModelForm):
             'process_code',
         ]
 
+    def clean(self):
+        PEeP_form_validation(self, CreatePEePForm)
+        return self.cleaned_data
+
 
 # ####################### PEeP Update Form #######################
 class UpdatePEePForm(forms.ModelForm):
@@ -223,3 +268,37 @@ class UpdatePEePForm(forms.ModelForm):
             'service_group',
             'process_code',
         ]
+
+    def clean(self):
+        PEeP_form_validation(self, UpdatePEePForm)
+        return self.cleaned_data
+
+
+# ####################### Audience Create Form #######################
+class CreateAudienceForm(forms.ModelForm):
+
+    class Meta:
+        model = Audience
+
+        fields = [
+            'audience',
+        ]
+
+    def clean(self):
+        audience_form_validation(self, CreateAudienceForm)
+        return self.cleaned_data
+
+
+# ####################### Audience Update Form #######################
+class UpdateAudienceForm(forms.ModelForm):
+
+    class Meta:
+        model = Audience
+
+        fields = [
+            'audience',
+        ]
+
+    def clean(self):
+        audience_form_validation(self, UpdateAudienceForm)
+        return self.cleaned_data

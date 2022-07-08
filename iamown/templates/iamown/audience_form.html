@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_filters %}
+{% block title %}
+    {% if page_type == 'Update' %}
+        Edit LEE entry
+    {% else %}
+        Create LEE entry
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <section class="content-section">
+        <div class="row pt-2">
+            <div class="col-lg-12">
+            {% if page_type == 'Update' %}
+                <h3><strong>Edit LEE entry</strong></h3>
+            {% else %}
+                <h3><strong>Create LEE entry</strong></h3>
+            {% endif %}
+            </div>
+        </div>
+    </section>
+    <section class="content-section pt-2 pb-4 text-CCL-Gold">
+        <form method="post" action="" enctype="multipart/form-data" class="padding-below-element">
+            {% csrf_token %}
+            {{ form.media }}
+            <div class="row">
+                <div class="col-lg-3">
+                {% if user.is_superuser %}
+                    {{ form.task_name|as_crispy_field }}
+                {% elif user.is_staff %}
+                    <p>Task Name</p>
+                    <strong>{{ LEE_obj.task_name }}</strong>
+                    {{ form.task_name.as_hidden }}
+                {% endif %}
+                </div>
+                <div class="col-lg-3">
+                {% if user.is_superuser %}
+                    {{ form.application|as_crispy_field }}
+                {% elif user.is_staff %}
+                    <p>Whurthy Application</p>
+                    <strong>{{ LEE_obj.application }}</strong>
+                    {{ form.application.as_hidden }}
+                {% endif %}
+                </div>
+                <div class="col-lg-3">
+                {% if user.is_superuser %}
+                    {{ form.relevant_django_file|as_crispy_field }}
+                {% elif user.is_staff %}
+                    <p>Relevant Django File</p>
+                    <strong>{{ LEE_obj.relevant_django_file }}</strong>
+                    {{ form.relevant_django_file.as_hidden }}
+                {% endif %}
+                </div>
+                <div class="col-lg-3">
+                    {{ form.responsible_for_entry|as_crispy_field }}
+                </div>
+            </div>
+        <hr>
+            <div class="row">
+                <div class="col-lg-6">
+                    {{ form.process_description|as_crispy_field }}
+                </div>
+                <div class="col-lg-3">
+                    {{ form.process_code|as_crispy_field }}
+                </div>
+                <div class="col-lg-3">
+                    {{ form.process_outcome|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row pt-2">
+                <div class="col-lg-3">
+                    <a href="{% url 'lee' %}" class="btn btn-outline-CCL-Blue col-12">Back to LEE</a>
+                </div>
+                <div class="col-lg-6">
+                </div>
+                <div class="col-lg-3">
+                    {% if page_type == 'Update' %}
+                    <input type="submit" value="Update LEE Entry" class="btn btn-CCL-Blue float-end col-12">
+                    {% else %}
+                    <input type="submit" value="Add LEE Entry" class="btn btn-CCL-Blue float-end col-12">
+                    {% endif %}
+                </div>
+            </div>
+        </form>
+    </section>
+{% endblock %}
