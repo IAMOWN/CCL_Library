@@ -98,7 +98,7 @@ class ProfileListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['search_off'] = True
         if search_input:
             context['profiles'] = Profile.objects.get(spiritual_name=search_input)
-            context['search_count'] = context['profiles'].count()
+            context['search_count'] = 1
             context['search_entered'] = search_input
             context['search_type'] = 'Spiritual'
             context['search_off'] = False
