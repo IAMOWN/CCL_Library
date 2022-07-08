@@ -53,6 +53,11 @@ APPLICATION_CHOICES = [
     ('Users', 'Users'),
     ('Other', 'Other'),
 ]
+SCOPE_CHOICES = [
+    ('Internal', 'Internal'),
+    ('External', 'External'),
+    ('Both', 'Both'),
+]
 
 
 # ####################### Service Group #######################
@@ -252,6 +257,8 @@ class LEE(models.Model):
         max_length=100,
         default='',
         unique=True,
+        null=True,
+        blank=True,
         help_text='Enter the specific task name. This should not be changed once it has been coded into the application '
                   'as this will be used in task assignment. Do not change this value unless you know what you are doing.'
     )
@@ -322,6 +329,8 @@ class PEeP(models.Model):
         unique=True,
         max_length=50,
         default='',
+        null=True,
+        blank=True,
         help_text='Enter the functional activity. Note: the application will only be able to act on this record if the '
                   'applicable feature has been built into the application. However, please feel free to enter PEeP '
                   'records for your reference, and to identify future ServiceFlow automation opportunities.'
@@ -383,6 +392,11 @@ class Audience(models.Model):
         unique=True,
         max_length=100,
         help_text='Enter the audience name.'
+    )
+    scope = models.CharField(
+        choices=SCOPE_CHOICES,
+        max_length=20,
+        default='Internal',
     )
     audience_notes = HTMLField(
         null=True,
