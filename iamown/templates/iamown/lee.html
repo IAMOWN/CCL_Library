@@ -98,21 +98,21 @@
     </div>
 
     {% for LEE_entry in LEE %}
-        <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
-            <div class="row pt-2">
-                <div class="col-lg-6">
-                    <p>
-                        <a href="{% url 'lee-entry' LEE_entry.id %}" class="text-CCL-Blue"><strong>{{ LEE_entry.task_name }}</strong></a>
-                    </p>
-                </div>
-                <div class="col-lg-3">
-                    {{ LEE_entry.application }}
-                </div>
-                <div class="col-lg-3">
-                    {{ LEE_entry.responsible_for_entry }}
-                </div>
+    <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
+        <div class="row pt-2">
+            <div class="col-lg-6">
+                <p>
+                    <a href="{% url 'lee-entry' LEE_entry.id %}" class="text-CCL-Blue"><strong>{{ LEE_entry.task_name }}</strong></a>
+                </p>
             </div>
-        </section>
+            <div class="col-lg-3">
+                {{ LEE_entry.application }}
+            </div>
+            <div class="col-lg-3">
+                {{ LEE_entry.responsible_for_entry }}
+            </div>
+        </div>
+    </section>
     {% endfor %}
     <p class="pb-2"></p>
 {% endblock %}
