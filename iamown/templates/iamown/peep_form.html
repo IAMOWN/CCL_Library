@@ -9,14 +9,14 @@
     {% endif %}
 {% endblock %}
 {% block content %}
-    <section class="content-section pb-2">
+    <section class="content-section pt-2">
         {% if page_type == 'Update' %}
             <h3><strong>Edit PEeP entry</strong></h3>
         {% else %}
             <h3><strong>Add PEeP entry</strong></h3>
         {% endif %}
     </section>
-    <section class="content-section pb-2">
+    <section class="content-section pb-2 text-CCL-Gold">
         <form method="post" action="" enctype="multipart/form-data" class="pb-2">
             {% csrf_token %}
             {{ form.media }}
@@ -30,12 +30,6 @@
                     {{ form.functional_activity.as_hidden }}
                 {% endif %}
                 </div>
-                <div class="col-lg-6">
-                    {{ form.detailed_description|as_crispy_field }}
-                </div>
-            </div>
-        <hr>
-            <div class="row">
                 <div class="col-lg-3">
                     {{ form.dear_soul_responsible|as_crispy_field }}
                 </div>
@@ -46,9 +40,15 @@
                     {{ form.process_code|as_crispy_field }}
                 </div>
             </div>
+        <hr>
+            <div class="row">
+                <div class="col-lg-12">
+                    {{ form.detailed_description|as_crispy_field }}
+                </div>
+            </div>
             <div class="row pt-4">
                 <div class="col-lg-3">
-                    <a href="{% url 'peeps' %}" class="btn btn-outline-BlueGray col-12">Back to PEePs</a>
+                    <a href="{% url 'peeps' %}" class="btn btn-outline-CCL-Blue col-12">Back to PEePs</a>
                 </div>
                 <div class="col-lg-6">
                 </div>
