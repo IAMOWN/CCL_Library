@@ -211,7 +211,7 @@ class LEEUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             messages.SUCCESS,
             f'The LEE entry "{message}" has been updated.'
         )
-        return super(LEECreateView, self).form_valid(form)
+        return super(LEEUpdateView, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super(LEEUpdateView, self).get_context_data(**kwargs)
