@@ -141,11 +141,8 @@ class ProfileDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super(ProfileDetailView, self).get_context_data(**kwargs)
 
-        context['title'] = 'Profile'
-
         context['profile'] = Profile.objects.get(id=self.kwargs["pk"])
-
         user_obj = User.objects.get(id=self.kwargs['user_id'])
         context['user_id'] = self.kwargs['user_id']
 
-        return contex
+        return context
