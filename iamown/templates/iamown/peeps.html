@@ -70,7 +70,6 @@
                     {% else %}
                         <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} entr{% if search_count == 1 %}y{% else %}ies{% endif %} with "{{ search_entered }}" in the field, Dear Soul Responsible.</p>
                     {% endif %}
-                {% endif %}
                 {% elif search_type == 'Group' %}
                     {% if search_count == 0 %}
                         <p class="text-danger">There are no entries with "{{ search_entered }}" in Service Group.</p>
@@ -85,6 +84,7 @@
             </div>
         {% endif %}
     </article>
+
     <section class="content-section d-none d-xl-block">
         <div class="row pt-2">
             <div class="col-lg-6">
