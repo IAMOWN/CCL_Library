@@ -2,48 +2,42 @@
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
     <article class="content-section">
-        <div class="row pb-2 pt-2">
-            <div class="col-lg-4">
-                <h4 class="article-title">
+        <div class="row pt-2">
+            <div class="col-lg-12">
+                <h3>
                     <strong>Profile for {{ profile.spiritual_name }} </strong>
-                </h4>
+                </h3>
             </div>
         </div>
     </article>
     <article class="content-section text-CCL-Gold">
         <div class="row pt-2">
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <p><strong>Spiritual Name:</strong> {{ profile.spiritual_name }}</p>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <p><strong>Pronoun:</strong> {{ profile.pronoun }}</p>
             </div>
-            {% if profile.given_first_name %}
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <p><strong>Given First Name:</strong> {{ profile.given_first_name }}</p>
             </div>
-            {% endif %}
-            {% if profile.given_last_name %}
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <p><strong>Given Last Name:</strong> {{ profile.given_last_name }}</p>
             </div>
-            {% endif %}
         </div>
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <p><strong>Address:</strong>
                 {% if profile.address_1 %}{{ profile.address_1 }}{% endif %}{% if profile.address_2 %}, {{ profile.address_2 }}{% endif %}
                 {{ profile.city }}, {{ profile.state_province_county }}
                 {{ profile.postal_zip_code }}
                 {{ profile.country }}</p>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <p><strong>Phone:</strong> {{ profile.phone }}</p>
                 <p><strong>Email:</strong> {{ profile.user.email }}</p>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <p><strong>Notification preference:</strong> {{ profile.notification_preference }}</p>
             </div>
         </div>
