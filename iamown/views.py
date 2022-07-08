@@ -947,7 +947,7 @@ class PEePUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             messages.SUCCESS,
             f'The PEeP entry "{message}" has been updated.'
         )
-        return super(PEePCreateView, self).form_valid(form)
+        return super(PEePUpdateView, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super(PEePUpdateView, self).get_context_data(**kwargs)
