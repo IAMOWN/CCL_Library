@@ -22,24 +22,14 @@
                         {% endfor %}
                     </select>
                 </div>
+                {% if not search_off %}
+                <div class="col-lg-3"></div>
+                <div class="col-lg-3">
+                    <a href="{% url 'profiles' %}" class="btn btn-outline-CCL-Blue col-12 float-end">Clear Search</a>
+                </div>
+                {% endif %}
             </div>
         </form>
-        {% if not search_off %}
-        <div class="row pt-2 pb-2">
-            <div class="col-lg-9">
-            {% if search_type == 'Spiritual' %}
-                {% if search_count == 0 %}
-                <p class="text-danger">There are no profiles matching the search for, "{{ search_entered }}".</p>
-                {% else %}
-                <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} profile{% if search_count == 1 %}{% else %}s{% endif %} with "{{ search_entered }}" in their first name.</p>
-                {% endif %}
-            {% endif %}
-            </div>
-            <div class="col-lg-3">
-                <a href="{% url 'profiles' %}" class="btn btn-outline-CCL-Blue col-12 float-end">Clear Search</a>
-            </div>
-        </div>
-        {% endif %}
     </article>
 
     {% for profile in profiles %}
