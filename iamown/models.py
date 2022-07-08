@@ -372,3 +372,26 @@ class PEeP(models.Model):
 
     def get_absolute_url(self):
         return reverse('peep-entry', kwargs={'pk': self.pk})
+
+
+# ####################### Audiences #######################
+class Audience(models.Model):
+    """
+    Audience model. Captures the list of mailing list audiences. Newsletter is sent to an audience.
+    """
+    audience = models.CharField(
+        unique=True,
+        max_length=100,
+        help_text='Enter the audience name.'
+    )
+    audience_notes = HTMLField(
+        null=True,
+        blank=True,
+        help_text='If applicable, enter any notes about this audience.'
+    )
+    date_created = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.audience
+
+
