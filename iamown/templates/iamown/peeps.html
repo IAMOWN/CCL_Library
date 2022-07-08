@@ -49,7 +49,7 @@
                     <select name="group-search-area" class="form-control">
                         <option value="">by Service Group</option>
                         {% for service_group in service_groups %}
-                        <option value='{{ service_group.service_group }}'>{{ service_group.service_group }}</option>
+                        <option value='{{ service_group.service_group.title }}'>{{ service_group.service_group.title }}</option>
                         {% endfor %}
                     </select>
                 </div>
