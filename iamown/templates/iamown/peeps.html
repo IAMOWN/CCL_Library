@@ -62,13 +62,20 @@
                     {% if search_count == 0 %}
                         <p class="text-danger">There are no entries with "{{ search_entered }}" in Functional Activity.</p>
                     {% else %}
-                        <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} entr{% if search_count == 1 %}y{% else %}ies{% endif %} with "{{ search_entered }}" in Process Function in PEeP.</p>
+                        <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} entr{% if search_count == 1 %}y{% else %}ies{% endif %} with "{{ search_entered }}" in the field, Functional Activity.</p>
                     {% endif %}
                 {% elif search_type == 'Resp' %}
                     {% if search_count == 0 %}
                         <p class="text-danger">There are no entries with "{{ search_entered }}" in Dear Soul Responsible.</p>
                     {% else %}
-                        <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} entr{% if search_count == 1 %}y{% else %}ies{% endif %} with "{{ search_entered }}" in Dear Soul Responsible in PEeP.</p>
+                        <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} entr{% if search_count == 1 %}y{% else %}ies{% endif %} with "{{ search_entered }}" in the field, Dear Soul Responsible.</p>
+                    {% endif %}
+                {% endif %}
+                {% elif search_type == 'Group' %}
+                    {% if search_count == 0 %}
+                        <p class="text-danger">There are no entries with "{{ search_entered }}" in Service Group.</p>
+                    {% else %}
+                        <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} entr{% if search_count == 1 %}y{% else %}ies{% endif %} with "{{ search_entered }}" in the field, Service Group.</p>
                     {% endif %}
                 {% endif %}
                 </div>
