@@ -14,6 +14,10 @@ from django.contrib.auth.models import User
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Profile
 
+from library.models import (
+    ReadingProgress,
+)
+
 
 # ####################### CONSTANTS #######################
 BASE_URL = settings.DOMAIN
@@ -144,5 +148,8 @@ class ProfileDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         context['profile'] = Profile.objects.get(id=self.kwargs["pk"])
         user_obj = User.objects.get(id=self.kwargs['user_id'])
         context['user_id'] = self.kwargs['user_id']
+        reading_list = ReadingProgress.objects.filter(dear_soul__username=user_obj.username)
+        context['reading_list'] = reading_list
+        context['reading_list_count'] = reading_list.count()
 
         return context
