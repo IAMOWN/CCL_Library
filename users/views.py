@@ -125,3 +125,27 @@ class ProfileDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
         return context
 
+
+# ####################### Profile - Detail View #######################
+class ProfileDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = Profile
+    template_name = 'users/profile_detail.html'
+    context_object_name = 'profile'
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        else:
+            return False
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ProfileDetailView, self).get_context_data(**kwargs)
+
+        context['title'] = 'Profile'
+
+        context['profile'] = Profile.objects.get(id=self.kwargs["pk"])
+
+        user_obj = User.objects.get(id=self.kwargs['user_id'])
+        context['user_id'] = self.kwargs['user_id']
+
+        return contex
