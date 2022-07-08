@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    PEeP entry: {{ peep.process_function }}
+{% endblock %}
+{% block content %}
+    <article class="content-section">
+        <div class="row">
+            <div class="col-lg-12 pt-2">
+                <h4 class="article-title pb-2 pt-2">
+                    <strong>Functional Activity: {{ peep.functional_activity }}</strong>
+                </h4>
+            </div>
+        </div>
+    </article>
+    <article class="content-section">
+        <div class="row pt-2">
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <p><strong>Dear Soul Responsible: </strong>{{ peep.dear_soul_responsible }}</p>
+            </div>
+            <div class="col-lg-6">
+                <p><strong>Service Group: </strong>{{ peep.service_group }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-9">
+                <p><strong>Detailed Description:</strong></p>
+                {{ peep.detailed_description|safe }}
+            </div>
+            <div class="col-lg-3">
+                <p><strong>Process Code: </strong>{{ peep.process_code }}</p>
+            </div>
+        </div>
+        <div class="row pb-2 pt-4">
+            <div class="col-lg-3 pb-2">
+                <a href="{% url 'peeps' %}" class="btn btn-outline-CCL-Blue col-12">Back to PEePs</a>
+            </div>
+            <div class="col-lg-3 pb-2">
+                <a href="{% url 'peep-update' peep.id %}" class="btn btn-CCL-Blue col-12">Edit LEE Record</a>
+            </div>
+            <div class="col-lg-3 pb-2">
+            </div>
+            <div class="col-lg-3 pb-2">
+                <a href="{% url 'peep-delete' peep.id %}" class="btn btn-outline-danger col-12">Delete LEE Record</a>
+            </div>
+        </div>
+    </article>
+{% endblock %}

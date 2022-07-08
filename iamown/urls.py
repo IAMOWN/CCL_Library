@@ -23,6 +23,11 @@ from .views import (
     LEECreateView,
     LEEUpdateView,
     LEEDeleteView,
+    PEePListView,
+    PEePDetailView,
+    PEePCreateView,
+    PEePUpdateView,
+    PEePDeleteView,
 )
 
 urlpatterns = [
@@ -54,4 +59,11 @@ urlpatterns = [
     path('lee_create/', LEECreateView.as_view(), name='lee-create'),
     path('lee_update/<int:pk>/', LEEUpdateView.as_view(), name='lee-update'),
     path('lee_delete/<int:pk>/', LEEDeleteView.as_view(), name='lee-delete'),
+
+    # PEeP
+    path('peeps/', PEePListView.as_view(), name='peeps'),
+    path('peep/<int:pk>/', PEePDetailView.as_view(), name='peep-entry'),
+    path('peep_create/', PEePCreateView.as_view(), name='peep-create'),
+    path('peep_update/<int:pk>/', PEePUpdateView.as_view(), name='peep-update'),
+    path('peep_delete/<int:pk>/', PEePDeleteView.as_view(), name='peep-delete'),
 ]

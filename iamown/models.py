@@ -326,7 +326,7 @@ class PEeP(models.Model):
                   'applicable feature has been built into the application. However, please feel free to enter PEeP '
                   'records for your reference, and to identify future ServiceFlow automation opportunities.'
     )
-    detailed_description = models.TextField(
+    detailed_description = HTMLField(
         null=True,
         blank=True,
         help_text='If applicable, enter a description for this record. While this description will not be utilized '
@@ -370,5 +370,5 @@ class PEeP(models.Model):
         verbose_name_plural = 'PEeP'
         verbose_name = 'PEeP'
 
-    # def get_absolute_url(self):
-    #     return reverse('peep', kwargs={'pk': self.pk})
+    def get_absolute_url(self):
+        return reverse('peep-entry', kwargs={'pk': self.pk})

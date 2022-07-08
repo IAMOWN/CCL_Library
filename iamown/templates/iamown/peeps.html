@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Process Expertise Profile (PEeP)
+{% endblock %}
+{% block content %}
+    <div class="content-section">
+        <div class="media">
+            <h3><strong>Process Expertise Profile (PEeP)</strong></h3>
+        </div>
+    </div>
+    <div class="content-section">
+        <div class="pt-2 pb-2">
+            <div class="row">
+                <div class="col-lg-3">
+                    <a class="btn btn-CCL-Blue col-12" href="{% url 'peep-create' %}">Add PEeP Entry</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <article class="content-section">
+        <div class="pb-2">
+            <h5><strong>Filter PEePs</strong></h5>
+            <form method="get">
+                <div class="row">
+                    <div class="col-lg-3 pb-2">
+                        <button type="submit" class="btn btn-outline-CCL-Blue col-12">Filter PEePs</button>
+                    </div>
+                    <div class="col-lg-3 pb-2">
+                        <input
+                                type="text"
+                                name="search-area"
+                                class="button-margin-tlr form-control"
+                                value="{{ search_input }}"
+                                placeholder="by Process Function"
+                        >
+                    </div>
+                    <div class="col-lg-3 pb-2">
+                        <select name="resp-search-area" class="form-control">
+                            <option value="">by Dear Soul Responsible</option>
+                            {% for dear_soul in dear_souls %}
+                            <option value='{{ dear_soul.profile.spiritual_name }}'>{{ dear_soul.profile.spiritual_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </form>
+            {% if not search_off %}
+                <div class="row pt-2">
+                    <div class="col-lg-9 pb-2">
+                    {% if search_type == 'Function' %}
+                        {% if search_count == 0 %}
+                            <p class="text-danger">There are no entries with "{{ search_entered }}" in Functional Activity.</p>
+                        {% else %}
+                            <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} entr{% if search_count == 1 %}y{% else %}ies{% endif %} with "{{ search_entered }}" in Process Function in PEeP.</p>
+                        {% endif %}
+                    {% elif search_type == 'Resp' %}
+                        {% if search_count == 0 %}
+                            <p class="text-danger">There are no entries with "{{ search_entered }}" in Dear Soul Responsible.</p>
+                        {% else %}
+                            <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} entr{% if search_count == 1 %}y{% else %}ies{% endif %} with "{{ search_entered }}" in Dear Soul Responsible in PEeP.</p>
+                        {% endif %}
+                    {% endif %}
+                    </div>
+                    <div class="col-lg-3 pb-2">
+                        <a href="{% url 'peeps' %}" class="btn btn-outline-CCL-Blue col-12 float-end">Clear Search</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </article>
+    <section class="content-section d-none d-xl-block">
+        <div class="row">
+            <div class="col-lg-3">
+                <h6><strong>Functional Activity</strong></h6>
+            </div>
+            <div class="col-lg-3">
+                <h6><strong>Dear Soul Responsible</strong></h6>
+            </div>
+            <div class="col-lg-3">
+                <h6><strong>Service Group</strong></h6>
+            </div>
+        </div>
+    </section>
+    {% for peep in peeps %}
+    <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
+        <div class="row">
+            <div class="col-lg-3">
+                    <p><a href="{% url 'peep-entry' peep.id %}" class="text-CCL-Blue"><strong>{{ peep.functional_activity }}</strong></a></p>
+            </div>
+            <div class="col-lg-3">
+                {{ peep.dear_soul_responsible }}
+            </div>
+            <div class="col-lg-3">
+                {{ peep.service_group }}
+            </div>
+        </div>
+    </section>
+    {% endfor %}
+    <p class="pb-2"></p>
+{% endblock %}
