@@ -41,7 +41,7 @@
                     <select name="resp-search-area" class="form-control">
                         <option value="">by Dear Soul Responsible</option>
                         {% for dear_soul in dear_souls %}
-                        <option value='{{ dear_soul.profile.spiritual_name }}'>{{ dear_soul.profile.spiritual_name }}</option>
+                        <option value='{{ dear_soul }}'>{{ dear_soul }}</option>
                         {% endfor %}
                     </select>
                 </div>
