@@ -885,7 +885,7 @@ class PEePListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
             context['search_type'] = 'Resp'
         if group_search_input:
             context['search_off'] = False
-            context['peeps'] = context['peeps'].filter(service_group=group_search_input)
+            context['peeps'] = context['peeps'].filter(service_group__service_group=group_search_input)
             context['search_count'] = context['peeps'].count()
             context['search_entered'] = group_search_input
             context['search_type'] = 'Group'
