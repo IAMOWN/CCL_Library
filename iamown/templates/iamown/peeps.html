@@ -23,54 +23,52 @@
     </div>
 
     <article class="content-section">
-        <div class="pb-2">
-            <form method="get">
-                <div class="row pt-2">
-                    <div class="col-lg-3 pb-2">
-                        <button type="submit" class="btn btn-outline-CCL-Blue col-12">Filter PEePs</button>
-                    </div>
-                    <div class="col-lg-3 pb-2">
-                        <input
-                                type="text"
-                                name="search-area"
-                                class="button-margin-tlr form-control"
-                                value="{{ search_input }}"
-                                placeholder="by Functional Activity"
-                        >
-                    </div>
-                    <div class="col-lg-3 pb-2">
-                        <select name="resp-search-area" class="form-control">
-                            <option value="">by Dear Soul Responsible</option>
-                            {% for dear_soul in dear_souls %}
-                            <option value='{{ dear_soul.profile.spiritual_name }}'>{{ dear_soul.profile.spiritual_name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
+        <form method="get">
+            <div class="row pt-2">
+                <div class="col-lg-3 pb-2">
+                    <button type="submit" class="btn btn-outline-CCL-Blue col-12">Filter PEePs</button>
                 </div>
-            </form>
-            {% if not search_off %}
-                <div class="row pt-2">
-                    <div class="col-lg-9 pb-2">
-                    {% if search_type == 'Function' %}
-                        {% if search_count == 0 %}
-                            <p class="text-danger">There are no entries with "{{ search_entered }}" in Functional Activity.</p>
-                        {% else %}
-                            <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} entr{% if search_count == 1 %}y{% else %}ies{% endif %} with "{{ search_entered }}" in Process Function in PEeP.</p>
-                        {% endif %}
-                    {% elif search_type == 'Resp' %}
-                        {% if search_count == 0 %}
-                            <p class="text-danger">There are no entries with "{{ search_entered }}" in Dear Soul Responsible.</p>
-                        {% else %}
-                            <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} entr{% if search_count == 1 %}y{% else %}ies{% endif %} with "{{ search_entered }}" in Dear Soul Responsible in PEeP.</p>
-                        {% endif %}
+                <div class="col-lg-3 pb-2">
+                    <input
+                            type="text"
+                            name="search-area"
+                            class="button-margin-tlr form-control"
+                            value="{{ search_input }}"
+                            placeholder="by Functional Activity"
+                    >
+                </div>
+                <div class="col-lg-3 pb-2">
+                    <select name="resp-search-area" class="form-control">
+                        <option value="">by Dear Soul Responsible</option>
+                        {% for dear_soul in dear_souls %}
+                        <option value='{{ dear_soul.profile.spiritual_name }}'>{{ dear_soul.profile.spiritual_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </form>
+        {% if not search_off %}
+            <div class="row pt-2 pb-2">
+                <div class="col-lg-9">
+                {% if search_type == 'Function' %}
+                    {% if search_count == 0 %}
+                        <p class="text-danger">There are no entries with "{{ search_entered }}" in Functional Activity.</p>
+                    {% else %}
+                        <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} entr{% if search_count == 1 %}y{% else %}ies{% endif %} with "{{ search_entered }}" in Process Function in PEeP.</p>
                     {% endif %}
-                    </div>
-                    <div class="col-lg-3 pb-2">
-                        <a href="{% url 'peeps' %}" class="btn btn-outline-CCL-Blue col-12 float-end">Clear Search</a>
-                    </div>
+                {% elif search_type == 'Resp' %}
+                    {% if search_count == 0 %}
+                        <p class="text-danger">There are no entries with "{{ search_entered }}" in Dear Soul Responsible.</p>
+                    {% else %}
+                        <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} entr{% if search_count == 1 %}y{% else %}ies{% endif %} with "{{ search_entered }}" in Dear Soul Responsible in PEeP.</p>
+                    {% endif %}
+                {% endif %}
                 </div>
-            {% endif %}
-        </div>
+                <div class="col-lg-3">
+                    <a href="{% url 'peeps' %}" class="btn btn-outline-CCL-Blue col-12 float-end">Clear Search</a>
+                </div>
+            </div>
+        {% endif %}
     </article>
     <section class="content-section d-none d-xl-block">
         <div class="row pt-2">
