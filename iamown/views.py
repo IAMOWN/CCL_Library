@@ -865,10 +865,12 @@ class PEePListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context = super().get_context_data(**kwargs)
 
         context['dear_souls'] = User.objects.filter(is_staff=True)
+        context['service_groups'] = ServiceGroup.objects.all()
 
         context['search_off'] = True
         search_input = self.request.GET.get('search-area') or ''
         resp_search_input = self.request.GET.get('resp-search-area') or ''
+        group_search_input = self.request.GET.get('group-search-area') or ''
         if search_input:
             context['search_off'] = False
             context['peeps'] = context['peeps'].filter(functional_activity__icontains=search_input)
@@ -881,6 +883,12 @@ class PEePListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
             context['search_count'] = context['peeps'].count()
             context['search_entered'] = resp_search_input
             context['search_type'] = 'Resp'
+        if group_search_input:
+            context['search_off'] = False
+            context['peeps'] = context['peeps'].filter(service_group=group_search_input)
+            context['search_count'] = context['peeps'].count()
+            context['search_entered'] = group_search_input
+            context['search_type'] = 'Group'
         context['search_input'] = search_input
 
         return context

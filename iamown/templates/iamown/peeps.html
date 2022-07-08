@@ -45,16 +45,19 @@
                         {% endfor %}
                     </select>
                 </div>
-                {% if not search_off %}
-                <div class="col-lg-3">
-                    <a href="{% url 'peeps' %}" class="btn btn-outline-CCL-Blue col-12 float-end">Clear Search</a>
+                <div class="col-lg-3 pb-2">
+                    <select name="group-search-area" class="form-control">
+                        <option value="">by Service Group</option>
+                        {% for service_group in service_groups %}
+                        <option value='{{ service_group.service_group }}'>{{ service_group.service_group }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
-                {% endif %}
             </div>
         </form>
         {% if not search_off %}
             <div class="row pt-2 pb-2">
-                <div class="col-lg-12">
+                <div class="col-lg-9">
                 {% if search_type == 'Function' %}
                     {% if search_count == 0 %}
                         <p class="text-danger">There are no entries with "{{ search_entered }}" in Functional Activity.</p>
@@ -68,6 +71,9 @@
                         <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %}  {{ search_count }} entr{% if search_count == 1 %}y{% else %}ies{% endif %} with "{{ search_entered }}" in Dear Soul Responsible in PEeP.</p>
                     {% endif %}
                 {% endif %}
+                </div>
+                <div class="col-lg-3">
+                    <a href="{% url 'peeps' %}" class="btn btn-outline-CCL-Blue col-12 float-end">Clear Search</a>
                 </div>
             </div>
         {% endif %}
@@ -92,7 +98,7 @@
                 <p><a href="{% url 'peep-entry' peep.id %}" class="text-CCL-Blue"><strong>{{ peep.functional_activity }}</strong></a></p>
             </div>
             <div class="col-lg-3">
-                {{ peep.dear_soul_responsible }}
+                {{ peep.dear_soul_responsible.profile.spiritual_name }}
             </div>
             <div class="col-lg-3">
                 {{ peep.service_group }}
