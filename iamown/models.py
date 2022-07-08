@@ -446,7 +446,7 @@ class MailingList(models.Model):
         if self.email:
             return self.email
         else:
-            return self.user
+            return self.user.username
 
     class Meta:
         verbose_name_plural = 'Mailing List'
