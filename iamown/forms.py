@@ -282,6 +282,7 @@ class CreateAudienceForm(forms.ModelForm):
 
         fields = [
             'audience',
+            'audience_notes',
         ]
 
     def clean(self):
@@ -297,6 +298,7 @@ class UpdateAudienceForm(forms.ModelForm):
 
         fields = [
             'audience',
+            'audience_notes',
         ]
 
     def clean(self):
