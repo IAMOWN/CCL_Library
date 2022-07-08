@@ -7,6 +7,7 @@ from .models import (
     Task,
     ServiceGroup,
     LEE,
+    PEeP,
 )
 
 from users.models import (
@@ -183,4 +184,42 @@ class UpdateLEEForm(forms.ModelForm):
             'process_outcome',
             'application',
             'relevant_django_file',
+        ]
+
+
+# ####################### PEeP Create Form #######################
+class CreatePEePForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['dear_soul_responsible'].queryset = User.objects.filter(is_staff=True)
+
+    class Meta:
+        model = PEeP
+
+        fields = [
+            'functional_activity',
+            'detailed_description',
+            'dear_soul_responsible',
+            'service_group',
+            'process_code',
+        ]
+
+
+# ####################### PEeP Update Form #######################
+class UpdatePEePForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['dear_soul_responsible'].queryset = User.objects.filter(is_staff=True)
+
+    class Meta:
+        model = PEeP
+
+        fields = [
+            'functional_activity',
+            'detailed_description',
+            'dear_soul_responsible',
+            'service_group',
+            'process_code',
         ]
