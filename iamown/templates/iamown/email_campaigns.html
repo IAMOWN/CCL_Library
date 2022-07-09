@@ -37,7 +37,7 @@
     <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
         <div class="row pt-2">
             <div class="col-lg-6">
-                <p><a href="{% url 'email-campaign-entry' campaign.id %}" class="text-CCL-Blue"><strong>{{ campaign.audience }} - {{ campaign.subject }}</strong></a></p>
+                <p><a href="{% url 'email-campaign-entry' campaign.id %}" class="text-CCL-Blue"><strong>{{ campaign.audience }} - {{ campaign.subject }} ({{ campaign.date_created|date:'d F, Y' }})</strong></a></p>
             </div>
             <div class="col-lg-3">
                 <p>{{ campaign.sender.profile.spiritual_name }}</p>

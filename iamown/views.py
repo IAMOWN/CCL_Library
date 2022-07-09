@@ -67,7 +67,31 @@ EMAIL_MESSAGE_1 = '''
                           <tr>
                             <td style="width: 100%;">
                               <div style="text-align: left;">
-                                <img src="https://cdn.cosmicchrist.love/ccl-library-static/CCL_Library/Soul%20Synthesis%20Email%20Header.png" alt="Soul Synthesis email header banner" width: 600px;"/>
+                                <img src="https://cdn.cosmicchrist.love/ccl-library-static/CCL_Library/CCL%20Email%20Header.png" alt="Soul Synthesis email header banner" width: 600px;"/>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="ms-rteTableEvenCol-0" align="left">
+                              <div>
+                                <p>
+                                <span style="color: #000000; background-color: transparent; font-family: arial;">
+'''
+EMAIL_MESSAGE_CAMPAIGN_1 = '''
+                    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                    <html xmlns="http://www.w3.org/1999/xhtml">
+                      <head>
+                      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                      <title>Whurthy Notification</title>
+                      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                    </head>
+                    <body style="margin: 0; padding: 0;">
+                      <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border: none; border-collapse: collapse; font-family:  Arial, sans-serif; font-size: 14px; line-height: 1.5;">
+                        <tbody>
+                          <tr>
+                            <td style="width: 100%;">
+                              <div style="text-align: left;">
+                                <img src="https://cdn.cosmicchrist.love/ccl-library-static/CCL_Library/CCL%20Email%20Header.png" alt="Soul Synthesis email header banner" width: 600px;"/>
                               </div>
                             </td>
                           </tr>
@@ -85,7 +109,7 @@ EMAIL_MESSAGE_2 = '''
                           <tr>
                             <td style="width: 100%;">
                               <div style="text-align: left;">
-                                <img src="https://cdn.cosmicchrist.love/ccl-library-static/CCL_Library/Soul%20Synthesis%20Email%20Footer%20-%2072.png" alt="Whurthy email header banner" width: 600px;"/>
+                                <img src="https://cdn.cosmicchrist.love/ccl-library-static/CCL_Library/CCL%20Email%20Footer.png" alt="Whurthy email header banner" width: 600px;"/>
                               </div>
                             </td>
                           </tr>
@@ -94,7 +118,9 @@ EMAIL_MESSAGE_2 = '''
                     </body>
                     </html>
 '''
+
 LIBRARY_TASK_URL = 'https://cosmicchrist.love/tasks/library/'
+TASK_URL = 'https://cosmicchrist.love/tasks/'
 
 LEE_TASK_NAME_BOOK_FILE_REVIEW = 'Book File Review'
 BOOK_EDITOR_GROUP_NAME = 'Book Editors'
@@ -1235,14 +1261,13 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
             email_address = self.request.user.email
             email_subject = form.instance.subject
             email_message = f"""
-            {EMAIL_MESSAGE_1}
+            {EMAIL_MESSAGE_CAMPAIGN_1}
+            *** This is a TEST EMAIL * Please check the <a href="{TASK_URL}">Task List</a> to Approve this email ***<p>
             {form.instance.message}
             {EMAIL_MESSAGE_2}
             """
             send_email(email_subject, email_address, email_message)
-            email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>
-            {form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: 
-            {form.instance.ready_to_send}</strong><br><strong>Test email sent to </strong>{email_address}'''
+            email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: {form.instance.ready_to_send}</strong>. <strong>Email campaign</strong> Test email sent<strong> to {email_address}<br>'''
             email_campaign.test_email_sent = 'Yes'
         else:
             email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. Ready to send: {form.instance.ready_to_send}<br>'''
