@@ -489,6 +489,8 @@ class EmailCampaign(models.Model):
     sender = models.ForeignKey(
         User,
         on_delete=models.PROTECT,
+        null=True,
+        blank=True,
     )
     send_status = models.CharField(
         choices=EMAIL_CAMPAIGN_STATUS_CHOICES,
