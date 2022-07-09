@@ -9,6 +9,7 @@ from .models import (
     LEE,
     PEeP,
     Audience,
+    MailingList,
 )
 
 from users.models import (
@@ -69,12 +70,16 @@ def LEE_form_validation(form, form_type):
 # ############ Audience form validation logic ############
 def audience_form_validation(form, form_type):
     cleaned_data = super(form_type, form).clean()
-    if cleaned_data.get('audience') is None:
+    if cleaned_data.get('audience') == '':
         form.add_error(
             'audience',
-            'An audience must be entered.'
+            'An audience must be selected.'
         )
-
+    if cleaned_data.get('email') == '' and cleaned_data.get('user') is None:
+        form.add_error(
+            'email',
+            'Either an email must be entered or existing user account must be selected.'
+        )
     return
 
 
@@ -305,4 +310,40 @@ class UpdateAudienceForm(forms.ModelForm):
 
     def clean(self):
         audience_form_validation(self, UpdateAudienceForm)
+        return self.cleaned_data
+
+
+# ####################### Mailing List Create Form #######################
+class CreateMailingListForm(forms.ModelForm):
+
+    class Meta:
+        model = MailingList
+
+        fields = [
+            'audience',
+            'email',
+            'user',
+            'subscribed',
+        ]
+
+    def clean(self):
+        audience_form_validation(self, CreateMailingListForm)
+        return self.cleaned_data
+
+
+# ####################### Mailing List Update Form #######################
+class UpdateMailingListForm(forms.ModelForm):
+
+    class Meta:
+        model = MailingList
+
+        fields = [
+            'audience',
+            'email',
+            'user',
+            'subscribed',
+        ]
+
+    def clean(self):
+        audience_form_validation(self, UpdateMailingListForm)
         return self.cleaned_data
