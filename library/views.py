@@ -1721,6 +1721,9 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             observation_obj = LibraryObservation.objects.get(id=self.object.id)
 
             task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1).process_description + f'''
+            Record: <a href="{DOMAIN}library_record/{record.id}/" class="text-CCL-Blue" target="_blank">{record.title}</a><br>
+            Observer: {observer}<br>
+            Observation type: {observation_type}<br>
             <strong>Typo: </strong>{form.instance.typo}<p>
             <strong>Suggested Correction: </strong>{form.instance.suggested_correction}'''
 
@@ -1742,7 +1745,11 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             self.object = form.save()
             observation_obj = LibraryObservation.objects.get(id=self.object.id)
 
-            task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1).process_description + f'''<strong>Missing image comments: </strong>{image_observation}<br>'''
+            task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1).process_description + f'''
+            Record: <a href="{DOMAIN}library_record/{record.id}/" class="text-CCL-Blue" target="_blank">{record.title}</a><br>
+            Observer: {observer}<br>
+            Observation type: {observation_type}<br>
+            <strong>Missing image comments: </strong>{image_observation}<br>'''
 
             Task.objects.create(
                 task_title=f'Record Observation - {observation_type} made by {observer}',
@@ -1762,6 +1769,9 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             observation_obj = LibraryObservation.objects.get(id=self.object.id)
 
             task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1).process_description + f'''
+            Record: <a href="{DOMAIN}library_record/{record.id}/" class="text-CCL-Blue" target="_blank">{record.title}</a><br>
+            Observer: {observer}<br>
+            Observation type: {observation_type}<br>
             <strong>Broken link comments: </strong>{link_observation}<br>'''
 
             Task.objects.create(
@@ -1782,6 +1792,9 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             observation_obj = LibraryObservation.objects.get(id=self.object.id)
 
             task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1).process_description + f'''
+            Record: <a href="{DOMAIN}library_record/{record.id}/" class="text-CCL-Blue" target="_blank">{record.title}</a><br>
+            Observer: {observer}<br>
+            Observation type: {observation_type}<br>
             <strong>General observations: </strong>{general_observation}<br>'''
 
             Task.objects.create(
