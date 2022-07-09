@@ -1282,7 +1282,9 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
     def get_context_data(self, *args, **kwargs):
         context = super(EmailCampaignCreateView, self).get_context_data(**kwargs)
         context['page_type'] = 'Create'
-        context['form_instructions'] = LEE.objects.get(task_name='Email Campaign Start (1)')
+        form_instructions = LEE.objects.get(task_name='Email Campaign Start (1)')
+        print(f'{form_instructions}')
+        context['form_instructions'] = form_instructions
         return context
 
 
