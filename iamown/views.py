@@ -1241,6 +1241,9 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
         return self.request.user.is_staff
 
     def form_valid(self, form):
+        form.instance.sender = self.request.user
+        email_campaign = form.save()
+        email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong><p><br>'''
         message = f'{form.instance.audience} - {form.instance.subject}'
         messages.add_message(
             self.request,
