@@ -18,6 +18,17 @@ from users.models import (
 )
 
 
+# ############ Task form validation logic ############
+def library_task_form_validation(form, form_type):
+    cleaned_data = super(form_type, form).clean()
+    if cleaned_data.get('task_title') is None:
+        form.add_error(
+            'task_title',
+            'A title for the task must be entered.'
+        )
+    return
+
+
 # ############ Libary Task form validation logic ############
 def library_task_form_validation(form, form_type):
     cleaned_data = super(form_type, form).clean()
@@ -114,6 +125,66 @@ def email_campaign_form_validation(form, form_type):
             'An message must be entered.'
         )
     return
+
+
+# ####################### Create Task Form #######################
+class CreateTaskForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['assigned_profile'].queryset = Profile.objects.filter(user__is_staff=True)
+
+        # self.fields['assigned_dear_soul'].queryset = User.objects.filter(is_staff=True)
+
+    class Meta:
+        model = Task
+        fields = [
+            'task_title',
+            'task_description',
+            'actions_taken',
+            'assigned_profile',
+            'task_status',
+            'task_priority',
+            'due_date',
+        ]
+        widgets = {
+            'due_date': DatePickerInput(format='%Y-%m-%d'),
+        }
+
+    def clean(self):
+        library_task_form_validation(self, CreateLibraryTaskForm)
+        return self.cleaned_data
+
+
+# ####################### Update Task Form #######################
+class UpdateTaskForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['assigned_profile'].queryset = Profile.objects.filter(user__is_staff=True)
+        self.fields['task_description'].label = False
+        self.fields['actions_taken'].label = False
+        self.fields['library_task_description'].label = False
+        self.fields['library_task_actions_taken'].label = False
+
+    class Meta:
+        model = Task
+        fields = [
+            'task_title',
+            'task_description',
+            'actions_taken',
+            'assigned_profile',
+            'task_status',
+            'task_priority',
+            'due_date',
+        ]
+        widgets = {
+            'due_date': DatePickerInput(format='%Y-%m-%d'),
+        }
+
+    def clean(self):
+        library_task_form_validation(self, UpdateLibraryTaskForm)
+        return self.cleaned_data
 
 
 # ####################### Create Library Task Form #######################

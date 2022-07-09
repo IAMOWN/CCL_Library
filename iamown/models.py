@@ -30,9 +30,15 @@ TASK_PRIORITY_CHOICES = [
 ]
 TASK_TYPE_CHOICES = [
     ('---', '---'),
+    ('Decision', 'Decision'),
     ('Library Observation', 'Library Observation'),
     ('Book Edit', 'Book Edit'),
     ('Email Campaign', 'Email Campaign'),
+]
+TASK_DECISION_CHOICES = [
+    ('---', '---'),
+    ('Agreed', 'Agreed'),
+    ('Decline', 'Decline'),
 ]
 SERVICE_GROUP_TYPES = [
     ('---', '---'),
@@ -120,6 +126,146 @@ class ServiceGroup(models.Model):
 
     def get_absolute_url(self):
         return reverse('service-group', kwargs={'pk': self.pk})
+
+
+# ####################### Audiences #######################
+class Audience(models.Model):
+    """
+    Audience model. Captures the list of mailing list audiences. Newsletter is sent to an audience.
+    """
+    audience = models.CharField(
+        unique=True,
+        max_length=100,
+        help_text='Enter the audience name.'
+    )
+    scope = models.CharField(
+        choices=SCOPE_CHOICES,
+        max_length=20,
+        default='Internal',
+    )
+    audience_notes = HTMLField(
+        null=True,
+        blank=True,
+        help_text='If applicable, enter any notes about this audience.'
+    )
+    date_created = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.audience
+
+    def get_absolute_url(self):
+        return reverse('audience-entry', kwargs={'pk': self.pk})
+
+
+# ####################### Mailing List #######################
+class MailingList(models.Model):
+    audience = models.ForeignKey(
+        Audience,
+        on_delete=models.CASCADE,
+        related_name='audience_in_mailing_list',
+        default='',
+    )
+    email = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='user_in_mailing_list',
+    )
+    subscribed = models.CharField(
+        choices=YES_NO_CHOICES,
+        null=True,
+        blank=True,
+        max_length=10,
+        default='Yes',
+    )
+    date_created = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        if self.email:
+            return f'{self.audience}: {self.email}'
+        else:
+            return f'{self.audience}: {self.user.username}'
+
+    class Meta:
+        verbose_name_plural = 'Mailing List'
+        verbose_name = 'Mailing List'
+
+    def get_absolute_url(self):
+        return reverse('mailing-list-entry', kwargs={'pk': self.pk})
+
+
+# ####################### Email Campaign #######################
+class EmailCampaign(models.Model):
+    audience = models.ForeignKey(
+        Audience,
+        on_delete=models.CASCADE,
+        related_name='audience_in_email_campaign',
+        default='',
+        help_text='Select the targeted audience for this email campaign.'
+    )
+    subject = models.CharField(
+        max_length=60,
+        blank=True,
+        null=True,
+        help_text='Enter a subject for the email campaign. \nNote that in the interest of readability that the '
+                  'subject is limited to 60 characters.'
+    )
+    message = HTMLField(
+        null=True,
+        blank=True,
+        help_text='Enter the email message you intend on sending.',
+    )
+    ready_to_send = models.CharField(
+        choices=YES_NO_CHOICES,
+        max_length=10,
+        default='No',
+        help_text='By default, this is set to "No". When you are ready to begin the Email Campaign ServiceFlow then '
+                  'change this to "Yes".'
+    )
+    test_email_sent = models.CharField(
+        choices=YES_NO_CHOICES,
+        max_length=10,
+        default='No',
+    )
+    sender_accepted_test = models.CharField(
+        choices=YES_NO_CHOICES,
+        max_length=10,
+        default='No',
+    )
+    email_send_log = HTMLField(
+        null=True,
+        blank=True,
+    )
+    sender = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+    )
+    send_status = models.CharField(
+        choices=EMAIL_CAMPAIGN_STATUS_CHOICES,
+        null=True,
+        blank=True,
+        max_length=20,
+        default='1) Created',
+    )
+    date_created = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.audience} - {self.subject} ({self.date_created.strftime('%d-%m-%Y')})"
+
+    class Meta:
+        ordering = [
+            '-date_created',
+        ]
+        verbose_name_plural = 'Email Campaign'
+        verbose_name = 'Email Campaigns'
 
 
 # ####################### Tasks #######################
@@ -219,10 +365,33 @@ class Task(models.Model):
         blank=True,
         max_length=10,
         default='---',
-        help_text='''Select "Yes" if you believe that the changes made will also need to be made in book files. Select 
-        "No" if you believe that this observation only has an impact in the Library Record. For example, if a hyperlink 
-        is broken this would have no impact upon book copy. If you are uncertain if the book text will be impacted select "Yes".'''
+        help_text='''Select "Yes" if you believe that the changes made will also need to be made in book files. \n
+        Select "No" if you believe that this observation only has an impact in the Library Record. For example, if a 
+        hyperlink is broken this would have no impact upon book copy. \nIf you are uncertain if the book text will be 
+        impacted select "Yes".'''
     )
+    email_campaign = models.ForeignKey(
+        EmailCampaign,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='email_campaign_in_task',
+    )
+
+    decision = models.CharField(
+        choices=TASK_DECISION_CHOICES,
+        max_length=20,
+        default='---',
+        help_text='''
+        Select "Agreed" to indicate you are in Agreement with what has been proposed in this ServiceFlow.\n
+        Select "Declined" to indicate that you are not in Agreement.'''
+    )
+    decision_comments = HTMLField(
+        null=True,
+        blank=True,
+        default='',
+    )
+
     task_history_log = HTMLField(
         default='',
         blank=True,
@@ -387,142 +556,3 @@ class PEeP(models.Model):
 
     def get_absolute_url(self):
         return reverse('peep-entry', kwargs={'pk': self.pk})
-
-
-# ####################### Audiences #######################
-class Audience(models.Model):
-    """
-    Audience model. Captures the list of mailing list audiences. Newsletter is sent to an audience.
-    """
-    audience = models.CharField(
-        unique=True,
-        max_length=100,
-        help_text='Enter the audience name.'
-    )
-    scope = models.CharField(
-        choices=SCOPE_CHOICES,
-        max_length=20,
-        default='Internal',
-    )
-    audience_notes = HTMLField(
-        null=True,
-        blank=True,
-        help_text='If applicable, enter any notes about this audience.'
-    )
-    date_created = models.DateTimeField(default=timezone.now)
-
-    def __str__(self):
-        return self.audience
-
-    def get_absolute_url(self):
-        return reverse('audience-entry', kwargs={'pk': self.pk})
-
-
-# ####################### Mailing List #######################
-class MailingList(models.Model):
-    audience = models.ForeignKey(
-        Audience,
-        on_delete=models.CASCADE,
-        related_name='audience_in_mailing_list',
-        default='',
-    )
-    email = models.CharField(
-        max_length=100,
-        blank=True,
-        null=True,
-    )
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        related_name='user_in_mailing_list',
-    )
-    subscribed = models.CharField(
-        choices=YES_NO_CHOICES,
-        null=True,
-        blank=True,
-        max_length=10,
-        default='Yes',
-    )
-    date_created = models.DateTimeField(default=timezone.now)
-
-    def __str__(self):
-        if self.email:
-            return f'{self.audience}: {self.email}'
-        else:
-            return f'{self.audience}: {self.user.username}'
-
-    class Meta:
-        verbose_name_plural = 'Mailing List'
-        verbose_name = 'Mailing List'
-
-    def get_absolute_url(self):
-        return reverse('mailing-list-entry', kwargs={'pk': self.pk})
-
-
-# ####################### Email Campaign #######################
-class EmailCampaign(models.Model):
-    audience = models.ForeignKey(
-        Audience,
-        on_delete=models.CASCADE,
-        related_name='audience_in_email_campaign',
-        default='',
-        help_text='Select the targeted audience for this email campaign.'
-    )
-    subject = models.CharField(
-        max_length=60,
-        blank=True,
-        null=True,
-        help_text='Enter a subject for the email campaign. Note that in the interest of readability that the '
-                  'subject is limited to 60 characters.'
-    )
-    message = HTMLField(
-        null=True,
-        blank=True,
-        help_text='Enter the email message you intend on sending.',
-    )
-    ready_to_send = models.CharField(
-        choices=YES_NO_CHOICES,
-        null=True,
-        blank=True,
-        max_length=10,
-        default='No',
-        help_text='By default, this is set to "No". When you are ready to begin the Email Campaign ServiceFlow then '
-                  'change this to "Yes".'
-    )
-    test_email_sent = models.CharField(
-        choices=YES_NO_CHOICES,
-        null=True,
-        blank=True,
-        max_length=10,
-        default='No',
-    )
-    email_send_log = HTMLField(
-        null=True,
-        blank=True,
-    )
-    sender = models.ForeignKey(
-        User,
-        on_delete=models.PROTECT,
-        null=True,
-        blank=True,
-    )
-    send_status = models.CharField(
-        choices=EMAIL_CAMPAIGN_STATUS_CHOICES,
-        null=True,
-        blank=True,
-        max_length=20,
-        default='1) Created',
-    )
-    date_created = models.DateTimeField(default=timezone.now)
-
-    def __str__(self):
-        return f"{self.audience} - {self.subject} ({self.date_created.strftime('%d-%m-%Y')})"
-
-    class Meta:
-        ordering = [
-            '-date_created',
-        ]
-        verbose_name_plural = 'Email Campaign'
-        verbose_name = 'Email Campaigns'

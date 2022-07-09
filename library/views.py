@@ -1723,8 +1723,8 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1).process_description + f'''
             Record: <a href="{DOMAIN}library_record/{record.id}/" class="text-CCL-Blue" target="_blank">{record.title}</a><br>
             Observer: {observer}<br>
-            Observation type: {observation_type}<br>
-            <strong>Typo: </strong>{form.instance.typo}<p>
+            Observation type: {observation_type}<p>
+            <strong>Typo: </strong>{form.instance.typo}<br>
             <strong>Suggested Correction: </strong>{form.instance.suggested_correction}'''
 
             Task.objects.create(
@@ -1748,7 +1748,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1).process_description + f'''
             Record: <a href="{DOMAIN}library_record/{record.id}/" class="text-CCL-Blue" target="_blank">{record.title}</a><br>
             Observer: {observer}<br>
-            Observation type: {observation_type}<br>
+            Observation type: {observation_type}<p>
             <strong>Missing image comments: </strong>{image_observation}<br>'''
 
             Task.objects.create(
@@ -1771,7 +1771,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1).process_description + f'''
             Record: <a href="{DOMAIN}library_record/{record.id}/" class="text-CCL-Blue" target="_blank">{record.title}</a><br>
             Observer: {observer}<br>
-            Observation type: {observation_type}<br>
+            Observation type: {observation_type}<p>
             <strong>Broken link comments: </strong>{link_observation}<br>'''
 
             Task.objects.create(
@@ -1794,7 +1794,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1).process_description + f'''
             Record: <a href="{DOMAIN}library_record/{record.id}/" class="text-CCL-Blue" target="_blank">{record.title}</a><br>
             Observer: {observer}<br>
-            Observation type: {observation_type}<br>
+            Observation type: {observation_type}<p>
             <strong>General observations: </strong>{general_observation}<br>'''
 
             Task.objects.create(
