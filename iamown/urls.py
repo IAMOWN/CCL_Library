@@ -33,6 +33,11 @@ from .views import (
     AudienceCreateView,
     AudienceUpdateView,
     AudienceDeleteView,
+    MailingListListView,
+    MailingListDetailView,
+    MailingListCreateView,
+    MailingListUpdateView,
+    MailingListDeleteView,
 )
 
 urlpatterns = [
@@ -78,4 +83,11 @@ urlpatterns = [
     path('audience_create/', AudienceCreateView.as_view(), name='audience-create'),
     path('audience_update/<int:pk>/', AudienceUpdateView.as_view(), name='audience-update'),
     path('audience_delete/<int:pk>/', AudienceDeleteView.as_view(), name='audience-delete'),
+
+    # Mailing List
+    path('mailing_list/', MailingListListView.as_view(), name='mailing-list'),
+    path('mailing_list/<int:pk>/', MailingListDetailView.as_view(), name='mailing-list-entry'),
+    path('mailing_list_create/', MailingListCreateView.as_view(), name='mailing-list-create'),
+    path('mailing_list_update/<int:pk>/', MailingListUpdateView.as_view(), name='mailing-list-update'),
+    path('mailing_list_delete/<int:pk>/', MailingListDeleteView.as_view(), name='mailing-list-delete'),
 ]

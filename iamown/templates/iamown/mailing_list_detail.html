@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {{ title}}
+{% endblock %}
+{% block content %}
+
+    {% if messages %}
+        <section>
+            <div>
+                <p class="alert-{{ message.tags }}">
+                    {{ message }}
+                </p>
+            </div>
+        </section>
+    {% endif %}
+
+    <section class="content-section">
+        <div class="row pt-2">
+            <div class="col-lg-12">
+                <h3><strong>{{ title }}</strong></h3>
+            </div>
+        </div>
+    </section>
+    <section class="content-section text-CCL-Gold">
+        <div class="row">
+            <div class="col-lg-3 pb-2">
+                <p><strong>Audience: </strong>{{ mailing_list_entry.audience }}</p>
+            </div>
+            {% if mailing_list_entry.user %}
+            <div class="col-lg-3 pb-2">
+                <p><strong>Dear Soul: </strong>{{ mailing_list_entry.user.profile.spiritual_name }}</p>
+            </div>
+            {% else %}
+            <div class="col-lg-3 pb-2">
+                <p><strong>Email: </strong>{{ mailing_list_entry.email }}</p>
+            </div>
+            {% endif %}
+            <div class="col-lg-3 pb-2">
+                <strong>Subscribed:</strong>{{ mailing_list_entry.subscribed }}
+            </div>
+        </div>
+    </section>
+    <section class="content-section text-CCL-Gold">
+        <div class="row pt-2">
+            <div class="col-lg-3 pb-2">
+                <a href="{% url 'mailing-list' %}" class="btn btn-outline-CCL-Blue col-12">Back to Mailing List</a>
+            </div>
+            <div class="col-lg-3 pb-2">
+                <a href="{% url 'mailing-list-update' audience.id %}" class="btn btn-CCL-Blue col-12">Edit Entry</a>
+            </div>
+            <div class="col-lg-3 pb-2">
+                <a href="{% url 'mailing-list-create' %}" class="btn btn-CCL-Blue col-12">Add An Entry</a>
+            </div>
+            <div class="col-lg-3 pb-2">
+                <a href="{% url 'mailing-list-delete' audience.id %}" class="btn btn-outline-danger col-12">Delete Entry</a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

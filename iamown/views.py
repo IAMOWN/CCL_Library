@@ -21,6 +21,7 @@ from .models import (
     LEE,
     PEeP,
     Audience,
+    MailingList,
 )
 from .forms import (
     CreateLibraryTaskForm,
@@ -33,6 +34,8 @@ from .forms import (
     UpdatePEePForm,
     CreateAudienceForm,
     UpdateAudienceForm,
+    CreateMailingListForm,
+    UpdateMailingListForm,
 )
 
 from library.models import (
@@ -1077,4 +1080,112 @@ class AudienceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(AudienceDeleteView, self).get_context_data(**kwargs)
+        return context
+
+
+# ####################### Mailing List #######################
+class MailingListListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    """MailingList ListView."""
+    model = MailingList
+    template_name = 'iamown/mailing_list.html'
+    context_object_name = 'mailing_list'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+class MailingListDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    """MailingList DetailView."""
+    model = MailingList
+    template_name = 'iamown/mailing_list_detail.html'
+    context_object_name = 'mailing_list_entry'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(MailingListDetailView, self).get_context_data(**kwargs)
+        entry_obj = MailingList.objects.get(id=self.kwargs['pk'])
+        if entry_obj.user:
+            context['title'] = f'Mailing List Entry: {entry_obj.user.profile.spiritual_name}'
+        else:
+            context['title'] = f'Mailing List Entry: {entry_obj.email}'
+        return context
+
+
+class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    """MailingList CreateView."""
+    model = MailingList
+    form_class = CreateMailingListForm
+
+    template_name = 'iamown/mailing_list_form.html'
+
+    success_url = reverse_lazy('mailing-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def form_valid(self, form):
+        if form.instance.user:
+            message = f'{form.instance.audience}: {form.instance.user}'
+        else:
+            message = f'{form.instance.audience}: {form.instance.email}'
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            f'The mailing list entry, "{message}" has been added.'
+        )
+        return super(MailingListCreateView, self).form_valid(form)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(MailingListCreateView, self).get_context_data(**kwargs)
+        context['page_type'] = 'Create'
+        return context
+
+
+class MailingListUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    """MailingList UpdateView."""
+    model = MailingList
+    form_class = UpdateMailingListForm
+
+    template_name = 'iamown/mailing_list_form.html'
+    success_url = reverse_lazy('mailing-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def form_valid(self, form):
+        if form.instance.user:
+            message = f'{form.instance.audience}: {form.instance.user}'
+        else:
+            message = f'{form.instance.audience}: {form.instance.email}'
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            f'The mailing list entry, "{message}" has been updated.'
+        )
+        return super(MailingListUpdateView, self).form_valid(form)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(MailingListUpdateView, self).get_context_data(**kwargs)
+        context['page_type'] = 'Update'
+        return context
+
+
+class MailingListDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """MailingList DeleteView."""
+    model = MailingList
+    context_object_name = 'mailing_list_entry'
+    success_url = reverse_lazy('mailing-list')
+    template_name = 'iamown/mailing_list_confirm_delete.html'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(MailingListDeleteView, self).get_context_data(**kwargs)
         return context
