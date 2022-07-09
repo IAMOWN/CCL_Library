@@ -437,10 +437,14 @@ class TaskCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['current_user'] = self.request.user
-        context['tasks'] = Task.objects.all().filter(task_status='Completed')
-        context['completed_tasks_count'] = Task.objects.filter(task_status='Completed').count()
-        context['tasks_count'] = Task.objects.all().exclude(task_status='Completed').count()
+        completed_tasks = Task.objects.all().filter(
+            task_status='Completed',
+        ).exclude(task_type__in=['Library Observation', 'Book Edit'])
+        context['tasks'] = completed_tasks
+        context['completed_tasks_count'] = completed_tasks.count()
+        context['tasks_count'] = Task.objects.all().\
+            exclude(task_status='Completed').\
+            exclude(task_type__in=['Library Observation', 'Book Edit']).count()
 
         return context
 
