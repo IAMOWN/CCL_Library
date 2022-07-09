@@ -1251,7 +1251,7 @@ class EmailCampaignUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
     form_class = UpdateEmailCampaignForm
 
     template_name = 'iamown/email_campaign_form.html'
-    success_url = reverse_lazy('email_campaigns')
+    success_url = reverse_lazy('email-campaigns')
 
     def test_func(self):
         return self.request.user.is_staff
