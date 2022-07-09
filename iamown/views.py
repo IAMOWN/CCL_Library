@@ -273,7 +273,7 @@ class LEEDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 # ####################### TASK VIEWS #######################
 class TaskList(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    """Task ListView for user's tasks."""
+    """Task ListView - Does not include Library Tasks"""
     model = Task
     template_name = 'iamown/tasks.html'
     context_object_name = 'tasks'
@@ -285,14 +285,19 @@ class TaskList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        tasks = Task.objects.filter().exclude(task_status='Completed').order_by(
+        tasks = Task.objects.filter().\
+            exclude(task_status='Completed').\
+            exclude(task_type__in=['Library Observation', 'Book Edit']).\
+            order_by(
             'task_status',
             'task_priority',
             'due_date',
         )
         context['tasks'] = tasks
         context['tasks_count'] = tasks.count()
-        context['completed_tasks_count'] = Task.objects.filter(task_status='Completed').count()
+        context['completed_tasks_count'] = Task.objects.\
+            filter(task_status='Completed').\
+            exclude(task_type__in=['Library Observation', 'Book Edit']).count()
 
         search_input = self.request.GET.get('search-area') or ''
         if search_input:
@@ -334,7 +339,7 @@ class TaskList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 
 class TaskDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
-    """Task DetailView for user's tasks."""
+    """Task DetailView."""
     model = Task
     template_name = 'iamown/task_detail.html'
     context_object_name = 'task'
@@ -351,7 +356,7 @@ class TaskDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
 
 class TaskCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
-    """Task CreateView for user's tasks."""
+    """Task CreateView for non-library tasks."""
     model = Task
     form_class = CreateLibraryTaskForm
 
@@ -380,7 +385,7 @@ class TaskCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
 
 class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    """Task UpdateView for user's tasks."""
+    """Task UpdateView for non-library tasks."""
     model = Task
     form_class = UpdateLibraryTaskForm
 
@@ -426,7 +431,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 class TaskCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    """Task ListView for user's completed tasks."""
+    """Task ListView for non-library completed tasks."""
     model = Task
     template_name = 'iamown/tasks_completed.html'
     context_object_name = 'tasks'
@@ -450,7 +455,7 @@ class TaskCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 
 class TaskDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    """Task DeleteView for user's tasks."""
+    """Task DeleteView for non-library tasks."""
     model = Task
     context_object_name = 'task'
     success_url = reverse_lazy('tasks')
@@ -469,7 +474,7 @@ class TaskDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 # ####################### LIBRARY TASK VIEWS #######################
 class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    """Task ListView for Library Observation tasks."""
+    """Library Task ListView."""
     model = Task
     template_name = 'iamown/tasks_library.html'
     context_object_name = 'tasks'
@@ -554,7 +559,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 
 class TaskLibraryDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
-    """Task DetailView for Library Observation tasks."""
+    """Library Task DetailView."""
     model = Task
     template_name = 'iamown/task_detail_library.html'
     context_object_name = 'task'
@@ -571,7 +576,7 @@ class TaskLibraryDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
 
 class TaskLibraryCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    """Task TaskLibraryCompletedList for completed Library Observation tasks."""
+    """Completed Library Tasks."""
     model = Task
     template_name = 'iamown/tasks_completed_library.html'
     context_object_name = 'tasks'
@@ -600,7 +605,7 @@ class TaskLibraryCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView
 
 
 class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
-    """Task CreateView for user's tasks."""
+    """Library Task CreateView."""
     model = Task
     form_class = CreateLibraryTaskForm
 
@@ -637,7 +642,7 @@ class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
 
 class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    """Task UpdateView for Library tasks."""
+    """Library Task UpdateView."""
     model = Task
     form_class = UpdateLibraryTaskForm
 
@@ -748,7 +753,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 class TaskLibraryDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    """Task DeleteView for Library Observation tasks."""
+    """Library Task DeleteView."""
     model = Task
     context_object_name = 'task'
     success_url = reverse_lazy('tasks-library')
