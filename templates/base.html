@@ -80,6 +80,7 @@
                                 <a class="dropdown-item" href="{% url 'i-am-freedom' %}">Collection: 'I AM' Freedom</a>
                                 <a class="dropdown-item" href="{% url 'enaca' %}">Collection: ENACA</a>
                                 <a class="dropdown-item" href="{% url 'gesara' %}">Collection: GESARA</a>
+                                <hr>
                                 <a class="dropdown-item" href="{% url 'discourses' %}">Discourses</a>
                                 <a class="dropdown-item" href="{% url 'cosmic-reviews' %}">Cosmic Reviews</a>
                                 <a class="dropdown-item" href="{% url 'invocations' %}">Invocations</a>
@@ -98,6 +99,7 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="{% url 'tasks-library' %}">Library Tasks</a>
                                 <a class="dropdown-item" href="{% url 'librarian-training' %}">Training Videos</a>
+                                <hr>
                                 <a class="dropdown-item" href="{% url 'library-records' %}">Records</a>
                                 <a class="dropdown-item" href="{% url 'collections' %}">Collections</a>
                                 <a class="dropdown-item" href="{% url 'discourse-series' %}">Series</a>
@@ -106,10 +108,10 @@
                             </div>
                         </li>
                         {% endif %}
-                        {% if user.is_superuser %}
+                        {% if user.is_staff %}
                         <li class="dropdown pe-4 pt-2">
                             <a class="nav-link-gold  dropdown-toggle navbarDropdownMenuLink" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              IAMOWN Admin
+                              IAMOWN
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="{% url 'audiences' %}">Audiences</a>
@@ -118,6 +120,14 @@
                                 <hr>
                                 <a class="dropdown-item" href="{% url 'service-groups' %}">Service Groups</a>
                                 <a class="dropdown-item" href="{% url 'profiles' %}">Profiles</a>
+                        </li>
+                        {% endif %}
+                        {% if user.is_superuser %}
+                        <li class="dropdown pe-4 pt-2">
+                            <a class="nav-link-gold  dropdown-toggle navbarDropdownMenuLink" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Admin
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="{% url 'lee' %}">LEE</a>
                                 <a class="dropdown-item" href="{% url 'peeps' %}">PEePs</a>
                                 <a class="dropdown-item" href="{% url 'release-notes' %}">Release Notes</a>
