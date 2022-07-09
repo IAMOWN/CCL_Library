@@ -65,13 +65,18 @@
         </div>
     </section>
 
-    <section class="content-section">
+    <section class="content-section text-CCL-Gold">
+        <div class="row pt-2">
+            <div class="col-lg-9 pt-2">
+                <h5>Email send log:</h5>
+            </div>
+            <div class="col-lg-3 pt-2 text-CCL-Gold">
+                <p><strong>Created:</strong> {{ email_campaign.date_created|date:'F j, Y' }}</p>
+            </div>
+        </div>
         <div class="row pt-2">
             <div class="col-lg-12">
-                <p>
-                    <strong>Email Send Log: </strong><br>
-                    {{ email_campaign.email_send_log|safe }}
-                </p>
+                {{ email_campaign.email_send_log|safe }}
             </div>
         </div>
     </section>
