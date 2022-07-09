@@ -450,3 +450,45 @@ class MailingList(models.Model):
     class Meta:
         verbose_name_plural = 'Mailing List'
         verbose_name = 'Mailing List'
+
+    def get_absolute_url(self):
+        return reverse('mailing-list-entry', kwargs={'pk': self.pk})
+
+
+# ####################### Email Campaign #######################
+class EmailCampaign(models.Model):
+    audience = models.ForeignKey(
+        Audience,
+        on_delete=models.CASCADE,
+        related_name='audience_in_email_campaign',
+        default='',
+        help_text='Select the targeted audience for this email campaign.'
+    )
+    subject = models.CharField(
+        max_length=60,
+        blank=True,
+        null=True,
+        help_text='Enter a subject for the email campaign. Note that in the interest of readability that the '
+                  'subject is limited to 60 characters.'
+    )
+    message = HTMLField(
+        null=True,
+        blank=True,
+        help_text='Enter the email message you intend on sending.',
+    )
+    email_send_log = HTMLField(
+        null=True,
+        blank=True,
+    )
+    sender = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+    )
+    date_created = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.audience} - {self.subject} ({self.date_created.strftime('%d-%m-%Y')})"
+
+    class Meta:
+        verbose_name_plural = 'Email Campaign'
+        verbose_name = 'Email Campaigns'
