@@ -1230,7 +1230,22 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
     def form_valid(self, form):
         form.instance.sender = self.request.user
         email_campaign = form.save()
-        email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong><br>'''
+        if email_campaign.ready_to_send == 'Yes':
+            email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: {form.instance.ready_to_send}</strong><br>'''
+            email_address = self.request.user.email
+            email_subject = form.instance.subject
+            email_message = f"""
+            {EMAIL_MESSAGE_1}
+            {form.instance.message}
+            {EMAIL_MESSAGE_2}
+            """
+            send_email(email_subject, email_address, email_message)
+            email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>
+            {form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: 
+            {form.instance.ready_to_send}</strong><br><strong>Test email sent to </strong>{email_address}'''
+            email_campaign.test_email_sent = 'Yes'
+        else:
+            email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. Ready to send: {form.instance.ready_to_send}<br>'''
         message = f'{form.instance.audience} - {form.instance.subject}'
         messages.add_message(
             self.request,

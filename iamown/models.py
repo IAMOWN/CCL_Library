@@ -491,6 +491,13 @@ class EmailCampaign(models.Model):
         help_text='By default, this is set to "No". When you are ready to begin the Email Campaign ServiceFlow then '
                   'change this to "Yes".'
     )
+    test_email_sent = models.CharField(
+        choices=YES_NO_CHOICES,
+        null=True,
+        blank=True,
+        max_length=10,
+        default='No',
+    )
     email_send_log = HTMLField(
         null=True,
         blank=True,
