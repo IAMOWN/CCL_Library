@@ -58,6 +58,12 @@ SCOPE_CHOICES = [
     ('External', 'External'),
     ('Both', 'Both'),
 ]
+EMAIL_CAMPAIGN_STATUS_CHOICES = [
+    ('1) Created', '1) Created'),
+    ('2) In progress', '2) In progress'),
+    ('3) Approved', '3) Approved'),
+    ('Sent', 'Sent'),
+]
 
 
 # ####################### Service Group #######################
@@ -484,11 +490,21 @@ class EmailCampaign(models.Model):
         User,
         on_delete=models.PROTECT,
     )
+    send_status = models.CharField(
+        choices=EMAIL_CAMPAIGN_STATUS_CHOICES,
+        null=True,
+        blank=True,
+        max_length=20,
+        default='1) Created',
+    )
     date_created = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"{self.audience} - {self.subject} ({self.date_created.strftime('%d-%m-%Y')})"
 
     class Meta:
+        ordering = [
+            '-date_created',
+        ]
         verbose_name_plural = 'Email Campaign'
         verbose_name = 'Email Campaigns'

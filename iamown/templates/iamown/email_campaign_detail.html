@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+
+    {% if messages %}
+        <section>
+            <div>
+                <p class="alert-{{ message.tags }}">
+                    {{ message }}
+                </p>
+            </div>
+        </section>
+    {% endif %}
+
+    <section class="content-section">
+        <div class="row pt-2">
+            <div class="col-lg-12">
+                <h3><strong>{{ title }}</strong></h3>
+            </div>
+        </div>
+    </section>
+    <section class="content-section text-CCL-Gold">
+        <div class="row">
+            <div class="col-lg-3 pb-2">
+                <p><strong>Audience: </strong>{{ email_campaign.audience }}</p>
+            </div>
+            <div class="col-lg-3 pb-2">
+                <p><strong>Sender: </strong>{{ email_campaign.sender.profile.spiritual_name }}</p>
+            </div>
+            <div class="col-lg-3 pb-2">
+                <p><strong>Send Status: </strong>{{ email_campaign.send_status }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 pb-2">
+                <p><strong>Subject: </strong>{{ email_campaign.subject }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 pb-2">
+                <p>
+                    <strong>Message: </strong><br>
+                    {{ email_campaign.message|safe }}
+                </p>
+            </div>
+        </div>
+    </section>
+    <section class="content-section text-CCL-Gold">
+        <div class="row pt-2">
+            <div class="col-lg-3 pb-2">
+                <a href="{% url 'email-campaigns' %}" class="btn btn-outline-CCL-Blue col-12">Back to Email Campaigns</a>
+            </div>
+            <div class="col-lg-3 pb-2">
+                <a href="{% url 'email-campaign-update' email_campaign.id %}" class="btn btn-CCL-Blue col-12">Edit Email Campaign</a>
+            </div>
+            <div class="col-lg-3 pb-2">
+                <a href="{% url 'email-campaign-create' %}" class="btn btn-CCL-Blue col-12">Add An Email Campaign</a>
+            </div>
+            <div class="col-lg-3 pb-2">
+                <a href="{% url 'email-campaign-delete' email_campaign.id %}" class="btn btn-outline-danger col-12">Delete Email Campaign</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="row pt-2">
+            <div class="col-lg-12">
+                <p>
+                    <strong>Email Send Log: </strong><br>
+                    {{ email_campaign.email_send_log|safe }}
+                </p>
+            </div>
+        </div>
+    </section>
+{% endblock %}

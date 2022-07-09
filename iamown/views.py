@@ -22,6 +22,7 @@ from .models import (
     PEeP,
     Audience,
     MailingList,
+    EmailCampaign,
 )
 from .forms import (
     CreateLibraryTaskForm,
@@ -36,6 +37,8 @@ from .forms import (
     UpdateAudienceForm,
     CreateMailingListForm,
     UpdateMailingListForm,
+    CreateEmailCampaignForm,
+    UpdateEmailCampaignForm,
 )
 
 from library.models import (
@@ -1190,4 +1193,104 @@ class MailingListDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView)
 
     def get_context_data(self, *args, **kwargs):
         context = super(MailingListDeleteView, self).get_context_data(**kwargs)
+        return context
+
+
+# ####################### Email Campaign #######################
+class EmailCampaignListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    """EmailCampaign ListView."""
+    model = EmailCampaign
+    template_name = 'iamown/email_campaigns.html'
+    context_object_name = 'email_campaigns'
+    ordering = 'audience'
+    paginate_by = 12
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+class EmailCampaignDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    """EmailCampaign DetailView."""
+    model = EmailCampaign
+    template_name = 'iamown/email_campaign_detail.html'
+    context_object_name = 'email_campaign'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(EmailCampaignDetailView, self).get_context_data(**kwargs)
+        context['title'] = f'Email campaign: {self.audience} - {self.subject}'
+        return context
+
+
+class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    """EmailCampaign CreateView."""
+    model = EmailCampaign
+    form_class = CreateEmailCampaignForm
+
+    template_name = 'iamown/email_campaign_form.html'
+
+    success_url = reverse_lazy('email-campaigns')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def form_valid(self, form):
+        message = f'{form.instance.audience} - {form.instance.subject}'
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            f'The email campaign, "{message}" has been created.'
+        )
+        return super(MailingListCreateView, self).form_valid(form)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(EmailCampaignCreateView, self).get_context_data(**kwargs)
+        context['page_type'] = 'Create'
+        return context
+
+
+class EmailCampaignUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    """EmailCampaign UpdateView."""
+    model = EmailCampaign
+    form_class = UpdateEmailCampaignForm
+
+    template_name = 'iamown/email_campaign_form.html'
+    success_url = reverse_lazy('email_campaigns')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def form_valid(self, form):
+        message = f'{form.instance.audience} - {form.instance.subject}'
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            f'The email campaign, "{message}" has been updated.'
+        )
+        return super(EmailCampaignUpdateView, self).form_valid(form)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(EmailCampaignUpdateView, self).get_context_data(**kwargs)
+        context['page_type'] = 'Update'
+        return context
+
+
+class EmailCampaignDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """EmailCampaign DeleteView."""
+    model = EmailCampaign
+    context_object_name = 'email_campaign'
+    success_url = reverse_lazy('email-campaigns')
+    template_name = 'iamown/email_campaign_confirm_delete.html'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(EmailCampaignDeleteView, self).get_context_data(**kwargs)
         return context

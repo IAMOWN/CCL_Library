@@ -38,6 +38,11 @@ from .views import (
     MailingListCreateView,
     MailingListUpdateView,
     MailingListDeleteView,
+    EmailCampaignListView,
+    EmailCampaignDetailView,
+    EmailCampaignCreateView,
+    EmailCampaignUpdateView,
+    EmailCampaignDeleteView,
 )
 
 urlpatterns = [
@@ -90,4 +95,11 @@ urlpatterns = [
     path('mailing_list_create/', MailingListCreateView.as_view(), name='mailing-list-create'),
     path('mailing_list_update/<int:pk>/', MailingListUpdateView.as_view(), name='mailing-list-update'),
     path('mailing_list_delete/<int:pk>/', MailingListDeleteView.as_view(), name='mailing-list-delete'),
+
+    # Email Campaign
+    path('email_campaigns/', EmailCampaignListView.as_view(), name='email-campaigns'),
+    path('email_campaign/<int:pk>/', EmailCampaignDetailView.as_view(), name='email-campaign-entry'),
+    path('email_campaign_create/', EmailCampaignCreateView.as_view(), name='email-campaign-create'),
+    path('email_campaign_update/<int:pk>/', EmailCampaignUpdateView.as_view(), name='email-campaign-update'),
+    path('email_campaign_delete/<int:pk>/', EmailCampaignDeleteView.as_view(), name='email-campaign-delete'),
 ]

@@ -113,12 +113,15 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="{% url 'audiences' %}">Audiences</a>
+                                <a class="dropdown-item" href="{% url 'email-campaigns' %}">Email Campaigns</a>
                                 <a class="dropdown-item" href="{% url 'mailing-list' %}">Mailing List</a>
+                                <hr>
                                 <a class="dropdown-item" href="{% url 'service-groups' %}">Service Groups</a>
                                 <a class="dropdown-item" href="{% url 'profiles' %}">Profiles</a>
                                 <a class="dropdown-item" href="{% url 'lee' %}">LEE</a>
                                 <a class="dropdown-item" href="{% url 'peeps' %}">PEePs</a>
                                 <a class="dropdown-item" href="{% url 'release-notes' %}">Release Notes</a>
+                                <hr>
                                 <a class="dropdown-item" href="{% url "admin:index" %}">Django Admin</a>
                             </div>
                         </li>

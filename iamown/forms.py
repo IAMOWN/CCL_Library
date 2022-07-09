@@ -10,6 +10,7 @@ from .models import (
     PEeP,
     Audience,
     MailingList,
+    EmailCampaign,
 )
 
 from users.models import (
@@ -78,7 +79,7 @@ def audience_form_validation(form, form_type):
     return
 
 
-# ############ Audience form validation logic ############
+# ############ Mailing List form validation logic ############
 def mailing_list_form_validation(form, form_type):
     cleaned_data = super(form_type, form).clean()
     if cleaned_data.get('audience') == '':
@@ -90,6 +91,27 @@ def mailing_list_form_validation(form, form_type):
         form.add_error(
             'user',
             'Either an email must be entered or existing user account must be selected.'
+        )
+    return
+
+
+# ############ Email Campaign form validation logic ############
+def email_campaign_form_validation(form, form_type):
+    cleaned_data = super(form_type, form).clean()
+    if cleaned_data.get('audience') is None:
+        form.add_error(
+            'audience',
+            'An audience must be selected.'
+        )
+    if cleaned_data.get('subject') is None:
+        form.add_error(
+            'subject',
+            'An subject must be entered.'
+        )
+    if cleaned_data.get('message') is None:
+        form.add_error(
+            'message',
+            'An message must be entered.'
         )
     return
 
@@ -357,4 +379,38 @@ class UpdateMailingListForm(forms.ModelForm):
 
     def clean(self):
         mailing_list_form_validation(self, UpdateMailingListForm)
+        return self.cleaned_data
+
+
+# ####################### Email Campaign Create Form #######################
+class CreateEmailCampaignForm(forms.ModelForm):
+
+    class Meta:
+        model = EmailCampaign
+
+        fields = [
+            'audience',
+            'subject',
+            'message',
+        ]
+
+    def clean(self):
+        email_campaign_form_validation(self, CreateEmailCampaignForm)
+        return self.cleaned_data
+
+
+# ####################### Email Campaign Update Form #######################
+class UpdateEmailCampaignForm(forms.ModelForm):
+
+    class Meta:
+        model = EmailCampaign
+
+        fields = [
+            'audience',
+            'subject',
+            'message',
+        ]
+
+    def clean(self):
+        email_campaign_form_validation(self, UpdateEmailCampaignForm)
         return self.cleaned_data
