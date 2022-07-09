@@ -47,13 +47,13 @@
                 <a href="{% url 'mailing-list' %}" class="btn btn-outline-CCL-Blue col-12">Back to Mailing List</a>
             </div>
             <div class="col-lg-3 pb-2">
-                <a href="{% url 'mailing-list-update' audience.id %}" class="btn btn-CCL-Blue col-12">Edit Entry</a>
+                <a href="{% url 'mailing-list-update' mailing_list_entry.id %}" class="btn btn-CCL-Blue col-12">Edit Entry</a>
             </div>
             <div class="col-lg-3 pb-2">
                 <a href="{% url 'mailing-list-create' %}" class="btn btn-CCL-Blue col-12">Add An Entry</a>
             </div>
             <div class="col-lg-3 pb-2">
-                <a href="{% url 'mailing-list-delete' audience.id %}" class="btn btn-outline-danger col-12">Delete Entry</a>
+                <a href="{% url 'mailing-list-delete' mailing_list_entry.id %}" class="btn btn-outline-danger col-12">Delete Entry</a>
             </div>
         </div>
     </section>
