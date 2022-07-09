@@ -1247,7 +1247,7 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
             messages.SUCCESS,
             f'The email campaign, "{message}" has been created.'
         )
-        return super(MailingListCreateView, self).form_valid(form)
+        return super(EmailCampaignCreateView, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super(EmailCampaignCreateView, self).get_context_data(**kwargs)
