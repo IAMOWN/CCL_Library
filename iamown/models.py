@@ -32,6 +32,7 @@ TASK_TYPE_CHOICES = [
     ('---', '---'),
     ('Library Observation', 'Library Observation'),
     ('Book Edit', 'Book Edit'),
+    ('Email Campaign', 'Email Campaign'),
 ]
 SERVICE_GROUP_TYPES = [
     ('---', '---'),
@@ -481,6 +482,15 @@ class EmailCampaign(models.Model):
         null=True,
         blank=True,
         help_text='Enter the email message you intend on sending.',
+    )
+    ready_to_send = models.CharField(
+        choices=YES_NO_CHOICES,
+        null=True,
+        blank=True,
+        max_length=10,
+        default='No',
+        help_text='By default, this is set to "No". When you are ready to begin the Email Campaign ServiceFlow then '
+                  'change this to "Yes".'
     )
     email_send_log = HTMLField(
         null=True,

@@ -392,6 +392,7 @@ class CreateEmailCampaignForm(forms.ModelForm):
             'audience',
             'subject',
             'message',
+            'ready_to_send',
         ]
 
     def clean(self):
@@ -409,6 +410,7 @@ class UpdateEmailCampaignForm(forms.ModelForm):
             'audience',
             'subject',
             'message',
+            'ready_to_send',
         ]
 
     def clean(self):
