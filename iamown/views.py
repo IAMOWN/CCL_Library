@@ -1089,6 +1089,7 @@ class MailingListListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = MailingList
     template_name = 'iamown/mailing_list.html'
     context_object_name = 'mailing_list'
+    ordering = 'audience'
     paginate_by = 12
 
     def test_func(self):
