@@ -307,7 +307,6 @@ class TaskList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return context
 
 
-# ####################### Task - Detail View #######################
 class TaskDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     """Task DetailView for user's tasks."""
     model = Task
@@ -325,7 +324,6 @@ class TaskDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return context
 
 
-# ####################### Task - Create View #######################
 class TaskCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     """Task CreateView for user's tasks."""
     model = Task
@@ -355,7 +353,6 @@ class TaskCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return context
 
 
-# ####################### Task - Update View #######################
 class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """Task UpdateView for user's tasks."""
     model = Task
@@ -402,7 +399,6 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super(TaskUpdate, self).form_valid(form)
 
 
-# ####################### Task - Completed View #######################
 class TaskCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """Task ListView for user's completed tasks."""
     model = Task
@@ -423,7 +419,6 @@ class TaskCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return context
 
 
-# ####################### Task - Delete View #######################
 class TaskDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """Task DeleteView for user's tasks."""
     model = Task
@@ -442,7 +437,7 @@ class TaskDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return context
 
 
-# ####################### Library Tasks - List View #######################
+# ####################### LIBRARY TASK VIEWS #######################
 class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """Task ListView for Library Observation tasks."""
     model = Task
@@ -528,7 +523,6 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return context
 
 
-# ####################### Task Libary - Detail View #######################
 class TaskLibraryDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     """Task DetailView for Library Observation tasks."""
     model = Task
@@ -546,7 +540,6 @@ class TaskLibraryDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return context
 
 
-# ####################### Tasks Library - Completed View #######################
 class TaskLibraryCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """Task TaskLibraryCompletedList for completed Library Observation tasks."""
     model = Task
@@ -576,7 +569,6 @@ class TaskLibraryCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView
         return context
 
 
-# ####################### Task Library - Create View #######################
 class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     """Task CreateView for user's tasks."""
     model = Task
@@ -614,7 +606,6 @@ class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return context
 
 
-# ####################### Task Library - Update View #######################
 class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """Task UpdateView for Library tasks."""
     model = Task
@@ -726,7 +717,6 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super(TaskLibraryUpdate, self).form_valid(form)
 
 
-# ####################### Task Library - Delete View #######################
 class TaskLibraryDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """Task DeleteView for Library Observation tasks."""
     model = Task
@@ -764,7 +754,6 @@ class ServiceGroupList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return context
 
 
-# ####################### Service Group - Detail View #######################
 class ServiceGroupDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = ServiceGroup
     template_name = 'iamown/service_group_detail.html'
@@ -789,7 +778,6 @@ class ServiceGroupDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return context
 
 
-# ####################### Service Group - Create View #######################
 class ServiceGroupCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = ServiceGroup
     form_class = CreateServiceGroupForm
@@ -816,7 +804,6 @@ class ServiceGroupCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return context
 
 
-# ####################### Service Group - Update View #######################
 class ServiceGroupUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = ServiceGroup
     form_class = UpdateServiceGroupForm
@@ -843,7 +830,6 @@ class ServiceGroupUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return context
 
 
-# ####################### Service Group - Delete View #######################
 class ServiceGroupDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = ServiceGroup
     template_name = 'iamown/service_group_confirm_delete.html'

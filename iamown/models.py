@@ -44,7 +44,6 @@ SERVICE_GROUP_STATUS = [
     ('2) Inactive', '2) Inactive'),
 ]
 YES_NO_CHOICES = [
-    ('---', '---'),
     ('No', 'No'),
     ('Yes', 'Yes'),
 ]
