@@ -122,7 +122,7 @@ EMAIL_MESSAGE_2 = '''
 LIBRARY_TASK_URL = 'https://cosmicchrist.love/tasks/library/'
 TASK_URL = 'https://cosmicchrist.love/tasks/'
 
-LEE_TASK_NAME_BOOK_FILE_REVIEW = 'Book File Review'
+LEE_TASK_RECORD_OBS_2 = 'Record Observation (2) Book File Review'
 BOOK_EDITOR_GROUP_NAME = 'Book Editors'
 
 # ####################### FUNCTIONS #######################
@@ -681,8 +681,8 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 service_group = ServiceGroup.objects.get(service_group='Book Editors')
                 related_task = Task.objects.get(id=self.kwargs['pk'])
 
-                history_log = f'''>>> <strong>{LEE_TASK_NAME_BOOK_FILE_REVIEW}</strong> task created from completed Library Observation task: {related_task.task_title}<p><br>'''
-                task_description = LEE.objects.get(task_name=LEE_TASK_NAME_BOOK_FILE_REVIEW).process_description
+                history_log = f'''>>> <strong>{LEE_TASK_RECORD_OBS_2}</strong> task created from completed Library Observation task: {related_task.task_title}<p><br>'''
+                task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_2).process_description
                 if library_task.book_urls_for_record:
                     task_description = task_description + f'''<strong>Book urls:</strong><br>
                     {library_task.book_urls_for_record}
@@ -691,7 +691,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     task_description = task_description + '<strong>There are no book urls listed for this record.</strong>'
 
                 created_task = Task.objects.create(
-                    task_title=f'{LEE_TASK_NAME_BOOK_FILE_REVIEW} Check Book Files related to Library Observation',
+                    task_title=f'{LEE_TASK_RECORD_OBS_2} Check Book Files related to Library Observation',
                     task_type='Book Edit',
                     task_description=task_description,
                     task_history_log=history_log,
@@ -1291,7 +1291,7 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
     def get_context_data(self, *args, **kwargs):
         context = super(EmailCampaignCreateView, self).get_context_data(**kwargs)
         context['page_type'] = 'Create'
-        context['form_instructions'] = LEE.objects.get(task_name='Email Campaign Start (1)').process_description
+        context['form_instructions'] = LEE.objects.get(task_name='Email Campaign (1) Start').process_description
         return context
 
 

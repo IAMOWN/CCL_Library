@@ -100,11 +100,10 @@ EMAIL_MESSAGE_2 = '''
                     </html>
 '''
 LIBRARY_TASK_URL = 'https://cosmicchrist.love/tasks/library/'
-DIGITAL_LIBRARIAN_GROUP_NAME = 'Librarians'
 SOUL_SYNTHESIS_S3_STORAGE = 'https://cloud.digitalocean.com/spaces/soul-synthesis-storage?i=1420f9'
 
-LEE_TASK_NAME_RECORD_OBSERVATION = 'Record Observation'
-DIGITAL_LIBRARIAN_SERVICE_GROUP = 'Digital Librarians'
+LEE_TASK_RECORD_OBS_1 = 'Record Observation (1) Initial Review'
+DIGITAL_LIBRARIAN_GROUP_NAME = 'Digital Librarians'
 
 # ####################### FUNCTIONS #######################
 def get_current_date():
@@ -1709,7 +1708,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
         observer_obj = Profile.objects.get(user__username=self.request.user)
         observer = observer_obj.spiritual_name
 
-        service_group = ServiceGroup.objects.get(service_group=DIGITAL_LIBRARIAN_SERVICE_GROUP)
+        service_group = ServiceGroup.objects.get(service_group=DIGITAL_LIBRARIAN_GROUP_NAME)
         observation_type = form.instance.observation_type
 
         if observation_type == 'Typo':
@@ -1721,10 +1720,12 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             self.object = form.save()
             observation_obj = LibraryObservation.objects.get(id=self.object.id)
 
-            task_description = LEE.objects.get(task_name=LEE_TASK_NAME_RECORD_OBSERVATION).process_description
+            task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1) + f'''
+            <strong>Typo: </strong>{form.instance.typo}<p>
+            <strong>Suggested Correction: </strong>{form.instance.suggested_correction}'''
 
             Task.objects.create(
-                task_title=f'{LEE_TASK_NAME_RECORD_OBSERVATION} - {observation_type} made by {observer}',
+                task_title=f'Record Observation - {observation_type} made by {observer}',
                 task_type='Library Observation',
                 task_description=task_description,
                 task_history_log=history_log,
@@ -1741,18 +1742,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             self.object = form.save()
             observation_obj = LibraryObservation.objects.get(id=self.object.id)
 
-            task_description = f'''An automated Record Observation led to the creation of this task:
-            <ul>
-            <li>When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.</li>
-            <li>Please check if the record has a PDF link and make adjustments to the file in 
-            <a href="{SOUL_SYNTHESIS_S3_STORAGE}" class="text-CCL-Blue" target="_blank">Soul Synthesis S3 storage</a>  
-            as applicable. Note: If you cannot access this link please notify Carewen.</li>
-            <li>When all elements of this task have been addressed please change Task Status to Completed.</li>
-            </ul>
-            <strong>Record: </strong><a href='{DOMAIN}library_record/{record.id}/' class='text-CCL-Blue' target='_blank'>{record.title}</a><br>
-            <strong>Observer: </strong>{observer}<br>
-            <strong>Observation type: </strong>{observation_type}<p>
-            <strong>Missing image comments: </strong>{image_observation}<br>'''
+            task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1) + f'''<strong>Missing image comments: </strong>{image_observation}<br>'''
 
             Task.objects.create(
                 task_title=f'Record Observation - {observation_type} made by {observer}',
@@ -1771,17 +1761,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             self.object = form.save()
             observation_obj = LibraryObservation.objects.get(id=self.object.id)
 
-            task_description = f'''An automated Record Observation led to the creation of this task:
-            <ul>
-            <li>When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.</li>
-            <li>Please check if the record has a PDF link and make adjustments to the file in 
-            <a href="{SOUL_SYNTHESIS_S3_STORAGE}" class="text-CCL-Blue" target="_blank">Soul Synthesis S3 storage</a>  
-            as applicable. Note: If you cannot access this link please notify Carewen.</li>
-            <li>When all elements of this task have been addressed please change Task Status to Completed.</li>
-            </ul>
-            <strong>Record: </strong><a href='{DOMAIN}library_record/{record.id}/' class='text-CCL-Blue' target='_blank'>{record.title}</a><br>
-            <strong>Observer: </strong>{observer}<br>
-            <strong>Observation type: </strong>{observation_type}<p>
+            task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1) + f'''
             <strong>Broken link comments: </strong>{link_observation}<br>'''
 
             Task.objects.create(
@@ -1801,17 +1781,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             self.object = form.save()
             observation_obj = LibraryObservation.objects.get(id=self.object.id)
 
-            task_description = f'''An automated Record Observation led to the creation of this task:
-            <ul>
-            <li>When self-selecting responsibility for this task please edit and change the Task Status to 2) In Progress.</li>
-            <li>Please check if the record has a PDF link and make adjustments to the file in 
-            <a href="{SOUL_SYNTHESIS_S3_STORAGE}" class="text-CCL-Blue" target="_blank">Soul Synthesis S3 storage</a>  
-            as applicable. Note: If you cannot access this link please notify Carewen.</li>
-            <li>When all elements of this task have been addressed please change Task Status to Completed.</li>
-            </ul>
-            <strong>Record: </strong><a href='{DOMAIN}library_record/{record.id}/' class='text-CCL-Blue' target='_blank'>{record.title}</a><br>
-            <strong>Observer: </strong>{observer}<br>
-            <strong>Observation type: </strong>{observation_type}<p>
+            task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1) + f'''
             <strong>General observations: </strong>{general_observation}<br>'''
 
             Task.objects.create(
