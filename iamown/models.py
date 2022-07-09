@@ -414,6 +414,12 @@ class Audience(models.Model):
 
 # ####################### Mailing List #######################
 class MailingList(models.Model):
+    audience = models.ForeignKey(
+        Audience,
+        on_delete=models.CASCADE,
+        related_name='audience_in_mailing_list',
+        default='',
+    )
     email = models.CharField(
         max_length=100,
         blank=True,
@@ -426,27 +432,20 @@ class MailingList(models.Model):
         blank=True,
         related_name='user_in_mailing_list',
     )
-    audience = models.ForeignKey(
-        Audience,
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        related_name='audience_in_mailing_list',
-    )
     subscribed = models.CharField(
         choices=YES_NO_CHOICES,
         null=True,
         blank=True,
         max_length=10,
-        default='---',
+        default='Yes',
     )
     date_created = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         if self.email:
-            return self.email
+            return f'{self.audience}: {self.email}'
         else:
-            return self.user.username
+            return f'{self.audience}: {self.user.username}'
 
     class Meta:
         verbose_name_plural = 'Mailing List'
