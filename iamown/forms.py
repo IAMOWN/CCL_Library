@@ -73,6 +73,17 @@ def audience_form_validation(form, form_type):
     if cleaned_data.get('audience') == '':
         form.add_error(
             'audience',
+            'An audience must be entered.'
+        )
+    return
+
+
+# ############ Audience form validation logic ############
+def mailing_list_form_validation(form, form_type):
+    cleaned_data = super(form_type, form).clean()
+    if cleaned_data.get('audience') == '':
+        form.add_error(
+            'audience',
             'An audience must be selected.'
         )
     if cleaned_data.get('email') == '' and cleaned_data.get('user') is None:
@@ -327,7 +338,7 @@ class CreateMailingListForm(forms.ModelForm):
         ]
 
     def clean(self):
-        audience_form_validation(self, CreateMailingListForm)
+        mailing_list_form_validation(self, CreateMailingListForm)
         return self.cleaned_data
 
 
@@ -345,5 +356,5 @@ class UpdateMailingListForm(forms.ModelForm):
         ]
 
     def clean(self):
-        audience_form_validation(self, UpdateMailingListForm)
+        mailing_list_form_validation(self, UpdateMailingListForm)
         return self.cleaned_data
