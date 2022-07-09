@@ -30,7 +30,7 @@
             <div class="col-lg-3">
                 <h6><strong>Email</strong></h6>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-3">
                 <h6><strong>Subscribed</strong></h6>
             </div>
         </div>
@@ -44,7 +44,7 @@
             </div>
             {% if entry.user %}
             <div class="col-lg-3">
-                <p><strong>Dear Soul: </strong>{{ entry.user.profile.spiritual_name }}</p>
+                <p>{{ entry.user.profile.spiritual_name }}</p>
             </div>
             <div class="col-lg-3"></div>
             {% else %}
