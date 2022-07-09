@@ -1720,7 +1720,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             self.object = form.save()
             observation_obj = LibraryObservation.objects.get(id=self.object.id)
 
-            task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1) + f'''
+            task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1).process_description + f'''
             <strong>Typo: </strong>{form.instance.typo}<p>
             <strong>Suggested Correction: </strong>{form.instance.suggested_correction}'''
 
@@ -1742,7 +1742,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             self.object = form.save()
             observation_obj = LibraryObservation.objects.get(id=self.object.id)
 
-            task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1) + f'''<strong>Missing image comments: </strong>{image_observation}<br>'''
+            task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1).process_description + f'''<strong>Missing image comments: </strong>{image_observation}<br>'''
 
             Task.objects.create(
                 task_title=f'Record Observation - {observation_type} made by {observer}',
@@ -1761,7 +1761,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             self.object = form.save()
             observation_obj = LibraryObservation.objects.get(id=self.object.id)
 
-            task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1) + f'''
+            task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1).process_description + f'''
             <strong>Broken link comments: </strong>{link_observation}<br>'''
 
             Task.objects.create(
@@ -1781,7 +1781,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             self.object = form.save()
             observation_obj = LibraryObservation.objects.get(id=self.object.id)
 
-            task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1) + f'''
+            task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1).process_description + f'''
             <strong>General observations: </strong>{general_observation}<br>'''
 
             Task.objects.create(
