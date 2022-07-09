@@ -86,7 +86,9 @@ def mailing_list_form_validation(form, form_type):
             'audience',
             'An audience must be selected.'
         )
-    if cleaned_data.get('email') == '' and cleaned_data.get('user') is None:
+    print(f"cleaned_data.get('email'): {cleaned_data.get('email')}")
+    print(f"cleaned_data.get('user'): {cleaned_data.get('user')}")
+    if cleaned_data.get('email') == '' and cleaned_data.get('user') == '':
         form.add_error(
             'email',
             'Either an email must be entered or existing user account must be selected.'
