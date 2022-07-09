@@ -1224,7 +1224,8 @@ class EmailCampaignDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailVie
 
     def get_context_data(self, *args, **kwargs):
         context = super(EmailCampaignDetailView, self).get_context_data(**kwargs)
-        context['title'] = f'Email campaign: {self.audience} - {self.subject}'
+        email_campaign_obj = EmailCampaign.objects.get(id=self.kwargs['pk'])
+        context['title'] = f'Email campaign: {email_campaign_obj.audience} - {email_campaign_obj.subject}'
         return context
 
 
