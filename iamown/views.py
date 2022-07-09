@@ -91,7 +91,7 @@ EMAIL_MESSAGE_CAMPAIGN_1 = '''
                           <tr>
                             <td style="width: 100%;">
                               <div style="text-align: left;">
-                                <img src="https://cdn.cosmicchrist.love/ccl-library-static/CCL_Library/CCL%20Email%20Header.png" alt="Soul Synthesis email header banner" width: 600px;"/>
+                                <img src="https://cdn.cosmicchrist.love/ccl-library-static/CCL_Library/CCL%20Email%20Header%20-%20Campaign.png" alt="Soul Synthesis email header banner" width: 600px;"/>
                               </div>
                             </td>
                           </tr>
@@ -1267,10 +1267,10 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
             {EMAIL_MESSAGE_2}
             """
             send_email(email_subject, email_address, email_message)
-            email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: {form.instance.ready_to_send}</strong>. <strong>Email campaign</strong> Test email sent<strong> to {email_address}<br>'''
+            email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. Ready to send: <strong>{form.instance.ready_to_send}</strong>. Test email sent to <strong>{email_address}</strong><br>'''
             email_campaign.test_email_sent = 'Yes'
         else:
-            email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. Ready to send: {form.instance.ready_to_send}<br>'''
+            email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: {form.instance.ready_to_send}</strong><br>'''
         message = f'{form.instance.audience} - {form.instance.subject}'
         messages.add_message(
             self.request,
@@ -1282,6 +1282,7 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
     def get_context_data(self, *args, **kwargs):
         context = super(EmailCampaignCreateView, self).get_context_data(**kwargs)
         context['page_type'] = 'Create'
+        context['form_instructions'] = LEE.objects.get(task_name='Email Campaign Start (1)')
         return context
 
 
