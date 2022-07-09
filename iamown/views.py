@@ -109,7 +109,7 @@ EMAIL_MESSAGE_2 = '''
                           <tr>
                             <td style="width: 100%;">
                               <div style="text-align: left;">
-                                <a href="https://cdn.cosmicchrist.love/"><img src="https://cdn.cosmicchrist.love/ccl-library-static/CCL_Library/CCL%20Email%20Footer.png" alt="Whurthy email header banner" width: 600px;" style="border: 0;" /></a>
+                                <a href="https://cosmicchrist.love/"><img src="https://cdn.cosmicchrist.love/ccl-library-static/CCL_Library/CCL%20Email%20Footer.png" alt="Whurthy email header banner" width: 600px;" style="border: 0;" /></a>
                               </div>
                             </td>
                           </tr>
