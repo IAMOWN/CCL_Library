@@ -412,7 +412,6 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     success_url = reverse_lazy('tasks')
 
     def test_func(self):
-        # task = self.get_object()
         if self.request.user.is_staff:
             return True
         return False
@@ -422,8 +421,6 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
         context['current_user'] = self.request.user
         context['page_type'] = 'Update'
-        # context['tasks'] = Task.objects.filter(task_status='Completed')
-        # context['tasks_count'] = context['tasks'].exclude(task_status='Completed').count()
 
         return context
 
@@ -438,8 +435,20 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     )
                     return self.form_invalid(form)
             library_task.date_completed = get_current_date()
-            library_task.task_history_log = library_task.task_history_log + f'''>>> Task manually <strong>completed</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br><strong>Date completed: {library_task.date_completed}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile}<p>'''
+            library_task.task_history_log = library_task.task_history_log + f'''>>> Task manually <strong>completed</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br><strong>Date completed: {get_current_date()}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile}<p>'''
             library_task.save(update_fields=['task_history_log','date_completed',])
+        elif library_task.decision == 'Agreed' and library_task.task_type == 'Email Campaign':
+            library_task.date_completed = get_current_date()
+            library_task.task_status = 'Completed'
+            library_task.actions_taken = 'Test Email Accepted'
+
+            library_task.task_history_log = library_task.task_history_log + f'''>>> Test Campaign Email <strong>Accepted</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br><strong>Date completed: {get_current_date()}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile}<p>'''
+
+            library_task.save(update_fields=['task_history_log','date_completed', 'task_status', 'actions_taken',])
+            # TODO Create Group Agreement Task
+
+        # TODO Revise branch
+        # TODO Decline branch
 
         else:
             library_task.task_history_log = library_task.task_history_log + f'''>>> Task manually <strong>updated</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile}<p>'''

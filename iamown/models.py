@@ -264,7 +264,7 @@ class EmailCampaign(models.Model):
     date_created = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return f"{self.audience} - {self.subject} ({self.date_created.strftime('%d-%m-%Y')})"
+        return f"{self.audience} - {self.subject} ({self.date_created.strftime('%Y-%m-%d')})"
 
     class Meta:
         ordering = [
