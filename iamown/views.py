@@ -318,7 +318,7 @@ class TaskList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['search_count'] = 0
         if assignee_search_input:
             context['search_off'] = False
-            context['tasks'] = context['tasks'].exclude(task_type__in=['Library Observation', 'Book Edit']).filter(ssigned_profile__spiritual_name=assignee_search_input).order_by(
+            context['tasks'] = context['tasks'].exclude(task_type__in=['Library Observation', 'Book Edit']).filter(assigned_profile__spiritual_name=assignee_search_input).order_by(
                 'task_status',
                 'task_priority',
                 'due_date',
