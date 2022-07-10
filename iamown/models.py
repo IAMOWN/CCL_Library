@@ -263,7 +263,7 @@ class EmailCampaign(models.Model):
 
     class Meta:
         ordering = [
-            '-date_created',
+            'send_status',
         ]
         verbose_name_plural = 'Email Campaign'
         verbose_name = 'Email Campaigns'
