@@ -437,6 +437,8 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 email_campaign_obj = EmailCampaign.objects.get(email_campaign_in_task=task)
                 print(f'email_campaign_obj: {email_campaign_obj}')
                 audience = email_campaign_obj.audience
+                subject = email_campaign_obj.subject
+                date_sent = email_campaign_obj.date_created
                 print(f'audience: {audience}')
                 mailing_list_count = MailingList.objects.filter(audience=email_campaign_obj.audience).count()
                 print(f'mailing_list_count: {mailing_list_count}')
@@ -458,6 +460,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 # Assign review task to reviews
                 reviewers = PEeP.objects.filter(functional_activity=LEE_TASK_EMAIL_CAMPAIGN_2).values_list('dear_soul_responsible')  # Deliberately opted to not code logic for no reviewers!
                 reviewer_count = 0
+
                 for id in reviewers:
                     # Create Reviewer Agreement Task and send email
                     reviewer_count += 1
@@ -466,7 +469,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_4).process_description + f'''<br>Total number of emails in Mailing List: {mailing_list_count}'''
                     history_log = f'''>>> <strong>Email Campaign Review</strong> task created by {self.request.user.profile.spiritual_name} on <strong>{get_current_date()}</strong><p><br>'''
                     Task.objects.create(
-                        task_title=f'Review Test Campaign Email: {email_campaign_obj.audience} - {email_campaign_obj.subject} ({email_campaign.date_created.strftime("%Y-%m-%d")})',
+                        task_title=f'Review Test Campaign Email: {audience} - {subject} ({date_sent.strftime("%Y-%m-%d")})',
                         task_type='Email Campaign 2',
                         task_description=task_description,
                         task_history_log=history_log,
