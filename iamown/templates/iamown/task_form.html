@@ -61,7 +61,7 @@
         <form method="post" action="" enctype="multipart/form-data" class="pb-2">
             {% csrf_token %}
             {{ form.media}}
-            {{ form.task_type.as_hidden }} Task Type: {{ task.task_type }}
+            {{ form.task_type.as_hidden }} 
             <div class="row">
                 <div class="col-lg-12">
                     {{ form.task_title|as_crispy_field }}

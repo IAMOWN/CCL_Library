@@ -193,6 +193,12 @@ class MailingList(models.Model):
             return f'{self.audience}: {self.user.username}'
 
     class Meta:
+        ordering = [
+            '-subscribed',
+            'audience',
+            'user',
+            'email',
+        ]
         verbose_name_plural = 'Mailing List'
         verbose_name = 'Mailing List'
 
