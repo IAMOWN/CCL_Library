@@ -549,6 +549,7 @@ class PEeP(models.Model):
     dear_soul_responsible = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        related_name='dear_soul_in_peep',
         help_text='Select the Dear Soul responsible for this task. Please note that this required field is integral to '
                   'ServiceFlow automation in that information in both this field and Process function is used to, where '
                   'appropriate, assign tasks as a part of ServiceFlow.'

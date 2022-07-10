@@ -434,13 +434,10 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             if task.decision == 'Agreed' and task.email_campaign_test_accepted == 'No':
                 # Query and Update email campaign
                 email_campaign_obj = task.email_campaign
-                print(f'email_campaign_obj: {email_campaign_obj}')
                 audience = email_campaign_obj.audience
                 subject = email_campaign_obj.subject
                 date_sent = email_campaign_obj.date_created
-                print(f'audience: {audience}')
                 mailing_list_count = MailingList.objects.filter(audience=email_campaign_obj.audience).count()
-                print(f'mailing_list_count: {mailing_list_count}')
 
                 # Update task
                 task.date_completed = get_current_date()
@@ -463,16 +460,17 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 for id in reviewers:
                     # Create Reviewer Agreement Task and send email
                     reviewer_count += 1
+                    reviewer_user_obj = Profile.objects.get(user_id=(PEeP.objects.get(id=id).dear_soul_responsible_id))
 
                     # Assign Task
                     task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_4).process_description + f'''<br>Total number of emails in Mailing List: {mailing_list_count}'''
                     history_log = f'''>>> <strong>Email Campaign Review</strong> task created by {self.request.user.profile.spiritual_name} on <strong>{get_current_date()}</strong><p><br>'''
-                    Task.objects.create(
+                    new_task = Task.objects.create(
                         task_title=f'Review Test Campaign Email: {audience} - {subject} ({date_sent.strftime("%Y-%m-%d")})',
                         task_type='Email Campaign 2',
                         task_description=task_description,
                         task_history_log=history_log,
-                        assigned_profile=self.request.user.profile,
+                        assigned_profile=reviewer_user_obj,
                         email_campaign=email_campaign_obj,
                     )
 
@@ -487,7 +485,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     email_campaign_message = email_campaign_obj.message
                     email_message = f"""
                     {EMAIL_MESSAGE_CAMPAIGN_1}
-                    *** Beloved {reviewer_name},<p>this is a CCL ServiceFlow <strong>review email</strong>. Please Qualify readiness to broadcast and update corresponding <a href="{TASK_URL}/{email_campaign_obj.id}/">Task </a>. ***<p>
+                    *** Beloved {reviewer_name}, this is a CCL ServiceFlow <strong>review email</strong>. Please Qualify readiness to broadcast and update corresponding <a href="{TASK_URL}{new_task.id}/">Task </a>. ***<p>
                     {email_campaign_message}
                     {EMAIL_MESSAGE_2}
                     """
