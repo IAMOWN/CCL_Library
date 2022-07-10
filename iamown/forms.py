@@ -158,6 +158,7 @@ class CreateTaskForm(forms.ModelForm):
             'due_date',
             'decision',
             'decision_comments',
+            'task_type',
         ]
         widgets = {
             'due_date': DatePickerInput(format='%Y-%m-%d'),
@@ -191,6 +192,7 @@ class UpdateTaskForm(forms.ModelForm):
             'due_date',
             'decision',
             'decision_comments',
+            'task_type',
         ]
         widgets = {
             'due_date': DatePickerInput(format='%Y-%m-%d'),
