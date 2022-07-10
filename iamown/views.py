@@ -438,7 +438,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 print(f'email_campaign_obj: {email_campaign_obj}')
                 audience = email_campaign_obj.audience
                 print(f'audience: {audience}')
-                mailing_list_count = MailingList.objects.filter(audience=audience).count()
+                mailing_list_count = MailingList.objects.filter(audience=email_campaign_obj.audience).count()
                 print(f'mailing_list_count: {mailing_list_count}')
 
                 # Update task
@@ -1370,6 +1370,15 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
         form.instance.sender = self.request.user
         email_campaign = form.save()
         email_campaign_id = email_campaign.id
+        mailing_list_count = MailingList.objects.filter(audience=email_campaign.audience).count()
+        if mailing_list_count == 0:
+            form.add_error(
+                'audience',
+                'There are no mailing list entries for this Audience. \nPlease select another Audience.'
+            )
+            return self.form_invalid(form)
+
+
         if email_campaign.ready_to_send == 'Yes':
             email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: {form.instance.ready_to_send}</strong><br>'''
             email_address = self.request.user.email
