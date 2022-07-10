@@ -46,13 +46,12 @@
                     <button type="submit" class="btn btn-outline-CCL-Blue col-12">Filter Tasks</button>
                 </div>
                 <div class="col-lg-3 pb-2">
-                    <input
-                            type="text"
-                            name="assignee-search-area"
-                            class="button-margin-tlr form-control"
-                            value="{{ assignee_search_input }}"
-                            placeholder="By Assigned Dear Soul"
-                    >
+                    <select name="assignee-search-area" class="form-control" placeholder="By Assigned Dear Soul">
+                        <option value="">by Dear Soul</option>
+                        {% for dear_soul in dear_souls %}
+                        <option value='{{ dear_soul.spiritual_name }}'>{{ dear_soul.spiritual_name }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="col-lg-3 pb-2">
                     <select name="status-search-area" class="pe-2 form-control">

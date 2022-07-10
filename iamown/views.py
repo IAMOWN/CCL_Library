@@ -299,42 +299,56 @@ class TaskList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         )
         context['tasks'] = tasks
         context['tasks_count'] = tasks.count()
-        context['completed_tasks_count'] = Task.objects.\
-            filter(task_status='Completed').\
-            exclude(task_type__in=['Library Observation', 'Book Edit']).count()
+        context['completed_tasks_count'] = Task.objects.filter(
+            task_status='Completed'
+        ).exclude(task_type__in=['Library Observation', 'Book Edit'],
+                  ).count()
 
         search_input = self.request.GET.get('search-area') or ''
         if search_input:
             context['tasks'] = context['tasks'].filter(task_title__icontains=search_input)  # Can also use __startswith
         context['search_input'] = search_input
+        context['dear_souls'] = Profile.objects.filter(user__is_staff=True)
 
+        # Search Inputs
         context['search_off'] = True
         assignee_search_input = self.request.GET.get('assignee-search-area') or ''
         task_search_input = self.request.GET.get('task-search-area') or ''
         status_search_input = self.request.GET.get('status-search-area') or ''
         priority_search_input = self.request.GET.get('priority-search-area') or ''
+
+        # Process searches - Dear Soul
         context['search_count'] = 0
         if assignee_search_input:
             context['search_off'] = False
-            context['tasks'] = context['tasks'].filter(assigned_user__username=assignee_search_input)
+            context['tasks'] = context['tasks'].filter(assigned_user__username=assignee_search_input).order_by(
+                'task_status',
+                'task_priority',
+                'due_date',
+            )
             context['search_count'] = context['tasks'].count()
             context['search_type'] = 'Assignee'
             context['search_entered'] = assignee_search_input
-        # elif task_search_input:
-        #     context['search_off'] = False
-        #     context['tasks'] = context['tasks'].filter(task_title__icontains=task_search_input)
-        #     context['search_count'] = context['tasks'].count()
-        #     context['search_type'] = 'Task'
-        #     context['search_entered'] = task_search_input
+            context['search_entered'] = assignee_search_input
+        # Task Status
         elif status_search_input:
             context['search_off'] = False
-            context['tasks'] = context['tasks'].filter(task_status__icontains=status_search_input)
+            context['tasks'] = context['tasks'].filter(task_status__icontains=status_search_input).order_by(
+                'task_status',
+                'task_priority',
+                'due_date',
+            )
             context['search_count'] = context['tasks'].count()
             context['search_type'] = 'Status'
             context['search_entered'] = status_search_input
+        # Task Priority
         elif priority_search_input:
             context['search_off'] = False
-            context['tasks'] = context['tasks'].filter(task_priority__icontains=priority_search_input)
+            context['tasks'] = context['tasks'].filter(task_priority__icontains=priority_search_input).order_by(
+                'task_status',
+                'task_priority',
+                'due_date',
+            )
             context['search_count'] = context['tasks'].exclude(task_status='Completed').count()
             context['search_type'] = 'Priority'
             context['search_entered'] = priority_search_input
@@ -515,7 +529,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
         search_input = self.request.GET.get('search-area') or ''
         if search_input:
-            context['tasks'] = context['tasks'].filter(task_title__icontains=search_input)  # Can also use __startswith
+            context['tasks'] = context['tasks'].filter(task_title__icontains=search_input)
         context['search_input'] = search_input
 
         context['dear_souls'] = Profile.objects.filter(user__is_staff=True)
