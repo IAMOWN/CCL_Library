@@ -409,6 +409,8 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     template_name = 'iamown/task_form.html'
 
+    success_url = reverse_lazy('tasks')
+
     def test_func(self):
         # task = self.get_object()
         if self.request.user.is_staff:
