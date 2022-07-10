@@ -1368,7 +1368,7 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
 
     def form_valid(self, form):
         form.instance.sender = self.request.user
-        email_campaign = form.save()
+        email_campaign = form.save(commit=False)
         email_campaign_id = email_campaign.id
         mailing_list_count = MailingList.objects.filter(audience=email_campaign.audience).count()
         if mailing_list_count == 0:
