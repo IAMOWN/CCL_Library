@@ -71,9 +71,13 @@
             <div class="col-lg-3 pt-2 pb-2">
                 <a href="{% url 'tasks' %}" class="btn btn-outline-CCL-Blue col-12">Back to Tasks</a>
             </div>
+            {% if task.task_status != 'Completed' %}
             <div class="col-lg-3 pt-2 pb-2">
                 <a href="{% url 'task-update' task.id %}" class="btn btn-CCL-Blue col-12">Edit Task</a>
             </div>
+            {% else %}
+            <div class="col-lg-3 pt-2 pb-2"></div>
+            {% endif %}
             <div class="col-lg-3 pt-2 pb-2">
                 <a href="{% url 'task-create' %}" class="btn btn-CCL-Blue col-12">Add A Task</a>
             </div>

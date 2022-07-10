@@ -294,7 +294,9 @@ class Task(models.Model):
         max_length=20,
         choices=TASK_PRIORITY_CHOICES,
         default='2) Normal',
-        help_text="Selecting '1) High' will not only place the task higher in the task list."
+        help_text='Task Priority is used to help determine the order of displayed tasks. The ordering of tasks is by: '
+                  'Status, then Priority, and finally Due Date. Selecting "1) High" presents tasks higher in the list, '
+                  'while selecting "3) Low" is a way of moving longer-term tasks to the end of the task list.'
     )
     due_date = models.DateField(
         auto_now=False,
