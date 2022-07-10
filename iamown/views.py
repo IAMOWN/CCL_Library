@@ -488,7 +488,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     email_message = f"""
                     {EMAIL_MESSAGE_CAMPAIGN_1}
                     *** Beloved {reviewer_name},<p>this is a CCL ServiceFlow <strong>review email</strong>. Please Qualify readiness to broadcast and update corresponding <a href="{TASK_URL}/{email_campaign_obj.id}/">Task </a>. ***<p>
-                    {form.instance.message}
+                    {email_campaign_message}
                     {EMAIL_MESSAGE_2}
                     """
                     send_email(email_subject, email_address, email_message)
