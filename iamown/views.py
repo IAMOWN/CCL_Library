@@ -129,6 +129,7 @@ BOOK_EDITOR_GROUP_NAME = 'Book Editors'
 
 LEE_TASK_CAMPAIGN_3 = 'Email Campaign (3) Accept Test Email'
 LEE_TASK_EMAIL_CAMPAIGN_2 = 'Email Campaign Reviewer'
+LEE_TASK_CAMPAIGN_4 = 'Email Campaign (4) Review Email'
 
 # ####################### FUNCTIONS #######################
 def get_current_date():
@@ -435,6 +436,10 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 print(f'library_task.email_campaign: {library_task.email_campaign}')
                 email_campaign_obj = EmailCampaign.objects.get(email_campaign_in_task=library_task.email_campaign)
                 print(f'email_campaign_obj: {email_campaign_obj}')
+                audience = email_campaign_obj.audience
+                print(f'audience: {audience}')
+                mailing_list_count = MailingList.objects.filter(audience=audience).count()
+                print(f'mailing_list_count: {mailing_list_count}')
 
                 # Update task
                 library_task.date_completed = get_current_date()
@@ -454,13 +459,14 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 reviewers = PEeP.objects.filter(functional_activity=LEE_TASK_EMAIL_CAMPAIGN_2).values_list('dear_soul_responsible')  # Deliberately opted to not code logic for no reviewers!
                 reviewer_count = 0
                 for id in reviewers:
-                    # TODO Create Reviewer Agreement Task and send email
+                    # Create Reviewer Agreement Task and send email
                     reviewer_count += 1
+
                     # Assign Task
-                    task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_3).process_description + f'''<strong>Email Campaign Review</strong> sent to <strong>{reviewer_obj.spiritual_name}</strong> on <strong>{get_current_date()}</strong><br>'''
+                    task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_4).process_description + f'''<br>Total number of emails in Mailing List: {mailing_list_count}'''
                     history_log = f'''>>> <strong>Email Campaign Review</strong> task created by {self.request.user.profile.spiritual_name} on <strong>{get_current_date()}</strong><p><br>'''
                     Task.objects.create(
-                        task_title=f'Accept Test Campaign Email: {form.instance.audience} - {form.instance.subject}',
+                        task_title=f'Review Test Campaign Email: {form.instance.audience} - {form.instance.subject}',
                         task_type='Email Campaign 2',
                         task_description=task_description,
                         task_history_log=history_log,
