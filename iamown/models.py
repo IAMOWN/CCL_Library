@@ -34,6 +34,7 @@ TASK_TYPE_CHOICES = [
     ('Library Observation', 'Library Observation'),
     ('Book Edit', 'Book Edit'),
     ('Email Campaign', 'Email Campaign'),
+    ('Email Campaign 2', 'Email Campaign 2'),
 ]
 TASK_DECISION_CHOICES = [
     ('Agreed', 'Agreed'),
@@ -508,7 +509,6 @@ class PEeP(models.Model):
     assignment. Related to User as each entry relates to a Team member.
     """
     functional_activity = models.CharField(
-        unique=True,
         max_length=50,
         default='',
         null=True,
