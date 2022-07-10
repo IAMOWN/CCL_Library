@@ -105,17 +105,17 @@
 
     <section class="content-section d-none d-xl-block text-CCL-Gold">
         <div class="row">
-            <div class="col-lg-2 pt-2">
-                <h5>Dear Soul</h5>
-            </div>
             <div class="col-lg-4 pt-2">
                 <h5>Task</h5>
             </div>
             <div class="col-lg-2 pt-2">
-                <h5>Status</h5>
+                <h5>Service Group</h5>
             </div>
             <div class="col-lg-2 pt-2">
-                <h5>Priority</h5>
+                <h5>Dear Soul</h5>
+            </div>
+            <div class="col-lg-2 pt-2">
+                <h5>Status</h5>
             </div>
             <div class="col-lg-2 pt-2">
                 <h5>Due Date</h5>
@@ -127,19 +127,17 @@
             {% if task.task_status != 'Completed' %}
             <section class="list-group-item list-group-item-light text-CCL-Gold {% cycle 'row1' 'row2' %}">
                 <div class="row pt-2 pb-2">
-                    <div class="col-lg-2">
-                    {% if task.assigned_profile %}
-                        {{ task.assigned_profile }}
-                    {% endif %}
-                    </div>
                     <div class="col-lg-4">
                         <p><a href="{% url 'task' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a></p>
                     </div>
                     <div class="col-lg-2">
-                        {{ task.task_status }}
+                        {{ task.assigned_service_group }}
                     </div>
                     <div class="col-lg-2">
-                        {{ task.task_priority }}
+                        {{ task.assigned_profile }}
+                    </div>
+                    <div class="col-lg-2">
+                        {{ task.task_status }}
                     </div>
                     <div class="col-lg-2">
                         {{ task.due_date|date:"d/m/Y" }}
