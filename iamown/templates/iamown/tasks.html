@@ -67,33 +67,35 @@
             </div>
         </form>
     {% if not search_off %}
-        {% if search_type == 'Team' %}
+        <div class="row">
+            <div class="col-lg-9 pb-2">
+            {% if search_type == 'Dear Soul' %}
             {% if search_count == 0 %}
-                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the Team field.</p>
+                <p class="text-danger">There are no tasks with "{{ search_entered }}" assigned. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
             {% else %}
-                <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} active task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the team field.</p>
+                <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" assigned. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
             {% endif %}
-        {% elif search_type == 'Task' %}
+            {% elif search_type == 'Status' %}
             {% if search_count == 0 %}
-                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the Team field.</p>
+                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the Task Status field. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
             {% else %}
-                <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the task title field.</p>
+                <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the Task Status field. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
             {% endif %}
-        {% elif search_type == 'Status' %}
+            {% elif search_type == 'Priority' %}
             {% if search_count == 0 %}
-                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the task status field.</p>
+                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the Task Priority field. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
             {% else %}
-                <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the task status field.</p>
+                <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }}} {{ search_count }} task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the Task Priority field. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
             {% endif %}
-        {% elif search_type == 'Priority' %}
-            {% if search_count == 0 %}
-                <p class="text-danger">There are no tasks with "{{ search_entered }}" in the task priority field.</p>
-            {% else %}
-                <p class="text-CCL-Blue">{% if search_count == 1 %}There is{% else %}Below are{% endif %} {{ search_count }} active task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the task priority field.</p>
             {% endif %}
-        {% endif %}
+            </div>
+            <div class="col-lg-3 pb-2 pt-2">
+                <a href="{% url 'tasks-library' %}" class="btn btn-outline-CCL-Blue col-12">Clear Search</a>
+            </div>
+        </div>
     {% endif %}
     </section>
+        
     {% endif %}
 
     <section class="content-section d-none d-xl-block text-CCL-Gold">
@@ -118,7 +120,7 @@
     {% if search_off %}
         {% for task in tasks %}
             {% if task.task_status != 'Completed' %}
-            <section class="content-section pt-2 list-group-item list-group-item-light text-CCL-Gold {% cycle 'row1' 'row2' %}">
+            <section class="list-group-item list-group-item-light text-CCL-Gold {% cycle 'row1' 'row2' %}">
                 <div class="row pt-2 pb-2">
                     <div class="col-lg-4">
                         <p><a href="{% url 'task' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a></p>
@@ -140,9 +142,9 @@
             {% endif %}
         {% endfor %}
     {% else %}
-        {% if search_type == 'Status' or search_type == 'Dear Soul' %}
+        {% if search_type == 'Status' or search_type == 'Assignee' %}
             {% for task in tasks %}
-            <section class="content-section pt-2 list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
+            <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
                 <div class="row pt-2 pb-2">
                     <div class="col-lg-4">
                         <p><a href="{% url 'task' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a></p>
@@ -165,23 +167,26 @@
         {% else %}
             {% for task in tasks %}
                 {% if task.task_status != 'Completed' %}
-                <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
-                    <div class="row pt-2 pb-2">
+                <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
+                    <div class="row">
+                    <div class="col-lg-2">
+                        {{ task.assigned_dear_soul }}
+                    </div>
                         <div class="col-lg-4">
-                            <p><a href="{% url 'task' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a></p>
-                        </div>
-                        <div class="col-lg-2">
-                            {{ task.assigned_service_group }}
-                        </div>
-                        <div class="col-lg-2">
-                            {{ task.assigned_profile }}
+                            <p><a href="{% url 'task' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a> {% if user.is_superuser %}<a href="{% url 'task-update' task.id %}" class="text-CCL-Gold mt-1"><i class="far fa-plus-square h6-plus"></i></a></p>{% endif %}
+
                         </div>
                         <div class="col-lg-2">
                             {{ task.task_status }}
                         </div>
                         <div class="col-lg-2">
-                            {{ task.due_date|date:"d/m/Y" }}
+                            {{ task.task_priority }}
                         </div>
+                        <div class="col-lg-2">
+                            {{ task.due_date|date:"d/m/Y" }} <a href="{% url 'task-delete' task.id %}" class="delete-link float-end mt-1"><i class="far fa-times-circle h6-plus"></i></a>
+                        </div>
+                    </div>
+                    <div class="row">
                     </div>
                 </section>
                 {% endif %}
