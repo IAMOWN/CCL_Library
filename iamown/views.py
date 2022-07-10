@@ -460,7 +460,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 for id in reviewers:
                     # Create Reviewer Agreement Task and send email
                     reviewer_count += 1
-                    reviewer_user_obj = Profile.objects.get(user_id=(PEeP.objects.get(id=id).dear_soul_responsible_id))
+                    reviewer_profile_obj = Profile.objects.get(user_id=id)
 
                     # Assign Task
                     task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_4).process_description + f'''<br>Total number of emails in Mailing List: {mailing_list_count}'''
@@ -470,7 +470,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                         task_type='Email Campaign 2',
                         task_description=task_description,
                         task_history_log=history_log,
-                        assigned_profile=reviewer_user_obj,
+                        assigned_profile=reviewer_profile_obj,
                         email_campaign=email_campaign_obj,
                     )
 
