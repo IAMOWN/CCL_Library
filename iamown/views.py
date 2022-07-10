@@ -360,7 +360,7 @@ class TaskDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 class TaskCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     """Task CreateView for non-library tasks."""
     model = Task
-    form_class = CreateLibraryTaskForm
+    form_class = CreateTaskForm
 
     template_name = 'iamown/task_form.html'
 
@@ -389,7 +389,7 @@ class TaskCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """Task UpdateView for non-library tasks."""
     model = Task
-    form_class = UpdateLibraryTaskForm
+    form_class = UpdateTaskForm
 
     template_name = 'iamown/task_form.html'
 
@@ -612,6 +612,8 @@ class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = CreateLibraryTaskForm
 
     template_name = 'iamown/task_form_library.html'
+
+    success_url = reverse_lazy('tasks-library')
 
     def test_func(self):
         if self.request.user.is_staff:
