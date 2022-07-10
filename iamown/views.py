@@ -418,9 +418,16 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         library_task = form.save(commit=False)
         task_updater = Profile.objects.get(user__username=self.request.user).spiritual_name
         if library_task.task_status == 'Completed':
+            if library_task.actions_taken == "":
+                    form.add_error(
+                        'actions_taken',
+                        'Please enter the actions taken as a part of completing this task.'
+                    )
+                    return self.form_invalid(form)
             library_task.date_completed = get_current_date()
-            library_task.task_history_log = library_task.task_history_log + f'''>>> Task manually <strong>complted</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br><strong>Date completed: {library_task.date_completed}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile}<p>'''
+            library_task.task_history_log = library_task.task_history_log + f'''>>> Task manually <strong>completed</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br><strong>Date completed: {library_task.date_completed}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile}<p>'''
             library_task.save(update_fields=['task_history_log','date_completed',])
+
         else:
             library_task.task_history_log = library_task.task_history_log + f'''>>> Task manually <strong>updated</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile}<p>'''
             library_task.save(update_fields=['task_history_log',])
@@ -453,6 +460,7 @@ class TaskCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['tasks_count'] = Task.objects.all().\
             exclude(task_status='Completed').\
             exclude(task_type__in=['Library Observation', 'Book Edit']).count()
+        context['title'] = 'Completed Tasks'
 
         return context
 
