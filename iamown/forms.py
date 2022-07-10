@@ -19,7 +19,7 @@ from users.models import (
 
 
 # ############ Task form validation logic ############
-def library_task_form_validation(form, form_type):
+def task_form_validation(form, form_type):
     cleaned_data = super(form_type, form).clean()
     if cleaned_data.get('task_title') is None:
         form.add_error(
@@ -165,7 +165,7 @@ class CreateTaskForm(forms.ModelForm):
         }
 
     def clean(self):
-        library_task_form_validation(self, CreateLibraryTaskForm)
+        task_form_validation(self, CreateTaskForm)
         return self.cleaned_data
 
 
@@ -199,7 +199,7 @@ class UpdateTaskForm(forms.ModelForm):
         }
 
     def clean(self):
-        library_task_form_validation(self, UpdateLibraryTaskForm)
+        task_form_validation(self, UpdateTaskForm)
         return self.cleaned_data
 
 
