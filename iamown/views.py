@@ -1377,7 +1377,7 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
                 'There are no mailing list entries for this Audience. \nPlease select another Audience.'
             )
             return self.form_invalid(form)
-
+        form.save()
 
         if email_campaign.ready_to_send == 'Yes':
             email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: {form.instance.ready_to_send}</strong><br>'''
