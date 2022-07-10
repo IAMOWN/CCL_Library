@@ -444,7 +444,9 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     'email_campaign_test_accepted',
                 ])
                 reviewers = PEeP.objects.filter(functional_activity='Email Campaign Reviewer').values_list('dear_soul_responsible')
-                print(f'reviewers: {reviewers}')
+                for id in reviewers:
+                    reviewer = Profile.objects.get(user_id=id).spiritual_name 
+                    print(f'reviewers: {reviewer}')
 
                 # TODO Create Group Agreement Task
 

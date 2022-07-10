@@ -73,7 +73,7 @@
                 </div>
             </div>
             <div class="row">
-                {% if task.task_status != 'Completed' %}
+                {% if task.task_status != 'Completed' or task.task_type != 'Email Campaign' %}
                     <div class="col-lg-3">
                         {{ form.task_priority|as_crispy_field }}
                     </div>
