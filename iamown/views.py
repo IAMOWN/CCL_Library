@@ -25,6 +25,8 @@ from .models import (
     EmailCampaign,
 )
 from .forms import (
+    CreateTaskForm,
+    UpdateTaskForm,
     CreateLibraryTaskForm,
     UpdateLibraryTaskForm,
     CreateServiceGroupForm,
