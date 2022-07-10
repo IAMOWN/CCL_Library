@@ -1365,7 +1365,7 @@ class EmailCampaignUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
 
             LEE_description = LEE.objects.none()
             LEE_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_3)
-            task_description = LEE_description + f'''<strong>Email Campaign: </strong><a href="{DOMAIN}email_campaign/{email_campaign_id}/" class="text-CCL-Blue" target="_blank"></a><br>
+            task_description = LEE_description + f'''<strong>Email Campaign: </strong><a href="{DOMAIN}email_campaign/{email_campaign.id}/" class="text-CCL-Blue" target="_blank"></a><br>
             '''
             history_log = f'''>>> <strong>Accept Test Campaign Email</strong> task created by {self.request.user.profile.spiritual_name} on <strong>{get_current_date()}</strong><p><br>'''
             Task.objects.create(

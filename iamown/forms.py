@@ -127,7 +127,7 @@ def email_campaign_form_validation(form, form_type):
     if cleaned_data.get('subject') is None:
         form.add_error(
             'subject',
-            'An subject must be entered.'
+            'A subject must be entered.'
         )
     if cleaned_data.get('message') is None:
         form.add_error(
