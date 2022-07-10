@@ -382,7 +382,8 @@ class Task(models.Model):
     decision = models.CharField(
         choices=TASK_DECISION_CHOICES,
         max_length=20,
-        default='---',
+        null=True,
+        blank=True,
         help_text='''
         Select "Agreed" to indicate you are in Agreement with what has been proposed in this ServiceFlow.\n
         Select "Declined" to indicate that you are not in Agreement.'''
