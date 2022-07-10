@@ -13,7 +13,11 @@
     <script>
         $(document).ready(function() {
           $('#id_task_type').change(function() {
-            if ($(this).val() === "Decision") {
+            if ($(this).val() === "---") {
+              $('#div_id_decision').hide();
+              $('#div_id_decision_comments').hide();
+            }
+            else if ($(this).val() === "Decision") {
               $('#div_id_decision').show();
               $('#div_id_decision_comments').show();
             }
