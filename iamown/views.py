@@ -1317,6 +1317,7 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
                 task_description=task_description,
                 task_history_log=history_log,
                 assigned_profile=self.request.user.profile,
+                email_campaign=email_campaign,
             )
         else:
             email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: {form.instance.ready_to_send}</strong><br>'''
@@ -1374,6 +1375,7 @@ class EmailCampaignUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
                 task_description=task_description,
                 task_history_log=history_log,
                 assigned_profile=self.request.user.profile,
+                email_campaign=email_campaign,
             )
 
         message = f'{form.instance.audience} - {form.instance.subject}'
