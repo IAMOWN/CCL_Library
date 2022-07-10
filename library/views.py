@@ -1688,6 +1688,7 @@ class ReadingListItemDelete(LoginRequiredMixin, DeleteView):
         record_obj = ReadingProgress.objects.get(id=self.kwargs['pk'])
         record_title = record_obj.record.title
         record_type = record_obj.record.library_record_type
+        record_type = record_obj.record.library_record_type
         messages.add_message(
             self.request,
             messages.SUCCESS,
