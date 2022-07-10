@@ -560,6 +560,7 @@ class PEeP(models.Model):
         ]
         verbose_name_plural = 'PEeP'
         verbose_name = 'PEeP'
+        unique_together = ['functional_activity', 'dear_soul_responsible']
 
     def get_absolute_url(self):
         return reverse('peep-entry', kwargs={'pk': self.pk})
