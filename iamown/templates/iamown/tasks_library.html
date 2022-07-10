@@ -149,27 +149,22 @@
         {% if search_type == 'Status' or search_type == 'Dear Soul' or search_type == 'Priority' %}
             {% for task in tasks %}
             <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
-                <div class="row">
-                    <div class="col-lg-2">
-                    {% if task.assigned_profile %}
-                        {{ task.assigned_profile }}
-                    {% endif %}
-                    </div>
+                <div class="row pt-2 pb-2">
                     <div class="col-lg-4">
-                        <p><a href="{% url 'task-library' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a>
-
+                        <p><a href="{% url 'task' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a></p>
+                    </div>
+                    <div class="col-lg-2">
+                        {{ task.assigned_service_group }}
+                    </div>
+                    <div class="col-lg-2">
+                        {{ task.assigned_profile }}
                     </div>
                     <div class="col-lg-2">
                         {{ task.task_status }}
                     </div>
                     <div class="col-lg-2">
-                        {{ task.task_priority }}
-                    </div>
-                    <div class="col-lg-2">
                         {{ task.due_date|date:"d/m/Y" }}
                     </div>
-                </div>
-                <div class="row">
                 </div>
             </section>
             {% endfor %}
@@ -177,26 +172,23 @@
             {% for task in tasks %}
                 {% if task.task_status != 'Completed' %}
                 <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
-                    <div class="row">
-                        <div class="col-lg-2">
-                            {{ task.assigned_dear_soul }}
-                        </div>
-                            <div class="col-lg-4">
-                                <p><a href="{% url 'task' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a> {% if user.is_superuser %}<a href="{% url 'task-update-library' task.id %}" class="text-CCL-Gold mt-1"><i class="far fa-plus-square h6-plus"></i></a></p>{% endif %}
-
-                            </div>
-                            <div class="col-lg-2">
-                                {{ task.task_status }}
-                            </div>
-                            <div class="col-lg-2">
-                                {{ task.task_priority }}
-                            </div>
-                            <div class="col-lg-2">
-                                {{ task.due_date|date:"d/m/Y" }} <a href="{% url 'task-delete' task.id %}" class="delete-link float-end mt-1"><i class="far fa-times-circle h6-plus"></i></a>
-                            </div>
-                        </div>
-                    <div class="row">
+                <div class="row pt-2 pb-2">
+                    <div class="col-lg-4">
+                        <p><a href="{% url 'task' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a></p>
                     </div>
+                    <div class="col-lg-2">
+                        {{ task.assigned_service_group }}
+                    </div>
+                    <div class="col-lg-2">
+                        {{ task.assigned_profile }}
+                    </div>
+                    <div class="col-lg-2">
+                        {{ task.task_status }}
+                    </div>
+                    <div class="col-lg-2">
+                        {{ task.due_date|date:"d/m/Y" }}
+                    </div>
+                </div>
                 </section>
                 {% endif %}
             {% endfor %}
