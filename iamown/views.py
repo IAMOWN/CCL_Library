@@ -318,13 +318,13 @@ class TaskList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['search_count'] = 0
         if assignee_search_input:
             context['search_off'] = False
-            context['tasks'] = context['tasks'].exclude(task_type__in=['Library Observation', 'Book Edit']).filter(assigned_user__username=assignee_search_input).order_by(
+            context['tasks'] = context['tasks'].exclude(task_type__in=['Library Observation', 'Book Edit']).filter(ssigned_profile__spiritual_name=assignee_search_input).order_by(
                 'task_status',
                 'task_priority',
                 'due_date',
             )
             context['search_count'] = context['tasks'].count()
-            context['search_type'] = 'Assignee'
+            context['search_type'] = 'Dear Soul'
             context['search_entered'] = assignee_search_input
             context['search_entered'] = assignee_search_input
         # Task Status
