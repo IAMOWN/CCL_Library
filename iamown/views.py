@@ -1324,7 +1324,7 @@ class EmailCampaignUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
 
     def form_valid(self, form):
         email_campaign = form.save()
-        if email_campaign.ready_to_send == 'Yes' and test_email_sent == 'No':
+        if email_campaign.ready_to_send == 'Yes' and email_campaign.test_email_sent == 'No':
             email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: {form.instance.ready_to_send}</strong><br>'''
             email_address = self.request.user.email
             email_subject = form.instance.subject
