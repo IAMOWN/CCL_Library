@@ -144,8 +144,6 @@ class CreateTaskForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['assigned_profile'].queryset = Profile.objects.filter(user__is_staff=True)
 
-        # self.fields['assigned_dear_soul'].queryset = User.objects.filter(is_staff=True)
-
     class Meta:
         model = Task
         fields = [
@@ -175,10 +173,9 @@ class UpdateTaskForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['assigned_profile'].queryset = Profile.objects.filter(user__is_staff=True)
-        self.fields['task_description'].label = False
-        self.fields['actions_taken'].label = False
-        self.fields['library_task_description'].label = False
-        self.fields['library_task_actions_taken'].label = False
+        # self.fields['task_description'].label = False
+        # self.fields['actions_taken'].label = False
+        # self.fields['task_description'].label = False
 
     class Meta:
         model = Task
@@ -209,8 +206,6 @@ class CreateLibraryTaskForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['assigned_profile'].queryset = Profile.objects.filter(user__is_staff=True)
-
-        # self.fields['assigned_dear_soul'].queryset = User.objects.filter(is_staff=True)
 
     class Meta:
         model = Task
