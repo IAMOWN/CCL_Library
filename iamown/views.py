@@ -122,7 +122,8 @@ EMAIL_MESSAGE_2 = '''
 '''
 
 LIBRARY_TASK_URL = 'https://cosmicchrist.love/tasks/library/'
-TASK_URL = 'https://cosmicchrist.love/tasks/'
+TASKS_URL = 'https://cosmicchrist.love/tasks/'
+TASK_URL = 'https://cosmicchrist.love/task/'
 
 LEE_TASK_RECORD_OBS_2 = 'Record Observation (2) Book File Review'
 BOOK_EDITOR_GROUP_NAME = 'Book Editors'
@@ -485,7 +486,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     email_campaign_message = email_campaign_obj.message
                     email_message = f"""
                     {EMAIL_MESSAGE_CAMPAIGN_1}
-                    *** Beloved {reviewer_name}, this is a CCL ServiceFlow <strong>review email</strong>. Please Qualify readiness to broadcast and update corresponding <a href="{TASK_URL}{new_task.id}/">Task </a>. ***<p>
+                    *** Beloved {reviewer_name}, this is a CCL ServiceFlow <strong>review email</strong>. Please Qualify readiness to broadcast and update corresponding <a href="{TASK_URL}{new_task.id}/">Task</a>. ***<hr>
                     {email_campaign_message}
                     {EMAIL_MESSAGE_2}
                     """
@@ -817,7 +818,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                         Beloved {editor.profile.spiritual_name},<p>
                         A Library Observation has just been completed, and has been marked as having an impact on book text 
                         related to the Library record.<p> 
-                        Please review the <a href='{LIBRARY_TASK_URL}'>Library Tasks</a> at your earliest convenience.<p>
+                        Please review the <a href='{LIBRARY_TASKS_URL}'>Library Tasks</a> at your earliest convenience.<p>
                         Note: It is possible that another Book Editor may respond to this task before you do. When 
                         reviewing the task be sure check the task status as well as the Assigned Dear Soul for the task.<p>
                         Love and Blessings
@@ -1361,7 +1362,7 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
 
     template_name = 'iamown/email_campaign_form.html'
 
-    success_url = reverse_lazy('email-campaigns')
+    success_url = reverse_lazy('tasks')
 
     def test_func(self):
         return self.request.user.is_staff
@@ -1385,7 +1386,7 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
             email_subject = form.instance.subject
             email_message = f"""
             {EMAIL_MESSAGE_CAMPAIGN_1}
-            *** This is a TEST EMAIL * Please check the <a href="{TASK_URL}">Task List</a> to Approve this email ***<p>
+            *** This is a TEST EMAIL * Please check the <a href="{TASKS_URL}">Task List</a> to Approve this email ***<p>
             {form.instance.message}
             {EMAIL_MESSAGE_2}
             """
@@ -1440,7 +1441,7 @@ class EmailCampaignUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
             email_subject = form.instance.subject
             email_message = f"""
             {EMAIL_MESSAGE_CAMPAIGN_1}
-            *** This is a TEST EMAIL * Please check the <a href="{TASK_URL}">Task List</a> to Approve this email ***<p>
+            *** This is a TEST EMAIL * Please check the <a href="{TASKS_URL}">Task List</a> to Approve this email ***<p>
             {form.instance.message}
             {EMAIL_MESSAGE_2}
             """
