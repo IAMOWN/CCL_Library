@@ -21,7 +21,7 @@
                 <p>You currently have no tasks. Click the Add A Task button below to get started.</p>
             {% endif %}
             {% if completed_tasks_count > 0 %}
-                <p>There {{ tasks_count|pluralize:"is,are" }} { tasks_count|intcomma }} <a class="text-CCL-Blue" href="{% url 'tasks-completed' %}">completed {{ completed_tasks_count }} task{{ completed_tasks_count|pluralize:"s" }}</a>.</p>
+                <p>There {{ completed_tasks_count|pluralize:"is,are" }} {{ completed_tasks_count|intcomma }} <a class="text-CCL-Blue" href="{% url 'tasks-completed' %}">completed task{{ completed_tasks_count|pluralize:"s" }}</a>.</p>
             {% endif %}
             </div>
         </div>
