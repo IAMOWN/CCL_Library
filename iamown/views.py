@@ -429,12 +429,23 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         task_updater = Profile.objects.get(user__username=self.request.user).spiritual_name
         # Email Campaign branch
         if library_task.task_type == 'Email Campaign':
-            if library_task.decision == 'Agreed':
+            print(f'library_task.email_campaign_test_accepted: {library_task.email_campaign_test_accepted}')
+            if library_task.decision == 'Agreed' and library_task.email_campaign_test_accepted == 'No':
                 library_task.date_completed = get_current_date()
                 library_task.task_status = 'Completed'
                 library_task.actions_taken = 'Test Email Accepted'
+                library_task.email_campaign_test_accepted = 'Yes'
                 library_task.task_history_log = library_task.task_history_log + f'''>>> Test Campaign Email <strong>Accepted</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br><strong>Date completed: {get_current_date()}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile}<p>'''
-                library_task.save(update_fields=['task_history_log','date_completed', 'task_status', 'actions_taken',])
+                library_task.save(update_fields=[
+                    'task_history_log',
+                    'date_completed',
+                    'task_status',
+                    'actions_taken',
+                    'email_campaign_test_accepted',
+                ])
+                reviewers = PEeP.objects.filter(functional_activity='Email Campaign Reviewer').dear_soul_responsible
+                print(f'reviewers: {reviewers}')
+
                 # TODO Create Group Agreement Task
 
 

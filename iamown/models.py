@@ -384,6 +384,11 @@ class Task(models.Model):
         blank=True,
         related_name='email_campaign_in_task',
     )
+    email_campaign_test_accepted = models.CharField(
+        choices=YES_NO_CHOICES,
+        max_length=10,
+        default='No',
+    )
 
     decision = models.CharField(
         choices=TASK_DECISION_CHOICES,
