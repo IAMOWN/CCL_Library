@@ -466,7 +466,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_4).process_description + f'''<br>Total number of emails in Mailing List: {mailing_list_count}'''
                     history_log = f'''>>> <strong>Email Campaign Review</strong> task created by {self.request.user.profile.spiritual_name} on <strong>{get_current_date()}</strong><p><br>'''
                     Task.objects.create(
-                        task_title=f'Review Test Campaign Email: {form.instance.audience} - {form.instance.subject}',
+                        task_title=f'Review Test Campaign Email: {email_campaign_obj.audience} - {email_campaign_obj.subject} ({email_campaign.date_created.strftime("%Y-%m-%d")})',
                         task_type='Email Campaign 2',
                         task_description=task_description,
                         task_history_log=history_log,
