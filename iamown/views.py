@@ -125,6 +125,8 @@ TASK_URL = 'https://cosmicchrist.love/tasks/'
 LEE_TASK_RECORD_OBS_2 = 'Record Observation (2) Book File Review'
 BOOK_EDITOR_GROUP_NAME = 'Book Editors'
 
+LEE_TASK_CAMPAIGN_3 = 'Email Campaign (3) Accept Test Email'
+
 # ####################### FUNCTIONS #######################
 def get_current_date():
     return datetime.now().date()
@@ -1265,6 +1267,7 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
     def form_valid(self, form):
         form.instance.sender = self.request.user
         email_campaign = form.save()
+        email_campaign_id = email_campaign.id
         if email_campaign.ready_to_send == 'Yes':
             email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: {form.instance.ready_to_send}</strong><br>'''
             email_address = self.request.user.email
@@ -1278,6 +1281,18 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
             send_email(email_subject, email_address, email_message)
             email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. Ready to send: <strong>{form.instance.ready_to_send}</strong>. Test email sent to <strong>{email_address}</strong><br>'''
             email_campaign.test_email_sent = 'Yes'
+
+            LEE = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_3)
+            task_description = LEE + f'''<strong>Email Campaign: </strong><a href="{DOMAIN}email_campaign/{email_campaign_id}/" class="text-CCL-Blue" target="_blank"></a><br>
+            '''
+            history_log = f'''>>> <strong>Accept Test Campaign Email</strong> task created by {self.request.user.profile.spiritual_name} on <strong>{get_current_date()}</strong><p><br>'''
+            Task.objects.create(
+                task_title=f'Accept Test Campaign Email: {form.instance.audience} - {form.instance.subject}',
+                task_type='Email Campaign',
+                task_description=task_description,
+                task_history_log=history_log,
+                assigned_profile=self.request.user.profile,
+            )
         else:
             email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: {form.instance.ready_to_send}</strong><br>'''
 
@@ -1323,7 +1338,17 @@ class EmailCampaignUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
             email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. Ready to send: <strong>{form.instance.ready_to_send}</strong>. Test email sent to <strong>{email_address}</strong><br>'''
             email_campaign.test_email_sent = 'Yes'
 
-
+            LEE = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_3)
+            task_description = LEE + f'''<strong>Email Campaign: </strong><a href="{DOMAIN}email_campaign/{email_campaign_id}/" class="text-CCL-Blue" target="_blank"></a><br>
+            '''
+            history_log = f'''>>> <strong>Accept Test Campaign Email</strong> task created by {self.request.user.profile.spiritual_name} on <strong>{get_current_date()}</strong><p><br>'''
+            Task.objects.create(
+                task_title=f'Accept Test Campaign Email: {form.instance.audience} - {form.instance.subject}',
+                task_type='Email Campaign',
+                task_description=task_description,
+                task_history_log=history_log,
+                assigned_profile=self.request.user.profile,
+            )
 
         message = f'{form.instance.audience} - {form.instance.subject}'
         messages.add_message(

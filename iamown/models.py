@@ -38,6 +38,7 @@ TASK_TYPE_CHOICES = [
 TASK_DECISION_CHOICES = [
     ('---', '---'),
     ('Agreed', 'Agreed'),
+    ('Revise', 'Revise'),
     ('Decline', 'Decline'),
 ]
 SERVICE_GROUP_TYPES = [

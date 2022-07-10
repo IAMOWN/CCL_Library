@@ -26,6 +26,16 @@ def library_task_form_validation(form, form_type):
             'task_title',
             'A title for the task must be entered.'
         )
+    if cleaned_data.get('decision') == 'Revise' and form.instance.task_type == 'Email Campaign':
+        form.add_error(
+            'decision_comments',
+            '''If your decision is to Revise then you are asked to note why.'''
+        )
+    elif cleaned_data.get('decision') == 'Decline' and form.instance.task_type == 'Email Campaign':
+        form.add_error(
+            'decision_comments',
+            '''If your decision is to Decline then you are asked to note why.'''
+        )
     return
 
 
@@ -146,6 +156,8 @@ class CreateTaskForm(forms.ModelForm):
             'task_status',
             'task_priority',
             'due_date',
+            'decision',
+            'decision_comments',
         ]
         widgets = {
             'due_date': DatePickerInput(format='%Y-%m-%d'),
@@ -177,6 +189,8 @@ class UpdateTaskForm(forms.ModelForm):
             'task_status',
             'task_priority',
             'due_date',
+            'decision',
+            'decision_comments',
         ]
         widgets = {
             'due_date': DatePickerInput(format='%Y-%m-%d'),

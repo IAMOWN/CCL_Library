@@ -9,6 +9,27 @@
         Add A Task
     {% endif %}
 {% endblock %}
+{% block script_header %}
+    <script>
+        $(document).ready(function() {
+          $('#id_task_type').change(function() {
+            if ($(this).val() === "Decision") {
+              $('#div_id_decision').show();
+              $('#div_id_decision_comments').show();
+            }
+            else if ($(this).val() === "Email Campaign") {
+              $('#div_id_decision').show();
+              $('#div_id_decision_comments').show();
+             }
+            else {
+              $('#div_id_decision').hide();
+              $('#div_id_decision_comments').hide();
+            }
+          });
+          $("#id_task_type").trigger("change")
+        })
+    </script>
+{% endblock %}
 {% block content %}
     {% if form.errors %}
         <article class="content-section-danger alert-section">
@@ -36,6 +57,7 @@
         <form method="post" action="" enctype="multipart/form-data" class="pb-2">
             {% csrf_token %}
             {{ form.media}}
+            {{ form.task_type.as_hidden }}
             <div class="row">
                 <div class="col-lg-12">
                     {{ form.task_title|as_crispy_field }}
@@ -63,6 +85,14 @@
             <div class="row">
                 <div class="col-lg-12">
                     {{ form.actions_taken|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3">
+                    {{ form.decision|as_crispy_field }}
+                </div>
+                <div class="col-lg-9">
+                    {{ form.decision_comments|as_crispy_field }}
                 </div>
             </div>
             <div class="row pt-4">
