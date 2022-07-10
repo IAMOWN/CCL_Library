@@ -365,7 +365,7 @@ class Task(models.Model):
         null=True,
         blank=True,
         max_length=10,
-        default='---',
+        default='No',
         help_text='''Select "Yes" if you believe that the changes made will also need to be made in book files. \n
         Select "No" if you believe that this observation only has an impact in the Library Record. For example, if a 
         hyperlink is broken this would have no impact upon book copy. \nIf you are uncertain if the book text will be 
