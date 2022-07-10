@@ -434,7 +434,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             if library_task.decision == 'Agreed' and library_task.email_campaign_test_accepted == 'No':
                 # Query and Update email campaign
                 print(f'library_task.email_campaign: {library_task.email_campaign}')
-                email_campaign_obj = EmailCampaign.objects.get(email_campaign_in_task=library_task.email_campaign)
+                email_campaign_obj = EmailCampaign.objects.get(email_campaign_in_task=library_task)
                 print(f'email_campaign_obj: {email_campaign_obj}')
                 audience = email_campaign_obj.audience
                 print(f'audience: {audience}')
