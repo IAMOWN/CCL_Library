@@ -611,7 +611,7 @@ class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Task
     form_class = CreateLibraryTaskForm
 
-    template_name = 'iamown/task_form.html'
+    template_name = 'iamown/task_form_library.html'
 
     def test_func(self):
         if self.request.user.is_staff:
