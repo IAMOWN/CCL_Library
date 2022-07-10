@@ -255,6 +255,20 @@ class EmailCampaign(models.Model):
         null=True,
         blank=True,
     )
+    review_email_sent = models.CharField(
+        choices=YES_NO_CHOICES,
+        max_length=10,
+        default='No',
+    )
+    number_of_reviewers = models.PositiveSmallIntegerField(
+        default=0,
+    )
+    number_of_accepted_reviews = models.PositiveSmallIntegerField(
+        default=0,
+    )
+    number_of_declined_reviews = models.PositiveSmallIntegerField(
+        default=0,
+    )
     send_status = models.CharField(
         choices=EMAIL_CAMPAIGN_STATUS_CHOICES,
         null=True,
@@ -271,6 +285,7 @@ class EmailCampaign(models.Model):
         ordering = [
             'send_status',
         ]
+        unique_together = ['audience', 'subject']
         verbose_name_plural = 'Email Campaign'
         verbose_name = 'Email Campaigns'
 

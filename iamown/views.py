@@ -128,6 +128,7 @@ LEE_TASK_RECORD_OBS_2 = 'Record Observation (2) Book File Review'
 BOOK_EDITOR_GROUP_NAME = 'Book Editors'
 
 LEE_TASK_CAMPAIGN_3 = 'Email Campaign (3) Accept Test Email'
+LEE_TASK_EMAIL_CAMPAIGN_2 = 'Email Campaign Reviewer'
 
 # ####################### FUNCTIONS #######################
 def get_current_date():
@@ -429,8 +430,13 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         task_updater = Profile.objects.get(user__username=self.request.user).spiritual_name
         # Email Campaign branch
         if library_task.task_type == 'Email Campaign':
-            print(f'library_task.email_campaign_test_accepted: {library_task.email_campaign_test_accepted}')
             if library_task.decision == 'Agreed' and library_task.email_campaign_test_accepted == 'No':
+                # Query and Update email campaign
+                print(f'library_task.email_campaign: {library_task.email_campaign}')
+                email_campaign_obj = EmailCampaign.objects.get(email_campaign_in_task=library_task.email_campaign)
+                print(f'email_campaign_obj: {email_campaign_obj}')
+
+                # Update task
                 library_task.date_completed = get_current_date()
                 library_task.task_status = 'Completed'
                 library_task.actions_taken = 'Test Email Accepted'
@@ -443,12 +449,36 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     'actions_taken',
                     'email_campaign_test_accepted',
                 ])
-                reviewers = PEeP.objects.filter(functional_activity='Email Campaign Reviewer').values_list('dear_soul_responsible')
-                for id in reviewers:
-                    reviewer = Profile.objects.get(user_id=id).spiritual_name 
-                    print(f'reviewers: {reviewer}')
 
-                # TODO Create Group Agreement Task
+                # Assign review task to reviews
+                reviewers = PEeP.objects.filter(functional_activity=LEE_TASK_EMAIL_CAMPAIGN_2).values_list('dear_soul_responsible')  # Deliberately opted to not code logic for no reviewers!
+                reviewer_count = 0
+                for id in reviewers:
+                    reviewer_count += 1
+                    # Assign Task
+
+                    # Send email for review
+                    reviewer_obj = Profile.objects.get(user_id=id)
+                    email_address = reviewer_obj.user.email
+                    reviewer_name = reviewer_obj.spiritual_name
+                    email_subject = f'[CCL] Agreement required for Email Campaign'
+                    email_campaign_message = email_campaign_obj.message
+                    email_message = f"""
+                    {EMAIL_MESSAGE_CAMPAIGN_1}
+                    *** Beloved {reviewer_name},<p>this is a CCL ServiceFlow <strong>review email</strong>. Please Qualify readiness to broadcast and update corresponding <a href="{TASK_URL}/{email_campaign_obj.id}/">Task </a>. ***<p>
+                    {form.instance.message}
+                    {EMAIL_MESSAGE_2}
+                    """
+                    send_email(email_subject, email_address, email_message)
+                    email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. Ready to send: <strong>{form.instance.ready_to_send}</strong>. Test email sent to <strong>{email_address}</strong><br>'''
+
+                    # TODO Create Group Agreement Task
+
+                # TODO Update EmailCampaign_number_of_reviewers
+                # TODO email_campaign.email_send_log
+                email_campaign_obj.send_status = '2) In progress'
+                email_campaign_obj.number_of_reviewers = reviewer_count
+                email_campaign_obj.save(update_fields=['send_status', 'number_of_reviewers',])
 
 
             # TODO Revise branch
@@ -1330,6 +1360,8 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
             send_email(email_subject, email_address, email_message)
             email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. Ready to send: <strong>{form.instance.ready_to_send}</strong>. Test email sent to <strong>{email_address}</strong><br>'''
             email_campaign.test_email_sent = 'Yes'
+
+            # TODO email_campaign.email_send_log
             task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_3).process_description + f'''<strong>Email Campaign: </strong><a href="{DOMAIN}email_campaign/{email_campaign_id}/" class="text-CCL-Blue" target="_blank"></a><br>
             '''
             history_log = f'''>>> <strong>Accept Test Campaign Email</strong> task created by {self.request.user.profile.spiritual_name} on <strong>{get_current_date()}</strong><p><br>'''
