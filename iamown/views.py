@@ -432,9 +432,10 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         task_updater = Profile.objects.get(user__username=self.request.user).spiritual_name
         # Email Campaign branch
         if task.task_type == 'Email Campaign':
+            # AGREE: Test Email accepted
+            email_campaign_obj = task.email_campaign
             if task.decision == 'Agreed' and task.email_campaign_test_accepted == 'No':
                 # Query and Update email campaign
-                email_campaign_obj = task.email_campaign
                 audience = email_campaign_obj.audience
                 subject = email_campaign_obj.subject
                 date_sent = email_campaign_obj.date_created
@@ -457,14 +458,13 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 # Assign review task to reviews
                 reviewers = PEeP.objects.filter(functional_activity=LEE_TASK_EMAIL_CAMPAIGN_2).values_list('dear_soul_responsible')  # Deliberately opted to not code logic for no reviewers!
                 reviewer_count = 0
-
                 for id in reviewers:
                     # Create Reviewer Agreement Task and send email
                     reviewer_count += 1
                     reviewer_profile_obj = Profile.objects.get(user_id=id)
 
                     # Assign Task
-                    task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_4).process_description + f'''<br>Total number of emails in Mailing List: {mailing_list_count}'''
+                    task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_4).process_description + f'''<br>Total <strong>number of emails</strong> in Mailing List: <strong>{mailing_list_count}</strong>'''
                     history_log = f'''>>> <strong>Email Campaign Review</strong> task created by {self.request.user.profile.spiritual_name} on <strong>{get_current_date()}</strong><p><br>'''
                     new_task = Task.objects.create(
                         task_title=f'Review Test Campaign Email: {audience} - {subject} ({date_sent.strftime("%Y-%m-%d")})',
@@ -492,6 +492,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     """
                     send_email(email_subject, email_address, email_message)
 
+                # Update email campaign object
                 email_campaign_obj.send_status = '2) In progress'
                 email_campaign_obj.number_of_reviewers = reviewer_count
                 email_campaign_obj.review_email_sent = 'Yes'
@@ -502,12 +503,58 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     'review_email_sent',
                 ])
 
+            # REVISE: Test Email task marked as 'Revise' -> Resend Email
+            if task.decision == 'Revise' and task.email_campaign_test_accepted == 'No':
+                # Resend email
+                email_address = self.request.user.email
+                subject = email_campaign_obj.subject
+                email_message = f"""
+                {EMAIL_MESSAGE_CAMPAIGN_1}
+                *** This is a TEST EMAIL (REVISED) * Please check this <a href="{TASK_URL}task/{task.id}/">Task</a> to Approve this email ***<p>
+                {form.instance.message}
+                {EMAIL_MESSAGE_2}
+                """
+                send_email(email_subject, email_address, email_message)
 
-            # TODO Revise branch
+                # Update email campaign
+                email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> Test Email task marked as <strong>Revise</strong> by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>.'''
+                email_campaign_obj.send_status = '2) In progress'
+                email_campaign_obj.save(update_fields=[
+                    'email_send_log',
+                    'send_status',
+                ])
 
-            # TODO Decline branch
+                # Update task
+                task.task_status = '2) In progress'
+                task.task_history_log = task.task_history_log + f'''>>> Test Campaign Email marked <strong>Revise</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong> >>> Priority: {task.task_priority} >>> Due date: {task.instance.due_date} >>> Assigned Dear Soul: {task_updater}<p>'''
+                task.save(update_fields=[
+                    'task_status',
+                    'task_history_log',
+                ])
 
-        # TODO Email Campaign 2 branch
+            # DECLINE: Test Email task marked as 'Decline' -> End ServiceFlow
+            if task.decision == 'Decline' and task.email_campaign_test_accepted == 'No':
+                # Update email campaign
+                email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> Test Email task marked as <strong>Decline</strong> by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>.'''
+                email_campaign_obj.send_status = '4) Declined'
+                email_campaign_obj.save(update_fields=[
+                    'email_send_log',
+                    'send_status',
+                ])
+
+                # Update task
+                task.task_status = 'Completed'
+                task.task_history_log = task.task_history_log + f'''>>> Test Campaign Email marked <strong>Decline</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong> >>> Priority: {task.task_priority} >>> Due date: {task.instance.due_date} >>> Assigned Dear Soul: {task_updater}<p>'''
+                task.actions_taken = task.actions_taken + f'Test Email declined. ServiceFlow ended.'
+                task.date_completed = get_current_date()
+                task.save(update_fields=[
+                    'task_status',
+                    'task_history_log',
+                    'actions_taken',
+                    'date_completed',
+                ])
+
+        # TODO 'Email Campaign 2' branch - Their decision branches
 
         elif task.task_status == 'Completed':
             if task.actions_taken == "":

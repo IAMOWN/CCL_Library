@@ -69,6 +69,7 @@ EMAIL_CAMPAIGN_STATUS_CHOICES = [
     ('1) Created', '1) Created'),
     ('2) In progress', '2) In progress'),
     ('3) Approved', '3) Approved'),
+    ('4) Declined', '4) Declined'),
     ('Sent', 'Sent'),
 ]
 
