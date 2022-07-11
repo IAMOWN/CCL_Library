@@ -430,7 +430,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         task = form.save(commit=False)
         task_updater = Profile.objects.get(user__username=self.request.user).spiritual_name
-        # Email Campaign branch
+        # "Email Campaign" branch - Test Email
         if task.task_type == 'Email Campaign':
             # AGREE: Test Email accepted
             email_campaign_obj = task.email_campaign
@@ -517,7 +517,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 send_email(email_subject, email_address, email_message)
 
                 # Update email campaign
-                email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''>>> <strong>Email campaign</strong> Test Email task marked as <strong>Revise</strong> by <strong>{email_campaign_obj.sender}</strong> on <strong>{get_current_date()}</strong>.'''
+                email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email campaign</strong> Test Email task marked as <strong>Revise</strong> by <strong>{email_campaign_obj.sender}</strong> on <strong>{get_current_date()}</strong>.'''
                 email_campaign_obj.send_status = '2) In progress'
                 email_campaign_obj.save(update_fields=[
                     'email_send_log',
@@ -535,7 +535,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             # DECLINE: Test Email task marked as 'Decline' -> End ServiceFlow
             if task.decision == 'Decline' and task.email_campaign_test_accepted == 'No':
                 # Update email campaign
-                email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> Test Email task marked as <strong>Decline</strong> by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>.'''
+                email_campaign.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email campaign</strong> Test Email task marked as <strong>Decline</strong> by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>.'''
                 email_campaign_obj.send_status = '4) Declined'
                 email_campaign_obj.save(update_fields=[
                     'email_send_log',
@@ -554,7 +554,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     'date_completed',
                 ])
 
-        # TODO 'Email Campaign 2' branch - Their decision branches
+        # TODO "Email Campaign 2" branch - Email Campaign Review emails
 
         elif task.task_status == 'Completed':
             if task.actions_taken == "":
