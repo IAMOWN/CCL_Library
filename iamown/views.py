@@ -1417,7 +1417,6 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
         # Check that the email is not already in the mailing list for this audience
         elif form.instance.email:
             mailing_list_email = MailingList.objects.filter(email=form.instance.email, audience=form.instance.audience)
-            print(f'mailing_list_email: {mailing_list_email}')
             if mailing_list_email.count() == 0:
                 message = f'{form.instance.audience}: {form.instance.email}'
                 messages.add_message(
@@ -1436,7 +1435,6 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
         # Check that the email is not already in the mailing list for this audience
         else:
             mailing_list_user = MailingList.objects.filter(user=form.instance.user, audience=form.instance.audience)
-            print(f'mailing_list_user: {mailing_list_user}')
             if mailing_list_user.count() == 0:
                 message = f'{form.instance.audience}: {form.instance.user}'
                 messages.add_message(
