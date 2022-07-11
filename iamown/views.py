@@ -667,6 +667,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         else:
             task.task_history_log = task.task_history_log + f'''>>> Task manually <strong>updated</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile}<p>'''
             task.save(update_fields=['task_history_log',])
+
         message = form.instance.task_title
         messages.add_message(
             self.request,
@@ -1405,16 +1406,45 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
         return self.request.user.is_staff
 
     def form_valid(self, form):
-        if form.instance.user:
-            message = f'{form.instance.audience}: {form.instance.user}'
+        # Initial check to make sure only account or email are submitted
+        if form.instance.user and form.instance.email:
+            form.add_error(
+                'email',
+                'Please add either a Dear Soul or an email.'
+            )
+            return self.form_invalid(form)
+
+        # Check that the entry is not already in the mailing list for this audience
+        mailing_list = MailingList.objects.filter(email=form.instance.email, user__email=form.instance.email, audience=form.instance.audience)
+        print(f'mailing_list: {mailing_list}')
+
+        # Not registered for this audience
+        if mailing_list.count() == 0:
+            if form.instance.user:
+                message = f'{form.instance.audience}: {form.instance.user}'
+            else:
+                message = f'{form.instance.audience}: {form.instance.email}'
+            messages.add_message(
+                self.request,
+                messages.SUCCESS,
+                f'The mailing list entry, "{message}" has been added.'
+            )
+            return super(MailingListCreateView, self).form_valid(form)
+
+        # Already registered for this audience
         else:
-            message = f'{form.instance.audience}: {form.instance.email}'
-        messages.add_message(
-            self.request,
-            messages.SUCCESS,
-            f'The mailing list entry, "{message}" has been added.'
-        )
-        return super(MailingListCreateView, self).form_valid(form)
+            if form.instance.user:
+                form.add_error(
+                    'user',
+                    f'The user "{form.instance.user}" is already registered for this audience.'
+                )
+                return self.form_invalid(form)
+            elif form.instance.email:
+                form.add_error(
+                    'email',
+                    f'An email for the "{form.instance.audience}" audience is already registered.'
+                )
+                return self.form_invalid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super(MailingListCreateView, self).get_context_data(**kwargs)
