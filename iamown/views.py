@@ -1415,13 +1415,17 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
             return self.form_invalid(form)
 
         # Check that the entry is not already in the mailing list for this audience
+        print(f'form.instance.email: {form.instance.email}')
+        print(f'form.instance.user: {form.instance.user}')
+        print(f'form.instance.audience: {form.instance.audience}')
+        
         mailing_list_email = MailingList.objects.filter(email=form.instance.email, audience=form.instance.audience)
         mailing_list_user = MailingList.objects.filter(user=form.instance.user, audience=form.instance.audience)
         print(f'mailing_list_email: {mailing_list_email}')
         print(f'mailing_list_user: {mailing_list_user}')
 
         # Not registered for this audience
-        if mailing_list_email.count() == 0 and mailing_list_user == 0:
+        if mailing_list_email.count() == 0 and mailing_list_user.count() == 0:
             if form.instance.user:
                 message = f'{form.instance.audience}: {form.instance.user}'
             else:
