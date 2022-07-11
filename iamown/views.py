@@ -507,7 +507,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             if task.decision == 'Revise' and task.email_campaign_test_accepted == 'No':
                 # Resend email
                 email_address = self.request.user.email
-                subject = email_campaign_obj.subject
+                email_subject = email_campaign_obj.subject
                 email_message = f"""
                 {EMAIL_MESSAGE_CAMPAIGN_1}
                 *** This is a TEST EMAIL (REVISED) * Please check this <a href="{TASK_URL}task/{task.id}/">Task</a> to Approve this email ***<p>
