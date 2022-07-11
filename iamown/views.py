@@ -517,7 +517,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 send_email(email_subject, email_address, email_message)
 
                 # Update email campaign
-                email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> Test Email task marked as <strong>Revise</strong> by <strong>{email_campaign_obj.sender}</strong> on <strong>{get_current_date()}</strong>.'''
+                email_campaign_obj.email_send_log = f'''>>> <strong>Email campaign</strong> Test Email task marked as <strong>Revise</strong> by <strong>{email_campaign_obj.sender}</strong> on <strong>{get_current_date()}</strong>.'''
                 email_campaign_obj.send_status = '2) In progress'
                 email_campaign_obj.save(update_fields=[
                     'email_send_log',

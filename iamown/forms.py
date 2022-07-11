@@ -26,8 +26,8 @@ def task_form_validation(form, form_type):
             'task_title',
             'A title for the task must be entered.'
         )
-    print(f"cleaned_data.get('decision'): {cleaned_data.get('decision')}")
-    if cleaned_data.get('decision') == 'Revise' and form.instance.task_type == 'Email Campaign' and cleaned_data.get('decision') is None:
+    print(f"cleaned_data.get('decision'): {cleaned_data.get('decision_comments')}")
+    if cleaned_data.get('decision') == 'Revise' and form.instance.task_type == 'Email Campaign' and cleaned_data.get('decision_comments') is None:
         form.add_error(
             'decision_comments',
             '''If your decision is to Revise then you are asked to note why.'''
