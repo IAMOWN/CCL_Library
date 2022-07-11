@@ -26,12 +26,12 @@ def task_form_validation(form, form_type):
             'task_title',
             'A title for the task must be entered.'
         )
-    if cleaned_data.get('decision') == 'Revise' and form.instance.task_type == 'Email Campaign':
+    if cleaned_data.get('decision') == 'Revise' and form.instance.task_type == 'Email Campaign' and cleaned_data.get('decision') is None:
         form.add_error(
             'decision_comments',
             '''If your decision is to Revise then you are asked to note why.'''
         )
-    elif cleaned_data.get('decision') == 'Decline' and form.instance.task_type == 'Email Campaign':
+    elif cleaned_data.get('decision') == 'Decline' and form.instance.task_type == 'Email Campaign' and cleaned_data.get('decision') is None:
         form.add_error(
             'decision_comments',
             '''If your decision is to Decline then you are asked to note why.'''
