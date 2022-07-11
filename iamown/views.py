@@ -484,7 +484,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     email_address = reviewer_obj.user.email
                     reviewer_name = reviewer_obj.spiritual_name
 
-                    email_subject = f'[CCL] Agreement required for Email Campaign'
+                    email_subject = f'[CCL] Agreement required for Email Campaign: {email_campaign_obj.subject}'
                     email_campaign_message = email_campaign_obj.message
                     email_message = f"""
                     {EMAIL_MESSAGE_CAMPAIGN_1}
