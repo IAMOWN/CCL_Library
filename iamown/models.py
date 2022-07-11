@@ -246,10 +246,6 @@ class EmailCampaign(models.Model):
         max_length=10,
         default='No',
     )
-    email_send_log = HTMLField(
-        null=True,
-        blank=True,
-    )
     sender = models.ForeignKey(
         User,
         on_delete=models.PROTECT,
@@ -270,12 +266,22 @@ class EmailCampaign(models.Model):
     number_of_declined_reviews = models.PositiveSmallIntegerField(
         default=0,
     )
+    email_campaign_sent = models.CharField(
+        choices=YES_NO_CHOICES,
+        max_length=10,
+        default='No',
+    )
     send_status = models.CharField(
         choices=EMAIL_CAMPAIGN_STATUS_CHOICES,
         null=True,
         blank=True,
         max_length=20,
         default='1) Created',
+    )
+
+    email_send_log = HTMLField(
+        null=True,
+        blank=True,
     )
     date_created = models.DateTimeField(default=timezone.now)
 

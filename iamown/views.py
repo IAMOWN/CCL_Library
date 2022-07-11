@@ -430,21 +430,23 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         task = form.save(commit=False)
         task_updater = Profile.objects.get(user__username=self.request.user).spiritual_name
+        email_campaign_obj = task.email_campaign
+        mailing_list = MailingList.objects.filter(audience=email_campaign_obj.audience)
+
         # "Email Campaign" branch - Test Email
         if task.task_type == 'Email Campaign':
             # AGREE: Test Email accepted
-            email_campaign_obj = task.email_campaign
             if task.decision == 'Agreed' and task.email_campaign_test_accepted == 'No':
-                # Query and Update email campaign
+                # Query email campaign
                 audience = email_campaign_obj.audience
                 subject = email_campaign_obj.subject
                 date_sent = email_campaign_obj.date_created
-                mailing_list_count = MailingList.objects.filter(audience=email_campaign_obj.audience).count()
+                mailing_list_count = mailing_list.count()
 
                 # Update task
                 task.date_completed = get_current_date()
                 task.task_status = 'Completed'
-                task.actions_taken = 'Test Email Accepted'
+                task.actions_taken = task.actions_taken + '<br>Test Email Accepted'
                 task.email_campaign_test_accepted = 'Yes'
                 task.task_history_log = task.task_history_log + f'''>>> Test Campaign Email <strong>Accepted</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br><strong>Date completed: {get_current_date()}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile}<p>'''
                 task.save(update_fields=[
@@ -496,6 +498,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 email_campaign_obj.send_status = '2) In progress'
                 email_campaign_obj.number_of_reviewers = reviewer_count
                 email_campaign_obj.review_email_sent = 'Yes'
+                email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email Campaign Test Email</strong> task marked as <strong>Agreed</strong> by <strong>{email_campaign_obj.sender}</strong> on <strong>{get_current_date()}</strong>.'''
                 email_campaign_obj.save(update_fields=[
                     'email_send_log',
                     'send_status',
@@ -517,7 +520,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 send_email(email_subject, email_address, email_message)
 
                 # Update email campaign
-                email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email campaign</strong> Test Email task marked as <strong>Revise</strong> by <strong>{email_campaign_obj.sender}</strong> on <strong>{get_current_date()}</strong>.'''
+                email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email campaign Test Email</strong> task marked as <strong>Revise</strong> by <strong>{email_campaign_obj.sender}</strong> on <strong>{get_current_date()}</strong>.'''
                 email_campaign_obj.send_status = '2) In progress'
                 email_campaign_obj.save(update_fields=[
                     'email_send_log',
@@ -526,16 +529,18 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
                 # Update task
                 task.task_status = '2) In progress'
+                task.actions_taken = task.actions_taken + '<br>Test Email revision requested'
                 task.task_history_log = task.task_history_log + f'''>>> Test Campaign Email marked <strong>Revise</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong> >>> Status: {task.task_status} >>>Priority: {task.task_priority} >>> Due date: {task.due_date}<p>'''
                 task.save(update_fields=[
                     'task_status',
                     'task_history_log',
+                    'actions_taken',
                 ])
 
             # DECLINE: Test Email task marked as 'Decline' -> End ServiceFlow
             if task.decision == 'Decline' and task.email_campaign_test_accepted == 'No':
                 # Update email campaign
-                email_campaign.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email campaign</strong> Test Email task marked as <strong>Decline</strong> by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>.'''
+                email_campaign.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email campaign Test Email</strong> task marked as <strong>Decline</strong> by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>.'''
                 email_campaign_obj.send_status = '4) Declined'
                 email_campaign_obj.save(update_fields=[
                     'email_send_log',
@@ -545,7 +550,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 # Update task
                 task.task_status = 'Completed'
                 task.task_history_log = task.task_history_log + f'''>>> Test Campaign Email marked <strong>Decline</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong> >>> Priority: {task.task_priority} >>> Due date: {task.instance.due_date} >>> Assigned Dear Soul: {task_updater}<p>'''
-                task.actions_taken = task.actions_taken + f'Test Email declined. ServiceFlow ended.'
+                task.actions_taken = task.actions_taken + f'<br>Test Email declined. ServiceFlow ended.'
                 task.date_completed = get_current_date()
                 task.save(update_fields=[
                     'task_status',
@@ -554,8 +559,100 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     'date_completed',
                 ])
 
-        # TODO "Email Campaign 2" branch - Email Campaign Review emails
+        # "Email Campaign 2" branch - Email Campaign Review emails
+        elif task.task_type == 'Email Campaign 2':
+            number_of_reviewers = email_campaign_obj.number_of_reviewers
+            number_of_accepted_reviews = email_campaign_obj.number_of_accepted_reviews
+            number_of_declined_reviews = email_campaign_obj.number_of_declined_reviews
 
+            # AGREE: Reviewer Agrees with Email Campaign messaage
+            if task.decision == 'Agreed':
+                number_of_accepted_reviews += 1
+
+                # Update email campaign object for this Reviewer
+                email_campaign_obj.number_of_accepted_reviews = number_of_accepted_reviews
+                email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email Campaign Review</strong> task marked as <strong>Agreed</strong> by <strong>{email_campaign_obj.sender}</strong> on <strong>{get_current_date()}</strong> >>> Number of Accepted Reviews: {number_of_accepted_reviews}'''
+                email_campaign_obj.save(update_fields=[
+                    'number_of_accepted_reviews',
+                    'email_send_log',
+                ])
+
+                # Update task
+                task.date_completed = get_current_date()
+                task.task_status = 'Completed'
+                task.actions_taken = task.actions_taken + 'Email Campaign Accepted'
+                task.email_campaign_test_accepted = 'Yes'
+                task.task_history_log = task.task_history_log + f'''>>> Test Campaign Email <strong>Accepted</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br><strong>Date completed: {get_current_date()}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile}<p>'''
+                task.save(update_fields=[
+                    'task_history_log',
+                    'date_completed',
+                    'task_status',
+                    'actions_taken',
+                    'email_campaign_test_accepted',
+                ])
+
+                # All Reviewers Agree - Send Email Campaign
+                print(f"number_of_reviewers: {number_of_reviewers}")
+                print(f"number_of_accepted_reviews: {number_of_accepted_reviews}")
+                print(f'number_of_declined_reviews: {number_of_declined_reviews}')
+                if number_of_reviewers == number_of_accepted_reviews:
+                    # Update email campaign object marking Agreement
+                    email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email Campaign Review</strong> task marked as <strong>Agreed</strong> by <strong>{email_campaign_obj.sender}</strong> on <strong>{get_current_date()}</strong> >>> Number of Accepted Reviews: {number_of_accepted_reviews}'''
+                    email_campaign_obj.save(update_fields=[
+                        'number_of_accepted_reviews',
+                        'email_send_log',
+                    ])
+
+                    # Send Campaign Email to mailing list
+                    email_subject = email_campaign_obj.subject
+                    email_message = email_campaign_obj.message
+                    for entry in mailing_list:
+                        if entry.subscribed == 'Yes':
+                            if entry.email:
+                                print(f'Sending email to: {entry.email}')
+                                email_address = email
+                            else:
+                                print(f'Sending email to: {entry.user.email}')
+                                email_address = entry.user.email
+                            send_email(email_subject, email_address, email_message)
+
+                    # Update email campaign
+                    email_campaign_obj.email_campaign_sent = 'Yes'
+                    email_campaign_obj.send_status = 'Sent'
+                    email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email Campaign SENT/strong> on <strong>{get_current_date()}</strong>'''
+                    email_campaign_obj.save(update_fields=[
+                        'email_campaign_sent',
+                        'send_status',
+                        'email_send_log',
+                    ])
+
+                    # Update task
+                    task.task_history_log = task.task_history_log + f'''>>> Email Campaign SENT<strong> on <strong>{get_current_date()}</strong><br><strong>Email Campaign ServiceFlow complete</strong><p>'''
+                    task.save(update_fields=[
+                        'task_history_log',
+                    ])
+
+                # One or more decline with all reviews in - End ServiceFlow
+                elif number_of_reviewers == (number_of_accepted_reviews + number_of_declined_reviews):
+
+                    # Update email campaign object marking Email Campaign Send
+                    email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> Email Campaign <strong>revisions requested</strong> >>> <strong>Sending email campaign</strong> on <strong>{get_current_date()}</strong>'''
+                    email_campaign_obj.save(update_fields=[
+                        'number_of_accepted_reviews',
+                        'email_send_log',
+                    ])
+
+                    pass
+
+            # REVISE: Reviewer requests Revision with Email Campaign messaage
+            if task.decision == 'Revise':
+                pass
+
+            # DECLINE: Reviewer Declines Email Campaign messaage
+            if task.decision == 'Decline':
+                pass
+
+        # (General) Task marked complete
         elif task.task_status == 'Completed':
             if task.actions_taken == "":
                     form.add_error(
