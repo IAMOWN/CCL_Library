@@ -449,7 +449,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 # Update task
                 task.date_completed = get_current_date()
                 task.task_status = 'Completed'
-                task.actions_taken = task.actions_taken + '<br>Test Email Accepted'
+                task.actions_taken = task.actions_taken + ' Test Email Accepted'
                 task.email_campaign_test_accepted = 'Yes'
                 task.task_history_log = task.task_history_log + f'''>>> Test Campaign Email <strong>Accepted</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br><strong>Date completed: {get_current_date()}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile}<p>'''
                 task.save(update_fields=[
@@ -658,7 +658,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 for task_to_update in incomplete_tasks:
                     task_to_update.date_completed = get_current_date()
                     task_to_update.task_status = 'Completed'
-                    task_to_update.actions_taken = task_to_update.actions_taken + f'Email Campaign - Revisions Requested<br><strong>Revision Comments:</strong>{task.decision_comments}<br>'
+                    task_to_update.actions_taken = task_to_update.actions_taken + f'Email Campaign - Revisions Requested by <strong>{task.assigned_profile}</strong> (see task history log for comments).<br>'
                     task_to_update.task_history_log = task_to_update.task_history_log + f'''>>> <strong>Revisions requested</strong> for this Test Campaign Email by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br><strong>Date completed: {get_current_date()}</strong><p>'''
                     task_to_update.save(update_fields=[
                         'task_history_log',
@@ -668,7 +668,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     ])
 
                 # Create new 'Email Campaign 2 - Revise' task
-                task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_3).process_description + f'''<strong>Email Campaign: </strong><a href="{DOMAIN}email_campaign/{email_campaign.id}/" class="text-CCL-Blue" target="_blank">{email_campaign.audience} - {email_campaign.subject} ({email_campaign.date_created.strftime('%Y-%m-%d')})</a><br>
+                task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_3).process_description + f'''<strong>Email Campaign: </strong><a href="{DOMAIN}email_campaign/{email_campaign_obj.id}/" class="text-CCL-Blue" target="_blank">{email_campaign_obj.audience} - {email_campaign_obj.subject} ({email_campaign_obj.date_created.strftime('%Y-%m-%d')})</a><br>
                 <strong>Revision Request: </strong>{task.decision_comments}
                 '''
                 history_log = f'''>>> <strong>Campaign Email Revision Request</strong> task created by {task.assigned_profile} on <strong>{get_current_date()}</strong><p><br>'''
