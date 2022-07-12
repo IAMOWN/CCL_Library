@@ -1477,9 +1477,6 @@ class MailingListUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
         return self.request.user.is_staff
 
     def form_valid(self, form):
-
-        # TODO Build checks for update view
-
         if form.instance.user:
             message = f'{form.instance.audience}: {form.instance.user}'
         else:
@@ -1640,6 +1637,7 @@ class EmailCampaignUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
 
     def form_valid(self, form):
         email_campaign = form.save()
+
         mailing_list_count = MailingList.objects.filter(audience=form.instance.audience).count()
         if mailing_list_count == 0:
             form.add_error(
