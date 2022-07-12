@@ -1419,13 +1419,20 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
         elif form.instance.email:
             mailing_list_email = MailingList.objects.filter(email=form.instance.email, audience=form.instance.audience)
             if mailing_list_email.count() == 0:
-                message = f'{form.instance.audience}: {form.instance.email}'
-                messages.add_message(
-                    self.request,
-                    messages.SUCCESS,
-                    f'The mailing list entry, "{message}" has been added.'
-                )
-                return super(MailingListCreateView, self).form_valid(form)
+                try:
+                    user_email = User.objects.get(email=form.instance.email)
+                    form.add_error(
+                        'email',
+                        f'This email is already associated with the user account, {user_email.username}. Please enter another email address or select this Dear Soul in the User field.'
+                    )
+                except User.DoesNotExist:
+                    message = f'{form.instance.audience}: {form.instance.email}'
+                    messages.add_message(
+                        self.request,
+                        messages.SUCCESS,
+                        f'The mailing list entry, "{message}" has been added.'
+                    )
+                    return super(MailingListCreateView, self).form_valid(form)
             else:
                 form.add_error(
                     'email',
@@ -1433,7 +1440,7 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
                 )
                 return self.form_invalid(form)
 
-        # Check that the email is not already in the mailing list for this audience
+        # Check that the user is not already in the mailing list for this audience
         else:
             mailing_list_user = MailingList.objects.filter(user=form.instance.user, audience=form.instance.audience)
             if mailing_list_user.count() == 0:
