@@ -1594,7 +1594,7 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
                 email_campaign=email_campaign,
             )
         else:
-            email_campaign.email_send_log = mail_campaign.email_send_log + f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: {form.instance.ready_to_send}</strong>'''
+            email_campaign.email_send_log = email_campaign.email_send_log + f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: {form.instance.ready_to_send}</strong>'''
 
         message = f'{form.instance.audience} - {form.instance.subject}'
         messages.add_message(
