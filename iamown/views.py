@@ -1560,14 +1560,13 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
             )
             return self.form_invalid(form)
         email_campaign = form.save()
-        print(f'email_campaign: {email_campaign}')
 
         if email_campaign.ready_to_send == 'Yes':
-            # Update Email Campaign
+            # Update Email Campaign - ready to send a test email
             if email_campaign.email_send_log is None:
                 email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: {form.instance.ready_to_send}</strong>'''
             else:
-                email_campaign.email_send_log = email_campaign.email_send_log + f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: {form.instance.ready_to_send}</strong>'''
+                email_campaign.email_send_log = email_campaign.email_send_log + f'''<br>>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: {form.instance.ready_to_send}</strong>'''
             email_campaign.test_email_sent = 'Yes'
             email_campaign.save(update_fields=[
                 'email_send_log',
@@ -1597,10 +1596,11 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
                 email_campaign=email_campaign,
             )
         else:
+            # Update Email Campaign - not ready to send a test email
             if email_campaign.email_send_log is None:
                 email_campaign.email_send_log = f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: {form.instance.ready_to_send}</strong>'''
             else:
-                email_campaign.email_send_log = email_campaign.email_send_log + f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: {form.instance.ready_to_send}</strong>'''
+                email_campaign.email_send_log = email_campaign.email_send_log + f'''<br>>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: {form.instance.ready_to_send}</strong>'''
             email_campaign.save(update_fields=[
                 'email_send_log',
             ])
