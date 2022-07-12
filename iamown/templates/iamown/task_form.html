@@ -104,6 +104,7 @@
                 </div>
             </div>
             {% if task.decision != 'Agreed' %}
+                {% if task.assigned_profile == current_profile  %}
                 <div class="row">
                     <div class="col-lg-3">
                         {{ form.decision|as_crispy_field }}
@@ -112,6 +113,7 @@
                         {{ form.decision_comments|as_crispy_field }}
                     </div>
                 </div>
+                    {% endif %}
             {% endif %}
             <div class="row pt-4">
                 <div class="col-lg-12">

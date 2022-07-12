@@ -422,7 +422,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_context_data(self, *args, **kwargs):
         context = super(TaskUpdate, self).get_context_data(**kwargs)
 
-        context['current_user'] = self.request.user
+        context['current_profile'] = self.request.user.profile
         context['page_type'] = 'Update'
 
         return context
@@ -610,7 +610,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                         if entry.subscribed == 'Yes':
                             if entry.email:
                                 print(f'Sending email to: {entry.email}')
-                                email_address = email
+                                email_address = entry.email
                             else:
                                 print(f'Sending email to: {entry.user.email}')
                                 email_address = entry.user.email
