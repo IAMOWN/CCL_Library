@@ -469,7 +469,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_4).process_description + f'''<br>Total <strong>number of emails</strong> in Mailing List: <strong>{mailing_list_count}</strong>'''
                     history_log = f'''>>> <strong>Email Campaign Review</strong> task created by {self.request.user.profile.spiritual_name} on <strong>{get_current_date()}</strong><p><br>'''
                     new_task = Task.objects.create(
-                        task_title=f'Review Test Campaign Email: {audience} - {subject} ({date_sent.strftime("%Y-%m-%d")})',
+                        task_title=f'[Review Test Campaign Email] {audience} - {subject} ({date_sent.strftime("%Y-%m-%d")})',
                         task_type='Email Campaign 2',
                         task_description=task_description,
                         task_history_log=history_log,
@@ -1584,7 +1584,7 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
             task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_3).process_description + f'''<strong>Email Campaign: </strong><a href="{DOMAIN}email_campaign/{email_campaign.id}/" class="text-CCL-Blue" target="_blank">{email_campaign.audience} - {email_campaign.subject} ({email_campaign.date_created.strftime('%Y-%m-%d')})</a><br>'''
             history_log = f'''>>> <strong>Accept Test Campaign Email</strong> task created by {self.request.user.profile.spiritual_name} on <strong>{get_current_date()}</strong><p><br>'''
             Task.objects.create(
-                task_title=f'Accept Test Campaign Email: {form.instance.audience} - {form.instance.subject}',
+                task_title=f'[Accept Test Campaign Email] {form.instance.audience} - {form.instance.subject}',
                 task_type='Email Campaign',
                 task_description=task_description,
                 task_history_log=history_log,
@@ -1655,7 +1655,7 @@ class EmailCampaignUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
             '''
             history_log = f'''>>> <strong>Accept Test Campaign Email</strong> task created by {self.request.user.profile.spiritual_name} on <strong>{get_current_date()}</strong><p><br>'''
             Task.objects.create(
-                task_title=f'Accept Test Campaign Email: {form.instance.audience} - {form.instance.subject}',
+                task_title=f'[Accept Test Campaign Email] {form.instance.audience} - {form.instance.subject}',
                 task_type='Email Campaign',
                 task_description=task_description,
                 task_history_log=history_log,
