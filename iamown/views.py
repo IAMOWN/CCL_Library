@@ -1410,8 +1410,8 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
         # Initial check to make sure only account or email are submitted
         if form.instance.user and form.instance.email:
             form.add_error(
-                ('user', 'email'),
-                'Please add either a Dear Soul or an email.'
+                'user',
+                'You can either select a User or enter an email. Please ensure that only one of these fields is populated.'
             )
             return self.form_invalid(form)
 
