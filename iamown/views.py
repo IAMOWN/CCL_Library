@@ -722,7 +722,8 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 {EMAIL_MESSAGE_CAMPAIGN_1}
                 <strong>Reviewer who requested the Revision: </strong>{task.assigned_profile}<br>
                 <strong>Revision Comments:</strong> {task.decision_comments}<p>
-                *** Please check the <a href="{TASK_URL}{new_task.id}">Task List</a> to review these comments and update the Email Campaign ***<p>
+                *** Please check the <a href="{TASK_URL}{new_task.id}">Task</a> to review these comments and update the Email Campaign ***<p>
+                {EMAIL_MESSAGE_2}
                 '''
                 send_email(email_subject, email_address, email_message)
 
@@ -763,6 +764,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 <strong>Reviewer who requested the Revision: </strong>{task.assigned_profile}<br>
                 <strong>Revision Comments:</strong> {task.decision_comments}<p>
                 *** Please check the <a href="{TASK_URL}{new_task.id}">Task List</a> to review these comments and update the Email Campaign ***<p>
+                {EMAIL_MESSAGE_2}
                 '''
                 send_email(email_subject, email_address, email_message)  # ServiceFlow END
 
