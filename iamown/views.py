@@ -631,7 +631,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     ])
 
                     # Update task
-                    task.task_history_log = task.task_history_log + f'''>>> Email Campaign SENT<strong> on <strong>{get_current_date()}</strong><br><strong>Email Campaign ServiceFlow complete</strong><p>'''
+                    task.task_history_log = task.task_history_log + f'''>>> <strong>Email Campaign SENT</strong> on <strong>{get_current_date()}</strong><br><strong>Email Campaign ServiceFlow complete</strong><br>'''
                     task.save(update_fields=[
                         'task_history_log',
                     ])
