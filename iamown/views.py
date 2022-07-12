@@ -652,11 +652,22 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     'email_send_log',
                 ])
 
-                # Update all incomplete tasks related to this campaign
+                # Update current task
+                task.date_completed = get_current_date()
+                task.task_status = 'Completed'
+                task.actions_taken = task_to_update.actions_taken + f'Email Campaign - Revisions Requested by <strong>{task.assigned_profile}</strong> (see task history log for comments).<br>'
+                task.task_history_log = task_to_update.task_history_log + f'''>>> <strong>Revisions requested</strong> for this Test Campaign Email by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br><strong>Revision Comments:</strong><br>{task.decision_comments}<br><strong>Date completed: {get_current_date()}</strong><p>'''
+                task.save(update_fields=[
+                    'task_history_log',
+                    'date_completed',
+                    'task_status',
+                    'actions_taken',
+                ])
+
+                # Update all remaining incomplete tasks related to this campaign
                 incomplete_tasks = Task.objects.filter(email_campaign=email_campaign_obj).exclude(task_status='Completed')
-                print(f"incomplete_tasks: {incomplete_tasks}")
+                print(f'incomplete_tasks: {incomplete_tasks}')
                 for task_to_update in incomplete_tasks:
-                    print(f'task_to_update: {task_to_update}')
                     task_to_update.date_completed = get_current_date()
                     task_to_update.task_status = 'Completed'
                     task_to_update.actions_taken = task_to_update.actions_taken + f'Email Campaign - Revisions Requested by <strong>{task.assigned_profile}</strong> (see task history log for comments).<br>'
@@ -667,7 +678,6 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                         'task_status',
                         'actions_taken',
                     ])
-                    print(f'task_to_update.task_status: {task_to_update.task_status}')
 
                 # Create new 'Email Campaign 2 - Revise' task
                 task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_3).process_description + f'''<strong>Email Campaign: </strong><a href="{DOMAIN}email_campaign/{email_campaign_obj.id}/" class="text-CCL-Blue" target="_blank">{email_campaign_obj.audience} - {email_campaign_obj.subject} ({email_campaign_obj.date_created.strftime('%Y-%m-%d')})</a><br>
