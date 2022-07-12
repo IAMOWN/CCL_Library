@@ -1560,6 +1560,7 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
             )
             return self.form_invalid(form)
         email_campaign = form.save()
+        print(f'email_campaign: {email_campaign}')
 
         if email_campaign.ready_to_send == 'Yes':
 
@@ -1595,6 +1596,9 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
             )
         else:
             email_campaign.email_send_log = email_campaign.email_send_log + f'''>>> <strong>Email campaign</strong> created by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: {form.instance.ready_to_send}</strong>'''
+            email_campaign.save(update_fields=[
+                'email_send_log',
+            ])
 
         message = f'{form.instance.audience} - {form.instance.subject}'
         messages.add_message(
