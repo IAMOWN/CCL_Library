@@ -654,12 +654,13 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
                 # Update all incomplete tasks related to this campaign
                 incomplete_tasks = Task.objects.filter(email_campaign=email_campaign_obj).exclude(task_status='Completed')
+                print(f"incomplete_tasks: {incomplete_tasks}")
                 for task_to_update in incomplete_tasks:
                     task_to_update.date_completed = get_current_date()
                     task_to_update.task_status = 'Completed'
                     task_to_update.actions_taken = task_to_update.actions_taken + f'Email Campaign - Revisions Requested<br><strong>Revision Comments:</strong>{task.decision_comments}<br>'
                     task_to_update.email_campaign_test_accepted = 'Yes'
-                    task_to_update.task_history_log = task_to_update.task_history_log + f'''>>> <strong>Revisions requested</strong> for this Test Campaign Email by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br><strong>Date completed: {get_current_date()}</strong> >>> Status: <strong>{task_to_update.task_status}</strong> >>> Priority: {task_to_update.priority} >>> Due date: {task_to_update.due_date} >>> Assigned Dear Soul: {task_to_update.assigned_profile}<p>'''
+                    task_to_update.task_history_log = task_to_update.task_history_log + f'''>>> <strong>Revisions requested</strong> for this Test Campaign Email by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br><strong>Date completed: {get_current_date()}</strong><p>'''
                     task_to_update.save(update_fields=[
                         'task_history_log',
                         'date_completed',
