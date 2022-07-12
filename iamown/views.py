@@ -131,6 +131,7 @@ BOOK_EDITOR_GROUP_NAME = 'Book Editors'
 LEE_TASK_CAMPAIGN_3 = 'Email Campaign (3) Accept Test Email'
 LEE_TASK_EMAIL_CAMPAIGN_2 = 'Email Campaign Reviewer'
 LEE_TASK_CAMPAIGN_4 = 'Email Campaign (4) Review Email'
+LEE_TASK_CAMPAIGN_5 = 'Email Campaign (5) Review Revision Comments'
 
 # ####################### FUNCTIONS #######################
 def get_current_date():
@@ -680,7 +681,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     ])
 
                 # Create new 'Email Campaign 2 - Revise' task
-                task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_3).process_description + f'''<strong>Email Campaign: </strong><a href="{DOMAIN}email_campaign/{email_campaign_obj.id}/" class="text-CCL-Blue" target="_blank">{email_campaign_obj.audience} - {email_campaign_obj.subject} ({email_campaign_obj.date_created.strftime('%Y-%m-%d')})</a><br>
+                task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_5).process_description + f'''<strong>Email Campaign: </strong><a href="{DOMAIN}email_campaign/{email_campaign_obj.id}/" class="text-CCL-Blue" target="_blank">{email_campaign_obj.audience} - {email_campaign_obj.subject} ({email_campaign_obj.date_created.strftime('%Y-%m-%d')})</a><br>
                 <strong>Revision Request: </strong>{task.decision_comments}
                 '''
                 history_log = f'''>>> <strong>Campaign Email Revision Request</strong> task created by {task.assigned_profile} on <strong>{get_current_date()}</strong><p><br>'''
