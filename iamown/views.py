@@ -1639,22 +1639,11 @@ class EmailCampaignUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
                 'test_email_sent',
             ])
 
-            # Send Email
-            email_address = self.request.user.email
-            email_subject = form.instance.subject
-            email_message = f"""
-            {EMAIL_MESSAGE_CAMPAIGN_1}
-            *** This is a TEST EMAIL * Please check the <a href="{TASKS_URL}">Task List</a> to Approve this email ***<p>
-            {form.instance.message}
-            {EMAIL_MESSAGE_2}
-            """
-            send_email(email_subject, email_address, email_message)
-
             # Update Task
             task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_3).process_description + f'''<strong>Email Campaign: </strong><a href="{DOMAIN}email_campaign/{email_campaign.id}/" class="text-CCL-Blue" target="_blank">{email_campaign.audience} - {email_campaign.subject} ({email_campaign.date_created.strftime('%Y-%m-%d')})</a><br>
             '''
             history_log = f'''>>> <strong>Accept Test Campaign Email</strong> task created by {self.request.user.profile.spiritual_name} on <strong>{get_current_date()}</strong><p><br>'''
-            Task.objects.create(
+            new_task = Task.objects.create(
                 task_title=f'[Accept Test Campaign Email] {form.instance.audience} - {form.instance.subject}',
                 task_type='Email Campaign',
                 task_description=task_description,
@@ -1662,6 +1651,17 @@ class EmailCampaignUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
                 assigned_profile=self.request.user.profile,
                 email_campaign=email_campaign,
             )
+
+            # Send Email
+            email_address = self.request.user.email
+            email_subject = form.instance.subject
+            email_message = f"""
+            {EMAIL_MESSAGE_CAMPAIGN_1}
+            *** This is a TEST EMAIL * Please check the <a href="{TASK_URL}{new_task.id}">Task List</a> to Approve this email ***<p>
+            {form.instance.message}
+            {EMAIL_MESSAGE_2}
+            """
+            send_email(email_subject, email_address, email_message)
 
         message = f'{form.instance.audience} - {form.instance.subject}'
         messages.add_message(
