@@ -119,18 +119,13 @@ def mailing_list_form_validation(form, form_type):
 # ############ Email Campaign form validation logic ############
 def email_campaign_form_validation(form, form_type):
     cleaned_data = super(form_type, form).clean()
-    if cleaned_data.get('audience') == '':
-        form.add_error(
-            'audience',
-            'An audience must be selected.'
-        )
     if cleaned_data.get('subject') == '':
         form.add_error(
             'subject',
             'A subject must be entered.'
         )
     print(f"cleaned_data.get('message'): {cleaned_data.get('message')}")
-    if cleaned_data.get('message') == '':
+    elif cleaned_data.get('message') == '':
         form.add_error(
             'message',
             'An message must be entered.'
