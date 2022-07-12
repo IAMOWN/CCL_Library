@@ -573,7 +573,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
                 # Update email campaign object for this Reviewer
                 email_campaign_obj.number_of_accepted_reviews = number_of_accepted_reviews
-                email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email Campaign Review</strong> task marked as <strong>Agreed</strong> by <strong>{email_campaign_obj.sender}</strong> on <strong>{get_current_date()}</strong> >>> Number of Accepted Reviews: {number_of_accepted_reviews}'''
+                email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email Campaign Review</strong> task marked as <strong>Agreed</strong> by <strong>{task.assigned_profile}</strong> on <strong>{get_current_date()}</strong> >>> Number of Accepted Reviews: {number_of_accepted_reviews}'''
                 email_campaign_obj.save(update_fields=[
                     'number_of_accepted_reviews',
                     'email_send_log',
@@ -599,7 +599,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 print(f'number_of_declined_reviews: {number_of_declined_reviews}')
                 if number_of_reviewers == number_of_accepted_reviews:
                     # Update email campaign object marking Agreement
-                    email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email Campaign Review</strong> task marked as <strong>Agreed</strong> by <strong>{email_campaign_obj.sender}</strong> on <strong>{get_current_date()}</strong> >>> Number of Accepted Reviews: {number_of_accepted_reviews}'''
+                    email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email Campaign Review</strong> task marked as <strong>Agreed by all reviewers</strong> on <strong>{get_current_date()}</strong> >>> Reviews: <strong>{number_of_accepted_reviews} Agreed/{number_of_reviewers} Reviewers</strong>'''
                     email_campaign_obj.save(update_fields=[
                         'number_of_accepted_reviews',
                         'email_send_log',
@@ -608,6 +608,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     # Send Campaign Email to mailing list
                     email_subject = email_campaign_obj.subject
                     email_message = email_campaign_obj.message
+                    emails_sent = 0
                     for entry in mailing_list:
                         if entry.subscribed == 'Yes':
                             if entry.email:
@@ -617,11 +618,12 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                                 print(f'Sending email to: {entry.user.email}')
                                 email_address = entry.user.email
                             send_email(email_subject, email_address, email_message)
+                            emails_sent += 1
 
                     # Update email campaign
                     email_campaign_obj.email_campaign_sent = 'Yes'
                     email_campaign_obj.send_status = 'Sent'
-                    email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email Campaign SENT/strong> on <strong>{get_current_date()}</strong>'''
+                    email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email Campaign SENT</strong> on <strong>{get_current_date()}</strong> to <strong>{emails_sent}</strong> Dear Souls'''
                     email_campaign_obj.save(update_fields=[
                         'email_campaign_sent',
                         'send_status',
