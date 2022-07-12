@@ -659,7 +659,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     task_to_update.date_completed = get_current_date()
                     task_to_update.task_status = 'Completed'
                     task_to_update.actions_taken = task_to_update.actions_taken + f'Email Campaign - Revisions Requested by <strong>{task.assigned_profile}</strong> (see task history log for comments).<br>'
-                    task_to_update.task_history_log = task_to_update.task_history_log + f'''>>> <strong>Revisions requested</strong> for this Test Campaign Email by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br><strong>Date completed: {get_current_date()}</strong><p>'''
+                    task_to_update.task_history_log = task_to_update.task_history_log + f'''>>> <strong>Revisions requested</strong> for this Test Campaign Email by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br><strong>Revision Comments:</strong><br>{task.decision_comments}<br><strong>Date completed: {get_current_date()}</strong><p>'''
                     task_to_update.save(update_fields=[
                         'task_history_log',
                         'date_completed',
@@ -672,12 +672,14 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 <strong>Revision Request: </strong>{task.decision_comments}
                 '''
                 history_log = f'''>>> <strong>Campaign Email Revision Request</strong> task created by {task.assigned_profile} on <strong>{get_current_date()}</strong><p><br>'''
+                task_assignee = Profile.objects.get(spiritual_name=email_campaign_obj.sender)
+                print(f'task_assignee: {task_assignee}')
                 new_task = Task.objects.create(
                     task_title=f'[Revise Campaign Email Message] {email_campaign_obj.audience} - {email_campaign_obj.subject}',
                     task_type='Email Campaign 2 - Revise',
                     task_description=task_description,
                     task_history_log=history_log,
-                    assigned_profile=email_campaign_obj.sender,
+                    assigned_profile=task_assignee,
                     email_campaign=email_campaign_obj,
                 )
 
