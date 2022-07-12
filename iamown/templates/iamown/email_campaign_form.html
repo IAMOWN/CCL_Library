@@ -35,7 +35,7 @@
                     <div class="row">
                         {% if page_type == 'Update' %}
                         <div class="col-lg-3">
-                            <strong>Audience: </strong>{{ emailcampaign.audience }}{{ form.audience.as_hidden }}
+                            <strong>Audience: </strong><br>{{ emailcampaign.audience }}{{ form.audience.as_hidden }}
                         </div>
                         {% else %}
                         <div class="col-lg-3">
