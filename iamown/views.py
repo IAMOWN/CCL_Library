@@ -124,6 +124,7 @@ EMAIL_MESSAGE_2 = '''
 LIBRARY_TASK_URL = 'https://cosmicchrist.love/tasks/library/'
 TASKS_URL = 'https://cosmicchrist.love/tasks/'
 TASK_URL = 'https://cosmicchrist.love/task/'
+EMAIL_CAMPAIGN_URL = 'email_campaign_create/'
 
 LEE_TASK_RECORD_OBS_2 = 'Record Observation (2) Book File Review'
 BOOK_EDITOR_GROUP_NAME = 'Book Editors'
@@ -646,7 +647,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     pass
 
             # REVISE: Reviewer requests Revision with Email Campaign messaage
-            if task.decision == 'Revise':
+            elif task.decision == 'Revise':
                 # Update email campaign object for this Reviewer
                 email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email Campaign Review</strong> task marked as <strong>Revise</strong> by <strong>{task.assigned_profile}</strong> on <strong>{get_current_date()}</strong>'''
                 email_campaign_obj.save(update_fields=[
@@ -681,8 +682,10 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     ])
 
                 # Create new 'Email Campaign 2 - Revise' task
-                task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_5).process_description + f'''<strong>Email Campaign: </strong><a href="{DOMAIN}email_campaign/{email_campaign_obj.id}/" class="text-CCL-Blue" target="_blank">{email_campaign_obj.audience} - {email_campaign_obj.subject} ({email_campaign_obj.date_created.strftime('%Y-%m-%d')})</a><br>
-                <strong>Revision Request: </strong>{task.decision_comments}
+                task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_5).process_description + f'''<strong>Email Campaign: </strong><a href="{DOMAIN}email_campaign/{email_campaign_obj.id}/" class="text-CCL-Blue" target="_blank">{email_campaign_obj.audience} - {email_campaign_obj.subject} ({email_campaign_obj.date_created.strftime('%Y-%m-%d')})</a><p>
+                <strong>Reviewer: </strong>{task.assigned_profile}<br>
+                <strong>Revision Request: </strong><br>
+                {task.decision_comments}
                 '''
                 history_log = f'''>>> <strong>Campaign Email Revision Request</strong> task created by {task.assigned_profile} on <strong>{get_current_date()}</strong><p><br>'''
                 task_assignee = Profile.objects.get(spiritual_name=email_campaign_obj.sender)
@@ -728,13 +731,13 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 send_email(email_subject, email_address, email_message)
 
             # DECLINE: Reviewer Declines Email Campaign messaage
-            if task.decision == 'Decline':
+            elif task.decision == 'Decline':
                 number_of_declined_reviews += 1
 
                 # Update email campaign object for this Reviewer
                 email_campaign_obj.number_of_declined_reviews = number_of_declined_reviews
                 email_campaign_obj.send_status = '4) Declined'
-                email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email Campaign Review</strong> task marked as <strong>Delcined</strong> by <strong>{task.assigned_profile}</strong> on <strong>{get_current_date()}</strong>'''
+                email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email Campaign Declined</strong> by <strong>{task.assigned_profile}</strong> on <strong>{get_current_date()}</strong>'''
                 email_campaign_obj.save(update_fields=[
                     'send_status',
                     'number_of_declined_reviews',
@@ -743,11 +746,10 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
                 # Update all incomplete tasks related to this campaign
                 incomplete_tasks = Task.objects.filter(email_campaign=email_campaign_obj).exclude(task_status='Completed')
-                print(f"incomplete_tasks: {incomplete_tasks}")
                 for task_to_update in incomplete_tasks:
                     task_to_update.date_completed = get_current_date()
                     task_to_update.task_status = 'Completed'
-                    task_to_update.actions_taken = task_to_update.actions_taken + f'Email Campaign - Declined<br><strong>Decision Comments:</strong>{task.decision_comments}<br>'
+                    task_to_update.actions_taken = task_to_update.actions_taken + f'Email Campaign Declined by <strong>{task.assigned_profile}</strong> (see task history log for comments).<br>'
                     task_to_update.task_history_log = task_to_update.task_history_log + f'''>>> <strong>Campaign Email Declined</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br><strong>Date completed: {get_current_date()}</strong><p>'''
                     task_to_update.save(update_fields=[
                         'task_history_log',
@@ -758,18 +760,144 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
                 # Email sender update
                 email_address = email_campaign_obj.sender.user.email
-                email_subject = f'[CCL] Update - Revisions requested for Email Campaign: {email_campaign_obj.subject}'
+                email_subject = f'[CCL] Update - Email Campaign Declined: {email_campaign_obj.subject}'
                 email_message = f'''
                 {EMAIL_MESSAGE_CAMPAIGN_1}
-                <strong>Reviewer who requested the Revision: </strong>{task.assigned_profile}<br>
+                <strong>Reviewer: </strong>{task.assigned_profile}<br>
                 <strong>Revision Comments:</strong> {task.decision_comments}<p>
-                *** Please check the <a href="{TASK_URL}{new_task.id}">Task List</a> to review these comments and update the Email Campaign ***<p>
+                *** This ServiceFlow has ended. If you wish to continue then you can create a new <a href="{DOMAIN}{EMAIL_CAMPAIGN_URL}">Email Campaign</a>. ***<p>
                 {EMAIL_MESSAGE_2}
                 '''
                 send_email(email_subject, email_address, email_message)  # ServiceFlow END
 
 
         # 'Email Campaign - 2 - Revise' Branch
+        elif task.task_type == 'Email Campaign - 2 - Revise':
+            # AGREE: Sender has made changes. Reviewer tasks will be created
+            if task.decision == 'Agreed' and task.email_campaign_test_accepted == 'No':
+                # Query email campaign
+                audience = email_campaign_obj.audience
+                subject = email_campaign_obj.subject
+                date_sent = email_campaign_obj.date_created
+                mailing_list_count = mailing_list.count()
+
+                # Pre-build Email Campaign send log
+                email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email Campaign REVISION Email</strong> task marked as <strong>Agreed</strong> by <strong>{email_campaign_obj.sender}</strong> on <strong>{get_current_date()}</strong>.'''
+
+                # Update task
+                task.date_completed = get_current_date()
+                task.task_status = 'Completed'
+                task.actions_taken = task.actions_taken + ' REVISION Email Accepted'
+                task.email_campaign_test_accepted = 'Yes'
+                task.task_history_log = task.task_history_log + f'''>>> REVISED Campaign Email <strong>Accepted</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br><strong>Date completed: {get_current_date()}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile}<p>'''
+                task.save(update_fields=[
+                    'task_history_log',
+                    'date_completed',
+                    'task_status',
+                    'actions_taken',
+                    'email_campaign_test_accepted',
+                ])
+
+                # Assign review task to reviews
+                reviewers = PEeP.objects.filter(functional_activity=LEE_TASK_EMAIL_CAMPAIGN_2).values_list('dear_soul_responsible')  # Deliberately opted to not code logic for no reviewers!
+                reviewer_count = 0
+                for id in reviewers:
+                    # Create Reviewer Agreement Task and send email
+                    reviewer_count += 1
+                    reviewer_profile_obj = Profile.objects.get(user_id=id)
+
+                    # Assign Task
+                    task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_4).process_description + f'''<br>Total <strong>number of emails</strong> in Mailing List: <strong>{mailing_list_count}</strong>'''
+                    history_log = f'''>>> <strong>Email Campaign Review</strong> task created by {self.request.user.profile.spiritual_name} on <strong>{get_current_date()}</strong><p><br>'''
+                    new_task = Task.objects.create(
+                        task_title=f'[Review Test Campaign Email] {audience} - {subject} ({date_sent.strftime("%Y-%m-%d")})',
+                        task_type='Email Campaign 2',
+                        task_description=task_description,
+                        task_history_log=history_log,
+                        assigned_profile=reviewer_profile_obj,
+                        email_campaign=email_campaign_obj,
+                    )
+
+                    # Send email for review
+                    reviewer_obj = Profile.objects.get(user_id=id)
+                    email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email Campaign Review</strong> sent to <strong>{reviewer_obj.spiritual_name}</strong> on <strong>{get_current_date()}</strong>'''
+
+                    email_address = reviewer_obj.user.email
+                    reviewer_name = reviewer_obj.spiritual_name
+
+                    email_subject = f'[CCL] Agreement required for Email Campaign: {email_campaign_obj.subject}'
+                    email_campaign_message = email_campaign_obj.message
+                    email_message = f"""
+                    {EMAIL_MESSAGE_CAMPAIGN_1}
+                    *** Beloved {reviewer_name}, this is a CCL ServiceFlow <strong>review email</strong>. Please Qualify readiness to broadcast and update corresponding <a href="{TASK_URL}{new_task.id}/">Task</a>. ***<hr>
+                    {email_campaign_message}
+                    {EMAIL_MESSAGE_2}
+                    """
+                    send_email(email_subject, email_address, email_message)
+
+                # Update email campaign object
+                email_campaign_obj.send_status = '2) In progress'
+                email_campaign_obj.number_of_reviewers = reviewer_count
+                email_campaign_obj.review_email_sent = 'Yes'
+                email_campaign_obj.save(update_fields=[
+                    'email_send_log',
+                    'send_status',
+                    'number_of_reviewers',
+                    'review_email_sent',
+                ])
+
+            # REVISE: Sender wants to review their changes in an email
+            elif task.decision == 'Revise' and task.email_campaign_test_accepted == 'No':
+                # Resend email
+                email_address = self.request.user.email
+                email_subject = email_campaign_obj.subject
+                email_message = f"""
+                {EMAIL_MESSAGE_CAMPAIGN_1}
+                *** This is a TEST EMAIL (REVISED) * Please check this <a href="{TASK_URL}{task.id}/">Task</a> to Approve this email ***<p>
+                {email_campaign_obj.message}
+                {EMAIL_MESSAGE_2}
+                """
+                send_email(email_subject, email_address, email_message)
+
+                # Update email campaign
+                email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email campaign REVISION Email</strong> task marked as <strong>Revise</strong> by <strong>{email_campaign_obj.sender}</strong> on <strong>{get_current_date()}</strong>.'''
+                email_campaign_obj.send_status = '2) In progress'
+                email_campaign_obj.save(update_fields=[
+                    'email_send_log',
+                    'send_status',
+                ])
+
+                # Update task
+                task.task_status = '2) In progress'
+                task.actions_taken = task.actions_taken + '<br>REVISION Email revision requested'
+                task.task_history_log = task.task_history_log + f'''>>> REVISION Campaign Email marked <strong>Revise</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong> >>> Status: {task.task_status} >>>Priority: {task.task_priority} >>> Due date: {task.due_date}<p>'''
+                task.save(update_fields=[
+                    'task_status',
+                    'task_history_log',
+                    'actions_taken',
+                ])
+
+            # DECLINE: Sender wants to end the ServiceFlow
+            elif task.decision == 'Decine' and task.email_campaign_test_accepted == 'No':
+                # Update email campaign
+                email_campaign.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email campaign REVISION Email</strong> task marked as <strong>Decline</strong> by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>.'''
+                email_campaign_obj.send_status = '4) Declined'
+                email_campaign_obj.save(update_fields=[
+                    'email_send_log',
+                    'send_status',
+                ])
+
+                # Update task
+                task.task_status = 'Completed'
+                task.task_history_log = task.task_history_log + f'''>>> REVISION Campaign Email marked <strong>Decline</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong> >>> Priority: {task.task_priority} >>> Due date: {task.instance.due_date} >>> Assigned Dear Soul: {task_updater}<p>'''
+                task.actions_taken = task.actions_taken + f'<br>Test Email declined. ServiceFlow ended.'
+                task.date_completed = get_current_date()
+                task.save(update_fields=[
+                    'task_status',
+                    'task_history_log',
+                    'actions_taken',
+                    'date_completed',
+                ])
 
         # (General) Task marked complete
         elif task.task_status == 'Completed':
