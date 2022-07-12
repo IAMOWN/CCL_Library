@@ -704,7 +704,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     send_email(email_subject, email_address, email_message)
 
                 # Email sender update
-                email_address = email_campaign_obj.sender.user.email
+                email_address = email_campaign_obj.sender_email
                 email_subject = f'[CCL] Update - Revisions requested for Email Campaign: {email_campaign_obj.subject}'
                 email_message = f'''
                 {EMAIL_MESSAGE_CAMPAIGN_1}
@@ -1661,6 +1661,7 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
 
     def form_valid(self, form):
         form.instance.sender = self.request.user
+        form.instance.sender_email = self.request.user.email
         mailing_list_count = MailingList.objects.filter(audience=form.instance.audience).count()
         if mailing_list_count == 0:
             form.add_error(

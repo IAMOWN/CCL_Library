@@ -253,6 +253,11 @@ class EmailCampaign(models.Model):
         null=True,
         blank=True,
     )
+    sender_email = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+    )
     review_email_sent = models.CharField(
         choices=YES_NO_CHOICES,
         max_length=10,
