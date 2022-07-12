@@ -446,7 +446,7 @@ class Task(models.Model):
     )
 
     def __str__(self):
-        return f'{self.task_title} (Status: {self.task_status})'
+        return f'{self.task_title} (Status: {self.task_status}) {self.id}'
 
     class Meta:
         ordering = [
