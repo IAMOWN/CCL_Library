@@ -119,13 +119,11 @@ def mailing_list_form_validation(form, form_type):
 # ############ Email Campaign form validation logic ############
 def email_campaign_form_validation(form, form_type):
     cleaned_data = super(form_type, form).clean()
-    print(f"cleaned_data.get('subject'): {cleaned_data.get('subject')}")
     if cleaned_data.get('subject') is None:
         form.add_error(
             'subject',
             'A subject must be entered.'
         )
-    print(f"cleaned_data.get('message'): {cleaned_data.get('message')}")
     if cleaned_data.get('message') == '':
         form.add_error(
             'message',

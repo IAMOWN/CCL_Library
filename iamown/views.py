@@ -443,6 +443,9 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 date_sent = email_campaign_obj.date_created
                 mailing_list_count = mailing_list.count()
 
+                # Pre-build Email Campaign send log
+                email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email Campaign Test Email</strong> task marked as <strong>Agreed</strong> by <strong>{email_campaign_obj.sender}</strong> on <strong>{get_current_date()}</strong>.'''
+
                 # Update task
                 task.date_completed = get_current_date()
                 task.task_status = 'Completed'
@@ -479,7 +482,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
                     # Send email for review
                     reviewer_obj = Profile.objects.get(user_id=id)
-                    email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''>>> <strong>Email Campaign Review</strong> sent to <strong>{reviewer_obj.spiritual_name}</strong> on <strong>{get_current_date()}</strong><br>'''
+                    email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email Campaign Review</strong> sent to <strong>{reviewer_obj.spiritual_name}</strong> on <strong>{get_current_date()}</strong>'''
 
                     email_address = reviewer_obj.user.email
                     reviewer_name = reviewer_obj.spiritual_name
@@ -498,7 +501,6 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 email_campaign_obj.send_status = '2) In progress'
                 email_campaign_obj.number_of_reviewers = reviewer_count
                 email_campaign_obj.review_email_sent = 'Yes'
-                email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email Campaign Test Email</strong> task marked as <strong>Agreed</strong> by <strong>{email_campaign_obj.sender}</strong> on <strong>{get_current_date()}</strong>.'''
                 email_campaign_obj.save(update_fields=[
                     'email_send_log',
                     'send_status',
@@ -1574,7 +1576,7 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
             email_subject = form.instance.subject
             email_message = f"""
             {EMAIL_MESSAGE_CAMPAIGN_1}
-            *** This is a TEST EMAIL * Please check the <a href="{TASKS_URL}">Task List</a> to Approve this email ***<p>
+            *** This is a TEST EMAIL * Please check this <a href="{TASKS_URL}">Task</a> to Approve this email ***<p>
             {form.instance.message}
             {EMAIL_MESSAGE_2}
             """
