@@ -1425,7 +1425,7 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
                         'email',
                         f'This email is already associated with the user account, {user_email.username}. Please enter another email address or select this Dear Soul in the User field.'
                     )
-                    return super(MailingListCreateView, self).form_valid(form)
+                    return self.form_invalid(form)
                 except User.DoesNotExist:
                     message = f'{form.instance.audience}: {form.instance.email}'
                     messages.add_message(
