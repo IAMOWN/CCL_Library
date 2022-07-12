@@ -1410,7 +1410,7 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
         # Initial check to make sure only account or email are submitted
         if form.instance.user and form.instance.email:
             form.add_error(
-                'user',
+                ('user', 'email'),
                 'Please add either a Dear Soul or an email.'
             )
             return self.form_invalid(form)
@@ -1423,7 +1423,7 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
                     user_email = User.objects.get(email=form.instance.email)
                     form.add_error(
                         'email',
-                        f'This email is already associated with the user account, {user_email.username}. Please enter another email address or select this Dear Soul in the User field.'
+                        f'This email is already associated with the user account, "{user_email.username}". Please enter another email address or select this Dear Soul in the User field.'
                     )
                     return self.form_invalid(form)
                 except User.DoesNotExist:
