@@ -35,6 +35,7 @@ TASK_TYPE_CHOICES = [
     ('Book Edit', 'Book Edit'),
     ('Email Campaign', 'Email Campaign'),
     ('Email Campaign 2', 'Email Campaign 2'),
+    ('Email Campaign 2 - Revise', 'Email Campaign 2 - Revise'),
 ]
 TASK_DECISION_CHOICES = [
     ('Agreed', 'Agreed'),
