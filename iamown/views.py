@@ -655,8 +655,8 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 # Update current task
                 task.date_completed = get_current_date()
                 task.task_status = 'Completed'
-                task.actions_taken = task_to_update.actions_taken + f'Email Campaign - Revisions Requested by <strong>{task.assigned_profile}</strong> (see task history log for comments).<br>'
-                task.task_history_log = task_to_update.task_history_log + f'''>>> <strong>Revisions requested</strong> for this Test Campaign Email by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br><strong>Revision Comments:</strong><br>{task.decision_comments}<br><strong>Date completed: {get_current_date()}</strong><p>'''
+                task.actions_taken = task.actions_taken + f'Email Campaign - Revisions Requested by <strong>{task.assigned_profile}</strong> (see task history log for comments).<br>'
+                task.task_history_log = task.task_history_log + f'''>>> <strong>Revisions requested</strong> for this Test Campaign Email by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br><strong>Revision Comments:</strong><br>{task.decision_comments}<br><strong>Date completed: {get_current_date()}</strong><p>'''
                 task.save(update_fields=[
                     'task_history_log',
                     'date_completed',
