@@ -625,7 +625,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                             email_message = f'''
                             {EMAIL_MESSAGE_CAMPAIGN_1}
                             {email_campaign_obj.message}
-                            <hr><a href="{unsubscribe_url}">Unsubscribe</a>
+                            <p><center><a href="{unsubscribe_url}">Unsubscribe</a></center><br>
                             {EMAIL_MESSAGE_2}'''
                             send_email(email_subject, email_address, email_message)
                             emails_sent += 1
@@ -645,18 +645,6 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     task.save(update_fields=[
                         'task_history_log',
                     ])
-
-                # One or more decline with all reviews in - End ServiceFlow
-                elif number_of_reviewers != number_of_accepted_reviews:
-
-                    # Update email campaign object marking Email Campaign Send
-                    email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> Email Campaign <strong>revisions requested</strong> >>> <strong>Sending email campaign</strong> on <strong>{get_current_date()}</strong>'''
-                    email_campaign_obj.save(update_fields=[
-                        'number_of_accepted_reviews',
-                        'email_send_log',
-                    ])
-
-                    pass
 
             # REVISE: Reviewer requests Revision with Email Campaign messaage
             elif task.decision == 'Revise':
