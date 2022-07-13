@@ -775,7 +775,9 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         # 'Email Campaign - 2 - Revise' Branch
         elif task.task_type == 'Email Campaign - 2 - Revise':
             # AGREE: Sender has made changes. Reviewer tasks will be created
+            print(f'task.decision: {task.decision}')
             if task.decision == 'Agreed':
+                print(f'AGREE branch')
                 # Query email campaign
                 audience = email_campaign_obj.audience
                 subject = email_campaign_obj.subject
@@ -849,6 +851,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
             # REVISE: Sender wants to review their changes in an email
             elif task.decision == 'Revise':
+                print(f'REVISE branch')
                 # Resend email
                 email_address = self.request.user.email
                 email_subject = email_campaign_obj.subject
@@ -880,6 +883,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
             # DECLINE: Sender wants to end the ServiceFlow
             elif task.decision == 'Decine':
+                print(f'DECLINE branch')
                 # Update email campaign
                 email_campaign.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email campaign REVISION Email</strong> task marked as <strong>Decline</strong> by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>.'''
                 email_campaign_obj.send_status = '4) Declined'
@@ -902,6 +906,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
             # Task updated without change to Decision
             else:
+                print(f'NO DECISION branch')
                 task.task_history_log = task.task_history_log + f'''>>> Task manually <strong>updated</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile}<p>'''
                 task.save(update_fields=['task_history_log',])
 
