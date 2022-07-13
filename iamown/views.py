@@ -54,6 +54,8 @@ from users.models import (
 
 # ####################### CONSTANTS #######################
 DOMAIN = settings.DOMAIN
+UNSUBSCRIBE_URL_EMAIL = 'https://cosmicchrist.love/mailing_list/unsubscribe_email/'
+UNSUBSCRIBE_URL_USER = 'https://cosmicchrist.love/mailing_list/unsubscribe_user/'
 FROM_EMAIL = 'info@lanesflow.io'
 EMAIL_MESSAGE_1 = '''
                     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -609,15 +611,18 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
                     # Send Campaign Email to mailing list
                     email_subject = email_campaign_obj.subject
-                    email_message = email_campaign_obj.message
+
                     emails_sent = 0
                     for entry in mailing_list:
                         if entry.subscribed == 'Yes':
                             if entry.email:
                                 email_address = entry.email
+                                unsubscribe_url = f'{UNSUBSCRIBE_URL_EMAIL}{entry.audience}/{email_address}'
                             else:
-                                print(f'Sending email to: {entry.user.email}')
                                 email_address = entry.user.email
+                                unsubscribe_url = f'{UNSUBSCRIBE_URL_USER}{entry.audience}/{email_address}'
+                            # Add unsubscribe link to email message
+                            email_message = email_campaign_obj.message + f'''<hr><a href="{unsubscribe_url}">Unsubscribe</a>'''
                             send_email(email_subject, email_address, email_message)
                             emails_sent += 1
 
@@ -638,7 +643,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     ])
 
                 # One or more decline with all reviews in - End ServiceFlow
-                elif number_of_reviewers == (number_of_accepted_reviews + number_of_declined_reviews):
+                elif number_of_reviewers != number_of_accepted_reviews:
 
                     # Update email campaign object marking Email Campaign Send
                     email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> Email Campaign <strong>revisions requested</strong> >>> <strong>Sending email campaign</strong> on <strong>{get_current_date()}</strong>'''
@@ -1803,7 +1808,7 @@ def unsubscribe_user(request, audience, user):  # TODO ServiceFlow to follow up 
             if record.subscribed == 'No':
                 unsub_message = f'The user account "{user}" is already unsubscribed from the "{audience}" mailing list.'
     else:
-        unsub_message = f'There is no record for the email "{user}" in the "{audience}" mailing list.'
+        unsub_message = f'There is no record for the user account "{user}" in the "{audience}" mailing list.'
 
     context = {
         'title': f'Unsubscribe your user account from the "{audience}" Mailing List',
