@@ -1773,14 +1773,18 @@ def unsubscribe(request, email, audience):
     mailing_list_record_to_unsubscribe = MailingList.objects.filter(audience__audience=audience, email=email)
     print(f'mailing_list_record_to_unsubscribe: {mailing_list_record_to_unsubscribe}')
 
-    for record in mailing_list_record_to_unsubscribe:
-        if record.subscribed == 'Yes':
-            mailing_list_obj = MailingList.objects.get(id=record.id)
-            mailing_list_obj.subscribed == 'No'
-            mailing_list_obj.save(update_fields=['subscribed'])
-            unsub_message = f'You have successfully unsubscribed the email {email} from the {audience} mailing list.'
-        if record.subscribed == 'No':
-            unsub_message = f'The email {email} is already unsubscribed from the {audience} mailing list.'
+    # If exists()
+    if mailing_list_record_to_unsubscribe.exists():
+        for record in mailing_list_record_to_unsubscribe:
+            if record.subscribed == 'Yes':
+                mailing_list_obj = MailingList.objects.get(id=record.id)
+                mailing_list_obj.subscribed = 'No'
+                mailing_list_obj.save(update_fields=['subscribed'])
+                unsub_message = f'You have successfully unsubscribed the email {email} from the {audience} mailing list.'
+            if record.subscribed == 'No':
+                unsub_message = f'The email {email} is already unsubscribed from the {audience} mailing list.'
+    else:
+        unsub_message = f'There is no record for the email {email} in the {audience} mailing list.'
 
     context = {
         'title': f'Unsubscribe from the {audience} Mailing List',
