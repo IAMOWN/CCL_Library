@@ -43,7 +43,8 @@ from .views import (
     EmailCampaignCreateView,
     EmailCampaignUpdateView,
     EmailCampaignDeleteView,
-    unsubscribe,
+    unsubscribe_email,
+    unsubscribe_user,
 )
 
 urlpatterns = [
@@ -96,7 +97,8 @@ urlpatterns = [
     path('mailing_list_create/', MailingListCreateView.as_view(), name='mailing-list-create'),
     path('mailing_list_update/<int:pk>/', MailingListUpdateView.as_view(), name='mailing-list-update'),
     path('mailing_list_delete/<int:pk>/', MailingListDeleteView.as_view(), name='mailing-list-delete'),
-    path('mailing_list/unsubscribe/<str:audience>/<str:email>/', unsubscribe, name='unsubscribe'),
+    path('mailing_list/unsubscribe_email/<str:audience>/<str:email>/', unsubscribe_email, name='unsubscribe-email'),
+    path('mailing_list/unsubscribe_user/<str:audience>/<str:user>/', unsubscribe_user, name='unsubscribe-user'),
 
     # Email Campaign
     path('email_campaigns/', EmailCampaignListView.as_view(), name='email-campaigns'),
