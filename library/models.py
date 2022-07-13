@@ -345,13 +345,14 @@ class ReadingProgress(models.Model):
         on_delete=models.CASCADE,
         null=True,
         blank=True,
-        verbose_name='Library record'
+        verbose_name='Library record',
     )
     dear_soul = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         null=True,
-        blank=True
+        blank=True,
+        related_name='user_in_reading_progress',
     )
     reading_progress = models.CharField(
         max_length=30,
@@ -429,6 +430,7 @@ class LibraryObservation(models.Model):
     )
     observer = models.ForeignKey(
         Profile,
+        related_name= 'profile_for_library_observation',
         on_delete=models.CASCADE,
         null=True,
         blank=True,

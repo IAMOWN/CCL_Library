@@ -248,6 +248,7 @@ class EmailCampaign(models.Model):
     )
     sender = models.ForeignKey(
         User,
+        related_name= 'user_in_email_campaign',
         on_delete=models.PROTECT,
         null=True,
         blank=True,
