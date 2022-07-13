@@ -434,11 +434,12 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         task_updater = Profile.objects.get(user__username=self.request.user).spiritual_name
         email_campaign_obj = task.email_campaign
         mailing_list = MailingList.objects.filter(audience=email_campaign_obj.audience)
+        print(f'task.task_type: {task.task_type}')
 
         # "Email Campaign" branch - Test Email
-        print(f'1) EMAIL CAMPAIGN')
         if task.task_type == 'Email Campaign':
             # AGREE: Test Email accepted
+            print(f'1) EMAIL CAMPAIGN')
             if task.decision == 'Agreed' and task.email_campaign_test_accepted == 'No':
                 # Query email campaign
                 audience = email_campaign_obj.audience
@@ -564,9 +565,9 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     'date_completed',
                 ])
 
-        print(f'2) EMAIL CAMPAIGN')
         # "Email Campaign 2" branch - Email Campaign Review emails
         if task.task_type == 'Email Campaign 2':
+            print(f'2) EMAIL CAMPAIGN')
             number_of_reviewers = email_campaign_obj.number_of_reviewers
             number_of_accepted_reviews = email_campaign_obj.number_of_accepted_reviews
             number_of_declined_reviews = email_campaign_obj.number_of_declined_reviews
@@ -693,7 +694,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 task_assignee = Profile.objects.get(spiritual_name=email_campaign_obj.sender)
                 new_task = Task.objects.create(
                     task_title=f'[Revise Campaign Email Message] {email_campaign_obj.audience} - {email_campaign_obj.subject}',
-                    task_type='Email Campaign 2 - Revise',
+                    task_type='Email Campaign',
                     task_description=task_description,
                     task_history_log=history_log,
                     assigned_profile=task_assignee,
@@ -773,13 +774,11 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 '''
                 send_email(email_subject, email_address, email_message)  # ServiceFlow END
 
-        print(f'2) EMAIL CAMPAIGN - Revise')
         # 'Email Campaign - 2 - Revise' Branch
         if task.task_type == 'Email Campaign - 2 - Revise':
             # AGREE: Sender has made changes. Reviewer tasks will be created
-            print(f'task.decision: {task.decision}')
+            print(f'2) EMAIL CAMPAIGN - Revise')
             if task.decision == 'Agreed':
-                print(f'AGREE branch')
                 # Query email campaign
                 audience = email_campaign_obj.audience
                 subject = email_campaign_obj.subject
@@ -853,7 +852,6 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
             # REVISE: Sender wants to review their changes in an email
             elif task.decision == 'Revise':
-                print(f'REVISE branch')
                 # Resend email
                 email_address = self.request.user.email
                 email_subject = email_campaign_obj.subject
@@ -885,7 +883,6 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
             # DECLINE: Sender wants to end the ServiceFlow
             elif task.decision == 'Decine':
-                print(f'DECLINE branch')
                 # Update email campaign
                 email_campaign.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email campaign REVISION Email</strong> task marked as <strong>Decline</strong> by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>.'''
                 email_campaign_obj.send_status = '4) Declined'
@@ -908,13 +905,12 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
             # Task updated without change to Decision
             else:
-                print(f'NO DECISION branch')
                 task.task_history_log = task.task_history_log + f'''>>> Task manually <strong>updated</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile}<p>'''
                 task.save(update_fields=['task_history_log',])
 
-        print(f'COMPLETE')
         # (General) Task marked complete
         if task.task_status == 'Completed':
+            print(f'COMPLETE')
             if task.actions_taken == "":
                     form.add_error(
                         'actions_taken',
