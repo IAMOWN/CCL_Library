@@ -682,7 +682,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     ])
 
                 # Create new 'Email Campaign 2 - Revise' task
-                task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_5).process_description + f'''<strong>Email Campaign: </strong><a href="{DOMAIN}email_campaign/{email_campaign_obj.id}/" class="text-CCL-Blue" target="_blank">{email_campaign_obj.audience} - {email_campaign_obj.subject} ({email_campaign_obj.date_created.strftime('%Y-%m-%d')})</a><p>
+                task_description = LEE.objects.get(task_name=LEE_TASK_CAMPAIGN_5).process_description + f'''<strong>Email Campaign: </strong><a href="{DOMAIN}email_campaign/{email_campaign_obj.id}/" class="text-CCL-Blue" target="_blank">{email_campaign_obj.audience} - {email_campaign_obj.subject} ({email_campaign_obj.date_created.strftime('%Y-%m-%d')})</a><p><br>
                 <strong>Reviewer: </strong>{task.assigned_profile}<br>
                 <strong>Revision Request: </strong><br>
                 {task.decision_comments}
@@ -696,6 +696,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     task_history_log=history_log,
                     assigned_profile=task_assignee,
                     email_campaign=email_campaign_obj,
+                    decision='',
                 )
 
                 # Email reviewers letting them know that revision is in progress
