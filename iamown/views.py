@@ -227,7 +227,7 @@ class LEECreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             messages.SUCCESS,
             f'The LEE entry "{message}" has been added.'
         )
-        return super(LEECreateView, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -254,7 +254,7 @@ class LEEUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             messages.SUCCESS,
             f'The LEE entry "{message}" has been updated.'
         )
-        return super(LEEUpdateView, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -397,7 +397,7 @@ class TaskCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             messages.SUCCESS,
             f'The Task "{message}" has been added'
         )
-        return super(TaskCreate, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -933,7 +933,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             messages.SUCCESS,
             f'The Task "{message}" has been updated'
         )
-        return super(TaskUpdate, self).form_valid(form)
+        return super().form_valid(form)
 
 
 class TaskCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -1141,7 +1141,7 @@ class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             messages.SUCCESS,
             f'The Library Observation Task "{message}" has been created'
         )
-        return super(TaskLibraryCreate, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1258,7 +1258,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             messages.SUCCESS,
             f'The Task "{message}" has been updated'
         )
-        return super(TaskLibraryUpdate, self).form_valid(form)
+        return super().form_valid(form)
 
 
 class TaskLibraryDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -1339,7 +1339,7 @@ class ServiceGroupCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             messages.SUCCESS,
             f'The Service Group "{message}" has been added'
         )
-        return super(ServiceGroupCreate, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1365,7 +1365,7 @@ class ServiceGroupUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             messages.SUCCESS,
             f'The Service Group "{message}" has been updated'
         )
-        return super(ServiceGroupUpdate, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1467,7 +1467,7 @@ class PEePCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             messages.SUCCESS,
             f'The PEeP entry "{message}" has been added.'
         )
-        return super(PEePCreateView, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1494,7 +1494,7 @@ class PEePUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             messages.SUCCESS,
             f'The PEeP entry "{message}" has been updated.'
         )
-        return super(PEePUpdateView, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1567,7 +1567,7 @@ class AudienceCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             messages.SUCCESS,
             f'The audience "{message}" has been added.'
         )
-        return super(AudienceCreateView, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1593,7 +1593,7 @@ class AudienceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             messages.SUCCESS,
             f'The audience "{message}" has been updated.'
         )
-        return super(AudienceUpdateView, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1692,7 +1692,7 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
                         messages.SUCCESS,
                         f'The mailing list entry, "{message}" has been added.'
                     )
-                    return super(MailingListCreateView, self).form_valid(form)
+                    return super().form_valid(form)
             else:
                 form.add_error(
                     'email',
@@ -1711,7 +1711,7 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
                     messages.SUCCESS,
                     f'The mailing list entry, "{message}" has been added.'
                 )
-                return super(MailingListCreateView, self).form_valid(form)
+                return super().form_valid(form)
             else:
                 form.add_error(
                     'user',
@@ -1746,7 +1746,7 @@ class MailingListUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
             messages.SUCCESS,
             f'The mailing list entry, "{message}" has been updated.'
         )
-        return super(MailingListUpdateView, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1891,7 +1891,7 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
             messages.SUCCESS,
             f'The email campaign, "{message}" has been created.'
         )
-        return super(EmailCampaignCreateView, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1961,7 +1961,7 @@ class EmailCampaignUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
             messages.SUCCESS,
             f'The email Campaign, "{message}" has been updated.'
         )
-        return super(EmailCampaignUpdateView, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)

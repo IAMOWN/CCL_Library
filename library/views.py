@@ -175,7 +175,7 @@ class TagCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             messages.SUCCESS,
             f'The Tag "{message}" has been added'
         )
-        return super(TagCreate, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -278,7 +278,7 @@ class CollectionCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             messages.SUCCESS,
             f'The Collection "{message}" has been added'
         )
-        return super(CollectionCreate, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -387,7 +387,7 @@ class DiscourseSeriesCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView)
             messages.SUCCESS,
             f'The Discourse Series "{message}" has been added'
         )
-        return super(DiscourseSeriesCreate, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -490,7 +490,7 @@ class CosmicAuthorCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             messages.SUCCESS,
             f'The Cosmic Author "{message}" has been added'
         )
-        return super(CosmicAuthorCreate, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1060,7 +1060,7 @@ class LibraryRecordCreate(LoginRequiredMixin, CreateView):
             messages.SUCCESS,
             f'The Library Record "{message}" has been added'
         )
-        return super(LibraryRecordCreate, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1082,7 +1082,7 @@ class LibraryRecordUpdate(LoginRequiredMixin, UpdateView):
             messages.SUCCESS,
             f'The Library Record "{message}" has been updated'
         )
-        return super(LibraryRecordUpdate, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1695,7 +1695,7 @@ class ReadingListItemDelete(LoginRequiredMixin, DeleteView):
             messages.SUCCESS,
             f'The {record_type}, "{record_title}" has been removed from your Reading List.'
         )
-        return super(ReadingListItemDelete, self).form_valid(form)
+        return super().form_valid(form)
 
 
 # ####################### Record Observation #######################
@@ -1831,7 +1831,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
             messages.SUCCESS,
             f'Beloved {observer}, your "{observation_type}" observation has been submitted and will be seen to by the Circle of Digital Librarians. Love and Blessings.',
         )
-        return super(ObervationCreate, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
