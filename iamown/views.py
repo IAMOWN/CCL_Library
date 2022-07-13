@@ -1770,7 +1770,7 @@ class MailingListDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView)
 
 
 def unsubscribe(request, email, audience):
-    mailing_list_record_to_unsubscribe = MailingList.objects.filter(audience=audience, email=email)
+    mailing_list_record_to_unsubscribe = MailingList.objects.filter(audience__audience=audience, email=email)
     print(f'mailing_list_record_to_unsubscribe: {mailing_list_record_to_unsubscribe}')
     # for record in mailing_list_record_to_unsubscribe:
 
