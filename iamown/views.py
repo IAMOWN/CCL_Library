@@ -535,7 +535,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
                 # Update task
                 task.task_status = '2) In progress'
-                task.actions_taken = task.actions_taken + '<br>Test Email revision requested'
+                task.actions_taken = task.actions_taken + 'Test Email revision requested'
                 task.task_history_log = task.task_history_log + f'''>>> Test Campaign Email marked <strong>Revise</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong> >>> Status: {task.task_status} >>>Priority: {task.task_priority} >>> Due date: {task.due_date}<p>'''
                 task.save(update_fields=[
                     'task_status',
@@ -566,7 +566,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 ])
 
         # "Email Campaign 2" branch - Email Campaign Review emails
-        if task.task_type == 'Email Campaign 2':
+        elif task.task_type == 'Email Campaign 2':
             print(f'2) EMAIL CAMPAIGN')
             number_of_reviewers = email_campaign_obj.number_of_reviewers
             number_of_accepted_reviews = email_campaign_obj.number_of_accepted_reviews
@@ -775,7 +775,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 send_email(email_subject, email_address, email_message)  # ServiceFlow END
 
         # 'Email Campaign - 2 - Revise' Branch
-        if task.task_type == 'Email Campaign - 2 - Revise':
+        elif task.task_type == 'Email Campaign - 2 - Revise':
             # AGREE: Sender has made changes. Reviewer tasks will be created
             print(f'2) EMAIL CAMPAIGN - Revise')
             if task.decision == 'Agreed':
@@ -909,7 +909,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 task.save(update_fields=['task_history_log',])
 
         # (General) Task marked complete
-        if task.task_status == 'Completed':
+        elif task.task_status == 'Completed':
             print(f'COMPLETE')
             if task.actions_taken == "":
                     form.add_error(
@@ -1765,6 +1765,21 @@ class MailingListDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView)
     def get_context_data(self, *args, **kwargs):
         context = super(MailingListDeleteView, self).get_context_data(**kwargs)
         return context
+
+
+def unsubscribe(request, email, audience):
+    mailing_list_record_to_unsubscribe = MailingList.objects.filter(audience=audience, email=email)
+    print(f'mailing_list_record_to_unsubscribe: {mailing_list_record_to_unsubscribe}')
+    # for record in mailing_list_record_to_unsubscribe:
+
+    context = {
+        'title': 'Unsubscribe',
+        'result': f'Matching entries: {mailing_list_record_to_unsubscribe}',
+        'email_to_unsubscribe': email,
+        'audience_to_unsubscribe': audience,
+    }
+
+    return render(request, 'iamown/unsubscribe.html', context)
 
 
 # ####################### Email Campaign #######################

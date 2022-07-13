@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+    <section class="content-section">
+        <h3 class="pt-2">{{ title }}</h3>
+        <div class="row pt-2">
+            <div class="col-lg-3">
+                <strong>Email to unsubscribe: </strong>{{ email_to_unsubscribe }}
+            </div>
+            <div class="col-lg-3">
+                <strong>Audience to unsubscribe: </strong>{{ audience_to_unsubscribe }}
+            </div>
+            <div class="col-lg-6">
+                <strong>ML records to unsubscribe: </strong>{{ result }}
+            </div>
+        </div>
+    </section>
+{% endblock %}
