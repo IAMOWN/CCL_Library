@@ -1772,13 +1772,17 @@ class MailingListDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView)
 def unsubscribe(request, email, audience):
     mailing_list_record_to_unsubscribe = MailingList.objects.filter(audience__audience=audience, email=email)
     print(f'mailing_list_record_to_unsubscribe: {mailing_list_record_to_unsubscribe}')
-    # for record in mailing_list_record_to_unsubscribe:
+    for record in mailing_list_record_to_unsubscribe:
+        if record.subscribed == 'Yes':
+            record.subscribed == 'No'
+            record.save(update_fields=['subscribed'])
+            unsub_message = f'You have successfully unsubscribed the email {email} from the {audience} mailing list.'
+        if record.subscribed == 'No':
+            unsub_message = f'The email {email} is already unsubscribed from the {audience} mailing list.'
 
     context = {
-        'title': 'Unsubscribe',
-        'result': f'Matching entries: {mailing_list_record_to_unsubscribe}',
-        'email_to_unsubscribe': email,
-        'audience_to_unsubscribe': audience,
+        'title': f'Unsubscribe from the {audience} Mailing List',
+        'unsub_message': unsub_message,
     }
 
     return render(request, 'iamown/unsubscribe.html', context)
