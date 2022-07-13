@@ -203,7 +203,7 @@ class LEEDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return self.request.user.is_staff
 
     def get_context_data(self, *args, **kwargs):
-        context = super(LEEDetailView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         return context
 
