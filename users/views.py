@@ -90,7 +90,7 @@ class ProfileListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
             return False
 
     def get_context_data(self, *args, **kwargs):
-        context = super(ProfileListView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['year'] = get_current_year()
         context['title'] = 'Soul Synthesis Profiles'
 
@@ -123,7 +123,7 @@ class ProfileDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
             return False
 
     def get_context_data(self, *args, **kwargs):
-        context = super(ProfileDetailView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['year'] = get_current_year()
         context['title'] = 'CCL_Library Profile'
 
@@ -143,7 +143,7 @@ class ProfileDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
             return False
 
     def get_context_data(self, *args, **kwargs):
-        context = super(ProfileDetailView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         context['profile'] = Profile.objects.get(id=self.kwargs["pk"])
         user_obj = User.objects.get(id=self.kwargs['user_id'])

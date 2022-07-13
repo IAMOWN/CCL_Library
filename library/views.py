@@ -178,7 +178,7 @@ class TagCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return super(TagCreate, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(TagCreate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Create'
 
         return context
@@ -196,7 +196,7 @@ class TagUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return False
 
     def get_context_data(self, *args, **kwargs):
-        context = super(TagUpdate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Update'
         return context
 
@@ -213,7 +213,7 @@ class TagDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
     def get_context_data(self, *args, **kwargs):
-        context = super(TagDelete, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         tag_to_delete = Tag.objects.get(pk=self.kwargs['pk'])
         records_with_tag = LibraryRecord.objects.filter(tags__tag=tag_to_delete)
@@ -281,7 +281,7 @@ class CollectionCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return super(CollectionCreate, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(CollectionCreate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Create'
 
         return context
@@ -299,7 +299,7 @@ class CollectionUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return False
 
     def get_context_data(self, *args, **kwargs):
-        context = super(CollectionUpdate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Update'
 
         return context
@@ -317,7 +317,7 @@ class CollectionDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
     def get_context_data(self, *args, **kwargs):
-        context = super(CollectionDelete, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         collection_to_delete = Collection.objects.get(pk=self.kwargs['pk'])
         library_records_with_collection = []
@@ -390,7 +390,7 @@ class DiscourseSeriesCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView)
         return super(DiscourseSeriesCreate, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(DiscourseSeriesCreate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Create'
 
         return context
@@ -408,7 +408,7 @@ class DiscourseSeriesUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
         return False
 
     def get_context_data(self, *args, **kwargs):
-        context = super(DiscourseSeriesUpdate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Update'
 
         return context
@@ -426,7 +426,7 @@ class DiscourseSeriesDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView)
         return False
 
     def get_context_data(self, *args, **kwargs):
-        context = super(DiscourseSeriesDelete, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         series_to_delete = DiscourseSeries.objects.get(pk=self.kwargs['pk'])
         records_with_series = LibraryRecord.objects.filter(discourse_series__discourse_series=series_to_delete)
@@ -493,7 +493,7 @@ class CosmicAuthorCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return super(CosmicAuthorCreate, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(CosmicAuthorCreate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Create'
 
         return context
@@ -511,7 +511,7 @@ class CosmicAuthorUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return False
 
     def get_context_data(self, *args, **kwargs):
-        context = super(CosmicAuthorUpdate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Update'
 
         return context
@@ -529,7 +529,7 @@ class CosmicAuthorDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
     def get_context_data(self, *args, **kwargs):
-        context = super(CosmicAuthorDelete, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         master_to_delete = CosmicAuthor.objects.get(pk=self.kwargs['pk'])
         records_with_master = LibraryRecord.objects.filter(principal_cosmic_author__author=master_to_delete)
@@ -1063,7 +1063,7 @@ class LibraryRecordCreate(LoginRequiredMixin, CreateView):
         return super(LibraryRecordCreate, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(LibraryRecordCreate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Create'
 
         return context
@@ -1085,7 +1085,7 @@ class LibraryRecordUpdate(LoginRequiredMixin, UpdateView):
         return super(LibraryRecordUpdate, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(LibraryRecordUpdate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Update'
 
         return context
@@ -1103,7 +1103,7 @@ class LibraryRecordDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
     def get_context_data(self, *args, **kwargs):
-        context = super(LibraryRecordDelete, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         return context
 
@@ -1680,7 +1680,7 @@ class ReadingListItemDelete(LoginRequiredMixin, DeleteView):
     success_url = '/reading_list/'
 
     def get_context_data(self, *args, **kwargs):
-        context = super(ReadingListItemDelete, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['title'] = 'Delete Reading List Item'
 
         return context
@@ -1834,7 +1834,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
         return super(ObervationCreate, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(ObervationCreate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Create'
 
         return context

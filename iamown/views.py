@@ -230,7 +230,7 @@ class LEECreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return super(LEECreateView, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(LEECreateView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Create'
 
         return context
@@ -257,7 +257,7 @@ class LEEUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super(LEEUpdateView, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(LEEUpdateView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['LEE_obj'] = LEE.objects.get(id=self.kwargs['pk'])
         context['page_type'] = 'Update'
 
@@ -275,7 +275,7 @@ class LEEDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user.is_superuser
 
     def get_context_data(self, *args, **kwargs):
-        context = super(LEEDeleteView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         return context
 
@@ -370,7 +370,7 @@ class TaskDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return False
 
     def get_context_data(self, *args, **kwargs):
-        context = super(TaskDetail, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         return context
 
@@ -400,7 +400,7 @@ class TaskCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return super(TaskCreate, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(TaskCreate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['current_user'] = self.request.user
         context['page_type'] = 'Create'
 
@@ -422,7 +422,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return False
 
     def get_context_data(self, *args, **kwargs):
-        context = super(TaskUpdate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         context['current_profile'] = self.request.user.profile
         context['page_type'] = 'Update'
@@ -974,7 +974,7 @@ class TaskDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
     def get_context_data(self, *args, **kwargs):
-        context = super(TaskDelete, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         return context
 
@@ -1077,7 +1077,7 @@ class TaskLibraryDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return False
 
     def get_context_data(self, *args, **kwargs):
-        context = super(TaskLibraryDetail, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         return context
 
@@ -1144,7 +1144,7 @@ class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return super(TaskLibraryCreate, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(TaskLibraryCreate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Create'
 
         return context
@@ -1166,7 +1166,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return False
 
     def get_context_data(self, *args, **kwargs):
-        context = super(TaskLibraryUpdate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Update'
 
         return context
@@ -1274,7 +1274,7 @@ class TaskLibraryDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
     def get_context_data(self, *args, **kwargs):
-        context = super(TaskLibraryDelete, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['title'] = 'Delete Library Observation Task'
 
         return context
@@ -1342,7 +1342,7 @@ class ServiceGroupCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return super(ServiceGroupCreate, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(ServiceGroupCreate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Create'
 
         return context
@@ -1368,7 +1368,7 @@ class ServiceGroupUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super(ServiceGroupUpdate, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(ServiceGroupUpdate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Update'
 
         return context
@@ -1385,7 +1385,7 @@ class ServiceGroupDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
     def get_context_data(self, *args, **kwargs):
-        context = super(ServiceGroupDelete, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         return context
 
@@ -1443,7 +1443,7 @@ class PEePDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return self.request.user.is_staff
 
     def get_context_data(self, *args, **kwargs):
-        context = super(PEePDetailView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         return context
 
@@ -1470,7 +1470,7 @@ class PEePCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return super(PEePCreateView, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(PEePCreateView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Create'
 
         return context
@@ -1497,7 +1497,7 @@ class PEePUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super(PEePUpdateView, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(PEePUpdateView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Update'
 
         return context
@@ -1514,7 +1514,7 @@ class PEePDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user.is_superuser
 
     def get_context_data(self, *args, **kwargs):
-        context = super(PEePDeleteView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         return context
 
@@ -1544,7 +1544,7 @@ class AudienceDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return self.request.user.is_staff
 
     def get_context_data(self, *args, **kwargs):
-        context = super(AudienceDetailView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         return context
 
 
@@ -1570,7 +1570,7 @@ class AudienceCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return super(AudienceCreateView, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(AudienceCreateView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Create'
         return context
 
@@ -1596,7 +1596,7 @@ class AudienceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super(AudienceUpdateView, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(AudienceUpdateView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Update'
         return context
 
@@ -1612,7 +1612,7 @@ class AudienceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user.is_superuser
 
     def get_context_data(self, *args, **kwargs):
-        context = super(AudienceDeleteView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         return context
 
 
@@ -1643,7 +1643,7 @@ class MailingListDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView)
         return self.request.user.is_staff
 
     def get_context_data(self, *args, **kwargs):
-        context = super(MailingListDetailView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         entry_obj = MailingList.objects.get(id=self.kwargs['pk'])
         if entry_obj.user:
             context['title'] = f'Mailing List Entry: {entry_obj.user.profile.spiritual_name}'
@@ -1720,7 +1720,7 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
                 return self.form_invalid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(MailingListCreateView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Create'
         return context
 
@@ -1749,7 +1749,7 @@ class MailingListUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
         return super(MailingListUpdateView, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(MailingListUpdateView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Update'
         return context
 
@@ -1765,7 +1765,7 @@ class MailingListDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView)
         return self.request.user.is_staff
 
     def get_context_data(self, *args, **kwargs):
-        context = super(MailingListDeleteView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         return context
 
 
@@ -1811,7 +1811,7 @@ class EmailCampaignDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailVie
         return self.request.user.is_staff
 
     def get_context_data(self, *args, **kwargs):
-        context = super(EmailCampaignDetailView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         email_campaign_obj = EmailCampaign.objects.get(id=self.kwargs['pk'])
         context['title'] = f'Email campaign: {email_campaign_obj.audience} - {email_campaign_obj.subject}'
         return context
@@ -1894,7 +1894,7 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
         return super(EmailCampaignCreateView, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(EmailCampaignCreateView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Create'
         context['form_instructions'] = LEE.objects.get(task_name='Email Campaign (1) Start').process_description
         return context
@@ -1964,7 +1964,7 @@ class EmailCampaignUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
         return super(EmailCampaignUpdateView, self).form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(EmailCampaignUpdateView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['page_type'] = 'Update'
         return context
 
@@ -1980,5 +1980,5 @@ class EmailCampaignDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteVie
         return self.request.user.is_staff
 
     def get_context_data(self, *args, **kwargs):
-        context = super(EmailCampaignDeleteView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         return context
