@@ -154,21 +154,21 @@ class Collection(models.Model):
         default=''
     )
 
-    class Meta:
-        ordering = [
-            'collection',
-        ]
-
     # Record metadata
     date_created = models.DateTimeField(
         auto_now_add=True
     )
 
-    def get_absolute_url(self):
-        return reverse('collection', kwargs={'pk': self.pk})
+    class Meta:
+        ordering = [
+            'collection',
+        ]
 
     def __str__(self):
         return self.collection
+
+    def get_absolute_url(self):
+        return reverse('collection', kwargs={'pk': self.pk})
 
 
 # ####################### Library Record #######################
@@ -323,15 +323,15 @@ class CollectionOrder(models.Model):
         null=True,
     )
 
-    # class Meta:
-    #     ordering = [
-    #         'collection',
-    #     ]
-
     # Record metadata
     date_created = models.DateTimeField(
         auto_now_add=True
     )
+
+    # class Meta:
+    #     ordering = [
+    #         'collection',
+    #     ]
 
     def __str__(self):
         return f'Part {self.record.part_number} - {self.record.discourse_series} - {self.record.title} - {self.record.principal_cosmic_author} - {self.record.date_communicated}'
@@ -391,6 +391,11 @@ class ReadingProgress(models.Model):
         default= 0,
     )
 
+    # Record metadata
+    date_created = models.DateTimeField(
+        auto_now_add=True
+    )
+
     class Meta:
         ordering = [
             'reading_progress',
@@ -398,11 +403,6 @@ class ReadingProgress(models.Model):
         verbose_name_plural = 'Reading Progress'
 
         unique_together = ('record', 'dear_soul',)
-
-    # Record metadata
-    date_created = models.DateTimeField(
-        auto_now_add=True
-    )
 
     def __str__(self):
         return f'{self.record.title} - {self.reading_progress} ({self.dear_soul} - {self.record.id})'

@@ -115,9 +115,6 @@ class ServiceGroup(models.Model):
         auto_now_add=True
     )
 
-    def __str__(self):
-        return self.service_group
-
     class Meta:
         verbose_name_plural = 'Service Groups'
         verbose_name = 'Service Group'
@@ -125,6 +122,9 @@ class ServiceGroup(models.Model):
             'service_group_type',
             'service_group',
         ]
+
+    def __str__(self):
+        return self.service_group
 
     def get_absolute_url(self):
         return reverse('service-group', kwargs={'pk': self.pk})
@@ -188,12 +188,6 @@ class MailingList(models.Model):
     )
     date_created = models.DateTimeField(default=timezone.now)
 
-    def __str__(self):
-        if self.email:
-            return f'{self.audience}: {self.email}'
-        else:
-            return f'{self.audience}: {self.user.username}'
-
     class Meta:
         ordering = [
             '-subscribed',
@@ -203,6 +197,12 @@ class MailingList(models.Model):
         ]
         verbose_name_plural = 'Mailing List'
         verbose_name = 'Mailing List'
+
+    def __str__(self):
+        if self.email:
+            return f'{self.audience}: {self.email}'
+        else:
+            return f'{self.audience}: {self.user.username}'
 
     def get_absolute_url(self):
         return reverse('mailing-list-entry', kwargs={'pk': self.pk})
@@ -291,9 +291,6 @@ class EmailCampaign(models.Model):
     )
     date_created = models.DateTimeField(default=timezone.now)
 
-    def __str__(self):
-        return f"{self.audience} - {self.subject} ({self.date_created.strftime('%Y-%m-%d')})"
-
     class Meta:
         ordering = [
             'send_status',
@@ -301,6 +298,9 @@ class EmailCampaign(models.Model):
         unique_together = ['audience', 'subject']
         verbose_name_plural = 'Email Campaign'
         verbose_name = 'Email Campaigns'
+
+    def __str__(self):
+        return f"{self.audience} - {self.subject} ({self.date_created.strftime('%Y-%m-%d')})"
 
 
 # ####################### Tasks #######################
@@ -451,15 +451,15 @@ class Task(models.Model):
         auto_now_add=True
     )
 
-    def __str__(self):
-        return f'{self.task_title} (Status: {self.task_status}) {self.id}'
-
     class Meta:
         ordering = [
             'task_status',
             'task_priority',
             'due_date',
         ]
+
+    def __str__(self):
+        return f'{self.task_title} (Status: {self.task_status}) {self.id}'
 
     def get_absolute_url(self):
         return reverse('task', kwargs={'pk': self.pk})
@@ -523,15 +523,15 @@ class LEE(models.Model):
 
     date_created = models.DateTimeField(default=timezone.now)
 
-    def __str__(self):
-        return f'{self.task_name} ({self.application})'
-
     class Meta:
         ordering = [
             'task_name'
         ]
         verbose_name_plural = 'LEE'
         verbose_name = 'LEE'
+
+    def __str__(self):
+        return f'{self.task_name} ({self.application})'
 
     def get_absolute_url(self):
         return reverse('lee-entry', kwargs={'pk': self.pk})
@@ -587,9 +587,6 @@ class PEeP(models.Model):
     )
     date_created = models.DateTimeField(default=timezone.now)
 
-    def __str__(self):
-        return self.process_function
-
     class Meta:
         ordering = [
             'functional_activity',
@@ -597,6 +594,9 @@ class PEeP(models.Model):
         verbose_name_plural = 'PEeP'
         verbose_name = 'PEeP'
         unique_together = ['functional_activity', 'dear_soul_responsible']
+
+    def __str__(self):
+        return self.process_function
 
     def get_absolute_url(self):
         return reverse('peep-entry', kwargs={'pk': self.pk})

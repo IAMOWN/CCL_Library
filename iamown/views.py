@@ -439,7 +439,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         # "Email Campaign" branch - Test Email
         if task.task_type == 'Email Campaign':
             # AGREE: Test Email accepted
-            print(f'1) EMAIL CAMPAIGN')
+            print('1) EMAIL CAMPAIGN')
             if task.decision == 'Agreed' and task.email_campaign_test_accepted == 'No':
                 # Query email campaign
                 audience = email_campaign_obj.audience
@@ -556,7 +556,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 # Update task
                 task.task_status = 'Completed'
                 task.task_history_log = task.task_history_log + f'''>>> Test Campaign Email marked <strong>Decline</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong> >>> Priority: {task.task_priority} >>> Due date: {task.instance.due_date} >>> Assigned Dear Soul: {task_updater}<p>'''
-                task.actions_taken = task.actions_taken + f'<br>Test Email declined. ServiceFlow ended.'
+                task.actions_taken = task.actions_taken + '<br>Test Email declined. ServiceFlow ended.'
                 task.date_completed = get_current_date()
                 task.save(update_fields=[
                     'task_status',
@@ -567,7 +567,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
         # "Email Campaign 2" branch - Email Campaign Review emails
         elif task.task_type == 'Email Campaign 2':
-            print(f'2) EMAIL CAMPAIGN')
+            print('2) EMAIL CAMPAIGN')
             number_of_reviewers = email_campaign_obj.number_of_reviewers
             number_of_accepted_reviews = email_campaign_obj.number_of_accepted_reviews
             number_of_declined_reviews = email_campaign_obj.number_of_declined_reviews
@@ -777,7 +777,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         # 'Email Campaign - 2 - Revise' Branch
         elif task.task_type == 'Email Campaign - 2 - Revise':
             # AGREE: Sender has made changes. Reviewer tasks will be created
-            print(f'2) EMAIL CAMPAIGN - Revise')
+            print('2) EMAIL CAMPAIGN - Revise')
             if task.decision == 'Agreed':
                 # Query email campaign
                 audience = email_campaign_obj.audience
@@ -894,7 +894,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 # Update task
                 task.task_status = 'Completed'
                 task.task_history_log = task.task_history_log + f'''>>> REVISION Campaign Email marked <strong>Decline</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong> >>> Priority: {task.task_priority} >>> Due date: {task.instance.due_date} >>> Assigned Dear Soul: {task_updater}<p>'''
-                task.actions_taken = task.actions_taken + f'<br>Test Email declined. ServiceFlow ended.'
+                task.actions_taken = task.actions_taken + '<br>Test Email declined. ServiceFlow ended.'
                 task.date_completed = get_current_date()
                 task.save(update_fields=[
                     'task_status',
@@ -910,7 +910,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
         # (General) Task marked complete
         elif task.task_status == 'Completed':
-            print(f'COMPLETE')
+            print('COMPLETE')
             if task.actions_taken == "":
                     form.add_error(
                         'actions_taken',
@@ -1216,7 +1216,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 for editor in book_editors:
                     if editor.profile.notification_preference == 'Email':
                         email_address = editor.email
-                        email_subject = f'[CCL] A corrected Library observation has been marked as having an impact on book text.'
+                        email_subject = '[CCL] A corrected Library observation has been marked as having an impact on book text.'
                         email_message = f"""
                         {EMAIL_MESSAGE_1}
                         Beloved {editor.profile.spiritual_name},<p>
@@ -1676,7 +1676,8 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
         # Check that the email is not already in the mailing list for this audience
         elif form.instance.email:
             mailing_list_email = MailingList.objects.filter(email=form.instance.email, audience=form.instance.audience)
-            if mailing_list_email.count() == 0:
+            # if mailing_list_email.count() == 0:
+            if not mailing_list_email.exists():
                 try:
                     user_email = User.objects.get(email=form.instance.email)
                     form.add_error(
@@ -1702,7 +1703,8 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
         # Check that the user is not already in the mailing list for this audience
         else:
             mailing_list_user = MailingList.objects.filter(user=form.instance.user, audience=form.instance.audience)
-            if mailing_list_user.count() == 0:
+            # if mailing_list_user.count() == 0:
+            if not mailing_list_user.exists():
                 message = f'{form.instance.audience}: {form.instance.user}'
                 messages.add_message(
                     self.request,
