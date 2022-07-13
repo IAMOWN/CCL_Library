@@ -620,9 +620,13 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                                 unsubscribe_url = f'{UNSUBSCRIBE_URL_EMAIL}{entry.audience}/{email_address}'
                             else:
                                 email_address = entry.user.email
-                                unsubscribe_url = f'{UNSUBSCRIBE_URL_USER}{entry.audience}/{email_address}'
+                                unsubscribe_url = f'{UNSUBSCRIBE_URL_USER}{entry.audience}/{self.request.user}'
                             # Add unsubscribe link to email message
-                            email_message = email_campaign_obj.message + f'''<hr><a href="{unsubscribe_url}">Unsubscribe</a>'''
+                            email_message = f'''
+                            {EMAIL_MESSAGE_CAMPAIGN_1}
+                            {email_campaign_obj.message}
+                            <hr><a href="{unsubscribe_url}">Unsubscribe</a>
+                            {EMAIL_MESSAGE_2}'''
                             send_email(email_subject, email_address, email_message)
                             emails_sent += 1
 
