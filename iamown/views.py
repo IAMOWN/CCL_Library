@@ -436,6 +436,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         mailing_list = MailingList.objects.filter(audience=email_campaign_obj.audience)
 
         # "Email Campaign" branch - Test Email
+        print(f'1) EMAIL CAMPAIGN')
         if task.task_type == 'Email Campaign':
             # AGREE: Test Email accepted
             if task.decision == 'Agreed' and task.email_campaign_test_accepted == 'No':
@@ -563,8 +564,9 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     'date_completed',
                 ])
 
+        print(f'2) EMAIL CAMPAIGN')
         # "Email Campaign 2" branch - Email Campaign Review emails
-        elif task.task_type == 'Email Campaign 2':
+        if task.task_type == 'Email Campaign 2':
             number_of_reviewers = email_campaign_obj.number_of_reviewers
             number_of_accepted_reviews = email_campaign_obj.number_of_accepted_reviews
             number_of_declined_reviews = email_campaign_obj.number_of_declined_reviews
@@ -771,9 +773,9 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 '''
                 send_email(email_subject, email_address, email_message)  # ServiceFlow END
 
-
+        print(f'2) EMAIL CAMPAIGN - Revise')
         # 'Email Campaign - 2 - Revise' Branch
-        elif task.task_type == 'Email Campaign - 2 - Revise':
+        if task.task_type == 'Email Campaign - 2 - Revise':
             # AGREE: Sender has made changes. Reviewer tasks will be created
             print(f'task.decision: {task.decision}')
             if task.decision == 'Agreed':
@@ -910,8 +912,9 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 task.task_history_log = task.task_history_log + f'''>>> Task manually <strong>updated</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile}<p>'''
                 task.save(update_fields=['task_history_log',])
 
+        print(f'COMPLETE')
         # (General) Task marked complete
-        elif task.task_status == 'Completed':
+        if task.task_status == 'Completed':
             if task.actions_taken == "":
                     form.add_error(
                         'actions_taken',
@@ -924,6 +927,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
         # (General) Task updated
         else:
+            print('ELSE')
             task.task_history_log = task.task_history_log + f'''>>> Task manually <strong>updated</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile}<p>'''
             task.save(update_fields=['task_history_log',])
 
