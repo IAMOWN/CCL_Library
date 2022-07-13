@@ -687,7 +687,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 <strong>Revision Request: </strong><br>
                 {task.decision_comments}
                 '''
-                history_log = f'''>>> <strong>Campaign Email Revision Request</strong> task created by {task.assigned_profile} on <strong>{get_current_date()}</strong><p><br>'''
+                history_log = f'''>>> <strong>Campaign Email Revision Request</strong> task created by <strong>{task.assigned_profile}</strong> on <strong>{get_current_date()}</strong><p><br>'''
                 task_assignee = Profile.objects.get(spiritual_name=email_campaign_obj.sender)
                 new_task = Task.objects.create(
                     task_title=f'[Revise Campaign Email Message] {email_campaign_obj.audience} - {email_campaign_obj.subject}',
@@ -775,7 +775,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         # 'Email Campaign - 2 - Revise' Branch
         elif task.task_type == 'Email Campaign - 2 - Revise':
             # AGREE: Sender has made changes. Reviewer tasks will be created
-            if task.decision == 'Agreed' and task.email_campaign_test_accepted == 'No':
+            if task.decision == 'Agreed':
                 # Query email campaign
                 audience = email_campaign_obj.audience
                 subject = email_campaign_obj.subject
@@ -848,7 +848,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 ])
 
             # REVISE: Sender wants to review their changes in an email
-            elif task.decision == 'Revise' and task.email_campaign_test_accepted == 'No':
+            elif task.decision == 'Revise':
                 # Resend email
                 email_address = self.request.user.email
                 email_subject = email_campaign_obj.subject
@@ -879,7 +879,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 ])
 
             # DECLINE: Sender wants to end the ServiceFlow
-            elif task.decision == 'Decine' and task.email_campaign_test_accepted == 'No':
+            elif task.decision == 'Decine':
                 # Update email campaign
                 email_campaign.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email campaign REVISION Email</strong> task marked as <strong>Decline</strong> by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>.'''
                 email_campaign_obj.send_status = '4) Declined'
@@ -899,6 +899,11 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     'actions_taken',
                     'date_completed',
                 ])
+
+            # Task updated without change to Decision
+            else:
+                task.task_history_log = task.task_history_log + f'''>>> Task manually <strong>updated</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile}<p>'''
+                task.save(update_fields=['task_history_log',])
 
         # (General) Task marked complete
         elif task.task_status == 'Completed':
@@ -1897,7 +1902,7 @@ class EmailCampaignUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
         if email_campaign.ready_to_send == 'Yes' and email_campaign.test_email_sent == 'No':
 
             # Update Email Campaign
-            email_campaign.email_send_log = email_campaign.email_send_log + f'''<br>>>> <strong>Email campaign</strong> updated by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: {form.instance.ready_to_send}</strong>'''
+            email_campaign.email_send_log = email_campaign.email_send_log + f'''<br>>>> <strong>Email Campaign</strong> updated by <strong>{form.instance.sender}</strong> on <strong>{get_current_date()}</strong>. <strong>Ready to send: {form.instance.ready_to_send}</strong>'''
             email_campaign.test_email_sent = 'Yes'
             email_campaign.save(update_fields=[
                 'email_send_log',
@@ -1932,7 +1937,7 @@ class EmailCampaignUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
         messages.add_message(
             self.request,
             messages.SUCCESS,
-            f'The email campaign, "{message}" has been updated.'
+            f'The email Campaign, "{message}" has been updated.'
         )
         return super(EmailCampaignUpdateView, self).form_valid(form)
 
