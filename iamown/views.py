@@ -1792,7 +1792,7 @@ def unsubscribe_email(request, audience, email):
 
 
 def unsubscribe_user(request, audience, user):  # TODO ServiceFlow to follow up with unsubscribes from users?
-    mailing_list_record_to_unsubscribe = MailingList.objects.filter(audience__audience=audience, user=user)
+    mailing_list_record_to_unsubscribe = MailingList.objects.filter(audience__audience=audience, user__username=user)
     if mailing_list_record_to_unsubscribe.exists():
         for record in mailing_list_record_to_unsubscribe:
             if record.subscribed == 'Yes':
