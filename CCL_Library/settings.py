@@ -98,11 +98,17 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT'),
+        # 'NAME': os.environ.get('DB_NAME'),
+        # 'USER': os.environ.get('DB_USER'),
+        # 'PASSWORD': os.environ.get('DB_PASSWORD'),
+        # 'HOST': os.environ.get('DB_HOST'),
+        # 'PORT': os.environ.get('DB_PORT'),
+
+        'NAME': 'SoulSynthesis',
+        'HOST': 'db-postgresql-nyc3-144000-do-user-11428500-0.b.db.ondigitalocean.com',
+        'PORT': 25060,
+        'USER': 'SoulSynthesis',
+        'PASSWORD': 'AVNS_81rMTc67d5R1ml1hshJ',
     }
 }
 

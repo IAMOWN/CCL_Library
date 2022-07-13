@@ -29,7 +29,7 @@ class UserRegisterForm(UserCreationForm):
         ]
 
     def clean(self):
-        cleaned_data = super(UserRegisterForm, self).clean()
+        cleaned_data = super().clean()
 
         if User.objects.filter(email=cleaned_data.get('email')).exists():
             self.add_error(
@@ -50,7 +50,7 @@ class UserUpdateForm(forms.ModelForm):
         ]
 
     def clean(self):
-        cleaned_data = super(UserUpdateForm, self).clean()
+        cleaned_data = super().clean()
 
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exclude(pk=self.instance.pk).exists():

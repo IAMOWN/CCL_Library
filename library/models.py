@@ -405,7 +405,10 @@ class ReadingProgress(models.Model):
         unique_together = ('record', 'dear_soul',)
 
     def __str__(self):
-        return f'{self.record.title} - {self.reading_progress} ({self.dear_soul} - {self.record.id})'
+        return (
+            f"{self.record.title} - {self.reading_progress} ({self.dear_soul} -"
+            f" {self.record_id})"
+        )
 
     # def get_absolute_url(self):
     #     return reverse('library-record', kwargs={'pk': self.pk})
@@ -482,4 +485,4 @@ class LibraryObservation(models.Model):
 
     def get_absolute_url(self):
         # return reverse('library-record', kwargs={'pk': self.pk})
-        return reverse('library-record', kwargs={'pk': self.library_record.id})
+        return reverse('library-record', kwargs={'pk': self.library_record_id})
