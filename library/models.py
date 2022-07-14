@@ -60,8 +60,6 @@ class CosmicAuthor(models.Model):
     """Cosmic Authors are associated with library records."""
     author = models.CharField(
         max_length=100,
-        null=True,
-        blank=True,
         default='',
         unique=True,
         verbose_name='master'
@@ -90,8 +88,6 @@ class Tag(models.Model):
     """Tags are associated with library records."""
     tag = models.CharField(
         max_length=100,
-        null=True,
-        blank=True,
         unique=True,
         default=''
     )
@@ -118,8 +114,6 @@ class DiscourseSeries(models.Model):
     """Discourse Series provides a list of series to support views and search"""
     discourse_series = models.CharField(
         max_length=100,
-        null=True,
-        blank=True,
         unique=True,
         default='',
     )
@@ -148,8 +142,6 @@ class Collection(models.Model):
     CollectionOrder Many to Many relationship."""
     collection = models.CharField(
         max_length=100,
-        null=True,
-        blank=True,
         unique=True,
         default=''
     )

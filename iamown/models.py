@@ -80,19 +80,13 @@ class ServiceGroup(models.Model):
     service_group = models.CharField(
         max_length=150,
         unique=True,
-        null=True,
-        blank=True,
         default=''
     )
     purpose = HTMLField(
         default='',
-        blank=True,
-        null=True,
     )
     qualified_intentions = HTMLField(
         default='',
-        blank=True,
-        null=True,
     )
     service_group_type = models.CharField(
         max_length=20,
@@ -146,8 +140,7 @@ class Audience(models.Model):
         default='Internal',
     )
     audience_notes = HTMLField(
-        null=True,
-        blank=True,
+        default='',
         help_text='If applicable, enter any notes about this audience.'
     )
     date_created = models.DateTimeField(default=timezone.now)
@@ -169,8 +162,7 @@ class MailingList(models.Model):
     )
     email = models.CharField(
         max_length=100,
-        blank=True,
-        null=True,
+        default='',
     )
     user = models.ForeignKey(
         User,
@@ -181,11 +173,13 @@ class MailingList(models.Model):
     )
     subscribed = models.CharField(
         choices=YES_NO_CHOICES,
-        null=True,
-        blank=True,
         max_length=10,
         default='Yes',
     )
+    mailing_list_log = HTMLField(
+        default='',
+    )
+
     date_created = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -219,14 +213,12 @@ class EmailCampaign(models.Model):
     )
     subject = models.CharField(
         max_length=60,
-        blank=True,
-        null=True,
         help_text='Enter a subject for the email campaign. \nNote that in the interest of readability that the '
-                  'subject is limited to 60 characters.'
+                  'subject is limited to 60 characters.',
+        default='',
     )
     message = HTMLField(
-        null=True,
-        blank=True,
+        default='',
         help_text='Enter the email message you intend on sending.',
     )
     ready_to_send = models.CharField(
