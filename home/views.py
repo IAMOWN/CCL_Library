@@ -145,3 +145,12 @@ def release_notes(request):
     }
 
     return render(request, 'release_notes.html', context)
+
+
+# ####################### Newsletter #######################
+def newsletter(request):
+    context = {
+        'title': 'CCL Newsletter',
+    }
+
+    return render(request, 'home/newsletter.html', context)
