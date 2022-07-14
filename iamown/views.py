@@ -1784,7 +1784,8 @@ def unsubscribe_email(request, audience, email):
             if record.subscribed == 'Yes':
                 mailing_list_obj = MailingList.objects.get(id=record.id)
                 mailing_list_obj.subscribed = 'No'
-                mailing_list_obj.save(update_fields=['subscribed'])
+                mailing_list_obj.mailing_list_log = mailing_list_obj.mailing_list_log +  f'<br>>>> <strong>Record UNSUBSCRIBED</strong> on <strong>{get_current_date()}</strong> >>> Subscribed: <strong>{form.instance.subscribed}</strong>'
+                mailing_list_obj.save(update_fields=['subscribed', 'mailing_list_log',])
                 unsub_message = f'You have successfully unsubscribed the email "{email}" from the "{audience}" mailing list.'
             if record.subscribed == 'No':
                 unsub_message = f'The email "{email}" is already unsubscribed from the "{audience}" mailing list.'
@@ -1806,7 +1807,8 @@ def unsubscribe_user(request, audience, user):  # TODO ServiceFlow to follow up 
             if record.subscribed == 'Yes':
                 mailing_list_obj = MailingList.objects.get(id=record.id)
                 mailing_list_obj.subscribed = 'No'
-                mailing_list_obj.save(update_fields=['subscribed'])
+                mailing_list_obj.mailing_list_log = mailing_list_obj.mailing_list_log +  f'<br>>>> <strong>Record UNSUBSCRIBED</strong> on <strong>{get_current_date()}</strong> >>> Subscribed: <strong>{form.instance.subscribed}</strong>'
+                mailing_list_obj.save(update_fields=['subscribed', 'mailing_list_log',])
                 unsub_message = f'You have successfully unsubscribed the user account "{user}" from the "{audience}" mailing list.'
             if record.subscribed == 'No':
                 unsub_message = f'The user account "{user}" is already unsubscribed from the "{audience}" mailing list.'
