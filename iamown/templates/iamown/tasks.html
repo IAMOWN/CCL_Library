@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-12">
             {% if tasks_count > 0 %}
-                <p>There {{ tasks_count|pluralize:"is,are" }} currently {{ tasks_count|intcomma }} active task{{ tasks_count|pluralize:"s" }} for the team.</p>
+                <p>There {{ tasks_count|pluralize:"is,are" }} currently {{ tasks_count|intcomma }} active task{{ tasks_count|pluralize:"s" }}.</p>
             {% else %}
                 <p>You currently have no tasks. Click the Add A Task button below to get started.</p>
             {% endif %}

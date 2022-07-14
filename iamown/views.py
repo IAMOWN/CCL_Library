@@ -924,7 +924,10 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             task.task_history_log = task.task_history_log + f'''>>> Task manually <strong>updated</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile}<p>'''
             task.save(update_fields=['task_history_log',])
 
-        message = form.instance.task_title
+        if task.task_type == 'Email Campaign 2' and task.decision == 'Agreed':
+            message = form.instance.task_title + f' and Email Campaign Reviews have been sent to Reviewers'
+        else:
+            message = form.instance.task_title
         messages.add_message(
             self.request,
             messages.SUCCESS,
