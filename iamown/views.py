@@ -1855,7 +1855,10 @@ class EmailCampaignDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailVie
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         email_campaign_obj = EmailCampaign.objects.get(id=self.kwargs['pk'])
+        mailing_list_count = MailingList.objects.filter(audience__audience=email_campaign_obj.audience).count()
+
         context['title'] = f'Email campaign: {email_campaign_obj.audience} - {email_campaign_obj.subject}'
+        context['mailing_list_count'] = mailing_list_count
         return context
 
 
