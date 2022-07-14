@@ -1706,7 +1706,7 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
                 )
                 return self.form_invalid(form)
 
-        entry = form.save(commit=False)
+        entry = form.save()
         entry.mailing_list_log = f'>>> Record added by {self.request.user} on {get_current_date()} >>> Subscribed: {form.instance.subscribed}'
         entry.save(update_fields=['mailing_list_log',])
 
@@ -1745,8 +1745,8 @@ class MailingListUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
         else:
             message = f'{form.instance.audience} - {form.instance.email} ({get_current_date()})'
 
-        entry = form.save(commit=False)
-        entry.mailing_list_log = f'<br>>>> Record updated by {self.request.user} on {get_current_date()} >>> Subscribed: {form.instance.subscribed}'
+        entry = form.save()
+        entry.mailing_list_log = entry.mailing_list_log + f'<br>>>> Record updated by {self.request.user} on {get_current_date()} >>> Subscribed: {form.instance.subscribed}'
         entry.save(update_fields=['mailing_list_log',])
 
         messages.add_message(
