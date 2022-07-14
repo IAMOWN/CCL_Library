@@ -4,6 +4,10 @@ from django.shortcuts import render
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 
+from iamown.models import (
+    MailingList,
+)
+
 # ####################### CONSTANTS #######################
 EMAIL_MESSAGE_1 = '''
                     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -149,8 +153,19 @@ def release_notes(request):
 
 # ####################### Newsletter #######################
 def newsletter(request):
-    context = {
-        'title': 'CCL Newsletter',
-    }
+    if not user.is_authenticated:
+        external_audiences = MailingList.objects.exclude(audience__scope='Internal')
+        audiences = self.request.GET.get('audience-selection') or ''
+        email_address = self.request.GET.get('email-address-entry') or ''
+
+        context = {
+            'external_audiences': external_audiences,
+            'title': 'Newsletter and Mailing List Subscription',
+        }
+
+    else:
+        context = {
+            'title': 'Newsletter and Mailing List Subscription',
+        }
 
     return render(request, 'home/newsletter.html', context)
