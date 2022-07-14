@@ -1661,19 +1661,10 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
     def test_func(self):
         return self.request.user.is_staff
 
-    def form_valid(self, form):
-        # Initial check to make sure only account or email are submitted
-        if form.instance.user and form.instance.email:
-            form.add_error(
-                'user',
-                'You can either select a User or enter an email. Please ensure that only one of these fields is populated.'
-            )
-            return self.form_invalid(form)
-
+    def form_valid(self, form):  # TODO Refactor form logic in views.py to forms.py
         # Check that the email is not already in the mailing list for this audience
-        elif form.instance.email:
+        if form.instance.email:
             mailing_list_email = MailingList.objects.filter(email=form.instance.email, audience=form.instance.audience)
-            # if mailing_list_email.count() == 0:
             if not mailing_list_email.exists():
                 try:
                     user_email = User.objects.get(email=form.instance.email)
@@ -1696,7 +1687,6 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
                     f'This email is already registered for the "{form.instance.audience}" audience.'
                 )
                 return self.form_invalid(form)
-
         # Check that the user is not already in the mailing list for this audience
         else:
             mailing_list_user = MailingList.objects.filter(user=form.instance.user, audience=form.instance.audience)
@@ -1716,6 +1706,17 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
                 )
                 return self.form_invalid(form)
 
+        if form.instance.user:
+            message = f'{form.instance.audience} - {form.instance.user} ({get_current_date()})'
+        else:
+            message = f'{form.instance.audience} - {form.instance.email} ({get_current_date()})'
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            f'The Mailing List entry "{message}" has been added.'
+        )
+        return super().form_valid(form)
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_type'] = 'Create'
@@ -1734,10 +1735,11 @@ class MailingListUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
         return self.request.user.is_staff
 
     def form_valid(self, form):
+
         if form.instance.user:
-            message = f'{form.instance.audience}: {form.instance.user}'
+            message = f'{form.instance.audience} - {form.instance.user} ({get_current_date()})'
         else:
-            message = f'{form.instance.audience}: {form.instance.email}'
+            message = f'{form.instance.audience} - {form.instance.email} ({get_current_date()})'
         messages.add_message(
             self.request,
             messages.SUCCESS,
