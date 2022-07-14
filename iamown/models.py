@@ -163,6 +163,7 @@ class MailingList(models.Model):
     email = models.CharField(
         max_length=100,
         null=True,
+        blank=True,
         default='',
     )
     user = models.ForeignKey(
