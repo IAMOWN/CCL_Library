@@ -52,7 +52,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="ratio ratio-16x9">
-                <iframe src="https://player.vimeo.com/729791333/03eab320ac" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="https://player.vimeo.com/video/729791333?h=03eab320ac" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
                 </div>
                 <p class="pt-2">Video Timelines:</p>
                 <ul>
@@ -69,13 +69,13 @@
         </div>
         <div class="row">
             <div class="col-lg-12 pt-2">
-                <h6>Additional Changes</h6>
+                <h6>Additional Changes:</h6>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-12 pt-2">
                 <ul>
-                    <li>Task/notification mmails now "fail silently". In other words, if the email server send returns an error this does not cause a client crash.</li>
+                    <li>Task/notification emails now "fail silently". In other words, if the email server send returns an error this does not cause a client crash.</li>
                     <li>Added the Learned Experience Engine (LEE). This allows for ServiceFlow task checklists to be updated without development effort.</li>
                     <li>Series, Tag, and Master attributes are now unique, thus preventing duplicate entries spelled exactly the same way.</li>
                     <li>Added the Process Expertise Profile (PEePs) list. This allows for ServiceFlows to be programmed to assign tasks to Dear Souls correctly without development effort.</li>
@@ -84,8 +84,7 @@
                     <li>Added the Mailing List Model. Mailing Lists store all user accounts or email addresses used by the Email Campaign. Each Mailing List record has one Audience. Many Dear Souls/email subscribers can belong to many Audiences. However, a Dear Soul/email subscriber can only belong to an Audience once.</li>
                     <li>Email Campaign Model added (refer to Email Campaign ServiceFlow above for more details).</li>
                     <li>Librarian Training updated with Record Observation ServiceFlow video.</li>
-                    <li>Code clean up: Removed argument calls for Super Class; Added "related_name" attribute to all ForeignKey rows.</li>
-                    <li></li>
+                    <li>Code clean up: Removed argument calls for Super Class (views.py); Added "related_name" attribute to all ForeignKey rows (models.py).</li>
                 </ul>
             </div>
         </div>
