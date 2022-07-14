@@ -11,7 +11,86 @@
             </div>
         </div>
     </section>
-    <section class="media content-section text-CCL-Gold">
+    <section class="content-section text-CCL-Gold">
+        <div class="row">
+            <div class="col-lg-12 pt-2">
+                <h5>July 13, 2022: Email Campaign ServiceFlow</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>
+                    The Email Campaign ServiceFlow has been added:
+                </p>
+                <ul class="pb-2">
+                    <li>The ability to send Email Campaigns (email broadcasts, newsletters, targetted emails etc. has been added</li>
+                    <li>Any user account in the Staff security group can create an <a href="{% url 'email-campaign-create' %}" class="text-CCL-Blue" target="_blank">Email Campaign</a>.</li>
+                    <ol>
+                        <li>The Sender starts with a drafting the Campaign Email. They can work on this as a draft until they select "Ready to Send" as Yes.</li>
+                        <li>The Sender is then sent a <strong>Test Email</strong>. They have the option to Agree, Revise or Decline:</li>
+                        <ul>
+                            <li><strong>Agree</strong> will mark the task as accepted and task Email Campaign Reviews a Review Campaign Email task</li>
+                            <li><strong>Revise</strong> will re-send another test email based on the Subject and Message fields in the Email Campaign</li>
+                            <li><strong>Decline</strong> will end the ServiceFlow</li>
+                        </ul>
+                        <li>The ServiceFlow then emails the proposed Email Campaign to Email Campaign Reviewers:</li>
+                        <ul>
+                            <li>Email Campaign Reviewers are identified in the <a href="{% url 'peeps' %}" class="text-CCL-Blue" target="_blank">PEePs list</a>.</li>
+                            <li>If a Dear Soul only wishes to be a Reviewer for a particular email, then they can be added just before the Sender Agrees with the Test Email.</li>
+                            <li>Alternatively, if a Reviewer is perceived as missing then any Reviewer can mark the Email Campaign as "Revise", returning the ServiceFlow to the Test Email state, and then the identified new Reviewer can be added to the <a href="{% url 'peeps' %}" class="text-CCL-Blue" target="_blank">PEePs list</a>.</li>
+                        </ul>
+                        <li>Finally, the Email Campaign Review task will have three outcome options to select from:</li>
+                        <ul>
+                            <li><strong>Agree</strong> will mark the task as accepted. When all Reviewers Agree then the Email Campaign is sent and the ServiceFlow marked complete</li>
+                            <li><strong>Revise</strong> will end the Review task for all Reviewers, and task the original Sender with a task to review the Reviewer Comments and make revisions</li>
+                            <li><strong>Decline</strong> will end the ServiceFlow</li>
+                        </ul>
+                    </ol>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ratio ratio-16x9">
+                <iframe src="https://player.vimeo.com/729791333/03eab320ac" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <p class="pt-2">Video Timelines:</p>
+                <ul>
+                    <li>00'00" - 02'30": Introduction</li>
+                    <li>02'30" - 04'35": Audiences</li>
+                    <li>04'35" - 07'36": Mailing Lists</li>
+                    <li>07'36" - 13'06": Draft Email Campaign</li>
+                    <li>13'06" - 17'33": Send Test Email</li>
+                    <li>17'33" - 30'35": Review Email Campaign - Agreement</li>
+                    <li>30'35" - 33'58": Email Campaign Send Log</li>
+                    <li>33'58" - 38'58": Unsubscribe</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 pt-2">
+                <h6>Additional Changes</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 pt-2">
+                <ul>
+                    <li>Task/notification mmails now "fail silently". In other words, if the email server send returns an error this does not cause a client crash.</li>
+                    <li>Added the Learned Experience Engine (LEE). This allows for ServiceFlow task checklists to be updated without development effort.</li>
+                    <li>Series, Tag, and Master attributes are now unique, thus preventing duplicate entries spelled exactly the same way.</li>
+                    <li>Added the Process Expertise Profile (PEePs) list. This allows for ServiceFlows to be programmed to assign tasks to Dear Souls correctly without development effort.</li>
+                    <li>Added the Profiles page. This displays all Profiles in the system. Profiles will be a starting point for ServiceFlows and other Profile-centric activity. For example, clicking on a Profile displays the Reading List for each Profile along with their Profile details.</li>
+                    <li>Added the Audience Model. Audiences allow the Email Campaign ServiceFlow to direct campaigns to targetted groups of emails.</li>
+                    <li>Added the Mailing List Model. Mailing Lists store all user accounts or email addresses used by the Email Campaign. Each Mailing List record has one Audience. Many Dear Souls/email subscribers can belong to many Audiences. However, a Dear Soul/email subscriber can only belong to an Audience once.</li>
+                    <li>Email Campaign Model added (refer to Email Campaign ServiceFlow above for more details).</li>
+                    <li>Librarian Training updated with Record Observation ServiceFlow video.</li>
+                    <li>Code clean up: Removed argument calls for Super Class; Added "related_name" attribute to all ForeignKey rows.</li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section class="content-section text-CCL-Gold">
         <div class="row">
             <div class="col-lg-12 pt-2">
                 <h5>July 2, 2022: Library Observation ServiceFlow</h5>

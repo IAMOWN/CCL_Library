@@ -1253,7 +1253,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         messages.add_message(
             self.request,
             messages.SUCCESS,
-            f'The Task "{message}" has been updated'
+            f'The Task "{message}" has been updated'  # TODO Add if-else for "Email Camp sent..."
         )
         return super().form_valid(form)
 
@@ -1915,7 +1915,7 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
         messages.add_message(
             self.request,
             messages.SUCCESS,
-            f'The email campaign, "{message}" has been created.'
+            f'The email campaign ServiceFlow for the email, "{message}" has been started. Check your inbox for a test email..'
         )
         return super().form_valid(form)
 
