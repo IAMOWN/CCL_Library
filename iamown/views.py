@@ -1746,7 +1746,7 @@ class MailingListUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
             message = f'{form.instance.audience} - {form.instance.email} ({get_current_date()})'
 
         entry = form.save(commit=False)
-        entry.mailing_list_log = f'>>> Record updated by {self.request.user} on {get_current_date()} >>> Subscribed: {form.instance.subscribed}'
+        entry.mailing_list_log = f'<br>>>> Record updated by {self.request.user} on {get_current_date()} >>> Subscribed: {form.instance.subscribed}'
         entry.save(update_fields=['mailing_list_log',])
 
         messages.add_message(
