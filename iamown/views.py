@@ -1680,7 +1680,7 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
                         messages.SUCCESS,
                         f'The mailing list entry, "{message}" has been added.'
                     )
-                    return super().form_valid(form)
+                    # return super().form_valid(form)
             else:
                 form.add_error(
                     'email',
@@ -1698,7 +1698,7 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
                     messages.SUCCESS,
                     f'The mailing list entry, "{message}" has been added.'
                 )
-                return super().form_valid(form)
+                # return super().form_valid(form)
             else:
                 form.add_error(
                     'user',
@@ -1708,8 +1708,7 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
 
         entry = form.save()
         entry.mailing_list_log = f'>>> Record added by {self.request.user} on {get_current_date()} >>> Subscribed: {form.instance.subscribed}'
-        print(f"entry.mailing_list_log: {entry.mailing_list_log}")
-        # entry.save(update_fields=['mailing_list_log',])
+        entry.save(update_fields=['mailing_list_log',])
 
         if form.instance.user:
             message = f'{form.instance.audience} - {form.instance.user} ({get_current_date()})'
