@@ -9,9 +9,9 @@ from iamown.models import (
 # ############ Subscription form validation logic ############
 def subscription_form_validation(form, form_type):
     cleaned_data = super(form_type, form).clean()
-    if cleaned_data.get('email_address') is None:
+    if cleaned_data.get('email') is None:
         form.add_error(
-            'email_address',
+            'email',
             'A email address must be entered.'
         )
     return
@@ -22,7 +22,7 @@ class CreateSubscriptionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['mailing_list'].queryset = Audience.objects.all().exclude(scope='Internal')
+        self.fields['audience'].queryset = Audience.objects.all().exclude(scope='Internal')
 
     class Meta:
         model = MailingList
@@ -42,14 +42,14 @@ class UpdateSubscriptionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['mailing_list'].queryset = Audience.objects.all().exclude(scope='Internal')
+        self.fields['audience'].queryset = Audience.objects.all().exclude(scope='Internal')
 
     class Meta:
         model = MailingList
 
         fields = [
-            'mailing_list',
-            'email_address',
+            'audience',
+            'email',
         ]
 
     def clean(self):
