@@ -295,39 +295,37 @@ class SubscriptionCreate(CreateView):
 
         if not self.request.user.is_authenticated:
             try:
-                email_exists = MailingList.objects.filter(email=form.instance.email_address, audience=form.instance.mailing_list)
-                subsciption_outcome_message = f'The email "{form.instance.email_address}" is already subscribed to the {form.instance.mailing_list} mailing list. Love and Blessings.'
+                email_exists = MailingList.objects.filter(email=form.instance.email, audience=form.instance.audience)
+                subsciption_outcome_message = f'The email "{form.instance.email}" is already subscribed to the {form.instance.audience} mailing list. Love and Blessings.'
                 return self.form_invalid(form)
             except MailingList.DoesNotExist:
-                scope = Audience.objects.get(audience=form.instance.mailing_list).scope
+                scope = Audience.objects.get(audience=form.instance.audience).scope
                 if audience_input:
                     if ip_result is None:
                         new_subscription = MailingList.objects.create(
-                            audience=form.instance.mailing_list,
-                            email=form.instance.email_address,
+                            audience=form.instance.audience,
+                            email=form.instance.email,
                             subscribed='Unconfirmed',
                             mailing_list_log=f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: None</strong> on <strong>{get_current_year()}</strong>''',
                         )
                     elif ip_result:
                         new_subscription = MailingList.objects.create(
-                            audience=form.instance.mailing_list,
-                            email=form.instance.email_address,
+                            audience=form.instance.audience,
+                            email=form.instance.email,
                             subscribed='Unconfirmed',
                             mailing_list_log=f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: {client_ip}</strong> on <strong>{get_current_year()}</strong>''',
                         )
 
                     elif ip_result == 'Private':
                         new_subscription = MailingList.objects.create(
-                            audience=form.instance.mailing_list,
-                            email=form.instance.email_address,
+                            audience=form.instance.audience,
+                            email=form.instance.email,
                             subscribed='Unconfirmed',
                             mailing_list_log=f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: Private</strong> on <strong>{get_current_year()}</strong>''',
                         )
 
-                    subsciption_outcome_message = f'The email, {form.instance.email_address} has been added to the {form.instance.mailing_list} mailing list. Love and Blessings.'
+                    subsciption_outcome_message = f'The email, {form.instance.email} has been added to the {form.instance.audience} mailing list. Love and Blessings.'
 
-            mailing_list = form.instance.mailing_list
-            email_address = form.instance.email_address
             messages.add_message(
                 messages.SUCCESS,
                 f'{subsciption_outcome_message}'

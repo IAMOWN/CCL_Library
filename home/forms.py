@@ -28,8 +28,8 @@ class CreateSubscriptionForm(forms.ModelForm):
         model = MailingList
 
         fields = [
-            'mailing_list',
-            'email_address',
+            'audience',
+            'email',
         ]
 
     def clean(self):
