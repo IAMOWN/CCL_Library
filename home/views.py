@@ -84,7 +84,8 @@ INJECTION_LIST = [
     "</>",
     "<-->",
 ]
-
+SUBSCRIPTION_URL = 'https://cosmicchrist.love/subscribe/'
+CONFIRM_SUBSCRIPTION_URL = 'https://cosmicchrist.love/confirm_subscription/'
 
 # FUNCTIONS
 def send_email(subject, to_email, message):
@@ -326,7 +327,18 @@ class SubscriptionCreate(CreateView):
                             mailing_list_log=f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: Private</strong> on <strong>{get_current_year()}</strong>''',
                         )
 
-                    subsciption_outcome_message = f'The email, {form.instance.email} has been added to the {form.instance.audience} mailing list. Love and Blessings.'
+                    subject = f'Please confirm your subscription to the Cosmic Christ Love Newsletter {form.instance.audience} mailing list'
+                    email_message = f'''
+                        {EMAIL_MESSAGE_CAMPAIGN_1}
+                        Beloved,<p>
+                        Please confirm your subscription to the Cosmic Christ Love {form.instance.audience} mailing list by clicking this <a href="{CONFIRM_SUBSCRIPTION_URL}{form.instance.audience}/{form.instance.email}/">link</a>.<p>
+                        Love and Blessings,<br>
+                        The Elemental Grace Alliance.
+                        {EMAIL_MESSAGE_2}
+                    '''
+                    send_email(subject, form.instance.email, email_message)
+
+                    subsciption_outcome_message = f'Thank you. An email to confirm your email subscription has been sent to {form.instance.email}. Love and Blessings.'
 
             messages.add_message(
                 messages.SUCCESS,
@@ -336,3 +348,49 @@ class SubscriptionCreate(CreateView):
 
         return super().form_valid(form)
 
+def subscription_confirm(request):
+    subscription_confirmed = False
+    # Get IP
+    client_ip, is_routable = get_client_ip(request)
+    if client_ip is None:
+        ip_result = None
+    else:  # There is an IP
+        if is_routable:
+            ip_result = True  # We got it
+        else:
+            ip_result = "Private"  # but it's private
+
+    # Process Second Opt-In request
+    try:
+        subscription = MailingList.objects.get(audience=audience, email=email)
+        if subscription.subscribed == 'Yes':
+            subsciption_outcome_message = f'The email "{email}" is already subscribed to the {audience} mailing list. There is nothing more you need do.<p>Love and Blessings,<br>The Elemental Grace Alliance'
+            subscription_confirmed = True
+        else:
+            subscription.subscribed = 'Yes'
+            subscription_confirmed = True
+            if ip_result is None:
+                subscription.mailing_list_log = f'''>>> <strong>Second Opt-In Subscription</strong> from <strong>IP: None</strong> on <strong>{get_current_year()}</strong>'''
+            elif ip_result:
+                subscription.mailing_list_log = f'''>>> <strong>Second Opt-In Subscription</strong> from <strong>IP: {client_ip}</strong> on <strong>{get_current_year()}</strong>''',
+            elif ip_result == 'Private':
+                subscription.mailing_list_log = f'''>>> <strong>Second Opt-In Subscription</strong> from <strong>IP: Private</strong> on <strong>{get_current_year()}</strong>''',
+            subscription.save(update_fields=[
+                'subscribed',
+                'mailing_list_log',
+            ])
+    except MailingList.DoesNotExist:
+        subsciption_outcome_message = f'''The email "{email} is not currently subscribed to the {audience} mailing list. If you wish to subscribe this email then please do so <a href="{SUBSCRIPTION_URL}" class="">here</a>.<p>Love and Blessings,<br>The Elemental Grace Alliance'''
+
+    if subscription_confirmed:
+        context = {
+            'subsciption_outcome_message': subsciption_outcome_message,
+            'title': f'Your Subscription Is Confirmed',
+        }
+    else:
+        context = {
+            'subsciption_outcome_message': subsciption_outcome_message,
+            'title': f'Your Subscription',
+        }
+
+    return render(request, 'home/subscription_confirm.html', context)
