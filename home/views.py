@@ -155,6 +155,7 @@ def release_notes(request):
 def newsletter(request):
     if not request.user.is_authenticated:
         external_audiences = MailingList.objects.exclude(audience__scope='Internal')
+        print(f'external_audiences: {external_audiences}')
         audiences = request.GET.get('audience-selection') or ''
         email_address = request.GET.get('email-address-entry') or ''
 
