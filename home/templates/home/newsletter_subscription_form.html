@@ -65,12 +65,6 @@
                 <div class="col-lg-6">
                     {{ form.email|as_crispy_field }}
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-3">
-                    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-12">Back</a>
-                </div>
-                <div class="col-lg-6"></div>
                 <div class="col-lg-3">
                     {% if page_type == 'Update' %}
                         <input type="submit" value="Update Subscription" class="btn btn-CCL-Blue float-end col-12">
