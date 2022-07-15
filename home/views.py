@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 
 from iamown.models import (
-    MailingList,
+    Audience,
 )
 
 # ####################### CONSTANTS #######################
@@ -154,7 +154,7 @@ def release_notes(request):
 # ####################### Newsletter #######################
 def newsletter(request):
     if not request.user.is_authenticated:
-        external_audiences = MailingList.objects.all()
+        external_audiences = Audience.objects.all().exclude(scope='Internal')
         print(f'external_audiences: {external_audiences}')
         audiences = request.GET.get('audience-selection') or ''
         email_address = request.GET.get('email-address-entry') or ''
