@@ -4,12 +4,23 @@ from django.shortcuts import render
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.views.generic.list import ListView
+from django.views.generic.edit import (
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
 
 from ipware import get_client_ip
 
 from iamown.models import (
     Audience,
     MailingList,
+)
+
+from home.forms import (
+    CreateSubscriptionForm,
+    UpdateSubscriptionForm,
 )
 
 # ####################### CONSTANTS #######################
@@ -254,3 +265,74 @@ def newsletter(request):
         }
 
     return render(request, 'home/newsletter.html', context)
+
+
+# ####################### Create Subscription #######################
+class SubscriptionCreate(CreateView):
+    model = MailingList
+    form_class = CreateSubscriptionForm
+
+    template_name = 'home/newsletter_subscription_form.html'
+
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_user'] = self.request.user
+        context['page_type'] = 'Create'
+        return context
+
+    def form_valid(self, form):
+        # Get IP
+        client_ip, is_routable = get_client_ip(self.request)
+        if client_ip is None:
+            ip_result = None
+        else:  # There is an IP
+            if is_routable:
+                ip_result = True  # We got it
+            else:
+                ip_result = "Private"  # but it's private
+
+        if not self.request.user.is_authenticated:
+            try:
+                email_exists = MailingList.objects.filter(email=form.instance.email_address, audience=form.instance.mailing_list)
+                subsciption_outcome_message = f'The email "{form.instance.email_address}" is already subscribed to the {form.instance.mailing_list} mailing list. Love and Blessings.'
+                return self.form_invalid(form)
+            except MailingList.DoesNotExist:
+                scope = Audience.objects.get(audience=form.instance.mailing_list).scope
+                if audience_input:
+                    if ip_result is None:
+                        new_subscription = MailingList.objects.create(
+                            audience=form.instance.mailing_list,
+                            email=form.instance.email_address,
+                            subscribed='Unconfirmed',
+                            mailing_list_log=f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: None</strong> on <strong>{get_current_year()}</strong>''',
+                        )
+                    elif ip_result:
+                        new_subscription = MailingList.objects.create(
+                            audience=form.instance.mailing_list,
+                            email=form.instance.email_address,
+                            subscribed='Unconfirmed',
+                            mailing_list_log=f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: {client_ip}</strong> on <strong>{get_current_year()}</strong>''',
+                        )
+
+                    elif ip_result == 'Private':
+                        new_subscription = MailingList.objects.create(
+                            audience=form.instance.mailing_list,
+                            email=form.instance.email_address,
+                            subscribed='Unconfirmed',
+                            mailing_list_log=f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: Private</strong> on <strong>{get_current_year()}</strong>''',
+                        )
+
+                    subsciption_outcome_message = f'The email, {form.instance.email_address} has been added to the {form.instance.mailing_list} mailing list. Love and Blessings.'
+
+            mailing_list = form.instance.mailing_list
+            email_address = form.instance.email_address
+            messages.add_message(
+                messages.SUCCESS,
+                f'{subsciption_outcome_message}'
+            )
+            return super().form_valid(form)
+
+        return super().form_valid(form)
+

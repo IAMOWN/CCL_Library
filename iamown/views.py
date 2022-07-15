@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.conf import settings
+from datetime import datetime
 from django.core.mail import send_mail
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
@@ -13,8 +14,6 @@ from django.views.generic.edit import (
     UpdateView,
     DeleteView,
 )
-
-from datetime import datetime
 
 from .models import (
     Task,
@@ -910,11 +909,11 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         elif task.task_status == 'Completed':
             print('COMPLETE')
             if task.actions_taken == "":
-                    form.add_error(
-                        'actions_taken',
-                        'Please enter the actions taken as a part of completing this task.'
-                    )
-                    return self.form_invalid(form)
+                form.add_error(
+                    'actions_taken',
+                    'Please enter the actions taken as a part of completing this task.'
+                )
+                return self.form_invalid(form)
             task.date_completed = get_current_date()
             task.task_history_log = task.task_history_log + f'''>>> Task manually <strong>completed</strong> by <strong>{task_updater}</strong> on <strong>{get_current_date()}</strong>.<br><strong>Date completed: {get_current_date()}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile}<p>'''
             task.save(update_fields=['task_history_log','date_completed',])
