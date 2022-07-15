@@ -280,6 +280,8 @@ class Profile(models.Model):
         max_length=20,
         choices=PRONOUN_CHOICES,
         default='---',
+        blank=True,
+        null=True,
     )
     spiritual_name = models.CharField(
         max_length=200,
