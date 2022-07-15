@@ -1630,7 +1630,7 @@ class MailingListListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['mailing_list_count'] = MailingList.objects.filter(subscribed='Yes')
+        context['mailing_list_count'] = MailingList.objects.filter(subscribed='Yes').count()
 
         return context
 
