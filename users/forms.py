@@ -66,7 +66,7 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = [
-            'pronoun',
+            # 'pronoun',
             'spiritual_name',
             'bio',
             'given_first_name',

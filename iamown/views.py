@@ -1869,7 +1869,7 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
 
     template_name = 'iamown/email_campaign_form.html'
 
-    success_url = reverse_lazy('tasks')
+    success_url = reverse_lazy('email-campaigns')
 
     def test_func(self):
         return self.request.user.is_staff
@@ -1951,7 +1951,7 @@ class EmailCampaignUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
     form_class = UpdateEmailCampaignForm
 
     template_name = 'iamown/email_campaign_form.html'
-    success_url = reverse_lazy('tasks')
+    success_url = reverse_lazy('email-campaigns')
 
     def test_func(self):
         return self.request.user.is_staff

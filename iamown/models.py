@@ -137,7 +137,7 @@ class Audience(models.Model):
     audience = models.CharField(
         unique=True,
         max_length=100,
-        help_text='Enter the audience name.'
+        help_text='Newsletter.'
     )
     scope = models.CharField(
         choices=SCOPE_CHOICES,
