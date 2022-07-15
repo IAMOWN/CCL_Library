@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 {% block title %}
     Mailing List
 {% endblock %}
@@ -15,6 +16,9 @@
         <div class="row pt-2 pb-2">
             <div class="col-lg-3">
                 <a class="btn btn-CCL-Blue col-12" href="{% url 'mailing-list-create' %}">Add to Mailing List</a>
+            </div>
+            <div class="col-lg-9">
+                There are currently {{ mailing_list_count|intcomma }} confirmed subscriptions for across all audiences.
             </div>
         </div>
     </div>

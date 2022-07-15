@@ -63,10 +63,12 @@
                 <div class="col-lg-3">
                     {{ form.audience|as_crispy_field }}
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-9">
                     {{ form.email|as_crispy_field }}
                 </div>
-                <div class="col-lg-3 pt-5">
+            </div>
+            <div class="row pt-2 pb-2">
+                <div class="col-lg-3">
                     {% if page_type == 'Update' %}
                         <input type="submit" value="Update Subscription" class="btn btn-CCL-Blue float-end col-12">
                     {% else %}
