@@ -3,9 +3,13 @@ from datetime import datetime, timezone
 from django.shortcuts import render
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+
+from ipware import get_client_ip
 
 from iamown.models import (
     Audience,
+    MailingList,
 )
 
 # ####################### CONSTANTS #######################
@@ -52,6 +56,21 @@ EMAIL_MESSAGE_2 = '''
 '''
 FROM_EMAIL = 'info@lanesflow.io'
 CONTACT_EMAIL = 'egaadministration@protonmail.com'
+INJECTION_LIST = [
+    "<script>",
+    "</script>",
+    "<html>",
+    "</html>",
+    "<body>",
+    "</body>",
+    "<input>",
+    "SELECT",
+    "NULL",
+    "UNION",
+    "<#>",
+    "</>",
+    "<-->",
+]
 
 
 # FUNCTIONS
@@ -66,7 +85,7 @@ def send_email(subject, to_email, message):
     )
 
 
-# DATE LOGIC
+# ####################### FUNCTIONS #######################
 def get_current_year():
     return datetime.now(tz=timezone.utc).year
 
@@ -155,13 +174,78 @@ def release_notes(request):
 def newsletter(request):
     if not request.user.is_authenticated:
         external_audiences = Audience.objects.all().exclude(scope='Internal')
-        print(f'external_audiences: {external_audiences}')
-        audiences = request.GET.get('audience-selection') or ''
-        email_address = request.GET.get('email-address-entry') or ''
+        audience_input = request.GET.get('audience-selection') or ''
+        email_address_input = request.GET.get('email-address-entry') or ''
+        print(f'audience_input: {audience_input}')
+        print(f'email_address_input: {email_address_input}')
+
+        # Get IP
+        client_ip, is_routable = get_client_ip(request)
+        if client_ip is None:
+            ip_result = None
+        else:  # There is an IP
+            if is_routable:
+                ip_result = True  # We got it
+            else:
+                ip_result = "Private"  # but it's private
+
+        # Check for injection attack
+        email_input_safe = True
+        for item in INJECTION_LIST:
+            print(f'item: {item}')
+            if item in email_address_input:
+                email_input_safe = False
+                print(f'Injection attempt: {item}')
+                break
+
+        print(f'email_input_safe: {email_input_safe}')
+
+        # Process initial Opt-In request
+        if email_input_safe:
+            try:
+                email_exists = MailingList.objects.filter(email=email_address_input, audience=audience_input)
+                subsciption_outcome_message = f'This email is already subscribed to the {audience_input} mailing list. Love and Blessings.'
+            except User.DoesNotExist:
+                scope = Audience.objects.get(audience=audience_input).scope
+                if audience_input:
+                    if ip_result is None:
+                        new_subscription = MailingList.objects.create(
+                            audience=audience_input,
+                            email=email_address_input,
+                            subscribed='Unconfirmed',
+                            mailing_list_log=f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: None</strong> on <strong>{get_current_year()}</strong>''',
+                        )
+                    elif ip_result:
+                        new_subscription = MailingList.objects.create(
+                            audience=audience_input,
+                            email=email_address_input,
+                            subscribed='Unconfirmed',
+                            mailing_list_log=f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: {client_ip}</strong> on <strong>{get_current_year()}</strong>''',
+                        )
+
+                    elif ip_result == 'Private':
+                        new_subscription = MailingList.objects.create(
+                            audience=audience_input,
+                            email=email_address_input,
+                            subscribed='Unconfirmed',
+                            mailing_list_log=f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: Private</strong> on <strong>{get_current_year()}</strong>''',
+                        )
+
+                    subsciption_outcome_message = f'The email, {email_address_input} has been added to the {audience_input} mailing list. Love and Blessings.'
+                    print(f'new_subscription: {new_subscription}')
+        else:
+            subsciption_outcome_message = f'''
+            Love and Blessings to you. Your attempt at an injection attack has come to no avail.<p>You are already 
+            forgiven, for there is nothing to Forgive in the Heart of God.'''
+
+        print(f'subsciption_outcome_message: {subsciption_outcome_message}')
+
+        # TODO Send confirmation email
 
         context = {
-            'external_audiences': external_audiences,
             'title': 'Newsletter and Mailing List Subscription',
+            'external_audiences': external_audiences,
+            'subsciption_outcome_message': subsciption_outcome_message,
         }
 
     else:

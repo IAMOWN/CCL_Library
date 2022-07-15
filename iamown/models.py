@@ -72,6 +72,11 @@ EMAIL_CAMPAIGN_STATUS_CHOICES = [
     ('3) Declined', '3) Declined'),
     ('Sent', 'Sent'),
 ]
+EMAIL_SUBSCRIPTION_CHOICES = [
+    ('Yes', 'Yes'),
+    ('Unconfirmed', 'Unconfirmed'),
+    ('No', 'No'),
+]
 
 
 # ####################### Service Group #######################

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'home.apps.HomeConfig',
 
+    'ipware',
     'crispy_forms',
     'crispy_bootstrap5',
     'bootstrap4',
@@ -185,4 +186,3 @@ TINYMCE_DEFAULT_CONFIG = {
     # "tinydrive_dropbox_app_key": '',
     # "tinydrive_upload_path": '/library/uploads',
     # "tinydrive_max_image_dimension": 2048,
-
