@@ -205,7 +205,7 @@ def newsletter(request):
             try:
                 email_exists = MailingList.objects.filter(email=email_address_input, audience=audience_input)
                 subsciption_outcome_message = f'This email is already subscribed to the {audience_input} mailing list. Love and Blessings.'
-            except User.DoesNotExist:
+            except MailingList.DoesNotExist:
                 scope = Audience.objects.get(audience=audience_input).scope
                 if audience_input:
                     if ip_result is None:
