@@ -307,6 +307,7 @@ class SubscriptionCreate(CreateView):
                     f'The email "{form.instance.email}" is already subscribed to the {form.instance.audience} mailing list. Love and Blessings.',
                 )
                 return self.form_invalid(form)
+            
             except MailingList.DoesNotExist:
                 print('Does not exist')
                 if audience_input:
