@@ -9,10 +9,10 @@ from iamown.models import (
 # ############ Subscription form validation logic ############
 def subscription_form_validation(form, form_type):
     cleaned_data = super(form_type, form).clean()
-    if email is None:
+    if cleaned_data.get('email') is None:
         form.add_error(
             'email',
-            'An email address must be entered.'
+            'A email address must be entered.'
         )
     return
 
