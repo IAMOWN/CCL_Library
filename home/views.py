@@ -371,6 +371,7 @@ class SubscriptionCreate(CreateView):
                     subsciption_outcome_message = f'Thank you. An email to confirm your email subscription has been sent to {form.instance.email}. Love and Blessings.'
 
                 messages.add_message(
+                    self.request,
                     messages.SUCCESS,
                     f'{subsciption_outcome_message}'
                 )
