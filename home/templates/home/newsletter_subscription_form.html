@@ -70,11 +70,27 @@
                         Beloved {{ profile_name }}, if you wish to subscribe to the Newsletter then you can enter the email associated with your user account in the email field below.
                         If your account is already subscribed the application will inform you.
                     </p>
+                    <p>
+                        If you enter an email not associated with your user account then this will trigger an email subscription process as follows:
+                    </p>
+                    <ol>
+                        <li>Please <strong>enter your email</strong> in the field below and then <strong>click the Subscribe button</strong>:</li>
+                        <ul>
+                            <li><strong>Upon subscribing you will be sent a confirmation opt-in email.</strong></li>
+                            <li>Please check your inbox for an email from @cosmicchrist.love.</li>
+                            <li>If this email does not appear within a couple of minutes please check your spam folder.</li>
+                        </ul>
+                        <li><strong>Click the link in the confirm subscription email</strong> emailed to you:</li>
+                            <ul>
+                                <li>Clicking this link will take you to a page with a confirmation message.</li>
+                                <li>Your subscription will then be complete.</li>
+                            </ul>
+                    </ol>
                 </div>
             {% endif %}
         </div>
     </section>
-    
+
     <section class="content-section text-CCL-Gold">
         <form method="post" action="" enctype="multipart/form-data">
             {% csrf_token %}
