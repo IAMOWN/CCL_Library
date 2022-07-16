@@ -235,12 +235,24 @@ class SubscriptionCreate(CreateView):
     form_class = CreateSubscriptionForm
     template_name = 'home/newsletter_subscription_form.html'
     success_url = reverse_lazy('home')
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['profile_name'] = Profile.objects.get(user__username=self.request.user).spiritual_name
-        context['page_type'] = 'Create'
-        return context
+    
+    def get_context_data(self, *args, **kwargs):    
+        if self.request.user.is_authenticated:
+            try:               
+                user_subscribed = MailingList.objects.get(audience__audience='Newsletter', user__username=self.request.user)
+            except MailingList.DoesNotExist:
+                user_subscribed = False
+            context = super().get_context_data(**kwargs)
+            context['user_subscribed'] = user_subscribed
+            context['profile_name'] = Profile.objects.get(user__username=self.request.user).spiritual_name
+            context['page_type'] = 'Create'
+            return context
+        
+        else:
+            context = super().get_context_data(**kwargs)
+            context['page_type'] = 'Create'
+            context['user_subscribed'] = False
+            return context        
 
     def form_valid(self, form):
         # Get IP Address
