@@ -281,7 +281,7 @@ class SubscriptionCreate(CreateView):
 # ####################### Confirm Subscription (Second Opt-In) #######################
 def subscription_confirm(request, audience, email):
     subscription_confirmed = False
-    # Get IP
+    # Get IP Address
     client_ip, is_routable = get_client_ip(request)
     if client_ip is None:
         ip_result = None
@@ -303,15 +303,16 @@ def subscription_confirm(request, audience, email):
             subscription.subscribed = 'Yes'
             subscription_confirmed = True
             if ip_result is None:
-                subscription.mailing_list_log = f'''>>> <strong>Second Opt-In Subscription</strong> from <strong>IP: None</strong> on <strong>{get_current_year()}</strong>'''
+                subscription.mailing_list_log = subscription.mailing_list_log + f'''>>> <strong>Second Opt-In Subscription</strong> from <strong>IP: None</strong> on <strong>{get_current_year()}</strong>'''
             elif ip_result:
-                subscription.mailing_list_log = f'''>>> <strong>Second Opt-In Subscription</strong> from <strong>IP: {client_ip}</strong> on <strong>{get_current_year()}</strong>''',
+                subscription.mailing_list_log = subscription.mailing_list_log + f'''>>> <strong>Second Opt-In Subscription</strong> from <strong>IP: {client_ip}</strong> on <strong>{get_current_year()}</strong>'''
             elif ip_result == 'Private':
-                subscription.mailing_list_log = f'''>>> <strong>Second Opt-In Subscription</strong> from <strong>IP: Private</strong> on <strong>{get_current_year()}</strong>''',
+                subscription.mailing_list_log = subscription.mailing_list_log + f'''>>> <strong>Second Opt-In Subscription</strong> from <strong>IP: Private</strong> on <strong>{get_current_year()}</strong>'''
             subscription.save(update_fields=[
                 'subscribed',
                 'mailing_list_log',
             ])
+            subsciption_outcome_message = f'''Thank you for confirming your subscription to the Cosmic Christ Love {audience} mailing list.<p>Love and Blessings,<br>The Elemental Grace Alliance'''
 
     # The First Opt-In stap has not been completed. Direct the user to the subscription page.
     except MailingList.DoesNotExist:
