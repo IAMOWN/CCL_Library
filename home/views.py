@@ -234,48 +234,56 @@ class SubscriptionCreate(CreateView):
             else:
                 ip_result = "Private"  # but it's private
 
-        if self.request.user.is_anonymous:  # TODO Check for user account with this email address
-            # Check if email is already subscribed to this mailing list
+        if self.request.user.is_anonymous:
+            # Check for user account with this email address
             try:
-                email_exists = MailingList.objects.get(email=form.instance.email, audience=form.instance.audience)
+                user_email = User.objects.get(email=email)
                 form.add_error(
                     'email',
-                    f'The email "{form.instance.email}" is already subscribed to the {form.instance.audience} mailing list. Love and Blessings.',
+                    f'This email is already associated with a Cosmic Christ Love account. Please enter another email address or select this Dear Soul in the User field.'
                 )
-                return self.form_invalid(form)
+            except User.DoesNotExist:
+                # Check if email is already subscribed to this mailing list
+                try:
+                    email_exists = MailingList.objects.get(email=form.instance.email, audience=form.instance.audience)
+                    form.add_error(
+                        'email',
+                        f'The email "{form.instance.email}" is already subscribed to the {form.instance.audience} mailing list. Love and Blessings.',
+                    )
+                    return self.form_invalid(form)
 
-            # If the email is not already subscribed update the new subscription log with entry and change subscription status to Unconfirmed
-            except MailingList.DoesNotExist:
-                form.instance.subscribed = 'Unconfirmed'
-                if ip_result is None:
-                    form.instance.mailing_list_log = f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: None</strong> on <strong>{get_current_date()}</strong>'''
-                elif ip_result:
-                    form.instance.mailing_list_log = f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: {client_ip}</strong> on <strong>{get_current_date()}</strong>'''
-                elif ip_result == 'Private':
-                    form.instance.mailing_list_log = f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: Private</strong> on <strong>{get_current_date()}</strong>'''
+                # If the email is not already subscribed update the new subscription log with entry and change subscription status to Unconfirmed
+                except MailingList.DoesNotExist:
+                    form.instance.subscribed = 'Unconfirmed'
+                    if ip_result is None:
+                        form.instance.mailing_list_log = f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: None</strong> on <strong>{get_current_date()}</strong>'''
+                    elif ip_result:
+                        form.instance.mailing_list_log = f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: {client_ip}</strong> on <strong>{get_current_date()}</strong>'''
+                    elif ip_result == 'Private':
+                        form.instance.mailing_list_log = f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: Private</strong> on <strong>{get_current_date()}</strong>'''
 
-                # Send subscription confirmation email
-                subject = f'Please confirm your subscription to the Cosmic Christ Love Newsletter {form.instance.audience} mailing list'
-                email_message = f'''
-                    {EMAIL_MESSAGE_CAMPAIGN_1}
-                    Beloved,<p>
-                    Please <strong>confirm your subscription</strong> by clicking this <strong><a href="{CONFIRM_SUBSCRIPTION_URL}{form.instance.audience}/{form.instance.email}/">link</a></strong>.<p>
-                    Love and Blessings,<br>
-                    The Elemental Grace Alliance.
-                    {EMAIL_MESSAGE_2}
-                '''
-                send_email(subject, form.instance.email, email_message)
+                    # Send subscription confirmation email
+                    subject = f'Please confirm your subscription to the Cosmic Christ Love Newsletter {form.instance.audience} mailing list'
+                    email_message = f'''
+                        {EMAIL_MESSAGE_CAMPAIGN_1}
+                        Beloved,<p>
+                        Please <strong>confirm your subscription</strong> by clicking this <strong><a href="{CONFIRM_SUBSCRIPTION_URL}{form.instance.audience}/{form.instance.email}/">link</a></strong>.<p>
+                        Love and Blessings,<br>
+                        The Elemental Grace Alliance.
+                        {EMAIL_MESSAGE_2}
+                    '''
+                    send_email(subject, form.instance.email, email_message)
 
-                # Create flash message
-                subsciption_outcome_message = f'Bless You. An email to confirm your email subscription has been sent to {form.instance.email}. Love and Blessings.'
-                messages.add_message(
-                    self.request,
-                    messages.SUCCESS,
-                    f'{subsciption_outcome_message}'
-                )
+                    # Create flash message
+                    subsciption_outcome_message = f'Bless You. An email to confirm your email subscription has been sent to {form.instance.email}. Love and Blessings.'
+                    messages.add_message(
+                        self.request,
+                        messages.SUCCESS,
+                        f'{subsciption_outcome_message}'
+                    )
 
-                # TODO Variable to hide the form and return to subscribe with the message
-                return super().form_valid(form)
+                    # TODO Variable to hide the form and return to subscribe with the message
+                    return super().form_valid(form)
 
         else:  # TODO Process user trying to subscribe
             return super().form_valid(form)
