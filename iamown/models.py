@@ -179,8 +179,8 @@ class MailingList(models.Model):
         related_name='user_in_mailing_list',
     )
     subscribed = models.CharField(
-        choices=YES_NO_CHOICES,
-        max_length=10,
+        choices=EMAIL_SUBSCRIPTION_CHOICES,
+        max_length=20,
         default='Yes',
     )
     mailing_list_log = HTMLField(
