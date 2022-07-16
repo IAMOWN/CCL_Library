@@ -303,11 +303,11 @@ def subscription_confirm(request, audience, email):
             subscription.subscribed = 'Yes'
             subscription_confirmed = True
             if ip_result is None:
-                subscription.mailing_list_log = subscription.mailing_list_log + f'''>>> <strong>Second Opt-In Subscription</strong> from <strong>IP: None</strong> on <strong>{get_current_year()}</strong>'''
+                subscription.mailing_list_log = subscription.mailing_list_log + f'''<br>>>> <strong>Second Opt-In Subscription</strong> from <strong>IP: None</strong> on <strong>{get_current_year()}</strong>'''
             elif ip_result:
-                subscription.mailing_list_log = subscription.mailing_list_log + f'''>>> <strong>Second Opt-In Subscription</strong> from <strong>IP: {client_ip}</strong> on <strong>{get_current_year()}</strong>'''
+                subscription.mailing_list_log = subscription.mailing_list_log + f'''<br>>>> <strong>Second Opt-In Subscription</strong> from <strong>IP: {client_ip}</strong> on <strong>{get_current_year()}</strong>'''
             elif ip_result == 'Private':
-                subscription.mailing_list_log = subscription.mailing_list_log + f'''>>> <strong>Second Opt-In Subscription</strong> from <strong>IP: Private</strong> on <strong>{get_current_year()}</strong>'''
+                subscription.mailing_list_log = subscription.mailing_list_log + f'''<br>>>> <strong>Second Opt-In Subscription</strong> from <strong>IP: Private</strong> on <strong>{get_current_year()}</strong>'''
             subscription.save(update_fields=[
                 'subscribed',
                 'mailing_list_log',
