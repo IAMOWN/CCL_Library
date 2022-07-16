@@ -281,7 +281,6 @@ class SubscriptionCreate(CreateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['current_user'] = self.request.user
         context['page_type'] = 'Create'
         return context
 
@@ -296,7 +295,10 @@ class SubscriptionCreate(CreateView):
             else:
                 ip_result = "Private"  # but it's private
 
+        print(f'ip_result: {ip_result}')
+
         if not self.request.user.is_authenticated:
+            print(f'self.request.user: {self.request.user}')
             try:
                 email_exists = MailingList.objects.filter(email=form.instance.email, audience=form.instance.audience)
                 subsciption_outcome_message = f'The email "{form.instance.email}" is already subscribed to the {form.instance.audience} mailing list. Love and Blessings.'

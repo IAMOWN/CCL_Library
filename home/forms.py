@@ -14,6 +14,16 @@ def subscription_form_validation(form, form_type):
             'email',
             'A email address must be entered.'
         )
+    if "@" not in cleaned_data.get('email'):
+        form.add_error(
+            'email',
+            'Your email address must contain an "@" symbol.'
+        )
+    if "." not in cleaned_data.get('email'):
+        form.add_error(
+            'email',
+            'Your email address must contain at least one period (full-stop).'
+        )
     return
 
 
