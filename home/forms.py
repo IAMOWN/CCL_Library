@@ -9,22 +9,18 @@ from iamown.models import (
 # ############ Subscription form validation logic ############
 def subscription_form_validation(form, form_type):
     cleaned_data = super(form_type, form).clean()
-    if cleaned_data.get('email') is None:
+    email = cleaned_data.get('email')
+    print(f'email.type: {email.type()}')
+    if email is None:
         form.add_error(
             'email',
             'A email address must be entered.'
         )
-    else:
-        if "@" not in cleaned_data.get('email') and cleaned_data.get('email') is not None:
-            form.add_error(
-                'email',
-                'Your email address must contain an "@" symbol.'
-            )
-        if "." not in cleaned_data.get('email') and cleaned_data.get('email') is not None:
-            form.add_error(
-                'email',
-                'Your email address must contain at least one period (full-stop).'
-            )
+    elif "@" not in email:
+        form.add_error(
+            'email',
+            'Your email address must contain an "@" symbol.'
+        )
     return
 
 
