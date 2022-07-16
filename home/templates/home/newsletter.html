@@ -7,59 +7,43 @@
     <section class="content-section">
         <div class="row pt-2">
             <div class="col-lg-12">
-                <h3>{{ title }} - UNDER DEVELOPMENT (NOT WORKING)</h3>
+                <h3>{{ title }}</h3>
             </div>
         </div>
     </section>
 
-    {% if not user.is_authenticated %}
-    <section class="content-section text-CCL-Gold">
+    {% for newsletter in newsletters %}
+    <section class="content-section">
+        <div class="row pt-2">
+            <div class="col-lg-9">
+                <h6>{{ newsletter.subject }}</h6>
+            </div>
+            <div class="col-lg-3 text-CCL-Gold">
+                {{ newsletter.date_published|date:'d F, Y' }}
+            </div>
+        </div>
         <div class="row pt-2">
             <div class="col-lg-12">
-                <p>
-                    You can sign up for our monthly Newsletter.
-                    Enter your email below to subscribe.
-                    By subscribing you are giving the Elemental Grace Alliance Express Permission to add your email to our emailing list, and will be receiving regular emails.
+                {{ newsletter.message|safe }}
+            </div>
+        </div>
+    </section>
+    {% endfor %}
+    <section class="content-section text-CCL-Gold">
+        <div class="row pt-2">
+            <div class="col-lg-3 pb-2">
+                <a href="{% url 'home' %}" class="btn btn-outline-CCL-Blue col-12">Home</a>
+            </div>
+            <div class="col-lg-3 pb-2">
+            </div>
+            <div class="col-lg-3 pb-2">
+            </div>
+            {% if user.is_anonymous %}
+            <div class="col-lg-3 pb-2">
+                <a href="{% url 'subscribe' %}" class="btn btn-CCL-Blue col-12">Subscribe</a>
+            </div>
+            {% endif %}
+        </div>
+    </section>
 
-                </p>
-            </div>
-        </div>
-        <form method="get">
-            <div class="row pt-2 pb-2">
-                <div class="col-lg-3">
-                    <select name="audience-selection" class="form-control">
-                    {% for audience in external_audiences %}
-                        {% if forloop.first %}
-                            <option value='{{ audience.audience }}'>{{ audience.audience }}</option>
-                        {% else %}
-                            <option value='{{ audience.audience }}'>{{ audience.audience }}</option>
-                        {% endif %}
-                    {% endfor %}
-                    </select>
-                </div>
-                <div class="col-lg-6">
-                    <input type="email" name="email-address-entry" class="form-control" placeholder="email address to subscribe">
-                </div>
-                <div class="col-lg-3">
-                    <button type="submit" class="btn btn-CCL-Blue col-12" value="Subscribe">Subscribe</button>
-                </div>
-            </div>
-        </form>
-        {% if subsciption_outcome_message %}
-        <div class="row pt-2">
-            <div class="col-lg-12">
-                <p>{{ subsciption_outcome_message }}</p>
-            </div>
-        </div>
-        {% endif %}
-    </section>
-    {% else %}
-    <section class="content-section text-CCL-Gold">
-        <div class="row pt-2">
-            <div class="col-lg-12">
-                Logged in subscription options - IN DEVELOPMENT
-            </div>
-        </div>
-    </section>
-    {% endif %}
 {% endblock %}

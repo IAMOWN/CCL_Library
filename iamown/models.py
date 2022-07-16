@@ -283,6 +283,10 @@ class EmailCampaign(models.Model):
         max_length=20,
         default='1) Created',
     )
+    date_published = models.DateField(
+        null=True,
+        blank=True,
+    )
 
     email_send_log = HTMLField(
         null=True,

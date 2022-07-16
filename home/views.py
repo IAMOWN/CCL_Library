@@ -18,6 +18,7 @@ from ipware import get_client_ip
 from iamown.models import (
     Audience,
     MailingList,
+    EmailCampaign,
 )
 
 from home.forms import (
@@ -110,6 +111,7 @@ INJECTION_LIST = [
 ]
 SUBSCRIPTION_URL = 'https://cosmicchrist.love/subscribe/'
 CONFIRM_SUBSCRIPTION_URL = 'https://cosmicchrist.love/confirm_subscription/'
+NUMBER_OF_NEWSLETTERS = 6
 
 # FUNCTIONS
 def send_email(subject, to_email, message):
@@ -209,6 +211,18 @@ def release_notes(request):
     }
 
     return render(request, 'release_notes.html', context)
+
+
+# ####################### Newsletter #######################
+def newsletter(request):
+    newsletters = EmailCampaign.objects.filter(audience='Newsletter', send_status='Sent').order_by('-id')[:NUMBER_OF_NEWSLETTERS:-1]
+    context = {
+        'newsletters': newsletters,
+        'newsletter_count': newsletters.count(),
+        'title': 'Cosmic Christ Love Newsletters',
+    }
+
+    return render(request, 'home/newsletter.html', context)
 
 
 # ####################### Create Subscription (First Opt-In) #######################
