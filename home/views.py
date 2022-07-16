@@ -244,7 +244,6 @@ class SubscriptionCreate(CreateView):
                 user_subscribed = False
             context = super().get_context_data(**kwargs)
             context['user_subscribed'] = user_subscribed
-            print(f'user_subscribed: {user_subscribed}')
             context['profile_name'] = Profile.objects.get(user__username=self.request.user).spiritual_name
             context['page_type'] = 'Create'
             return context
