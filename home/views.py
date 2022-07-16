@@ -244,6 +244,7 @@ class SubscriptionCreate(CreateView):
                 user_subscribed = False
             context = super().get_context_data(**kwargs)
             context['user_subscribed'] = user_subscribed
+            print(f'user_subscribed: {user_subscribed}')
             context['profile_name'] = Profile.objects.get(user__username=self.request.user).spiritual_name
             context['page_type'] = 'Create'
             return context
@@ -290,7 +291,7 @@ class SubscriptionCreate(CreateView):
                     form.instance.mailing_list_log = f'''>>> <strong>User Subscription for email</strong> from <strong>IP: Private</strong> on <strong>{get_current_date()}</strong>'''
 
                 # Create flash message for successful subscription
-                subsciption_outcome_message = f'Bless You. This user account has been added to the {form.instance.audience} mailing list. Nothing further need be done.<p>Love and Blessings,<br>The Elemental Grace Alliance'
+                subsciption_outcome_message = f'Bless You. This user account has been added to the {form.instance.audience} mailing list. Nothing further need be done.'
                 messages.add_message(
                     self.request,
                     messages.SUCCESS,
