@@ -215,7 +215,7 @@ def release_notes(request):
 
 # ####################### Newsletter #######################
 def newsletter(request):
-    newsletters = EmailCampaign.objects.filter(audience__audience='Newsletter', send_status='Sent').order_by('-id')[:NUMBER_OF_NEWSLETTERS:-1]
+    newsletters = EmailCampaign.objects.filter(audience__audience='Newsletter', send_status='Sent').order_by('-id')[:NUMBER_OF_NEWSLETTERS:1]
     context = {
         'newsletters': newsletters,
         'newsletter_count': EmailCampaign.objects.filter(audience__audience='Newsletter', send_status='Sent').count(),
