@@ -99,6 +99,7 @@
         </div>
     </section>
 
+    {% if not user_subscribed %}
     <section class="content-section text-CCL-Gold">
         <form method="post" action="" enctype="multipart/form-data">
             {% csrf_token %}
@@ -111,7 +112,6 @@
                     {{ form.email|as_crispy_field }}
                 </div>
             </div>
-            {% if not user_subscribed %}
             <div class="row pt-2 pb-2">
                 <div class="col-lg-3">
                     {% if page_type == 'Update' %}
@@ -121,7 +121,7 @@
                     {% endif %}
                 </div>
             </div>
-        {% endif %}
         </form>
     </section>
+    {% endif %}
 {% endblock %}
