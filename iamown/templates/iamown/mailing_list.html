@@ -17,8 +17,9 @@
             <div class="col-lg-3">
                 <a class="btn btn-CCL-Blue col-12" href="{% url 'mailing-list-create' %}">Add to Mailing List</a>
             </div>
-            <div class="col-lg-9">
-                There are currently {{ mailing_list_count|intcomma }} confirmed subscriptions across all audiences.
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6 pt-1">
+                There are currently <strong>{{ mailing_list_count|intcomma }}</strong> confirmed subscriptions across all audiences.
             </div>
         </div>
     </div>
