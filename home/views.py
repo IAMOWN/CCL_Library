@@ -21,6 +21,10 @@ from iamown.models import (
     EmailCampaign,
 )
 
+from users.models import (
+    Profile,
+)
+
 from home.forms import (
     CreateSubscriptionForm,
     UpdateSubscriptionForm,
@@ -234,6 +238,7 @@ class SubscriptionCreate(CreateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['profile_name'] = Profile.objects.get(user__username=self.request.user).spiritual_name
         context['page_type'] = 'Create'
         return context
 
