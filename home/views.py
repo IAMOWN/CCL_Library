@@ -310,7 +310,7 @@ class SubscriptionCreate(CreateView):
 
             except MailingList.DoesNotExist:
                 print('Does not exist')
-                if audience_input:
+                if form.instance.audience:
                     if ip_result is None:
                         new_subscription = MailingList.objects.create(
                             audience=form.instance.audience,
