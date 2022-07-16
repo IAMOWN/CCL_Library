@@ -224,9 +224,6 @@ class SubscriptionCreate(CreateView):
         return context
 
     def form_valid(self, form):
-        # Check email address format
-
-
         # Get IP Address
         client_ip, is_routable = get_client_ip(self.request)
         if client_ip is None:

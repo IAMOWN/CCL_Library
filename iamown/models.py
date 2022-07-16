@@ -165,7 +165,7 @@ class MailingList(models.Model):
         related_name='audience_in_mailing_list',
         default='',
     )
-    email = models.CharField(
+    email = models.EmailField(
         max_length=100,
         null=True,
         blank=True,
