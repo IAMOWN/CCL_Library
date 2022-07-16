@@ -295,16 +295,15 @@ class SubscriptionCreate(CreateView):
             else:
                 ip_result = "Private"  # but it's private
 
-        print(f'ip_result: {ip_result}')
+        print(f'client_ip: {client_ip}')
 
-        if not self.request.user.is_authenticated:
+        if self.request.user.is_anonymous:
             print(f'self.request.user: {self.request.user}')
             try:
                 email_exists = MailingList.objects.filter(email=form.instance.email, audience=form.instance.audience)
                 subsciption_outcome_message = f'The email "{form.instance.email}" is already subscribed to the {form.instance.audience} mailing list. Love and Blessings.'
                 return self.form_invalid(form)
             except MailingList.DoesNotExist:
-                scope = Audience.objects.get(audience=form.instance.audience).scope
                 if audience_input:
                     if ip_result is None:
                         new_subscription = MailingList.objects.create(
