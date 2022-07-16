@@ -237,7 +237,7 @@ class SubscriptionCreate(CreateView):
         if self.request.user.is_anonymous:
             # Check for user account with this email address
             try:
-                user_email = User.objects.get(email=email)
+                user_email = User.objects.get(email=form.instance.email)
                 form.add_error(
                     'email',
                     f'This email is already associated with a Cosmic Christ Love account. Please enter another email address or select this Dear Soul in the User field.'
