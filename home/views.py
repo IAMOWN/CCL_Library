@@ -224,6 +224,9 @@ class SubscriptionCreate(CreateView):
         return context
 
     def form_valid(self, form):
+        # Check email address format
+
+
         # Get IP Address
         client_ip, is_routable = get_client_ip(self.request)
         if client_ip is None:
@@ -240,7 +243,7 @@ class SubscriptionCreate(CreateView):
                 user_email = User.objects.get(email=form.instance.email)
                 form.add_error(
                     'email',
-                    f'This email is already associated with a Cosmic Christ Love account. Please enter another email address or select this Dear Soul in the User field.'
+                    f'This email is already associated with a Cosmic Christ Love account. Please enter another email address.'
                 )
                 return self.form_invalid(form)
             except User.DoesNotExist:
