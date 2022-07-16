@@ -604,8 +604,10 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 if number_of_reviewers == number_of_accepted_reviews:
                     # Update email campaign object marking Agreement
                     email_campaign_obj.email_send_log = email_campaign_obj.email_send_log + f'''<br>>>> <strong>Email Campaign Agreed ready to send by all reviewers</strong> on <strong>{get_current_date()}</strong> >>> Reviews: <strong>{number_of_accepted_reviews} Agreed/{number_of_reviewers} Reviewers</strong>'''
+                    email_campaign_obj.date_published = get_current_date()
                     email_campaign_obj.save(update_fields=[
                         'number_of_accepted_reviews',
+                        'date_published',
                         'email_send_log',
                     ])
 
