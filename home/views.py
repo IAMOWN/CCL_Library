@@ -259,7 +259,7 @@ class SubscriptionCreate(CreateView):
                 email_message = f'''
                     {EMAIL_MESSAGE_CAMPAIGN_1}
                     Beloved,<p>
-                    Bless You for your subscription to the Cosmic Christ Love {form.instance.audience} mailing list. Please confirm your subscription by clicking this <a href="{CONFIRM_SUBSCRIPTION_URL}{form.instance.audience}/{form.instance.email}/">link</a>.<p>
+                    Please <strong>confirm your subscription</strong> by clicking this <strong><a href="{CONFIRM_SUBSCRIPTION_URL}{form.instance.audience}/{form.instance.email}/">link</a></strong>.<p>
                     Love and Blessings,<br>
                     The Elemental Grace Alliance.
                     {EMAIL_MESSAGE_2}
