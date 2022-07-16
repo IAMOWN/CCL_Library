@@ -283,11 +283,11 @@ class SubscriptionCreate(CreateView):
                 form.instance.user = user
                 form.instance.subscribed = 'Yes'
                 if ip_result is None:
-                    form.instance.mailing_list_log = f'''>>> <strong>User Subscription for email</strong> from <strong>IP: None</strong> on <strong>{get_current_date()}</strong>'''
+                    form.instance.mailing_list_log = f'''>>> <strong>User Subscription by {user.profile.spiritual_name}</strong> from <strong>IP: None</strong> on <strong>{get_current_date()}</strong>'''
                 elif ip_result:
-                    form.instance.mailing_list_log = f'''>>> <strong>User Subscription for email</strong> from <strong>IP: {client_ip}</strong> on <strong>{get_current_date()}</strong>'''
+                    form.instance.mailing_list_log = f'''>>> <strong>User Subscription by {user.profile.spiritual_name}</strong> from <strong>IP: {client_ip}</strong> on <strong>{get_current_date()}</strong>'''
                 elif ip_result == 'Private':
-                    form.instance.mailing_list_log = f'''>>> <strong>User Subscription for email</strong> from <strong>IP: Private</strong> on <strong>{get_current_date()}</strong>'''
+                    form.instance.mailing_list_log = f'''>>> <strong>User Subscription by {user.profile.spiritual_name}</strong> from <strong>IP: Private</strong> on <strong>{get_current_date()}</strong>'''
 
                 # Create flash message for successful subscription
                 subsciption_outcome_message = f'Bless You. This user account has been added to the {form.instance.audience} mailing list. Nothing further need be done.'

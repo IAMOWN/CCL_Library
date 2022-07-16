@@ -100,7 +100,7 @@
     </section>
     {% for peep in peeps %}
     <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
-        <div class="row">
+        <div class="row pt-2">
             <div class="col-lg-6">
                 <p><a href="{% url 'peep-entry' peep.id %}" class="text-CCL-Blue"><strong>{{ peep.functional_activity }}</strong></a></p>
             </div>
