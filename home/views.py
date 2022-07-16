@@ -208,92 +208,6 @@ def release_notes(request):
     return render(request, 'release_notes.html', context)
 
 
-# ####################### Newsletter #######################
-def newsletter(request):
-    if not request.user.is_authenticated:
-        external_audiences = Audience.objects.all().exclude(scope='Internal')
-        audience_input = request.GET.get('audience-selection') or ''
-        email_address_input = request.GET.get('email-address-entry') or ''
-        print(f'audience_input: {audience_input}')
-        print(f'email_address_input: {email_address_input}')
-
-        # Get IP
-        client_ip, is_routable = get_client_ip(request)
-        if client_ip is None:
-            ip_result = None
-        else:  # There is an IP
-            if is_routable:
-                ip_result = True  # We got it
-            else:
-                ip_result = "Private"  # but it's private
-
-        # Check for injection attack
-        email_input_safe = True
-        for item in INJECTION_LIST:
-            print(f'item: {item}')
-            if item in email_address_input:
-                email_input_safe = False
-                print(f'Injection attempt: {item}')
-                break
-
-        print(f'email_input_safe: {email_input_safe}')
-
-        # Process initial Opt-In request
-        if email_input_safe:
-            try:
-                email_exists = MailingList.objects.filter(email=email_address_input, audience=audience_input)
-                subsciption_outcome_message = f'This email is already subscribed to the {audience_input} mailing list. Love and Blessings.'
-            except MailingList.DoesNotExist:
-                scope = Audience.objects.get(audience=audience_input).scope
-                if audience_input:
-                    if ip_result is None:
-                        new_subscription = MailingList.objects.create(
-                            audience=audience_input,
-                            email=email_address_input,
-                            subscribed='Unconfirmed',
-                            mailing_list_log=f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: None</strong> on <strong>{get_current_year()}</strong>''',
-                        )
-                    elif ip_result:
-                        new_subscription = MailingList.objects.create(
-                            audience=audience_input,
-                            email=email_address_input,
-                            subscribed='Unconfirmed',
-                            mailing_list_log=f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: {client_ip}</strong> on <strong>{get_current_year()}</strong>''',
-                        )
-
-                    elif ip_result == 'Private':
-                        new_subscription = MailingList.objects.create(
-                            audience=audience_input,
-                            email=email_address_input,
-                            subscribed='Unconfirmed',
-                            mailing_list_log=f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: Private</strong> on <strong>{get_current_year()}</strong>''',
-                        )
-
-                    subsciption_outcome_message = f'The email, {email_address_input} has been added to the {audience_input} mailing list. Love and Blessings.'
-                    print(f'new_subscription: {new_subscription}')
-        else:
-            subsciption_outcome_message = f'''
-            Love and Blessings to you. Your attempt at an injection attack has come to no avail.<p>You are already 
-            forgiven, for there is nothing to Forgive in the Heart of God.'''
-
-        print(f'subsciption_outcome_message: {subsciption_outcome_message}')
-
-        # TODO Send confirmation email
-
-        context = {
-            'title': 'Newsletter and Mailing List Subscription',
-            'external_audiences': external_audiences,
-            'subsciption_outcome_message': subsciption_outcome_message,
-        }
-
-    else:
-        context = {
-            'title': 'Newsletter and Mailing List Subscription',
-        }
-
-    return render(request, 'home/newsletter.html', context)
-
-
 # ####################### Create Subscription #######################
 class SubscriptionCreate(CreateView):
     model = MailingList
@@ -307,7 +221,6 @@ class SubscriptionCreate(CreateView):
         return context
 
     def form_valid(self, form):
-        new_subscription = form.save(commit=False)
         # Get IP Address
         client_ip, is_routable = get_client_ip(self.request)
         if client_ip is None:
@@ -318,13 +231,10 @@ class SubscriptionCreate(CreateView):
             else:
                 ip_result = "Private"  # but it's private
 
-        print(f'client_ip: {client_ip}')
-
         if self.request.user.is_anonymous:  # TODO Check for user account with this email address
             # Check if email is already subscribed to this mailing list
             try:
                 email_exists = MailingList.objects.get(email=form.instance.email, audience=form.instance.audience)
-                print(f'email_exists: {email_exists}')
                 form.add_error(
                     'email',
                     f'The email "{form.instance.email}" is already subscribed to the {form.instance.audience} mailing list. Love and Blessings.',
@@ -333,17 +243,14 @@ class SubscriptionCreate(CreateView):
 
             # If the email is not already subscribed update the new subscription log with entry and change subscription status to Unconfirmed
             except MailingList.DoesNotExist:
-                new_subscription.subscribed = 'Unconfirmed'
+                form.instance.subscribed = 'Unconfirmed'
                 if ip_result is None:
-                    new_subscription.mailing_list_log = f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: None</strong> on <strong>{get_current_year()}</strong>'''
+                    form.instance.mailing_list_log = f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: None</strong> on <strong>{get_current_year()}</strong>'''
                 elif ip_result:
-                    new_subscription.mailing_list_log = f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: {client_ip}</strong> on <strong>{get_current_year()}</strong>'''
+                    form.instance.mailing_list_log = f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: {client_ip}</strong> on <strong>{get_current_year()}</strong>'''
                 elif ip_result == 'Private':
-                    new_subscription.mailing_list_log = f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: Private</strong> on <strong>{get_current_year()}</strong>'''
-                new_subscription.save(update_fields=[
-                    'subscribed',
-                    'mailing_list_log',
-                ])
+                    form.instance.mailing_list_log = f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: Private</strong> on <strong>{get_current_year()}</strong>'''
+
                 # Send subscription confirmation email
                 subject = f'Please confirm your subscription to the Cosmic Christ Love Newsletter {form.instance.audience} mailing list'
                 email_message = f'''
