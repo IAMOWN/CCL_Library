@@ -301,9 +301,14 @@ class SubscriptionCreate(CreateView):
             print(f'self.request.user: {self.request.user}')
             try:
                 email_exists = MailingList.objects.filter(email=form.instance.email, audience=form.instance.audience)
-                subsciption_outcome_message = f'The email "{form.instance.email}" is already subscribed to the {form.instance.audience} mailing list. Love and Blessings.'
+                print(f'email_exists: {email_exists}')
+                form.add_error(
+                    'email',
+                    f'The email "{form.instance.email}" is already subscribed to the {form.instance.audience} mailing list. Love and Blessings.',
+                )
                 return self.form_invalid(form)
             except MailingList.DoesNotExist:
+                print('Does not exist')
                 if audience_input:
                     if ip_result is None:
                         new_subscription = MailingList.objects.create(
@@ -319,7 +324,6 @@ class SubscriptionCreate(CreateView):
                             subscribed='Unconfirmed',
                             mailing_list_log=f'''>>> <strong>First Opt-In Subscription</strong> from <strong>IP: {client_ip}</strong> on <strong>{get_current_year()}</strong>''',
                         )
-
                     elif ip_result == 'Private':
                         new_subscription = MailingList.objects.create(
                             audience=form.instance.audience,
@@ -341,11 +345,11 @@ class SubscriptionCreate(CreateView):
 
                     subsciption_outcome_message = f'Thank you. An email to confirm your email subscription has been sent to {form.instance.email}. Love and Blessings.'
 
-            messages.add_message(
-                messages.SUCCESS,
-                f'{subsciption_outcome_message}'
-            )
-            return super().form_valid(form)
+                messages.add_message(
+                    messages.SUCCESS,
+                    f'{subsciption_outcome_message}'
+                )
+                return super().form_valid(form)
 
         return super().form_valid(form)
 
