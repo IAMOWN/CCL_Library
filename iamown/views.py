@@ -1545,7 +1545,7 @@ class AudienceDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['audience_count'] = MailingList.objects.filter(audience=self.kwargs['id']).count()
+        context['audience_count'] = MailingList.objects.filter(audience=self.kwargs['pk']).count()
 
         return context
 
