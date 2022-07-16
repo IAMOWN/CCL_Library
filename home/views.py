@@ -111,7 +111,7 @@ INJECTION_LIST = [
 ]
 SUBSCRIPTION_URL = 'https://cosmicchrist.love/subscribe/'
 CONFIRM_SUBSCRIPTION_URL = 'https://cosmicchrist.love/confirm_subscription/'
-NUMBER_OF_NEWSLETTERS = 6
+NUMBER_OF_NEWSLETTERS = 3
 
 # FUNCTIONS
 def send_email(subject, to_email, message):
