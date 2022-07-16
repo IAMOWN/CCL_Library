@@ -293,7 +293,7 @@ def subscription_confirm(request, audience, email):
 
     # Process Second Opt-In request
     try:
-        subscription = MailingList.objects.get(audience=audience, email=email)
+        subscription = MailingList.objects.get(audience=audience, email=email).subscribed
         # Check that the user has not already confirmed
         if subscription.subscribed == 'Yes':
             subsciption_outcome_message = f'The email "{email}" is already subscribed to the {audience} mailing list. There is nothing more you need do.<p>Love and Blessings,<br>The Elemental Grace Alliance'
