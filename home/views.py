@@ -298,9 +298,7 @@ def newsletter(request):
 class SubscriptionCreate(CreateView):
     model = MailingList
     form_class = CreateSubscriptionForm
-
     template_name = 'home/newsletter_subscription_form.html'
-
     success_url = reverse_lazy('home')
 
     def get_context_data(self, *args, **kwargs):
@@ -309,7 +307,7 @@ class SubscriptionCreate(CreateView):
         return context
 
     def form_valid(self, form):
-        # Get IP
+        # Get IP Address
         client_ip, is_routable = get_client_ip(self.request)
         if client_ip is None:
             ip_result = None
@@ -361,14 +359,14 @@ class SubscriptionCreate(CreateView):
                     email_message = f'''
                         {EMAIL_MESSAGE_CAMPAIGN_1}
                         Beloved,<p>
-                        Please confirm your subscription to the Cosmic Christ Love {form.instance.audience} mailing list by clicking this <a href="{CONFIRM_SUBSCRIPTION_URL}{form.instance.audience}/{form.instance.email}/">link</a>.<p>
+                        Bless You. Please confirm your subscription to the Cosmic Christ Love {form.instance.audience} mailing list by clicking this <a href="{CONFIRM_SUBSCRIPTION_URL}{form.instance.audience}/{form.instance.email}/">link</a>.<p>
                         Love and Blessings,<br>
                         The Elemental Grace Alliance.
                         {EMAIL_MESSAGE_2}
                     '''
                     send_email(subject, form.instance.email, email_message)
 
-                    subsciption_outcome_message = f'Thank you. An email to confirm your email subscription has been sent to {form.instance.email}. Love and Blessings.'
+                    subsciption_outcome_message = f'Bless You. An email to confirm your email subscription has been sent to {form.instance.email}. Love and Blessings.'
 
                 messages.add_message(
                     self.request,
@@ -379,7 +377,9 @@ class SubscriptionCreate(CreateView):
                 # TODO Variable to hide the form and return to subscribe with the message
                 return super().form_valid(form)
 
-        return super().form_valid(form)
+        else:  # TODO Process user trying to subscribe
+            return super().form_valid(form)
+
 
 def subscription_confirm(request):
     subscription_confirmed = False
