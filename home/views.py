@@ -208,7 +208,7 @@ def release_notes(request):
     return render(request, 'release_notes.html', context)
 
 
-# ####################### Create Subscription #######################
+# ####################### Create Subscription (First Opt-In) #######################
 class SubscriptionCreate(CreateView):
     model = MailingList
     form_class = CreateSubscriptionForm
@@ -256,7 +256,7 @@ class SubscriptionCreate(CreateView):
                 email_message = f'''
                     {EMAIL_MESSAGE_CAMPAIGN_1}
                     Beloved,<p>
-                    Bless You. Please confirm your subscription to the Cosmic Christ Love {form.instance.audience} mailing list by clicking this <a href="{CONFIRM_SUBSCRIPTION_URL}{form.instance.audience}/{form.instance.email}/">link</a>.<p>
+                    Bless You for your subscription to the Cosmic Christ Love {form.instance.audience} mailing list. Please confirm your subscription by clicking this <a href="{CONFIRM_SUBSCRIPTION_URL}{form.instance.audience}/{form.instance.email}/">link</a>.<p>
                     Love and Blessings,<br>
                     The Elemental Grace Alliance.
                     {EMAIL_MESSAGE_2}
@@ -278,7 +278,8 @@ class SubscriptionCreate(CreateView):
             return super().form_valid(form)
 
 
-def subscription_confirm(request):
+# ####################### Confirm Subscription (Second Opt-In) #######################
+def subscription_confirm(request, audience, email):
     subscription_confirmed = False
     # Get IP
     client_ip, is_routable = get_client_ip(request)
