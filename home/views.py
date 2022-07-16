@@ -300,14 +300,14 @@ class SubscriptionCreate(CreateView):
         if self.request.user.is_anonymous:
             print(f'self.request.user: {self.request.user}')
             try:
-                email_exists = MailingList.objects.filter(email=form.instance.email, audience=form.instance.audience)
+                email_exists = MailingList.objects.get(email=form.instance.email, audience=form.instance.audience)
                 print(f'email_exists: {email_exists}')
                 form.add_error(
                     'email',
                     f'The email "{form.instance.email}" is already subscribed to the {form.instance.audience} mailing list. Love and Blessings.',
                 )
                 return self.form_invalid(form)
-            
+
             except MailingList.DoesNotExist:
                 print('Does not exist')
                 if audience_input:
@@ -350,6 +350,8 @@ class SubscriptionCreate(CreateView):
                     messages.SUCCESS,
                     f'{subsciption_outcome_message}'
                 )
+
+                # TODO Variable to hide the form and return to subscribe with the message
                 return super().form_valid(form)
 
         return super().form_valid(form)
