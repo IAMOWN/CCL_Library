@@ -237,12 +237,37 @@ class SubscriptionCreate(CreateView):
         if self.request.user.is_anonymous:
             # Check for user account with this email address
             try:
-                user_email = User.objects.get(email=form.instance.email)
-                form.add_error(
-                    'email',
-                    f'This email is already associated with a Cosmic Christ Love account. Please enter another email address.'
-                )
-                return self.form_invalid(form)
+                user = User.objects.get(email=form.instance.email)
+                try:
+                    # Check for user account already subscribed to Audience
+                    user_subscribed = MailingList.objects.get(audience=form.instance.audience, user__username=user)
+                    form.add_error(
+                        'email',
+                        f'This email address is associated with a Cosmic Christ Love account already subscribed to the {form.instance.audience} mailing list. Please enter another email address.'
+                    )
+                    return self.form_invalid(form)
+
+                # Create user subscription entry for mailing list
+                except MailingList.DoesNotExist:
+                    form.instance.email = ''
+                    form.instance.user = user
+                    form.instance.subscribed = 'Yes'
+                    if ip_result is None:
+                        form.instance.mailing_list_log = f'''>>> <strong>User Subscription for email</strong> from <strong>IP: None</strong> on <strong>{get_current_date()}</strong>'''
+                    elif ip_result:
+                        form.instance.mailing_list_log = f'''>>> <strong>User Subscription for email</strong> from <strong>IP: {client_ip}</strong> on <strong>{get_current_date()}</strong>'''
+                    elif ip_result == 'Private':
+                        form.instance.mailing_list_log = f'''>>> <strong>User Subscription for email</strong> from <strong>IP: Private</strong> on <strong>{get_current_date()}</strong>'''
+
+                    # Create flash message for successful subscription
+                    subsciption_outcome_message = f'Bless You. This user account has been added to the {form.instance.audience} mailing list. Nothing further need be done. Love and Blessings.'
+                    messages.add_message(
+                        self.request,
+                        messages.SUCCESS,
+                        f'{subsciption_outcome_message}'
+                    )
+                    return super().form_valid(form)
+
             except User.DoesNotExist:
                 # Check if email is already subscribed to this mailing list
                 try:
@@ -282,9 +307,8 @@ class SubscriptionCreate(CreateView):
                         messages.SUCCESS,
                         f'{subsciption_outcome_message}'
                     )
-
-                    # TODO Variable to hide the form and return to subscribe with the message
                     return super().form_valid(form)
+                    # TODO Variable to hide the form and return to subscribe with the message
 
         else:  # TODO Process user trying to subscribe
             return super().form_valid(form)
