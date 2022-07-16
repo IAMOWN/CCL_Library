@@ -40,7 +40,31 @@ EMAIL_MESSAGE_1 = '''
                           <tr>
                             <td style="width: 100%;">
                               <div style="text-align: left;">
-                                <img src="https://ega.s3.us-east-2.amazonaws.com/Soul+Synthesis+Email+Header.png" alt="Soul Synthesis email header banner" width: 600px;"/>
+                                <img src="https://cdn.cosmicchrist.love/ccl-library-static/CCL_Library/CCL%20Email%20Header.png" alt="Soul Synthesis email header banner" width: 600px;"/>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="ms-rteTableEvenCol-0" align="left">
+                              <div>
+                                <p>
+                                <span style="color: #000000; background-color: transparent; font-family: arial;">
+'''
+EMAIL_MESSAGE_CAMPAIGN_1 = '''
+                    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                    <html xmlns="http://www.w3.org/1999/xhtml">
+                      <head>
+                      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                      <title>Whurthy Notification</title>
+                      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                    </head>
+                    <body style="margin: 0; padding: 0;">
+                      <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border: none; border-collapse: collapse; font-family:  Arial, sans-serif; font-size: 14px; line-height: 1.5;">
+                        <tbody>
+                          <tr>
+                            <td style="width: 100%;">
+                              <div style="text-align: left;">
+                                <img src="https://cdn.cosmicchrist.love/ccl-library-static/CCL_Library/CCL%20Email%20Header%20-%20Campaign.png" alt="Soul Synthesis email header banner" width: 600px;"/>
                               </div>
                             </td>
                           </tr>
@@ -58,7 +82,7 @@ EMAIL_MESSAGE_2 = '''
                           <tr>
                             <td style="width: 100%;">
                               <div style="text-align: left;">
-                                <img src="https://ega.s3.us-east-2.amazonaws.com/Soul+Synthesis+Email+Footer+-+72.png" alt="Whurthy email header banner" width: 600px;"/>
+                                <a href="https://cosmicchrist.love/"><img src="https://cdn.cosmicchrist.love/ccl-library-static/CCL_Library/CCL%20Email%20Footer.png" alt="Whurthy email header banner" width: 600px;" style="border: 0;" /></a>
                               </div>
                             </td>
                           </tr>
