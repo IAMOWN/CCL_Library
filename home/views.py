@@ -242,6 +242,7 @@ class SubscriptionCreate(CreateView):
                     'email',
                     f'This email is already associated with a Cosmic Christ Love account. Please enter another email address or select this Dear Soul in the User field.'
                 )
+                return self.form_invalid(form)
             except User.DoesNotExist:
                 # Check if email is already subscribed to this mailing list
                 try:
