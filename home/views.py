@@ -218,7 +218,7 @@ def newsletter(request):
     newsletters = EmailCampaign.objects.filter(audience__audience='Newsletter', send_status='Sent').order_by('-id')[:NUMBER_OF_NEWSLETTERS:-1]
     context = {
         'newsletters': newsletters,
-        'newsletter_count': newsletters.count(),
+        'newsletter_count': EmailCampaign.objects.filter(audience__audience='Newsletter', send_status='Sent').count(),
         'title': 'Cosmic Christ Love Newsletters',
     }
 
