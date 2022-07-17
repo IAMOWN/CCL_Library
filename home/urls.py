@@ -3,7 +3,7 @@ from django.urls import path
 from .views import (
     contact,
     newsletter,
-    # NewsletterDetailView,
+    NewsletterDetailView,
     SubscriptionCreate,
     subscription_confirm,
 )
