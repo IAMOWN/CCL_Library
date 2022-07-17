@@ -14,6 +14,47 @@
             </div>
         </div>
     </section>
+
+{#    <section class="content-section text-CCL-Gold">#}
+{#        {% if page_obj.number == 1 %}#}
+{#        <div class="row pt-2">#}
+{#            <div class="col-lg-12">#}
+{#                {% if page_type == 'Books' %}#}
+{#                <p>Text about EGA Books here...</p>#}
+{#                {% elif page_type == 'Cosmic Reviews' %}#}
+{#                <p>Text about EGA Cosmic Reviews here...</p>#}
+{#                {% elif page_type == 'Discourses' %}#}
+{#                <p>Text about EGA Discourses here...</p>#}
+{#                {% elif page_type == 'Invocations' %}#}
+{#                <p>Text about EGA Invocations here...</p>#}
+{#                {% elif page_type == 'Petitions' %}#}
+{#                <p>Text about EGA Petitions here...</p>#}
+{#                {% endif %}#}
+{#            </div>#}
+{#        </div>#}
+{#        {% endif %}#}
+{##}
+{#        <div class="row pt-2">#}
+{#            <div class="col-lg-12">#}
+{#                <h3>Library Records</h3>#}
+{#            </div>#}
+{#        </div>#}
+{#        {% for record in collection %}#}
+{#        <section class="list-group-item list-group-item-light text-CCL-Gold {% cycle 'row1' 'row2' %} pt-3 pb-2">#}
+{#            <div class="row">#}
+{#                <div class="col-lg-8">#}
+{#                    <h6><a href="{% url 'library-record' record.record.id %}" class="text-CCL-Blue">{{ record.order_number }}) {% if record.record.part_number %}Part {{ record.record.part_number }} - {% endif %} {% if record.record.discourse_series.discourse_series %}{{ record.record.discourse_series.discourse_series }} <br>{% endif %}{{ record.record.title }}</a></h6>#}
+{#                </div>#}
+{#                <div class="col-lg-4">#}
+{#                    <h6 class="text-CCL-Gold text-end"> {{ record.record.principal_cosmic_author }}<br>{{ record.record.date_communicated }}</h6>#}
+{#                </div>#}
+{#            </div>#}
+{#        </section>#}
+{#        {% endfor %}#}
+{#        <div class="row pb-2"></div>#}
+{#    </section>#}
+
+
     <section class="media content-section text-CCL-Gold">
         <div class="row pt-2">
             <div class="col-lg-12">
@@ -32,9 +73,16 @@
         </div>
         <div class="row pt-2 text-center">
         {% for record in library_records %}
-            <div class="col-lg-12">
-                <p><a href="{% url 'library-record' record.id %}" class="btn btn-outline-CCL-Gold btn-sm">{% if record.part_number %}Part {{ record.part_number }} - {% endif %}{% if record.discourse_series %}{{ record.discourse_series }} - {% endif %}{{ record.title }} - {{ record.principal_cosmic_author }} - {{ record.date_communicated }}</a></p>
+        <section class="list-group-item list-group-item-light text-CCL-Gold {% cycle 'row1' 'row2' %} pt-3 pb-2">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h6><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{% if record.part_number %}Part {{ record.part_number }} - {% endif %} {% if record.discourse_series.discourse_series %}{{ record.discourse_series.discourse_series }} <br>{% endif %}{{ record.title }}</a></h6>
+                </div>
+                <div class="col-lg-4">
+                    <h6 class="text-CCL-Gold text-end"> {{ record.principal_cosmic_author }}<br>{{ record.date_communicated }}</h6>
+                </div>
             </div>
+        </section>
         {% endfor %}
         </div>
     </section>
