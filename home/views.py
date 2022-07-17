@@ -219,7 +219,7 @@ def release_notes(request):
 
 # ####################### Newsletter #######################
 def newsletter(request):
-    last_newsletter = EmailCampaign.objects.filter(audience__audience='CCL Newsletter', send_status='Sent').last()
+    last_newsletter = EmailCampaign.objects.filter(audience__audience='CCL Newsletter', send_status='Sent').last('date_published')
     newsletters = EmailCampaign.objects.filter(audience__audience='CCL Newsletter', send_status='Sent').order_by('-date_published')[:NUMBER_OF_NEWSLETTERS]
     context = {
         'newsletters': newsletters,

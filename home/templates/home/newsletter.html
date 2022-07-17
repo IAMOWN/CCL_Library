@@ -14,10 +14,10 @@
 
     <section class="content-section">
         <div class="row pt-2">
-            <div class="col-lg-9">
+            <div class="col-lg-8">
                 <h4>{{ last_newsletter.subject }}</h4>
             </div>
-            <div class="col-lg-3 text-CCL-Gold text-end">
+            <div class="col-lg-4 text-CCL-Gold text-end">
                 <h4>Published: {{ last_newsletter.date_published|date:'d F, Y' }}</h4>
             </div>
         </div>
@@ -36,6 +36,8 @@
         </div>
 
     {% for newsletter in newsletters %}
+        {% if forloop.first %}
+        {% else %}
         <section class="list-group-item list-group-item-light text-CCL-Gold {% cycle 'row1' 'row2' %}">
             <div class="row pt-2">
                 <div class="col-lg-9">
@@ -46,6 +48,7 @@
                 </div>
             </div>
         </section>
+        {% endif %}
     {% endfor %}
         <div class="row pb-2"></div>
     </section>
