@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import (
     CreateView,
     UpdateView,
@@ -221,7 +222,6 @@ def release_notes(request):
 # ####################### Newsletter #######################
 def newsletter(request):
     last_newsletter = EmailCampaign.objects.filter(audience__audience='CCL Newsletter', send_status='Sent').order_by('date_published').last()
-
     newsletters = EmailCampaign.objects.filter(audience__audience='CCL Newsletter', send_status='Sent').order_by('-date_published')[:NUMBER_OF_NEWSLETTERS]
     context = {
         'newsletters': newsletters,
@@ -230,6 +230,33 @@ def newsletter(request):
     }
 
     return render(request, 'home/newsletter.html', context)
+
+
+# ####################### Newsletter - Detail View #######################
+class NewsletterDetailView(DetailView):
+    model = EmailCampaign
+    template_name = 'home/newsletter_detail.html'
+    context_object_name = 'newsletter'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        newsletter_obj = EmailCampaign.objects.get(id=self.kwargs['pk'])
+        context['title'] = f'{newsletter_obj.subject}'
+        context['newsletters'] = EmailCampaign.objects.filter(audience__audience='CCL Newsletter', send_status='Sent').order_by('-date_published')[:NUMBER_OF_NEWSLETTERS]
+        context['current_newsletter_id'] = self.kwargs['pk']
+
+        return context
+
+
+def newsletter_detail(request, pk):
+    newsletter_obj = EmailCampaign.objects.get(id=pk)
+    context = {
+        'title': f'{newsletter_obj.subject}',
+        'newsletters': EmailCampaign.objects.filter(audience__audience='CCL Newsletter', send_status='Sent').order_by('-date_published')[:NUMBER_OF_NEWSLETTERS],
+        'current_newsletter_id': pk
+    }
+
+    return render(request, 'home/newsletter_detail.html', context)
 
 
 # ####################### Create Subscription (First Opt-In) #######################
