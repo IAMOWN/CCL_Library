@@ -6,15 +6,15 @@
     {{ title }}
 {% endblock %}
 {% block content %}
-    <section class="media content-section">
-        <div class="media-body">
-            <div class="row">
-                <div class="col-12">
-                    <h3 class="mb-2 pt-2"><strong>{{ title }}</strong></h3>
-                </div>
+    {% if page_obj.number == 1 %}
+    <section class="content-section">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="mb-2 pt-2"><strong>{{ title }}</strong></h3>
             </div>
         </div>
     </section>
+    {% endif %}
 
     <section class="content-section text-CCL-Gold">
         {% if page_obj.number == 1 %}
