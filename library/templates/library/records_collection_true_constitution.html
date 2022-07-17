@@ -6,7 +6,7 @@
     {{ title }}
 {% endblock %}
 {% block content %}
-    {% if paginator.page == 1 %}
+    {% if page_obj.number == 1 %}
     <section class="media content-section">
         <div class="media-body">
             <div class="row">
@@ -19,8 +19,7 @@
     {% endif %}
 
     <section class="content-section text-CCL-Gold">
-        paginator.count: {{ paginator.count }}
-        {% if paginator.count == 1 %}
+        {% if page_obj.number == 1 %}
         <div class="row pt-2">
             <div class="col-lg-12">
                 <p>Text about the True Constitution Collection here...</p>
