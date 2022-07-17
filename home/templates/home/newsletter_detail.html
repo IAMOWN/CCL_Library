@@ -1,26 +1,22 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}
-    {{ title }}
+    {{ newsletter.subject }}
 {% endblock %}
 {% block content %}
     <section class="content-section">
         <div class="row pt-2">
-            <div class="col-lg-12">
-                <h3>{{ title }}</h3>
+            <div class="col-lg-8">
+                <h3>{{ newsletter.subject }}</h3>
+            </div>
+            <div class="col-lg-4 text-CCL-Gold text-end">
+                <h3>Published: {{ newsletter.date_published|date:'d F, Y' }}</h3>
+
             </div>
         </div>
     </section>
 
     <section class="content-section">
-        <div class="row pt-2">
-            <div class="col-lg-8">
-                <h4>{{ newsletter.subject }}</h4>
-            </div>
-            <div class="col-lg-4 text-CCL-Gold text-end">
-                <h4>Published: {{ newsletter.date_published|date:'d F, Y' }}</h4>
-            </div>
-        </div>
         <div class="row pt-2">
             <div class="col-lg-12">
                 {{ newsletter.message|safe }}
