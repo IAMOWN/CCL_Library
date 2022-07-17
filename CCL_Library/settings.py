@@ -136,7 +136,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # STATIC_URL = 'static/'
-STATIC_URL = 'https://ega.s3.us-east-2.amazonaws.com/ccl-library-static/'
+STATIC_URL = 'https://ega.s3.us-east-2.amazonaws.com/ccl-library-static/'  # TODO Fix and test S3 PATH
 # STATIC_URL = 'https://django-whurthy.s3.us-west-1.amazonaws.com/whurthy-static/'
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, 'static'),

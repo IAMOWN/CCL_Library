@@ -132,12 +132,11 @@ class ServiceGroup(models.Model):
 # ####################### Audiences #######################
 class Audience(models.Model):
     """
-    Audience model. Captures the list of mailing list audiences. Newsletter is sent to an audience.
+    Audience model. Captures the list of mailing list audiences. Newsletter is sent to all mailing list records related to an audience.
     """
     audience = models.CharField(
         unique=True,
         max_length=100,
-        help_text='Newsletter.'
     )
     scope = models.CharField(
         choices=SCOPE_CHOICES,
@@ -148,7 +147,16 @@ class Audience(models.Model):
         default='',
         help_text='If applicable, enter any notes about this audience.'
     )
+    ordering = models.SmallIntegerField(
+        null=True,
+        blank=True,
+    )
     date_created = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = [
+            'ordering',
+        ]
 
     def __str__(self):
         return self.audience
