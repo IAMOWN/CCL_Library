@@ -1566,9 +1566,6 @@ class AudienceCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.ordering = int(Audience.objects.all().count())
-        form.save(update_fields=[
-            'ordering',
-        ])
         message = form.instance.audience
         messages.add_message(
             self.request,
