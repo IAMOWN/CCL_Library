@@ -1565,7 +1565,7 @@ class AudienceCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return self.request.user.is_staff
 
     def form_valid(self, form):
-        form.instance.ordering = int(Audience.objects.all().count())
+        form.instance.ordering = int(Audience.objects.all().count()) + 1
         message = form.instance.audience
         messages.add_message(
             self.request,
