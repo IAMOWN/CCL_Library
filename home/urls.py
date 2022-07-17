@@ -1,11 +1,17 @@
 from django.urls import path
 
-from . import views
+from .views import (
+    contact,
+    newsletter,
+    NewsletterDetailView,
+    SubscriptionCreate,
+    subscription_confirm,
+)
 
 urlpatterns = [
-    path('contact/', views.contact, name='contact'),
-    path('newsletter/', views.newsletter, name='newsletter'),
-    path('newsletter/<int:pk>/', views.NewsletterDetailView.as_view(), name='newsletter-detail'),
-    path('subscribe/', views.SubscriptionCreate.as_view(), name='subscribe'),
-    path('confirm_subscription/<str:audience>/<str:email>/', views.subscription_confirm, name='confirm-subscription'),
+    path('contact/', contact, name='contact'),
+    path('newsletter/', newsletter, name='newsletter'),
+    path('newsletter/<int:pk>/', NewsletterDetailView.as_view(), name='newsletter-detail'),
+    path('subscribe/', SubscriptionCreate.as_view(), name='subscribe'),
+    path('confirm_subscription/<str:audience>/<str:email>/', subscription_confirm, name='confirm-subscription'),
 ]
