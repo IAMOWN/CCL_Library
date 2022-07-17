@@ -41,7 +41,7 @@
         <section class="list-group-item list-group-item-light text-CCL-Gold {% cycle 'row1' 'row2' %}">
             <div class="row pt-2">
                 <div class="col-lg-9">
-                    <h6><a href="#" class="text-CCL-Blue" target="_blank">{{ newsletter.subject }}</a></h6>
+                    <h6><a href="{% url 'newsletter-detail' newsletter.id %}" class="text-CCL-Blue">{{ newsletter.subject }}</a></h6>
                 </div>
                 <div class="col-lg-3 text-CCL-Gold text-end">
                     <h6>Published: {{ newsletter.date_published|date:'d F, Y' }}</h6>
