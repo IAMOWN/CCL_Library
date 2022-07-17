@@ -29,10 +29,10 @@
         </div>
         {% for record in collection %}
         <section class="list-group-item list-group-item-light text-CCL-Gold {% cycle 'row1' 'row2' %}">
-            <div class="row pt-2 text-center">
+            <div class="row pt-2">
                 <div class="col-lg-12">
 {#                     <p><a href="{% url 'library-record' record.record.id %}" class="btn btn-outline-CCL-Gold btn-sm">{{ record.order_number }}) {% if record.record.part_number %}Part {{ record.record.part_number }} - {% endif %} {% if record.record.discourse_series.discourse_series %}{{ record.record.discourse_series.discourse_series }} - {% endif %}{{ record.record.title }} - {{ record.record.principal_cosmic_author }} - {{ record.record.date_communicated }}</a></p>#}
-                     <p><a href="{% url 'library-record' record.record.id %}" class="text-CCL-Gold">{{ record.order_number }}) {% if record.record.part_number %}Part {{ record.record.part_number }} - {% endif %} {% if record.record.discourse_series.discourse_series %}{{ record.record.discourse_series.discourse_series }} - {% endif %}{{ record.record.title }} - {{ record.record.principal_cosmic_author }} - {{ record.record.date_communicated }}</a></p>
+                     <h6><a href="{% url 'library-record' record.record.id %}" class="text-CCL-Gold">{{ record.order_number }}) {% if record.record.part_number %}Part {{ record.record.part_number }} - {% endif %} {% if record.record.discourse_series.discourse_series %}{{ record.record.discourse_series.discourse_series }} - {% endif %}{{ record.record.title }} - {{ record.record.principal_cosmic_author }} - {{ record.record.date_communicated }}</a></h6>
                 </div>
             </div>
         </section>
