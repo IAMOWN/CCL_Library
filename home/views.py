@@ -219,10 +219,10 @@ def release_notes(request):
 
 # ####################### Newsletter #######################
 def newsletter(request):
-    newsletters = EmailCampaign.objects.filter(audience__audience='Newsletter', send_status='Sent').order_by('-id')[:NUMBER_OF_NEWSLETTERS:1]
+    newsletters = EmailCampaign.objects.filter(audience__audience='CCL Newsletter', send_status='Sent').order_by('-id')[:NUMBER_OF_NEWSLETTERS:1]
     context = {
         'newsletters': newsletters,
-        'newsletter_count': EmailCampaign.objects.filter(audience__audience='Newsletter', send_status='Sent').count(),
+        'newsletter_count': EmailCampaign.objects.filter(audience__audience='CCL Newsletter', send_status='Sent').count(),
         'title': 'Cosmic Christ Love Newsletters',
     }
 
@@ -239,7 +239,7 @@ class SubscriptionCreate(CreateView):
     def get_context_data(self, *args, **kwargs):    
         if self.request.user.is_authenticated:
             try:               
-                user_subscribed = MailingList.objects.get(audience__audience='Newsletter', user__username=self.request.user)
+                user_subscribed = MailingList.objects.get(audience__audience='CCL Newsletter', user__username=self.request.user)
             except MailingList.DoesNotExist:
                 user_subscribed = False
             context = super().get_context_data(**kwargs)
@@ -283,11 +283,11 @@ class SubscriptionCreate(CreateView):
                 form.instance.user = user
                 form.instance.subscribed = 'Yes'
                 if ip_result is None:
-                    form.instance.mailing_list_log = f'''>>> <strong>User Subscription by {user.profile.spiritual_name}</strong> from <strong>IP: None</strong> on <strong>{get_current_date()}</strong>'''
+                    form.instance.mailing_list_log = f'''>>> <strong>User Subscription</strong> by <strong>{user.profile.spiritual_name}</strong> from <strong>IP: None</strong> on <strong>{get_current_date()}</strong>'''
                 elif ip_result:
-                    form.instance.mailing_list_log = f'''>>> <strong>User Subscription by {user.profile.spiritual_name}</strong> from <strong>IP: {client_ip}</strong> on <strong>{get_current_date()}</strong>'''
+                    form.instance.mailing_list_log = f'''>>> <strong>User Subscription</strong> by <strong>{user.profile.spiritual_name}</strong> from <strong>IP: {client_ip}</strong> on <strong>{get_current_date()}</strong>'''
                 elif ip_result == 'Private':
-                    form.instance.mailing_list_log = f'''>>> <strong>User Subscription by {user.profile.spiritual_name}</strong> from <strong>IP: Private</strong> on <strong>{get_current_date()}</strong>'''
+                    form.instance.mailing_list_log = f'''>>> <strong>User Subscription</strong> by <strong>{user.profile.spiritual_name}</strong> from <strong>IP: Private</strong> on <strong>{get_current_date()}</strong>'''
 
                 # Create flash message for successful subscription
                 subsciption_outcome_message = f'Bless You. This user account has been added to the {form.instance.audience} mailing list. Nothing further need be done.'
