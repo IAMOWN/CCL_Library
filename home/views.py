@@ -115,7 +115,7 @@ INJECTION_LIST = [
 ]
 SUBSCRIPTION_URL = 'https://cosmicchrist.love/subscribe/'
 CONFIRM_SUBSCRIPTION_URL = 'https://cosmicchrist.love/confirm_subscription/'
-NUMBER_OF_NEWSLETTERS = 3
+NUMBER_OF_NEWSLETTERS = 12
 
 # FUNCTIONS
 def send_email(subject, to_email, message):
@@ -219,10 +219,11 @@ def release_notes(request):
 
 # ####################### Newsletter #######################
 def newsletter(request):
+    last_newsletter = EmailCampaign.objects.filter(audience__audience='CCL Newsletter', send_status='Sent').last()
     newsletters = EmailCampaign.objects.filter(audience__audience='CCL Newsletter', send_status='Sent').order_by('-id')[:NUMBER_OF_NEWSLETTERS:1]
     context = {
         'newsletters': newsletters,
-        'newsletter_count': EmailCampaign.objects.filter(audience__audience='CCL Newsletter', send_status='Sent').count(),
+        'last_newsletter': last_newsletter,
         'title': 'Cosmic Christ Love Newsletters',
     }
 
