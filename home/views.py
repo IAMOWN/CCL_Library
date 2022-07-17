@@ -226,7 +226,7 @@ def newsletter(request):
     context = {
         'newsletters': newsletters,
         'last_newsletter': last_newsletter,
-        'title': 'Cosmic Christ Love Newsletters',
+        'title': 'Cosmic Christ Love Newsletter',
     }
 
     return render(request, 'home/newsletter.html', context)
