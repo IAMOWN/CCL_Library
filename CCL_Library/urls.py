@@ -1,9 +1,10 @@
-import users.views
-from django.contrib import admin
-from django.contrib.auth import views as auth_views
 from django.urls import path
 from django.urls import include
+from django.contrib import admin
+from django.contrib.auth import views as auth_views
+
 from users import views as user_views
+import users.views
 
 from home import views
 

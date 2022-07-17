@@ -36,7 +36,7 @@
         </div>
 
     {% for newsletter in newsletters %}
-        {% if newsletter.id == current_newsletter_id %}
+        {% if forloop.first %}
         {% else %}
         <section class="list-group-item list-group-item-light text-CCL-Gold {% cycle 'row1' 'row2' %}">
             <div class="row pt-2">
