@@ -290,7 +290,7 @@
     <section class="content-section text-CCL-Gold">
         <div class="row pt-2">
             <div class="col-lg-12">
-                <h4>{{ search_count }} Library Records returned by Search</h4>
+                <h4>{{ search_count }} Library Record{{ search_count|pluralize:"s" }} returned by Search</h4>
             </div>
         </div>
         {% for record in library_records %}
