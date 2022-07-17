@@ -223,7 +223,7 @@ def newsletter(request):
     # last_newsletter = EmailCampaign.objects.filter(audience__audience='CCL Newsletter', send_status='Sent')
 
     last_newsletter = EmailCampaign.objects.filter(
-        item_id=OuterRef('pk'), audience__audience='CCL Newsletter', send_status='Sent'
+        pk=OuterRef('pk'), audience__audience='CCL Newsletter', send_status='Sent'
     ).order_by('-date_published')[:1]
 
     Item.objects.annotate(
