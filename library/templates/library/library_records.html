@@ -39,76 +39,37 @@
         </div>
     </section>
 
-{#    {% for record in library_records %}#}
-{#    <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">#}
-{#        <div class="row pt-2 pb-2">#}
-{#            <div class="col-lg-6">#}
-{#                {% if record.library_record_type == 'Discourse' %}#}
-{#                    {% if record.discourse_series and record.part_number > 0 %}#}
-{#                <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">Part {{ record.part_number }} - {{ record.discourse_series }} - {{ record.title }} - {{ record.date_communicated }}</a></p>#}
-{#                    {% elif record.discourse_series %}#}
-{#                <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.discourse_series }} - {{ record.title }} - {{ record.date_communicated }}</a></p>#}
-{#                    {% else %}#}
-{#                <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.title }} - {{ record.date_communicated }}</a></p>#}
-{#                    {% endif %}#}
-{#                {% else %}#}
-{#                <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.title }} - {{ record.date_communicated }}</a></p>#}
-{#                {% endif %}#}
-{#            </div>#}
-{#            <div class="col-lg-3 text-CCL-Gold">#}
-{#            {% if record.supporting_cosmic_authors is not None %}#}
-{#                {% for master in record.supporting_cosmic_authors.all %}#}
-{#                    {{ master }};#}
-{#                {% endfor %}#}
-{#            {% endif %}#}
-{#            </div>#}
-{#            <div class="col-lg-3 text-CCL-Gold">#}
-{#                {% for tag in record.tags.all %}#}
-{#                    {{ tag }};#}
-{#                {% endfor %}#}
-{#            </div>#}
-{#        </div>#}
-{#    </section>#}
-{#    {% endfor %}#}
-
-    <section class="content-section">
-        <div class="row pt-2">
-            <div class="col-lg-12">
-                <h3>Library Records: Series - Title - Master (Date)</h3>
+    {% for record in library_records %}
+    <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
+        <div class="row pt-2 pb-2">
+            <div class="col-lg-6">
+                {% if record.library_record_type == 'Discourse' %}
+                    {% if record.discourse_series and record.part_number > 0 %}
+                <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">Part {{ record.part_number }} - {{ record.discourse_series }} - {{ record.title }} - {{ record.date_communicated }}</a></p>
+                    {% elif record.discourse_series %}
+                <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.discourse_series }} - {{ record.title }} - {{ record.date_communicated }}</a></p>
+                    {% else %}
+                <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.title }} - {{ record.date_communicated }}</a></p>
+                    {% endif %}
+                {% else %}
+                <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.title }} - {{ record.date_communicated }}</a></p>
+                {% endif %}
+            </div>
+            <div class="col-lg-3 text-CCL-Gold">
+            {% if record.supporting_cosmic_authors is not None %}
+                {% for master in record.supporting_cosmic_authors.all %}
+                    {{ master }};
+                {% endfor %}
+            {% endif %}
+            </div>
+            <div class="col-lg-3 text-CCL-Gold">
+                {% for tag in record.tags.all %}
+                    {{ tag }};
+                {% endfor %}
             </div>
         </div>
-        {% for record in library_records %}
-        <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
-            <div class="row pt-2 pb-2">
-                <div class="col-lg-6">
-                    {% if record.library_record_type == 'Discourse' %}
-                        {% if record.discourse_series and record.part_number > 0 %}
-                    <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">Part {{ record.part_number }} - {{ record.discourse_series }} - {{ record.title }} - {{ record.date_communicated }}</a></p>
-                        {% elif record.discourse_series %}
-                    <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.discourse_series }} - {{ record.title }} - {{ record.date_communicated }}</a></p>
-                        {% else %}
-                    <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.title }} - {{ record.date_communicated }}</a></p>
-                        {% endif %}
-                    {% else %}
-                    <p><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{{ record.title }} - {{ record.date_communicated }}</a></p>
-                    {% endif %}
-                </div>
-                <div class="col-lg-3 text-CCL-Gold">
-                {% if record.supporting_cosmic_authors is not None %}
-                    {% for master in record.supporting_cosmic_authors.all %}
-                        {{ master }};
-                    {% endfor %}
-                {% endif %}
-                </div>
-                <div class="col-lg-3 text-CCL-Gold">
-                    {% for tag in record.tags.all %}
-                        {{ tag }};
-                    {% endfor %}
-                </div>
-            </div>
-        </section>
-        {% endfor %}
     </section>
+    {% endfor %}
     
     <section>
         <div class="row pt-4">
