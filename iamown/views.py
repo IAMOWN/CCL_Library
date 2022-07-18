@@ -2079,7 +2079,7 @@ class EmailCampaignUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
             email_message = f"""
             {EMAIL_MESSAGE_CAMPAIGN_1}
             *** This is a TEST EMAIL * Please make any changes in the <a href="{EMAIL_CAMPAIGN_DETAIL_URL}{email_campaign.id}/">Email Campaign</a>. ***<br>
-            *** Once you are satisfied please update this <a href="{TASK_URL}{task_obj.id}">Task</a> as Revise to send another test email, or Agree to continue the ServiceFlow. ***<p>
+            *** Once you are satisfied please update this <a href="{TASK_URL}{new_task.id}">Task</a> as Revise to send another test email, or Agree to continue the ServiceFlow. ***<p>
             {form.instance.message}
             {EMAIL_MESSAGE_2}
             """
