@@ -1846,14 +1846,26 @@ def bulk_email_import(request):
 
         emails = message.split(';')
         user_count = 0
+        existing_email_count = 0
+        new_subs_count = 0
         for email in emails:
             try:
                 check_for_user = User.objects.get(email=email).username
                 user_count += 1
-                print(f'Email being used for {check_for_user}')
+                print(f'Email "{email}" being used for username: {check_for_user}')
             except User.DoesNotExist:
-                print(f'email not being')
-            print(f'{email}')
+                print(f'Email not being used: {email}')
+                try:
+                    check_for_email = MailingList.objects.get(email=email)
+                    existing_email_count += 1
+                    print(f'Email "{email}" ML subscription for: {check_for_email}')
+                except MailingList.DoesNotExist:
+                    new_subs_count += 1
+                    print(f'Create ML subscription for: {email}')
+
+        print(f'Existing user email duplicates: {user_count}')
+        print(f'Existing user ML sub duplicates: {existing_email_count}')
+        print(f'New subs count: {new_subs_count}')
 
         context = {
             'title': 'Bulk Email Import',
