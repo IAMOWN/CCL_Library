@@ -97,7 +97,7 @@ EMAIL_MESSAGE_2 = '''
                     </body>
                     </html>
 '''
-FROM_EMAIL = 'info@lanesflow.io'
+FROM_EMAIL = settings.FROM_EMAIL
 CONTACT_EMAIL = 'egaadministration@protonmail.com'
 INJECTION_LIST = [
     "<script>",
