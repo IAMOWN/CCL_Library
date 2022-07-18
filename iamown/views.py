@@ -57,7 +57,7 @@ from users.models import (
 DOMAIN = settings.DOMAIN
 UNSUBSCRIBE_URL_EMAIL = 'https://cosmicchrist.love/mailing_list/unsubscribe_email/'
 UNSUBSCRIBE_URL_USER = 'https://cosmicchrist.love/mailing_list/unsubscribe_user/'
-FROM_EMAIL = 'info@lanesflow.io'
+FROM_EMAIL = settings.FROM_EMAIL
 EMAIL_MESSAGE_1 = '''
                     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                     <html xmlns="http://www.w3.org/1999/xhtml">
@@ -1845,7 +1845,14 @@ def bulk_email_import(request):
         message = request.POST['email-address-import']
 
         emails = message.split(';')
+        user_count = 0
         for email in emails:
+            try:
+                check_for_user = User.objects.get(email=email).username
+                user_count += 1
+                print(f'Email being used for {check_for_user}')
+            except User.DoesNotExist:
+                print(f'email not being')
             print(f'{email}')
 
         context = {
