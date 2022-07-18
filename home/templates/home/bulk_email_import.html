@@ -17,16 +17,15 @@
             {% csrf_token %}
             <div class="row pt-2">
                 <div class="col-lg-3">
-                <label for="audience">Audience:</label>
+                <label for="audience" class="pb-1">Audience:</label>
                     <select name="audience" class="form-control">
-                        <option value="">Audience</option>
                         {% for audience in audiences %}
                         <option value='{{ audience.audience }}'>{{ audience.audience }}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="col-lg-9">
-                <label for="email-address-import">Email address to import:</label>
+                <label for="email-address-import" class="pb-1">Email address to import:</label>
                     <textarea name="email-address-import" class="form-control mb-30" minlength="6" placeholder="address@email.com" required rows="6"></textarea>
                 </div>
             </div>
