@@ -1885,8 +1885,8 @@ def bulk_email_import(request):
 
         if successful_subscription:
             success_message = f'''Emails processed: {emails_processed}<br>
-            User-email matches: {user_count}<br>
-            Existing email sub matches: {existing_email_count}<br>
+            Existing Users with this email: {user_count}<br>
+            Existing email subscription matches: {existing_email_count}<br>
             New subscriptions: {new_subs_count}
             '''
 
