@@ -1844,8 +1844,9 @@ def bulk_email_import(request):
         audience = request.POST['audience']
         message = request.POST['email-address-import']
 
-        print(f'message: {message}')
-        print(f'audience: {audience}')
+        emails = message.split(';')
+        for email in emails:
+            print(f'{email}')
 
         context = {
             'title': 'Bulk Email Import',
