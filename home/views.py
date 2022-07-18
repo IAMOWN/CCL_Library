@@ -351,7 +351,7 @@ class SubscriptionCreate(CreateView):
                 send_email(subject, form.instance.email, email_message)
 
                 # Create flash message
-                subsciption_outcome_message = f'Bless You. An email to confirm your email subscription has been sent to {form.instance.email}. Love and Blessings.'
+                subsciption_outcome_message = f'Bless You. An email with a link to confirm your email subscription has been sent to {form.instance.email}. If this email does not appear in your inbox within a couple of minutes please check the Spam folder of your email client. Love and Blessings.'
                 messages.add_message(
                     self.request,
                     messages.SUCCESS,
