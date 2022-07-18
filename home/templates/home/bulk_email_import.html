@@ -12,11 +12,12 @@
         </div>
     </section>
 
-    <section class="content-section">
+    <section class="content-section pt-2">
         <form action="#" method="post">
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-3">
+                <label for="audience">Audience:</label>
                     <select name="audience" class="form-control">
                         <option value="">Audience</option>
                         {% for audience in audiences %}
@@ -25,7 +26,8 @@
                     </select>
                 </div>
                 <div class="col-lg-9">
-                    <textarea name="email-address-import" class="form-control mb-30" minlength="6" placeholder="Enter the email addresses to import" required rows="6"></textarea>
+                <label for="email-address-import">Email address to import:</label>
+                    <textarea name="email-address-import" class="form-control mb-30" minlength="6" placeholder="address@email.com" required rows="6"></textarea>
                 </div>
             </div>
             <div class="row">
