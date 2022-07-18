@@ -1845,31 +1845,44 @@ def bulk_email_import(request):
         message = request.POST['email-address-import']
 
         emails = message.split(';')
+        emails_processed = 0
         user_count = 0
         existing_email_count = 0
         new_subs_count = 0
+        successful_subscription = False
         for email in emails:
+            emails_processed += 1
             try:
                 check_for_user = User.objects.get(email=email).username
                 user_count += 1
-                print(f'Email "{email}" being used for username: {check_for_user}')
             except User.DoesNotExist:
-                print(f'Email not being used: {email}')
                 try:
                     check_for_email = MailingList.objects.get(email=email)
                     existing_email_count += 1
-                    print(f'Email "{email}" ML subscription for: {check_for_email}')
                 except MailingList.DoesNotExist:
                     new_subs_count += 1
-                    print(f'Create ML subscription for: {email}')
+                    MailingList.objects.create(
+                        audience=audience,
+                        email=email,
+                        subscribed='Yes',
+                        mailing_list_log=f'''>>> <strong>Subscribed through Bulk Import</strong> by <strong>{request.user.profile.spiritual_name}</strong> on <strong>{get_current_date()}</strong>.
+                        '''
+                    )
+                    successful_subscription = True
 
-        print(f'Existing user email duplicates: {user_count}')
-        print(f'Existing user ML sub duplicates: {existing_email_count}')
-        print(f'New subs count: {new_subs_count}')
+        if successful_subscription:
+            success_message = f'''Emails processed: {emails_processed}<br>
+            User-email matches: {user_count}<br>
+            Existing email sub matches: {existing_email_count}<br>
+            New subscriptions: {new_subs_count}
+            '''
+
 
         context = {
             'title': 'Bulk Email Import',
             'audiences': Audience.objects.all(),
+            'successful_subscription': successful_subscription,
+            'success_message': success_message,
         }
 
         return render(request, 'home/bulk_email_import.html', context)

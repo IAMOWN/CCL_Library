@@ -12,6 +12,7 @@
         </div>
     </section>
 
+    {% if successful_subscription %}
     <section class="content-section text-CCL-Gold">
         <form action="#" method="post">
             {% csrf_token %}
@@ -41,4 +42,13 @@
             </div>
         </form>
     </section>
+    {% else %}
+    <section class="content-section">
+        <div class="row pt-2">
+            <div class="col-lg-12">
+                {{ success_message|safe }}
+            </div>
+        </div>
+    </section>
+    {% endif %}
 {% endblock %}
