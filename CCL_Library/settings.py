@@ -158,8 +158,6 @@ EMAIL_USE_SSL = True
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 FROM_EMAIL = os.environ.get('FROM_EMAIL')
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
-SERVER_EMAIL = os.environ.get('SERVER_EMAIL')
 
 COMPANY_NAME = os.environ.get('COMPANY_NAME')
 DOMAIN  = os.environ.get('DOMAIN')
