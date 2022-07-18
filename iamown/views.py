@@ -1884,6 +1884,7 @@ def bulk_email_import(request):
             'audiences': Audience.objects.all(),
             'successful_subscription': successful_subscription,
             'success_message': success_message,
+            'audience_entered': audience,
         }
 
         return render(request, 'home/bulk_email_import.html', context)
