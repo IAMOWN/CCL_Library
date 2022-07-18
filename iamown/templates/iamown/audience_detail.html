@@ -38,9 +38,13 @@
             <div class="col-lg-3 pb-2">
                 <a href="{% url 'audiences' %}" class="btn btn-outline-CCL-Blue col-12">Back to Audiences</a>
             </div>
+            {% if not audience.audience == 'CCL Newsletter' %}
             <div class="col-lg-3 pb-2">
                 <a href="{% url 'audience-update' audience.id %}" class="btn btn-CCL-Blue col-12">Edit Audience</a>
             </div>
+            {% else %}
+            <div class="col-lg-3 pb-2"></div>
+            {% endif %}
             <div class="col-lg-3 pb-2">
                 <a href="{% url 'audience-create' %}" class="btn btn-CCL-Blue col-12">Add an Audience</a>
             </div>
