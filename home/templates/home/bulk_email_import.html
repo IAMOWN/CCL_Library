@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+    <section class="content-section pt-2">
+        <div class="row">
+            <div class="col-lg-12">>
+                <a class="btn btn-CCL-Blue col-12" href="{% url 'library-records' %}">Bulk Email Import</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <h3 class="pt-2">Contact Us</h3>
+        <form action="#" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-3">
+                    <select name="audience" class="form-control">
+                        <option value="">Audience</option>
+                        {% for audience in audiences %}
+                        <option value='{{ audience.audience }}'>{{ audience.audience }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-lg-6">
+                    <textarea name="email-address-import" class="form-control mb-30" minlength="6" placeholder="Enter the email addresses to import" required rows="6"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 pt-4 pb-2">
+                    <input type="submit" class="btn btn-CCL-Blue col-12" value="Import Emails">
+                </div>
+            </div>
+        </form>
+    </section>
+{% endblock %}

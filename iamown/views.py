@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from django.core.mail import send_mail
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -127,6 +128,7 @@ LIBRARY_TASK_URL = 'https://cosmicchrist.love/tasks/library/'
 TASKS_URL = 'https://cosmicchrist.love/tasks/'
 TASK_URL = 'https://cosmicchrist.love/task/'
 EMAIL_CAMPAIGN_URL = 'email_campaign_create/'
+EMAIL_CAMPAIGN_DETAIL_URL = 'https://cosmicchrist.love/email_campaign/'
 
 LEE_TASK_RECORD_OBS_2 = 'Record Observation (2) Book File Review'
 BOOK_EDITOR_GROUP_NAME = 'Book Editors'
@@ -521,7 +523,8 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 email_subject = email_campaign_obj.subject
                 email_message = f"""
                 {EMAIL_MESSAGE_CAMPAIGN_1}
-                *** This is a TEST EMAIL (REVISED) * Please check this <a href="{TASK_URL}{task.id}/">Task</a> to Approve this email ***<p>
+                *** This is a TEST EMAIL (REVISED) * Please make any changes in the <a href="{EMAIL_CAMPAIGN_DETAIL_URL}{email_campaign.id}/">Email Campaign</a>. ***<br>
+                *** Once you are satisfied please update this <a href="{TASK_URL}{task_obj.id}">Task</a> as Revise to send another test email, or Agree to continue the ServiceFlow. ***<p>
                 {email_campaign_obj.message}
                 {EMAIL_MESSAGE_2}
                 """
@@ -856,7 +859,8 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 email_subject = email_campaign_obj.subject
                 email_message = f"""
                 {EMAIL_MESSAGE_CAMPAIGN_1}
-                *** This is a TEST EMAIL (REVISED) * Please check this <a href="{TASK_URL}{task.id}/">Task</a> to Approve this email ***<p>
+                *** This is a TEST EMAIL (REVISED) * Please make any changes in the <a href="{EMAIL_CAMPAIGN_DETAIL_URL}{email_campaign.id}/">Email Campaign</a>. ***<br>
+                *** Once you are satisfied please update this <a href="{TASK_URL}{task_obj.id}">Task</a> as Revise to send another test email, or Agree to continue the ServiceFlow. ***<p>
                 {email_campaign_obj.message}
                 {EMAIL_MESSAGE_2}
                 """
@@ -1810,6 +1814,7 @@ def unsubscribe_email(request, audience, email):
     return render(request, 'iamown/unsubscribe.html', context)
 
 
+
 def unsubscribe_user(request, audience, user):  # TODO ServiceFlow to follow up with unsubscribes from users?
     mailing_list_record_to_unsubscribe = MailingList.objects.filter(audience__audience=audience, user__username=user)
     if mailing_list_record_to_unsubscribe.exists():
@@ -1831,6 +1836,30 @@ def unsubscribe_user(request, audience, user):  # TODO ServiceFlow to follow up 
     }
 
     return render(request, 'iamown/unsubscribe.html', context)
+
+
+@login_required
+def bulk_email_import(request):
+    if request.method == 'POST':
+        message = request.POST['email-address-import']
+        audience = request.POST['audience']
+
+        print('message')
+        print('audience')
+
+        context = {
+            'title': 'Bulk Email Import',
+            'audiences': Audience.objects.all(),
+        }
+
+        return render(request, 'home/bulk_email_import.html', context)
+
+    else:
+        context = {
+            'title': 'Bulk Email Import',
+            'audiences': Audience.objects.all()
+        }
+        return render(request, 'home/bulk_email_import.html', context)
 
 
 # ####################### Email Campaign #######################
@@ -1922,7 +1951,8 @@ class EmailCampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
             email_subject = form.instance.subject
             email_message = f"""
             {EMAIL_MESSAGE_CAMPAIGN_1}
-            *** This is a TEST EMAIL * Please check this <a href="{TASK_URL}{task_obj.id}">Task</a> to Approve this email ***<p>
+            *** This is a TEST EMAIL * Please make any changes in the <a href="{EMAIL_CAMPAIGN_DETAIL_URL}{email_campaign.id}/">Email Campaign</a>. ***<br>
+            *** Once you are satisfied please update this <a href="{TASK_URL}{task_obj.id}">Task</a> as Revise to send another test email, or Agree to continue the ServiceFlow. ***<p>
             {form.instance.message}
             {EMAIL_MESSAGE_2}
             """
@@ -2001,7 +2031,8 @@ class EmailCampaignUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
             email_subject = form.instance.subject
             email_message = f"""
             {EMAIL_MESSAGE_CAMPAIGN_1}
-            *** This is a TEST EMAIL * Please check the <a href="{TASK_URL}{new_task.id}">Task List</a> to Approve this email ***<p>
+            *** This is a TEST EMAIL * Please make any changes in the <a href="{EMAIL_CAMPAIGN_DETAIL_URL}{email_campaign.id}/">Email Campaign</a>. ***<br>
+            *** Once you are satisfied please update this <a href="{TASK_URL}{task_obj.id}">Task</a> as Revise to send another test email, or Agree to continue the ServiceFlow. ***<p>
             {form.instance.message}
             {EMAIL_MESSAGE_2}
             """
