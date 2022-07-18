@@ -1840,26 +1840,38 @@ def unsubscribe_user(request, audience, user):  # TODO ServiceFlow to follow up 
 
 @login_required
 def bulk_email_import(request):
+    successful_subscription = False
+
     if request.method == 'POST':
+        # Get input
         audience = request.POST['audience']
         message = request.POST['email-address-import']
 
+        # Prepare to process import
         emails = message.split(';')
         emails_processed = 0
         user_count = 0
         existing_email_count = 0
         new_subs_count = 0
-        successful_subscription = False
+
         for email in emails:
             emails_processed += 1
+            
+            # Check for a user with this email
             try:
+                # Matching user
                 check_for_user = User.objects.get(email=email).username
                 user_count += 1
+
+            # No user - check for a matching email subscription
             except User.DoesNotExist:
                 try:
+                    # Existing email subscription
                     check_for_email = MailingList.objects.get(email=email)
                     existing_email_count += 1
+
                 except MailingList.DoesNotExist:
+                    # Add new mailing list record
                     new_subs_count += 1
                     audience_obj = Audience.objects.get(audience=audience)
                     MailingList.objects.create(
@@ -1877,7 +1889,6 @@ def bulk_email_import(request):
             Existing email sub matches: {existing_email_count}<br>
             New subscriptions: {new_subs_count}
             '''
-
 
         context = {
             'title': 'Bulk Email Import',
