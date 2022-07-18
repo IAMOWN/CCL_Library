@@ -7,13 +7,12 @@
     <section class="content-section pt-2">
         <div class="row">
             <div class="col-lg-12">>
-                <a class="btn btn-CCL-Blue col-12" href="{% url 'library-records' %}">Bulk Email Import</a>
+                <h3>Bulk Email Import</h3>
             </div>
         </div>
     </section>
 
     <section class="content-section">
-        <h3 class="pt-2">Contact Us</h3>
         <form action="#" method="post">
             {% csrf_token %}
             <div class="row">
@@ -25,7 +24,7 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-9">
                     <textarea name="email-address-import" class="form-control mb-30" minlength="6" placeholder="Enter the email addresses to import" required rows="6"></textarea>
                 </div>
             </div>
