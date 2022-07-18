@@ -100,7 +100,7 @@ urlpatterns = [
     path('mailing_list_delete/<int:pk>/', MailingListDeleteView.as_view(), name='mailing-list-delete'),
     path('mailing_list/unsubscribe_email/<str:audience>/<str:email>/', unsubscribe_email, name='unsubscribe-email'),
     path('mailing_list/unsubscribe_user/<str:audience>/<str:user>/', unsubscribe_user, name='unsubscribe-user'),
-    path('mailing_list/email_import/', bulk_email_import, name='mailing-list-email-import'),
+    path('mailing_list/bulk_import/', bulk_email_import, name='mailing-list-bulk-import'),
 
     # Email Campaign
     path('email_campaigns/', EmailCampaignListView.as_view(), name='email-campaigns'),
