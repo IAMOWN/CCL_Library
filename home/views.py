@@ -161,7 +161,7 @@ def contact(request):
         'title': 'Contacting the Elemental Grace Alliance'
     }
 
-    return render(request, 'home/contact.html')
+    return render(request, 'home/contact.html', context)
 
     # if request.method == 'POST':
     #     contact_name = request.POST['message-name']
