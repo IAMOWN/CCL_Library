@@ -1861,8 +1861,9 @@ def bulk_email_import(request):
                     existing_email_count += 1
                 except MailingList.DoesNotExist:
                     new_subs_count += 1
+                    audience_obj = Audience.objects.get(audience=audience)
                     MailingList.objects.create(
-                        audience=audience,
+                        audience=audience_obj,
                         email=email,
                         subscribed='Yes',
                         mailing_list_log=f'''>>> <strong>Subscribed through Bulk Import</strong> by <strong>{request.user.profile.spiritual_name}</strong> on <strong>{get_current_date()}</strong>.
