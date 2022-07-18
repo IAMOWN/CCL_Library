@@ -1891,7 +1891,8 @@ def bulk_email_import(request):
     else:
         context = {
             'title': 'Bulk Email Import',
-            'audiences': Audience.objects.all()
+            'audiences': Audience.objects.all(),
+            'successful_subscription': successful_subscription,
         }
         return render(request, 'home/bulk_email_import.html', context)
 

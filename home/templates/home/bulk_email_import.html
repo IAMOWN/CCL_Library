@@ -12,7 +12,7 @@
         </div>
     </section>
 
-    {% if successful_subscription %}
+    {% if not successful_subscription %}
     <section class="content-section text-CCL-Gold">
         <form action="#" method="post">
             {% csrf_token %}
