@@ -158,7 +158,7 @@ def home(request):
 # ####################### Contact #######################
 def contact(request):
     context = {
-        'title': 'Cosmic Christ Love Contact Information'
+        'title': 'Contacting the Elemental Grace Alliance'
     }
 
     return render(request, 'home/contact.html')
