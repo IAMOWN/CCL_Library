@@ -157,34 +157,40 @@ def home(request):
 
 # ####################### Contact #######################
 def contact(request):
-    if request.method == 'POST':
-        contact_name = request.POST['message-name']
-        contact_email = request.POST['message-email']
-        message = request.POST['message']
+    context = {
+        'title': 'Cosmic Christ Love Contact Information'
+    }
 
-        email_subject = f'CCL Library Contact: {contact_name}'
-        email_message = f"""
-        {EMAIL_MESSAGE_1}
-        <p><strong>Contact request from:</strong> {contact_name}</p>
-        <p><strong>Email:</strong> {contact_email}</p>
-        <p><strong>Message:</strong></p>
-        <p>{message}</p>        
-        {EMAIL_MESSAGE_2}
-        """
-        send_email(email_subject, CONTACT_EMAIL, email_message)
+    return render(request, 'home/contact.html')
 
-        context = {
-            'name': contact_name,
-            'valid': True,
-            'confirm_message_1': "Thanks for contacting us, ",
-            'confirm_message_2': "Your message has been sent and we will respond as soon as we can.",
-            'confirm_message_3': "Love and Blessings, The Elemental Grace Alliance",
-        }
-
-        return render(request, 'home/contact.html', context)
-
-    else:
-        return render(request, 'home/contact.html')
+    # if request.method == 'POST':
+    #     contact_name = request.POST['message-name']
+    #     contact_email = request.POST['message-email']
+    #     message = request.POST['message']
+    #
+    #     email_subject = f'CCL Library Contact: {contact_name}'
+    #     email_message = f"""
+    #     {EMAIL_MESSAGE_1}
+    #     <p><strong>Contact request from:</strong> {contact_name}</p>
+    #     <p><strong>Email:</strong> {contact_email}</p>
+    #     <p><strong>Message:</strong></p>
+    #     <p>{message}</p>
+    #     {EMAIL_MESSAGE_2}
+    #     """
+    #     send_email(email_subject, CONTACT_EMAIL, email_message)
+    #
+    #     context = {
+    #         'name': contact_name,
+    #         'valid': True,
+    #         'confirm_message_1': "Thanks for contacting us, ",
+    #         'confirm_message_2': "Your message has been sent and we will respond as soon as we can.",
+    #         'confirm_message_3': "Love and Blessings, The Elemental Grace Alliance",
+    #     }
+    #
+    #     return render(request, 'home/contact.html', context)
+    #
+    # else:
+    #     return render(request, 'home/contact.html')
 
 
 # ####################### Search Training #######################
