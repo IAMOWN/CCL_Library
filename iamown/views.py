@@ -1841,11 +1841,11 @@ def unsubscribe_user(request, audience, user):  # TODO ServiceFlow to follow up 
 @login_required
 def bulk_email_import(request):
     if request.method == 'POST':
-        message = request.POST['email-address-import']
         audience = request.POST['audience']
+        message = request.POST['email-address-import']
 
-        print('message')
-        print('audience')
+        print(f'message: {message}')
+        print(f'audience: {audience}')
 
         context = {
             'title': 'Bulk Email Import',
