@@ -1638,7 +1638,11 @@ class MailingListListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         queryset = MailingList.objects.all()
 
         for item in queryset:
-            print(f'{item.email} - {item.user.profile.spiritual_name} {item.subscribed}')
+            if item.email:
+                print(f'Email: {item.email} ({item.subscribed})')
+            else:
+                print(f'User: {item.user.profile.spiritual_name} ({item.subscribed})')
+
         return queryset
 
     def test_func(self):
