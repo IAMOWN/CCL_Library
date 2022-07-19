@@ -199,8 +199,8 @@ class MailingList(models.Model):
 
     class Meta:
         ordering = [
-            '-subscribed',
             'audience',
+            'subscribed',
             'user',
             'email',
         ]
