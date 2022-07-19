@@ -1629,6 +1629,7 @@ class AudienceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 class MailingListListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """MailingList ListView."""
     model = MailingList
+    queryset = MailingList.objects.all()
     template_name = 'iamown/mailing_list.html'
     context_object_name = 'mailing_list'
     ordering = 'audience'
