@@ -209,9 +209,9 @@ class MailingList(models.Model):
 
     def __str__(self):
         if self.email:
-            return f'{self.audience}: {self.email}'
+            return f'{self.audience}: {self.email} (email)'
         else:
-            return f'{self.audience}: {self.user.username}'
+            return f'{self.audience}: {self.user.username} (username)'
 
     def get_absolute_url(self):
         return reverse('mailing-list-entry', kwargs={'pk': self.pk})
