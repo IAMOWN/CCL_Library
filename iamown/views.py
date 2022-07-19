@@ -1629,11 +1629,17 @@ class AudienceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 class MailingListListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """MailingList ListView."""
     model = MailingList
-    queryset = MailingList.objects.all()
     template_name = 'iamown/mailing_list.html'
     context_object_name = 'mailing_list'
     ordering = 'audience'
     paginate_by = 12
+
+    def get_queryset(self):
+        queryset = MailingList.objects.all()
+
+        for item in queryset:
+            print(f'{item.email} - {item.user.profile.spiritual_name} {item.subscribed}')
+        return queryset
 
     def test_func(self):
         return self.request.user.is_staff
