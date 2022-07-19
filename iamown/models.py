@@ -211,7 +211,7 @@ class MailingList(models.Model):
         if self.email:
             return f'{self.audience}: {self.email} (email)'
         else:
-            return f'{self.audience}: {self.user.username} (username)'
+            return f'{self.audience}: {self.user.profile.spiritual_name} (username)'
 
     def get_absolute_url(self):
         return reverse('mailing-list-entry', kwargs={'pk': self.pk})
