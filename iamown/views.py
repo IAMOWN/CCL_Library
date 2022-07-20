@@ -25,6 +25,7 @@ from .models import (
     MailingList,
     EmailCampaign,
 )
+
 from .forms import (
     CreateTaskForm,
     UpdateTaskForm,

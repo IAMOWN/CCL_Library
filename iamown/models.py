@@ -1,7 +1,8 @@
 from django.db import models
 from django.urls import reverse
-from django.contrib.auth.models import User
 from django.utils import timezone
+
+from django.contrib.auth.models import User
 
 from users.models import (
     Profile,
@@ -607,7 +608,7 @@ class PEeP(models.Model):
         unique_together = ['functional_activity', 'dear_soul_responsible']
 
     def __str__(self):
-        return self.process_function
+        return self.functional_activity
 
     def get_absolute_url(self):
         return reverse('peep-entry', kwargs={'pk': self.pk})
