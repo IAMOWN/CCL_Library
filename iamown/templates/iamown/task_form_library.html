@@ -124,8 +124,10 @@
                 {{ form.book_text_impacted.as_hidden }}
             {% endif %}
             <div class="row pt-2 pb-2">
-                <div class="col-lg-12 pt-2">
+                <div class="col-lg-3 pt-2">
                     <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-outline-CCL-Blue col-12">Back</a>
+                </div>
+                <div class="col-lg-3 pt-2">
                     {% if page_type == 'Update' %}
                         <input type="submit" value="Update Library Task" class="btn btn-CCL-Blue float-end col-12">
                     {% else %}
