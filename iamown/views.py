@@ -1229,7 +1229,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                         Beloved {editor.profile.spiritual_name},<p>
                         A Library Observation has just been completed, and has been marked as having an impact on book text 
                         related to the Library record.<p> 
-                        Please review the <a href='{LIBRARY_TASKS_URL}'>Library Tasks</a> at your earliest convenience.<p>
+                        Please review the <a href='{LIBRARY_TASK_URL}{created_task.id}'>Library Task</a> at your earliest convenience.<p>
                         Note: It is possible that another Book Editor may respond to this task before you do. When 
                         reviewing the task be sure check the task status as well as the Assigned Dear Soul for the task.<p>
                         Love and Blessings
