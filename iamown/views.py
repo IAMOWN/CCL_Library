@@ -1054,6 +1054,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
             )
             context['tasks'] = search_result
             context['search_count'] = search_result.count()
+            print(f'search_result.count(): {search_result.count()}')
             context['search_type'] = 'Service Group'
             context['search_entered'] = service_group_search_input
         # Task Priority
