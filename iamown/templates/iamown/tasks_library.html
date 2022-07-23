@@ -78,7 +78,7 @@
                 {% if search_count == 0 %}
                     <p class="text-danger">There are no tasks with "{{ search_entered }}" in the Service Group field. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
                 {% else %}
-                    <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the Service Group field. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
+                    <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the Service Group field. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
                 {% endif %}
             {% elif search_type == 'Priority' %}
                 {% if search_count == 0 %}
