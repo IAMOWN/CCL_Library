@@ -1714,12 +1714,12 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
 
         service_group = ServiceGroup.objects.get(service_group=DIGITAL_LIBRARIAN_GROUP_NAME)
         observation_type = form.instance.observation_type
+        history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong> on <strong>{get_current_date()}</strong>'''
+        form.instance.observer = observer_obj
 
         if observation_type == 'Typo':
             observed_typo = form.instance.typo
-            history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p><br>'''
             suggested_correction = form.instance.suggested_correction
-            form.instance.observer = observer_obj
             form.instance.library_record = record
             self.object = form.save()
             observation_obj = LibraryObservation.objects.get(id=self.object.id)
@@ -1742,13 +1742,10 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 book_urls_for_record=record.book_urls,
             )
         elif observation_type == 'Image':
-            history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p><br>'''
-            form.instance.observer = observer_obj
             form.instance.library_record = record
             image_observation = form.instance.image_observation
             self.object = form.save()
             observation_obj = LibraryObservation.objects.get(id=self.object.id)
-
             task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1).process_description + f'''
             Record: <a href="{DOMAIN}library_record/{record.id}/" class="text-CCL-Blue" target="_blank">{record.title}</a><br>
             Observer: {observer}<br>
@@ -1765,13 +1762,10 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 book_urls_for_record=record.book_urls,
             )
         elif observation_type == 'Broken Link':
-            history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p><br>'''
-            form.instance.observer = observer_obj
             form.instance.library_record = record
             link_observation = form.instance.link_observation
             self.object = form.save()
             observation_obj = LibraryObservation.objects.get(id=self.object.id)
-
             task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1).process_description + f'''
             Record: <a href="{DOMAIN}library_record/{record.id}/" class="text-CCL-Blue" target="_blank">{record.title}</a><br>
             Observer: {observer}<br>
@@ -1788,13 +1782,10 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 book_urls_for_record=record.book_urls,
             )
         elif observation_type == 'Other':
-            history_log = f'''>>> <strong>{observation_type} Library Observation</strong> >>> submitted by <strong>{observer}</strong><p><br>'''
-            form.instance.observer = observer_obj
             form.instance.library_record = record
             general_observation = form.instance.general_observation
             self.object = form.save()
             observation_obj = LibraryObservation.objects.get(id=self.object.id)
-
             task_description = LEE.objects.get(task_name=LEE_TASK_RECORD_OBS_1).process_description + f'''
             Record: <a href="{DOMAIN}library_record/{record.id}/" class="text-CCL-Blue" target="_blank">{record.title}</a><br>
             Observer: {observer}<br>
