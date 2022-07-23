@@ -48,12 +48,11 @@
                     </select>
                 </div>
                 <div class="col-lg-3 pb-2">
-                    <select name="status-search-area" class="pe-2 form-control">
-                        <option value="">by Task Status</option>
-                        <option value='1) Not started'>1) Not started</option>
-                        <option value='2) In progress'>2) In progress</option>
-                        <option value='3) Deferred'>3) Deferred</option>
-                        <option value='Completed'>Completed</option>
+                    <select name="service-group-search-area" class="pe-2 form-control">
+                        <option value="">by Service Group</option>
+                        {% for service_group in service_groups %}
+                        <option value='{{ service_group.service_group }}'>{{ service_group.service_group }}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="col-lg-3 pb-2">
@@ -75,7 +74,7 @@
             {% else %}
                 <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" assigned. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
             {% endif %}
-            {% elif search_type == 'Status' %}
+            {% elif search_type == 'Service Group' %}
             {% if search_count == 0 %}
                 <p class="text-danger">There are no tasks with "{{ search_entered }}" in the Task Status field. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
             {% else %}
@@ -146,7 +145,7 @@
             {% endif %}
         {% endfor %}
     {% else %}
-        {% if search_type == 'Status' or search_type == 'Dear Soul' or search_type == 'Priority' %}
+        {% if search_type == 'Service Group' or search_type == 'Dear Soul' or search_type == 'Priority' %}
             {% for task in tasks %}
             <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %}">
                 <div class="row pt-2 pb-2">

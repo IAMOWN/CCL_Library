@@ -1016,6 +1016,8 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
             task_status='Completed',
         ).count()
 
+        context['service_groups'] = ServiceGroup.objects.all()
+
         search_input = self.request.GET.get('search-area') or ''
         if search_input:
             context['tasks'] = context['tasks'].filter(task_title__icontains=search_input)
@@ -1026,7 +1028,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         # Search Inputs
         context['search_off'] = True
         assignee_search_input = self.request.GET.get('assignee-search-area') or ''
-        status_search_input = self.request.GET.get('status-search-area') or ''
+        service_group_search_input = self.request.GET.get('service-group-search-area') or ''
         priority_search_input = self.request.GET.get('priority-search-area') or ''
 
         # Process searches - Dear Soul
@@ -1043,17 +1045,17 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
             context['search_type'] = 'Dear Soul'
             context['search_entered'] = assignee_search_input
         # Task Status
-        elif status_search_input:
+        elif service_group_search_input:
             context['search_off'] = False
-            search_result = Task.objects.filter(task_status__icontains=status_search_input, task_type__in=['Library Observation', 'Book Edit']).order_by(
+            search_result = Task.objects.filter(assigned_service_group__service_group=service_group_search_input, task_type__in=['Library Observation', 'Book Edit']).order_by(
                 'task_status',
                 'task_priority',
                 'due_date',
             )
             context['tasks'] = search_result
             context['search_count'] = search_result.count()
-            context['search_type'] = 'Status'
-            context['search_entered'] = status_search_input
+            context['search_type'] = 'Service Group'
+            context['search_entered'] = service_group_search_input
         # Task Priority
         elif priority_search_input:
             context['search_off'] = False
