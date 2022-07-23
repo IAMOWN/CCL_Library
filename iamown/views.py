@@ -125,7 +125,7 @@ EMAIL_MESSAGE_2 = '''
                     </html>
 '''
 
-LIBRARY_TASK_URL = 'https://cosmicchrist.love/tasks/library/'
+LIBRARY_TASK_URL = 'https://cosmicchrist.love/task/library/'
 TASKS_URL = 'https://cosmicchrist.love/tasks/'
 TASK_URL = 'https://cosmicchrist.love/task/'
 EMAIL_CAMPAIGN_URL = 'email_campaign_create/'
