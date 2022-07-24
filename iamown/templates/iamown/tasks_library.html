@@ -120,7 +120,7 @@
     {% endif %}
 
     {% if search_off %}
-        {% for task in tasks %}
+        {% for task in object_list %}
             {% if task.task_status != 'Completed' %}
             <section class="list-group-item list-group-item-light text-CCL-Gold {% cycle 'row1' 'row2' %}">
                 <div class="row pt-2 pb-2">
