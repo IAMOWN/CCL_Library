@@ -63,9 +63,6 @@
             </div>
             <div class="row">
                 <div class="col-lg-3">
-                    {{ form.task_priority|as_crispy_field }}
-                </div>
-                <div class="col-lg-3">
                     {{ form.task_status|as_crispy_field }}
                 </div>
                 <div class="col-lg-3">
@@ -73,6 +70,9 @@
                 </div>
                 <div class="col-lg-3">
                     {{ form.assigned_profile|as_crispy_field }}
+                </div>
+                <div class="col-lg-3">
+                    {{ form.task_priority|as_crispy_field }}
                 </div>
             </div>
             <hr>
