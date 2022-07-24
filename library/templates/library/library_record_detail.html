@@ -37,9 +37,9 @@
         <div class="row">
             <div class="col-lg-12">
                 {% if library_record.principal_cosmic_author is not None %}
-                <h5><strong>{{ library_record.title }} - {{ library_record.principal_cosmic_author }} - {{ library_record.date_communicated|date: "jS F, Y" }}</strong></h5>
+                <h5><strong>{{ library_record.title }} - {{ library_record.principal_cosmic_author }} - {{ library_record.date_communicated|date:"jS F, Y" }}</strong></h5>
                 {% else %}
-                <h5><strong>{{ library_record.title }} - {{ library_record.date_communicated|date: "jS F, Y"  }}</strong></h5>
+                <h5><strong>{{ library_record.title }} - {{ library_record.date_communicated|date:"jS F, Y" }}</strong></h5>
                 {% endif %}
             </div>
         </div>
