@@ -82,7 +82,7 @@
                     <h6><a href="{% url 'library-record' record.id %}" class="text-CCL-Blue">{% if record.part_number %}Part {{ record.part_number }} - {% endif %} {% if record.discourse_series.discourse_series %}{{ record.discourse_series.discourse_series }} <br>{% endif %}{{ record.title }}</a></h6>
                 </div>
                 <div class="col-lg-3">
-                    <h6 class="text-CCL-Gold text-end"> {{ record.principal_cosmic_author }}<br>{{ record.date_communicated }}</h6>
+                    <h6 class="text-CCL-Gold text-end"> {{ record.principal_cosmic_author }}<br>{{ record.date_communicated|date:"jS F, Y" }}</h6>
                 </div>
             </div>
         {% else %}
