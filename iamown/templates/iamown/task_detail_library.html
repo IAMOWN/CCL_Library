@@ -92,9 +92,15 @@
             <div class="col-lg-3 pt-2 pb-2">
                 <a href="{% url 'tasks-library' %}" class="btn btn-outline-CCL-Blue col-12">Back to Library Tasks</a>
             </div>
+            {% if task.task_type != 'Book Edit' %}
             <div class="col-lg-3 pt-2 pb-2">
                 <a href="{% url 'task-update-library' task.id %}" class="btn btn-CCL-Blue col-12">Edit Library Task</a>
             </div>
+            {% elif request.user|in_group:"Book Editors" and task.task_type == 'Book Edit' %}
+            <div class="col-lg-3 pt-2 pb-2">
+                <a href="{% url 'task-update-library' task.id %}" class="btn btn-CCL-Blue col-12">Edit Library Task</a>
+            </div>
+            {% endif %}
             <div class="col-lg-3 pt-2 pb-2">
                 <a href="{% url 'task-create-library' %}" class="btn btn-CCL-Blue col-12">Add A Library Task</a>
             </div>

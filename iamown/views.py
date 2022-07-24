@@ -1170,10 +1170,18 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     success_url = reverse_lazy('tasks-library')
 
     def test_func(self):
-        # task = self.get_object()
         if self.request.user.is_staff:
             return True
         return False
+
+    # def test_func(self):
+    #     book_editors = User.objects.filter(groups__name__in=['Book Editors'])
+    #     if self.task_type =='Book Edit' and self.request.user not in book_editors:
+    #         return False
+    #     elif self.request.user.is_staff:
+    #         return True
+    #     else:
+    #         return False
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1183,6 +1191,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def form_valid(self, form):
         library_task = form.save(commit=False)
+
         if form.instance.task_status == 'Completed':
             if form.instance.book_text_impacted == 'Yes':
                 if library_task.actions_taken == "":
