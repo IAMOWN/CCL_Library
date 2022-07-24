@@ -1151,7 +1151,7 @@ class TaskLibraryCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         library_task.task_type = 'Library Observation'
         task_creator = Profile.objects.get(user__username=self.request.user).spiritual_name
         library_task.task_history_log = f'''>>> <strong>Library Observation</strong> >>> Manually created by <strong>{task_creator}</strong><br>
-        Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}<p><br>'''
+        Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}'''
 
         library_task.save(update_fields=['task_type', 'task_history_log',])
         message = form.instance.task_title
@@ -1212,8 +1212,8 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     )
                     return self.form_invalid(form)
                 library_task.date_completed = get_current_date()
-                library_task.task_history_log = library_task.task_history_log + f'''>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{library_task.assigned_profile}</strong> on <strong>{get_current_date()}</strong>.<br>
-                Date completed: <strong>{library_task.date_completed}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}<p>
+                library_task.task_history_log = library_task.task_history_log + f'''<br>>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{library_task.assigned_profile}</strong> on <strong>{get_current_date()}</strong>.<br>
+                Date completed: <strong>{library_task.date_completed}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}
                 '''
                 library_task.save(update_fields=['task_history_log','date_completed',])
 
@@ -1269,15 +1269,15 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     return self.form_invalid(form)
 
                 library_task.date_completed = get_current_date()
-                library_task.task_history_log = library_task.task_history_log + f'''>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{library_task.assigned_profile}</strong> on <strong>{get_current_date()}</strong>.<br>
-                Date completed: <strong>{library_task.date_completed}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}<p>
+                library_task.task_history_log = library_task.task_history_log + f'''<br>>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{library_task.assigned_profile}</strong> on <strong>{get_current_date()}</strong>.<br>
+                Date completed: <strong>{library_task.date_completed}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}
                 '''
 
             library_task.save(update_fields=['task_history_log','date_completed',])
 
         else:
-            library_task.task_history_log = library_task.task_history_log + f'''>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{self.request.user}</strong> on <strong>{get_current_date()}</strong>.<br>
-            Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}<p>
+            library_task.task_history_log = library_task.task_history_log + f'''<br>>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{self.request.user}</strong> on <strong>{get_current_date()}</strong>.<br>
+            Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}
             '''
             library_task.save(update_fields=['task_history_log',])
 
