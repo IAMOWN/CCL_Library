@@ -355,5 +355,10 @@ class Profile(models.Model):
 
     date_joined = models.DateTimeField(default=timezone.now)
 
+    class Meta:
+        ordering = [
+            'spiritual_name',
+        ]
+
     def __str__(self):
         return self.spiritual_name
