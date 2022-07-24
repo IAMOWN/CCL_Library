@@ -992,6 +992,8 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Task
     template_name = 'iamown/tasks_library.html'
     context_object_name = 'tasks'
+    paginate_by = 12
+    ordering = 'task_status'
 
     def test_func(self):
         if self.request.user.is_staff:
