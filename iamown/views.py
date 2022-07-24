@@ -1176,7 +1176,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     template_name = 'iamown/task_form_library.html'
 
-    success_url = reverse_lazy('tasks-library')
+    success_url = reverse_lazy('task-library', kwargs={'pk': task_id})
 
     def test_func(self):
         if self.request.user.is_staff:
