@@ -992,6 +992,13 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Task
     template_name = 'iamown/tasks_library.html'
     context_object_name = 'tasks'
+    queryset = Task.objects.filter().filter(
+            task_type__in=['Library Observation', 'Book Edit']
+        ).exclude(task_status='Completed').order_by(
+            'task_status',
+            'task_priority',
+            'due_date',
+        )
     paginate_by = 12
     ordering = 'task_status'
 
