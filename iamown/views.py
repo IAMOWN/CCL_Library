@@ -1178,7 +1178,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_success_url(self):
         task_id = self.kwargs['pk']
-        return reverse_lazy('task-library', kwargs={'id': task_id})
+        return reverse_lazy('task-library', kwargs={'pk': task_id})
 
     def test_func(self):
         if self.request.user.is_staff:
