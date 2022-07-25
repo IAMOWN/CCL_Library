@@ -106,7 +106,7 @@ SOUL_SYNTHESIS_S3_STORAGE = 'https://cloud.digitalocean.com/spaces/soul-synthesi
 
 LEE_TASK_RECORD_OBS_1 = 'Record Observation (1) Initial Review'
 DIGITAL_LIBRARIAN_GROUP_NAME = 'Digital Librarians'
-RECORD_READING_DURATION = 10  # Minutes before a new entry is added to RecordsRead - designed to false refreshing
+RECORD_READING_DURATION = 12  # Minutes before a new entry is added to RecordsRead - designed to false refreshing
 
 # ####################### FUNCTIONS #######################
 def get_current_date():
@@ -580,10 +580,11 @@ class LibraryRecordDetail(DetailView):
         time_to_check = get_current_datetime() - timedelta(minutes=RECORD_READING_DURATION)
         print(f'time_to_check: {time_to_check}')
         print(f'RecordRead.objects.filter(date_read__gte=time_to_check).count(): {RecordRead.objects.filter(date_read__gte=time_to_check).count()}')
+        library_record = LibraryRecord.objects.get(id=self.kwargs['pk'])
         if RecordRead.objects.filter(date_read__gte=time_to_check).count() == 0:
             # Create entry in RecordRead model
             RecordRead.objects.create(
-                record_read=self.kwargs['pk'],
+                record_read=library_record,
                 user=self.request.user,
             )
 
