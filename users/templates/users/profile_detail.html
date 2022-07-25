@@ -13,9 +13,6 @@
     </article>
     <article class="content-section text-CCL-Gold">
         <div class="row pt-2">
-            <div class="col-lg-3">
-                <p><strong>Spiritual Name:</strong> {{ profile.spiritual_name }}</p>
-            </div>
 {#            <div class="col-lg-3">#}
 {#                <p><strong>Pronoun:</strong> {{ profile.pronoun }}</p>#}
 {#            </div>#}
@@ -28,15 +25,19 @@
         </div>
         <div class="row">
             <div class="col-lg-6">
-                <p><strong>Address:</strong>
-                {% if profile.address_1 %}{{ profile.address_1 }}{% endif %}{% if profile.address_2 %}, {{ profile.address_2 }}{% endif %}
-                {{ profile.city }}, {{ profile.state_province_county }}
-                {{ profile.postal_zip_code }}
-                {{ profile.country }}</p>
+                <p>
+                    <strong>Address:</strong>
+                    {% if profile.address_1 %}{{ profile.address_1 }}{% endif %}{% if profile.address_2 %}, {{ profile.address_2 }}{% endif %}<br>
+                    {{ profile.city }}, {{ profile.state_province_county }}<br>
+                    {{ profile.postal_zip_code }}<br>
+                    {{ profile.country }}
+                </p>
             </div>
             <div class="col-lg-3">
-                <p><strong>Email:</strong> {{ profile.user.email }}</p>
-                <p><strong>Phone:</strong> {{ profile.phone }}</p>
+                <p>
+                    <strong>Email:</strong> {{ profile.user.email }}<br>
+                    <strong>Phone:</strong> {{ profile.phone }}
+                </p>
             </div>
             <div class="col-lg-3">
                 <p><strong>Notification preference:</strong> {{ profile.notification_preference }}</p>
