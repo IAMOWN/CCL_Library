@@ -317,7 +317,7 @@ class RecordRead(models.Model):
         verbose_name_plural = 'Records Read'
 
     def __str__(self):
-        return f'<strong>{self.record_read.title}</strong> read by <strong>{self.reader}</strong> on <strong>{self.date_read.strftime("%Y-%m-%d %H:%M")}</strong>'
+        return f'"{self.record_read.title}" read by {self.reader} on {self.date_read.strftime("%Y-%m-%d %H:%M")}'
 
 
 # ####################### Collection Order #######################

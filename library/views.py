@@ -27,6 +27,7 @@ from .models import (
     DiscourseSeries,
     ReadingProgress,
     LibraryObservation,
+    RecordRead,
 )
 
 from .forms import (
@@ -105,10 +106,17 @@ SOUL_SYNTHESIS_S3_STORAGE = 'https://cloud.digitalocean.com/spaces/soul-synthesi
 
 LEE_TASK_RECORD_OBS_1 = 'Record Observation (1) Initial Review'
 DIGITAL_LIBRARIAN_GROUP_NAME = 'Digital Librarians'
+RECORD_READING_DURATION = 10  # Minutes before a new entry is added to RecordsRead - designed to false refreshing
 
 # ####################### FUNCTIONS #######################
 def get_current_date():
     return datetime.now().date()
+
+
+def get_current_datetime():
+    return datetime.now()
+    # return datetime.now(tz=timezone.utc)
+
 
 def send_email(subject, to_email, message):
     send_mail(
@@ -558,106 +566,6 @@ class LibraryRecordList(ListView):
         return context
 
 
-# ####################### Library Records - Books #######################
-class BooksList(ListView):
-    model = LibraryRecord
-    template_name = 'library/records_filtered.html'
-    context_object_name = 'library_records'
-    queryset = LibraryRecord.objects.filter(
-        library_record_type="Book"
-    ).order_by('date_communicated')
-
-    paginate_by = 12
-    ordering = 'date_communicated'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'EGA Books'
-        context['page_type'] = 'Books'
-
-        return context
-
-
-# ####################### Library Records - Cosmic Review #######################
-class CosmicReviewsList(ListView):
-    model = LibraryRecord
-    template_name = 'library/records_filtered.html'
-    context_object_name = 'library_records'
-    queryset = LibraryRecord.objects.filter(
-        library_record_type="Cosmic Review"
-    ).order_by('date_communicated')
-
-    paginate_by = 12
-    ordering = 'date_communicated'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'EGA Cosmic Reviews'
-        context['page_type'] = 'Cosmic Reviews'
-
-        return context
-
-
-# ####################### Library Records - Discourses #######################
-class DiscoursesList(ListView):
-    model = LibraryRecord
-    template_name = 'library/records_filtered.html'
-    context_object_name = 'library_records'
-    queryset = LibraryRecord.objects.filter(
-        library_record_type="Discourse"
-    ).order_by('discourse_series', 'date_communicated')
-
-    paginate_by = 12
-    ordering = 'date_communicated'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'EGA Discourses'
-        context['page_type'] = 'Discourses'
-
-        return context
-
-
-# ####################### Library Records - Invocations #######################
-class InvocationsList(ListView):
-    model = LibraryRecord
-    template_name = 'library/records_filtered.html'
-    context_object_name = 'library_records'
-    queryset = LibraryRecord.objects.filter(
-        library_record_type="Invocation"
-    ).order_by('date_communicated')
-
-    paginate_by = 12
-    ordering = 'date_communicated'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'EGA Invocations'
-        context['page_type'] = 'Invocations'
-
-        return context
-
-
-# ####################### Library Records - Petitions #######################
-class PetitionsList(ListView):
-    model = LibraryRecord
-    template_name = 'library/records_filtered.html'
-    context_object_name = 'library_records'
-    queryset = LibraryRecord.objects.filter(
-        library_record_type="Petition"
-    ).order_by('date_communicated')
-
-    paginate_by = 12
-    ordering = 'date_communicated'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'EGA Petitions'
-        context['page_type'] = 'Petitions'
-
-        return context
-
-
 # ####################### Library Record - Detail View #######################
 class LibraryRecordDetail(DetailView):
     model = LibraryRecord
@@ -667,6 +575,17 @@ class LibraryRecordDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         current_date = datetime.now().date()
+
+        # Check if record was previously marked as read within the last RECORD_READING_DURATION minutes
+        time_to_check = get_current_datetime() - timedelta(minutes=RECORD_READING_DURATION)
+        print(f'time_to_check: {time_to_check}')
+        print(f'RecordRead.objects.filter(date_read__gte=time_to_check).count(): {RecordRead.objects.filter(date_read__gte=time_to_check).count()}')
+        if RecordRead.objects.filter(date_read__gte=time_to_check).count() == 0:
+            # Create entry in RecordRead model
+            RecordRead.objects.create(
+                record_read=self.kwargs['id'],
+                user=self.request.user,
+            )
 
         record_title = LibraryRecord.objects.get(id=self.kwargs['pk']).title
         record_in_collections = CollectionOrder.objects.filter(record__title=record_title).order_by('collection')
@@ -679,8 +598,8 @@ class LibraryRecordDetail(DetailView):
         context['collection_list_count'] = list_count
 
         # Reading Progress
-        # Query for current reading progress: If it exists populate the dropdown or return a blank
         reading_progress_obj = ReadingProgress.objects.none()
+        # Query for current reading progress: If it exists populate the dropdown or return a blank
         try:
             reading_progress_obj = ReadingProgress.objects.get(dear_soul__username=self.request.user, record_id=self.kwargs['pk'])
             current_reading_progress = reading_progress_obj.reading_progress
@@ -689,6 +608,7 @@ class LibraryRecordDetail(DetailView):
         context['current_reading_progress'] = current_reading_progress
         selected_reading_progress = self.request.GET.get('reading-progress') or ''
 
+        # Process authenticated user change of Reading Progress for record
         if current_reading_progress == '---------' and selected_reading_progress == '1) On Reading List':
             log_update = f'>>><em>Current</em> <strong>{current_reading_progress}</strong> <em>changed to</em> <strong>{selected_reading_progress}</strong> <em>on</em> <strong>{current_date}</strong>'
             new_reading_progress_obj = ReadingProgress(
@@ -825,11 +745,13 @@ class LibraryRecordDetail(DetailView):
         # Build previous and next record buttons
         libary_record = get_object_or_404(LibraryRecord, id=self.kwargs['pk'])
         if libary_record.discourse_series:
+            # Build Series list
             series = LibraryRecord.objects.filter(discourse_series=libary_record.discourse_series).order_by('part_number')
             part_numbers = []
             for record in series:
                 if record.part_number is not None:
                     part_numbers.append(record.part_number)
+            # If there's only one record then remove the buttons displayed
             if len(part_numbers) == 1:
                 context['series'] = False
             else:
@@ -839,11 +761,14 @@ class LibraryRecordDetail(DetailView):
                 else:
                     current_part_number = int(libary_record.part_number)
                     lowest_part_number = int(min(part_numbers))
+                    # Check if there's a previous record in the series
                     if current_part_number > lowest_part_number:
                         context['previous_exists'] = True
                         try:
+                            # Get the record id for the previous Discourse in the Series
                             context['previous'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=int(libary_record.part_number) - 1).id
                         except LibraryRecord.DoesNotExist:
+                            # Or not
                             context['series'] = False
                     else:
                         context['previous_exists'] = False
@@ -851,8 +776,10 @@ class LibraryRecordDetail(DetailView):
                     if current_part_number < highest_part_number:
                         context['next_exists'] = True
                         try:
+                            # Get the record id for the next Discourse in the Series
                             context['next'] = LibraryRecord.objects.get(discourse_series=libary_record.discourse_series, part_number=int(libary_record.part_number) + 1).id
                         except LibraryRecord.DoesNotExist:
+                            # Or not
                             context['series'] = False
                     else:
                         context['next_exists'] = False
@@ -860,6 +787,106 @@ class LibraryRecordDetail(DetailView):
             context['series'] = False
 
         context['collection_orders'] = CollectionOrder.objects.filter(record=self.kwargs['pk'])
+
+        return context
+
+
+# ####################### Library Records - Books #######################
+class BooksList(ListView):
+    model = LibraryRecord
+    template_name = 'library/records_filtered.html'
+    context_object_name = 'library_records'
+    queryset = LibraryRecord.objects.filter(
+        library_record_type="Book"
+    ).order_by('date_communicated')
+
+    paginate_by = 12
+    ordering = 'date_communicated'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'EGA Books'
+        context['page_type'] = 'Books'
+
+        return context
+
+
+# ####################### Library Records - Cosmic Review #######################
+class CosmicReviewsList(ListView):
+    model = LibraryRecord
+    template_name = 'library/records_filtered.html'
+    context_object_name = 'library_records'
+    queryset = LibraryRecord.objects.filter(
+        library_record_type="Cosmic Review"
+    ).order_by('date_communicated')
+
+    paginate_by = 12
+    ordering = 'date_communicated'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'EGA Cosmic Reviews'
+        context['page_type'] = 'Cosmic Reviews'
+
+        return context
+
+
+# ####################### Library Records - Discourses #######################
+class DiscoursesList(ListView):
+    model = LibraryRecord
+    template_name = 'library/records_filtered.html'
+    context_object_name = 'library_records'
+    queryset = LibraryRecord.objects.filter(
+        library_record_type="Discourse"
+    ).order_by('discourse_series', 'date_communicated')
+
+    paginate_by = 12
+    ordering = 'date_communicated'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'EGA Discourses'
+        context['page_type'] = 'Discourses'
+
+        return context
+
+
+# ####################### Library Records - Invocations #######################
+class InvocationsList(ListView):
+    model = LibraryRecord
+    template_name = 'library/records_filtered.html'
+    context_object_name = 'library_records'
+    queryset = LibraryRecord.objects.filter(
+        library_record_type="Invocation"
+    ).order_by('date_communicated')
+
+    paginate_by = 12
+    ordering = 'date_communicated'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'EGA Invocations'
+        context['page_type'] = 'Invocations'
+
+        return context
+
+
+# ####################### Library Records - Petitions #######################
+class PetitionsList(ListView):
+    model = LibraryRecord
+    template_name = 'library/records_filtered.html'
+    context_object_name = 'library_records'
+    queryset = LibraryRecord.objects.filter(
+        library_record_type="Petition"
+    ).order_by('date_communicated')
+
+    paginate_by = 12
+    ordering = 'date_communicated'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'EGA Petitions'
+        context['page_type'] = 'Petitions'
 
         return context
 
