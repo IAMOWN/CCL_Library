@@ -314,9 +314,10 @@ class RecordRead(models.Model):
         ordering = [
             'date_read',
         ]
+        verbose_name_plural = 'Records Read'
 
     def __str__(self):
-        return f'{self.record_read} read by {self.reader} ({self.date_read.strftime("%Y-%m-%d")})'
+        return f'<strong>{self.record_read.title}</strong> read by <strong>{self.reader}</strong> on <strong>{self.date_read.strftime("%Y-%m-%d %H:%M")}</strong>'
 
 
 # ####################### Collection Order #######################
