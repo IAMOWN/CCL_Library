@@ -578,6 +578,8 @@ class LibraryRecordDetail(DetailView):
         context = super().get_context_data(**kwargs)
         current_date = datetime.now().date()
 
+        # Process Record Read update
+        library_record = LibraryRecord.objects.get(id=self.kwargs['pk'])
         # Get IP Address
         client_ip, is_routable = get_client_ip(self.request)
         if client_ip is None:
@@ -587,10 +589,8 @@ class LibraryRecordDetail(DetailView):
                 ip_result = True  # We got it
             else:
                 ip_result = "Private"  # but it's private
-
+        # Check if record was previously marked as read within the last RECORD_READING_DURATION minutes
         if self.request.user.is_authenticated:
-            # Check if record was previously marked as read within the last RECORD_READING_DURATION minutes
-            library_record = LibraryRecord.objects.get(id=self.kwargs['pk'])
             time_to_check = get_current_datetime() - timedelta(minutes=RECORD_READING_DURATION)
             print(f'current time: {get_current_datetime()}')
             print(f'time_to_check: {time_to_check}')
