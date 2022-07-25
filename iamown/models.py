@@ -350,6 +350,7 @@ class Task(models.Model):
         blank=True,
         null=True,
     )
+    test = models.TextField
     task_type = models.CharField(
         choices=TASK_TYPE_CHOICES,
         null=True,
