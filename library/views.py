@@ -594,6 +594,7 @@ class LibraryRecordDetail(DetailView):
             time_to_check = get_current_datetime() - timedelta(minutes=RECORD_READING_DURATION)
             print(f'current time: {get_current_datetime()}')
             print(f'time_to_check: {time_to_check}')
+            print(f'Last time record read: {RecordRead.objects.filter(record_read=library_record, date_read__gte=time_to_check).last()}')
             print(f'Count of matching RecordRead: {RecordRead.objects.filter(record_read=library_record, date_read__gte=time_to_check).count()}')
             if RecordRead.objects.filter(record_read=library_record, date_read__gte=time_to_check).count() == 0:
                 # Create entry in RecordRead model

@@ -326,7 +326,7 @@ class RecordRead(models.Model):
         if self.reader:
             return f'"{self.record_read.title}" read by {self.reader} on {self.date_read.strftime("%Y-%m-%d %H:%M")}'
         else:
-            return f'"{self.record_read.title}" read from the IP address: "{self.client_ip}" on {self.date_read.strftime("%Y-%m-%d %H:%M")}'
+            return f'"{self.record_read.title}" read from the IP address "{self.client_ip}" on {self.date_read.strftime("%Y-%m-%d %H:%M")}'
 
 
 # ####################### Collection Order #######################
