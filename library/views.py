@@ -114,8 +114,8 @@ def get_current_date():
 
 
 def get_current_datetime():
-    return datetime.now()
-    # return datetime.now(tz=timezone.utc)
+    # return datetime.now()
+    return datetime.now(tz=timezone.utc)
 
 
 def send_email(subject, to_email, message):
