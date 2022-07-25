@@ -96,7 +96,6 @@ class ProfileListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
-        user = self.request.user
         context['year'] = get_current_year()
         context['title'] = 'Soul Synthesis Profiles'
         dear_souls = Profile.objects.all().order_by('spiritual_name')
@@ -111,10 +110,13 @@ class ProfileListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['reading_progress_by_profile_count'] = reading_progress_by_profile_count
 
         # Process Records Read
+        print(f'get_current_datetime(): {get_current_datetime().strftime("%Y-%m-%d %H:%M")}')
         records_read_last_1 = []
         minus_days_1 = get_current_datetime() - timedelta(days=1)
+        print(f'minus_days_1: {minus_days_1.strftime("%Y-%m-%d %H:%M")}')
         records_read_last_7 = []
         minus_days_7 = get_current_datetime() - timedelta(days=7)
+        print(f'minus_days_7: {minus_days_7.strftime("%Y-%m-%d %H:%M")}')
         records_read_last_30 = []
         minus_days_30 = get_current_datetime() - timedelta(days=30)
         records_read_last_91 = []
@@ -123,12 +125,13 @@ class ProfileListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         minus_days_365 = get_current_datetime() - timedelta(days=365)
         records_read_all = []
         for profile in dear_souls:
+            user = profile.user
             records_read_last_1.append(RecordRead.objects.filter(reader=user, date_read__gte=minus_days_1).count())
             records_read_last_7.append(RecordRead.objects.filter(reader=user, date_read__gte=minus_days_7).count())
             records_read_last_30.append(RecordRead.objects.filter(reader=user, date_read__gte=minus_days_30).count())
             records_read_last_91.append(RecordRead.objects.filter(reader=user, date_read__gte=minus_days_91).count())
             records_read_last_365.append(RecordRead.objects.filter(reader=user, date_read__gte=minus_days_365).count())
-            records_read_all.append(RecordRead.objects.filter(reader=user))
+            records_read_all.append(RecordRead.objects.filter(reader=user).count())
         context['records_read_last_1'] = records_read_last_1
         context['records_read_last_7'] = records_read_last_7
         context['records_read_last_30'] = records_read_last_30
