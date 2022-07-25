@@ -589,8 +589,9 @@ class LibraryRecordDetail(DetailView):
                 ip_result = True  # We got it
             else:
                 ip_result = "Private"  # but it's private
-        # Check if record was previously marked as read within the last RECORD_READING_DURATION minutes
+        # Process records read
         if self.request.user.is_authenticated:
+            # Check if record was previously marked as read within the last RECORD_READING_DURATION minutes
             reader = User.objects.get(id=self.request.user.id)
             time_to_check = get_current_datetime() - timedelta(minutes=RECORD_READING_DURATION)
             if RecordRead.objects.filter(record_read=library_record, date_read__gte=time_to_check, reader=reader).count() == 0:
@@ -601,6 +602,7 @@ class LibraryRecordDetail(DetailView):
                     client_ip=client_ip,
                 )
         else:
+            # Add anonymous read + IP to Records Read
             RecordRead.objects.create(
                 record_read=library_record,
                 client_ip=client_ip,

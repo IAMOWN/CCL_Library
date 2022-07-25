@@ -89,7 +89,7 @@ class ProfileListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     queryset = Profile.objects.all().order_by('spiritual_name')
 
     def test_func(self):
-        if self.request.user.is_staff:
+        if self.request.user.is_superuser:
             return True
         else:
             return False
@@ -100,8 +100,6 @@ class ProfileListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['title'] = 'Soul Synthesis Profiles'
         dear_souls = Profile.objects.all().order_by('spiritual_name')
         context['dear_souls'] = dear_souls
-
-        search_input = self.request.GET.get('search-area') or ''
 
         # Process Reading Progress list and Records Read
         records_read_last_7 = []
@@ -122,6 +120,7 @@ class ProfileListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['records_read_all'] = records_read_all
 
         # ### SEARCH ###
+        search_input = self.request.GET.get('search-area') or ''
         context['search_off'] = True
         if search_input:
             context['profiles'] = Profile.objects.filter(spiritual_name=search_input)
@@ -140,7 +139,7 @@ class ProfileDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     context_object_name = 'profile'
 
     def test_func(self):
-        if self.request.user.is_staff:
+        if self.request.user.is_superuser:
             return True
         else:
             return False
@@ -156,25 +155,25 @@ class ProfileDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         reading_list = ReadingProgress.objects.filter(dear_soul__username=user_obj.username)
         context['reading_list'] = reading_list
         context['reading_list_count'] = reading_list.count()
-        records_read_last_1 = []
+        records_read_last_1 = 0
         minus_days_1 = get_current_datetime() - timedelta(days=1)
-        records_read_last_7 = []
+        records_read_last_7 = 0
         minus_days_7 = get_current_datetime() - timedelta(days=7)
-        records_read_last_30 = []
+        records_read_last_30 = 0
         minus_days_30 = get_current_datetime() - timedelta(days=30)
-        records_read_last_91 = []
+        records_read_last_91 = 0
         minus_days_91 = get_current_datetime() - timedelta(days=91)
-        records_read_last_365 = []
+        records_read_last_365 = 0
         minus_days_365 = get_current_datetime() - timedelta(days=365)
         records_read_all = []
-        reading_progress_by_profile_count = []
+        reading_progress_by_profile_count = 0
         user = self.request.user
-        records_read_last_1.append(RecordRead.objects.filter(reader=user, date_read__gte=minus_days_1).count())
-        records_read_last_7.append(RecordRead.objects.filter(reader=user, date_read__gte=minus_days_7).count())
-        records_read_last_30.append(RecordRead.objects.filter(reader=user, date_read__gte=minus_days_30).count())
-        records_read_last_91.append(RecordRead.objects.filter(reader=user, date_read__gte=minus_days_91).count())
-        records_read_last_365.append(RecordRead.objects.filter(reader=user, date_read__gte=minus_days_365).count())
-        records_read_all.append(RecordRead.objects.filter(reader=user).count())
+        records_read_last_1 = RecordRead.objects.filter(reader=user, date_read__gte=minus_days_1).count()
+        records_read_last_7 = RecordRead.objects.filter(reader=user, date_read__gte=minus_days_7).count()
+        records_read_last_30 = RecordRead.objects.filter(reader=user, date_read__gte=minus_days_30).count()
+        records_read_last_91 = RecordRead.objects.filter(reader=user, date_read__gte=minus_days_91).count()
+        records_read_last_365 = RecordRead.objects.filter(reader=user, date_read__gte=minus_days_365).count()
+        records_read_all = RecordRead.objects.filter(reader=user).count()
         context['records_read_last_1'] = records_read_last_1
         context['records_read_last_7'] = records_read_last_7
         context['records_read_last_30'] = records_read_last_30
