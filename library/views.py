@@ -588,7 +588,7 @@ class LibraryRecordDetail(DetailView):
                 reader=User.objects.get(id=self.request.user.id),
             )
 
-        record_title = LibraryRecord.objects.get(title_id=self.kwargs['pk']).title
+        record_title = LibraryRecord.objects.get(id=self.kwargs['pk']).title
         record_in_collections = CollectionOrder.objects.filter(record__title=record_title).order_by('collection')
         collection_list_str = ''
         list_count = 0
