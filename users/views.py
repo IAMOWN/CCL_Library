@@ -95,8 +95,13 @@ class ProfileListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['title'] = 'Soul Synthesis Profiles'
 
         search_input = self.request.GET.get('search-area') or ''
-
-        context['dear_souls'] = Profile.objects.all().order_by('spiritual_name')
+        
+        dear_souls = Profile.objects.all().order_by('spiritual_name')
+        context['dear_souls'] = dear_souls
+        reading_progress_by_profile = []
+        for profile in dear_souls:
+            reading_progress_by_profile.append(ReadingProgress.objects.filter(dear_soul__profile=profile))
+        context['reading_progress_by_profile'] = reading_progress_by_profile
 
         # ### SEARCH ###
         context['search_off'] = True
@@ -111,23 +116,23 @@ class ProfileListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 
 # ####################### Profile - Detail View #######################
-class ProfileDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
-    model = Profile
-    template_name = 'users/profile_detail.html'
-    context_object_name = 'profile'
-
-    def test_func(self):
-        if self.request.user.is_staff:
-            return True
-        else:
-            return False
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['year'] = get_current_year()
-        context['title'] = 'CCL_Library Profile'
-
-        return context
+# class ProfileDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+#     model = Profile
+#     template_name = 'users/profile_detail.html'
+#     context_object_name = 'profile'
+# 
+#     def test_func(self):
+#         if self.request.user.is_staff:
+#             return True
+#         else:
+#             return False
+# 
+#     def get_context_data(self, *args, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['year'] = get_current_year()
+#         context['title'] = 'CCL_Library Profile'
+# 
+#         return context
 
 
 # ####################### Profile - Detail View #######################
