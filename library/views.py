@@ -593,10 +593,6 @@ class LibraryRecordDetail(DetailView):
         if self.request.user.is_authenticated:
             reader = User.objects.get(id=self.request.user.id)
             time_to_check = get_current_datetime() - timedelta(minutes=RECORD_READING_DURATION)
-            print(f'reader: {reader}')
-            print(f'current time: {get_current_datetime().strftime("%Y-%m-%d %H:%M")}')
-            print(f'time_to_check: {time_to_check.strftime("%Y-%m-%d %H:%M")}')
-            print(f'Count of matching RecordRead: {RecordRead.objects.filter(record_read=library_record, date_read__gte=time_to_check, reader=reader).count()}')
             if RecordRead.objects.filter(record_read=library_record, date_read__gte=time_to_check, reader=reader).count() == 0:
                 # Create entry in RecordRead model
                 RecordRead.objects.create(
