@@ -312,7 +312,7 @@ class RecordRead(models.Model):
 
     class Meta:
         ordering = [
-            'date_read',
+            '-date_read',
         ]
         verbose_name_plural = 'Records Read'
 

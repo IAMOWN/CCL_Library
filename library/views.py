@@ -577,11 +577,13 @@ class LibraryRecordDetail(DetailView):
         current_date = datetime.now().date()
 
         # Check if record was previously marked as read within the last RECORD_READING_DURATION minutes
-        time_to_check = get_current_datetime() - timedelta(minutes=RECORD_READING_DURATION)
-        print(f'time_to_check: {time_to_check}')
-        print(f'RecordRead.objects.filter(date_read__gte=time_to_check).count(): {RecordRead.objects.filter(date_read__gte=time_to_check).count()}')
         library_record = LibraryRecord.objects.get(id=self.kwargs['pk'])
-        if RecordRead.objects.filter(date_read__gte=time_to_check).count() == 0:
+        time_to_check = get_current_datetime() - timedelta(minutes=RECORD_READING_DURATION)
+        print(f'current time: {get_current_datetime()}')
+        print(f'time_to_check: {time_to_check}')
+        print(f'Count of matching RecordRead: {RecordRead.objects.filter(record_read=library_record, date_read__gte=time_to_check).count()}')
+
+        if RecordRead.objects.filter(record_read=library_record, date_read__gte=time_to_check).count() == 0:
             # Create entry in RecordRead model
             RecordRead.objects.create(
                 record_read=library_record,
