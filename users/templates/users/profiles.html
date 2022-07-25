@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load index %}
+{% load humanize %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
     <article class="content-section">
@@ -63,25 +64,25 @@
         </div>
         <div class="row">
             <div class="col-lg-2">
-                <p><strong>Records viewed last:</strong></p>
+                <p><strong>Records read:</strong></p>
             </div>
             <div class="col-lg-1">
-                <p><strong>Day: {{ records_read_last_1|index:forloop.counter0 }}</strong></p>
+                <p><strong>Day: {{ records_read_last_1|index:forloop.counter0|intcomma }}</strong></p>
             </div>
             <div class="col-lg-1">
-                <p><strong>Week: {{ records_read_last_7|index:forloop.counter0 }}</strong></p>
+                <p><strong>Week: {{ records_read_last_7|index:forloop.counter0|intcomma }}</strong></p>
             </div>
             <div class="col-lg-1">
-                <p><strong>Month: {{ records_read_last_30|index:forloop.counter0 }}</strong></p>
+                <p><strong>Month: {{ records_read_last_30|index:forloop.counter0|intcomma }}</strong></p>
             </div>
             <div class="col-lg-1">
-                <p><strong>Qtr: {{ records_read_last_91|index:forloop.counter0 }}</strong></p>
+                <p><strong>Qtr: {{ records_read_last_91|index:forloop.counter0|intcomma }}</strong></p>
             </div>
             <div class="col-lg-1">
-                <p><strong>Year: {{ records_read_last_365|index:forloop.counter0 }}</strong></p>
+                <p><strong>Year: {{ records_read_last_365|index:forloop.counter0|intcomma }}</strong></p>
             </div>
             <div class="col-lg-1">
-                <p><strong>All: {{ records_read_all|index:forloop.counter0 }}</strong></p>
+                <p><strong>All: {{ records_read_all|index:forloop.counter0|intcomma }}</strong></p>
             </div>
         </div>
         <div class="row">
