@@ -51,27 +51,27 @@
         </div>
         <div class="row pb-2">
             <div class="col-lg-2">
-                Last day: {{ records_read_last_1|intcomma }}
+                Last day: <strong>{{ records_read_last_1|intcomma }}</strong>
             </div>
             <div class="col-lg-2">
-                Last week: {{ records_read_last_7|intcomma }}
+                Last week: <strong>{{ records_read_last_7|intcomma }}</strong>
             </div>
             <div class="col-lg-2">
-                Last month: {{ records_read_last_30|intcomma }}
+                Last month: <strong>{{ records_read_last_30|intcomma }}</strong>
             </div>
             <div class="col-lg-2">
-                Last qtr: {{ records_read_last_91|intcomma }}
+                Last qtr: <strong>{{ records_read_last_91|intcomma }}</strong>
             </div>
             <div class="col-lg-2">
-                Last year: {{ records_read_last_365|intcomma }}
+                Last year: <strong>{{ records_read_last_365|intcomma }}</strong>
             </div>
             <div class="col-lg-2">
-                All time: {{ records_read_all|intcomma }}
+                All time<span class="text-CCL-Blue"><strong>*</strong></span>: {{ records_read_all|intcomma }}
             </div>
         </div>
         <div class="row pb-2">
             <div class="col-lg-12">
-                <small class="text-muted">Note: Record Read logging was implemented on 25th July, 2022.</small>
+                <span class="text-CCL-Blue"><strong>*</strong></span><small class="text-muted">Note: Record Read logging was implemented on 25th July, 2022.</small>
             </div>
         </div>
     </article>

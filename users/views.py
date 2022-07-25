@@ -102,21 +102,21 @@ class ProfileListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['dear_souls'] = dear_souls
 
         # Process Reading Progress list and Records Read
-        records_read_last_7 = []
-        minus_days_7 = get_current_datetime() - timedelta(days=7)
-        records_read_last_91 = []
-        minus_days_91 = get_current_datetime() - timedelta(days=91)
+        # records_read_last_7 = []
+        # minus_days_7 = get_current_datetime() - timedelta(days=7)
+        # records_read_last_91 = []
+        # minus_days_91 = get_current_datetime() - timedelta(days=91)
         records_read_all = []
         reading_progress_by_profile_count = []
         for profile in dear_souls:
             reading_progress_by_profile_count.append(ReadingProgress.objects.filter(dear_soul__profile=profile).count())
             user = profile.user
-            records_read_last_7.append(RecordRead.objects.filter(reader=user, date_read__gte=minus_days_7).count())
-            records_read_last_91.append(RecordRead.objects.filter(reader=user, date_read__gte=minus_days_91).count())
+            # records_read_last_7.append(RecordRead.objects.filter(reader=user, date_read__gte=minus_days_7).count())
+            # records_read_last_91.append(RecordRead.objects.filter(reader=user, date_read__gte=minus_days_91).count())
             records_read_all.append(RecordRead.objects.filter(reader=user).count())
         context['reading_progress_by_profile_count'] = reading_progress_by_profile_count
-        context['records_read_last_7'] = records_read_last_7
-        context['records_read_last_91'] = records_read_last_91
+        # context['records_read_last_7'] = records_read_last_7
+        # context['records_read_last_91'] = records_read_last_91
         context['records_read_all'] = records_read_all
 
         # ### SEARCH ###
