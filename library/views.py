@@ -583,11 +583,11 @@ class LibraryRecordDetail(DetailView):
         if RecordRead.objects.filter(date_read__gte=time_to_check).count() == 0:
             # Create entry in RecordRead model
             RecordRead.objects.create(
-                record_read=self.kwargs['id'],
+                record_read=self.kwargs['pk'],
                 user=self.request.user,
             )
 
-        record_title = LibraryRecord.objects.get(id=self.kwargs['pk']).title
+        record_title = LibraryRecord.objects.get(title_id=self.kwargs['pk']).title
         record_in_collections = CollectionOrder.objects.filter(record__title=record_title).order_by('collection')
         collection_list_str = ''
         list_count = 0
