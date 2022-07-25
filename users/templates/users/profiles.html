@@ -62,6 +62,29 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-lg-2">
+                <p><strong>Records viewed last:</strong></p>
+            </div>
+            <div class="col-lg-1">
+                <p><strong>Day: {{ records_read_last_1|index:forloop.counter0 }}</strong></p>
+            </div>
+            <div class="col-lg-1">
+                <p><strong>Week: {{ records_read_last_7|index:forloop.counter0 }}</strong></p>
+            </div>
+            <div class="col-lg-1">
+                <p><strong>Month: {{ records_read_last_30|index:forloop.counter0 }}</strong></p>
+            </div>
+            <div class="col-lg-1">
+                <p><strong>Qtr: {{ records_read_last_91|index:forloop.counter0 }}</strong></p>
+            </div>
+            <div class="col-lg-1">
+                <p><strong>Year: {{ records_read_last_365|index:forloop.counter0 }}</strong></p>
+            </div>
+            <div class="col-lg-1">
+                <p><strong>All: {{ records_read_all|index:forloop.counter0 }}</strong></p>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-lg-6">
                 <p><strong>Records on Reading List:</strong> {{ reading_progress_by_profile_count|index:forloop.counter0 }}</p>
             </div>

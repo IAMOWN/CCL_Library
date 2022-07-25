@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 from django.shortcuts import render, redirect
 from django.conf import settings
@@ -16,6 +16,7 @@ from .models import Profile
 
 from library.models import (
     ReadingProgress,
+    RecordRead,
 )
 
 
@@ -26,6 +27,10 @@ BASE_URL = settings.DOMAIN
 # ####################### DATE LOGIC #######################
 def get_current_year():
     return datetime.now(tz=timezone.utc).year
+
+
+def get_current_datetime():
+    return datetime.now(tz=timezone.utc)
 
 
 # ####################### BASIC VIEWS #######################
@@ -91,17 +96,45 @@ class ProfileListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
+        user = self.request.user
         context['year'] = get_current_year()
         context['title'] = 'Soul Synthesis Profiles'
-
-        search_input = self.request.GET.get('search-area') or ''
-        
         dear_souls = Profile.objects.all().order_by('spiritual_name')
         context['dear_souls'] = dear_souls
+
+        search_input = self.request.GET.get('search-area') or ''
+
+        # Process Reading Progress list
         reading_progress_by_profile_count = []
         for profile in dear_souls:
             reading_progress_by_profile_count.append(ReadingProgress.objects.filter(dear_soul__profile=profile).count())
         context['reading_progress_by_profile_count'] = reading_progress_by_profile_count
+
+        # Process Records Read
+        records_read_last_1 = []
+        minus_days_1 = get_current_datetime() - timedelta(days=1)
+        records_read_last_7 = []
+        minus_days_7 = get_current_datetime() - timedelta(days=7)
+        records_read_last_30 = []
+        minus_days_30 = get_current_datetime() - timedelta(days=30)
+        records_read_last_91 = []
+        minus_days_91 = get_current_datetime() - timedelta(days=91)
+        records_read_last_365 = []
+        minus_days_365 = get_current_datetime() - timedelta(days=365)
+        records_read_all = []
+        for profile in dear_souls:
+            records_read_last_1.append(RecordRead.objects.filter(reader=user, date_read__gte=minus_days_1))
+            records_read_last_7.append(RecordRead.objects.filter(reader=user, date_read__gte=minus_days_7))
+            records_read_last_30.append(RecordRead.objects.filter(reader=user, date_read__gte=minus_days_30))
+            records_read_last_91.append(RecordRead.objects.filter(reader=user, date_read__gte=minus_days_91))
+            records_read_last_365.append(RecordRead.objects.filter(reader=user, date_read__gte=minus_days_365))
+            records_read_all.append(RecordRead.objects.filter(reader=user))
+        context['records_read_last_1'] = records_read_last_1
+        context['records_read_last_7'] = records_read_last_7
+        context['records_read_last_30'] = records_read_last_30
+        context['records_read_last_91'] = records_read_last_91
+        context['records_read_last_365'] = records_read_last_365
+        context['records_read_all'] = records_read_all
 
         # ### SEARCH ###
         context['search_off'] = True
