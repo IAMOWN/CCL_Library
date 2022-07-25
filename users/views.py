@@ -98,10 +98,10 @@ class ProfileListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         
         dear_souls = Profile.objects.all().order_by('spiritual_name')
         context['dear_souls'] = dear_souls
-        reading_progress_by_profile = []
+        reading_progress_by_profile_count = []
         for profile in dear_souls:
-            reading_progress_by_profile.append(ReadingProgress.objects.filter(dear_soul__profile=profile))
-        context['reading_progress_by_profile'] = reading_progress_by_profile
+            reading_progress_by_profile_count.append(ReadingProgress.objects.filter(dear_soul__profile=profile)).count()
+        context['reading_progress_by_profile_count'] = reading_progress_by_profile_count
 
         # ### SEARCH ###
         context['search_off'] = True
