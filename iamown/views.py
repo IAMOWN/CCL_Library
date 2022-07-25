@@ -1018,13 +1018,16 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['title'] = 'Library Tasks'
 
         # Query for Record Activity
-        context['records_read_today'] = RecordRead.objects.filter(date_read__gte=(get_current_datetime() - timedelta(days=1))).exclude(reader=None).count()
-        context['records_read_this_week'] = RecordRead.objects.filter(date_read__gte=(get_current_datetime() - timedelta(days=7))).exclude(reader=None).count()
-        context['records_read_this_month'] = RecordRead.objects.filter(date_read__gte=(get_current_datetime() - timedelta(days=30))).exclude(reader=None).count()
+        records_read_last_1 = get_current_datetime() - timedelta(days=1)
+        records_read_last_7 = get_current_datetime() - timedelta(days=7)
+        records_read_last_30 = get_current_datetime() - timedelta(days=30)
+        context['records_read_today'] = RecordRead.objects.filter(date_read__gte=records_read_last_1).exclude(reader=None).count()
+        context['records_read_this_week'] = RecordRead.objects.filter(date_read__gte=records_read_last_7).exclude(reader=None).count()
+        context['records_read_this_month'] = RecordRead.objects.filter(date_read__gte=records_read_last_30).exclude(reader=None).count()
         context['total_records_read'] = RecordRead.objects.all().exclude(reader=None).count()
-        context['anonymous_read_today'] = RecordRead.objects.filter(reader=None, date_read__gte=(get_current_datetime() - timedelta(days=1))).count()
-        context['anonymous_read_this_week'] = RecordRead.objects.filter(reader=None, date_read__gte=(get_current_datetime() - timedelta(days=7))).count()
-        context['anonymous_read_this_month'] = RecordRead.objects.filter(reader=None, date_read__gte=(get_current_datetime() - timedelta(days=30))).count()
+        context['anonymous_read_today'] = RecordRead.objects.filter(reader=None, date_read__gte=records_read_last_1).count()
+        context['anonymous_read_this_week'] = RecordRead.objects.filter(reader=None, date_read__gte=records_read_last_7).count()
+        context['anonymous_read_this_month'] = RecordRead.objects.filter(reader=None, date_read__gte=records_read_last_30).count()
         context['total_anonymous_read'] = RecordRead.objects.filter(reader=None).count()
 
         # Query for Task totals
