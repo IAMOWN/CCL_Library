@@ -2,7 +2,7 @@
 {% load humanize %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
-    <article class="content-section">
+    <section class="content-section">
         <div class="row pt-2">
             <div class="col-lg-12">
                 <h3>
@@ -10,8 +10,8 @@
                 </h3>
             </div>
         </div>
-    </article>
-    <article class="content-section text-CCL-Gold">
+    </section>
+    <section class="content-section text-CCL-Gold">
         <div class="row pt-2">
 {#            <div class="col-lg-3">#}
 {#                <p><strong>Pronoun:</strong> {{ profile.pronoun }}</p>#}
@@ -43,8 +43,8 @@
                 <p><strong>Notification preference:</strong> {{ profile.notification_preference }}</p>
             </div>
         </div>
-    </article>
-    <article class="content-section text-CCL-Gold">
+    </section>
+    <section class="content-section text-CCL-Gold">
         <div class="row pt-2">
             <div class="col-lg-12">
                 <h5><strong>Library Records Read Summary</strong></h5>
@@ -52,22 +52,22 @@
         </div>
         <div class="row pb-2">
             <div class="col-lg-2">
-                <strong>Last day: </strong>{{ records_read_last_1|intcomma }}
+                <strong>Last Day: </strong>{{ records_read_last_1|intcomma }}
             </div>
             <div class="col-lg-2">
-                <strong>Last week: </strong>{{ records_read_last_7|intcomma }}
+                <strong>Last Week: </strong>{{ records_read_last_7|intcomma }}
             </div>
             <div class="col-lg-2">
-                <strong>Last month: </strong>{{ records_read_last_30|intcomma }}
+                <strong>Last Month: </strong>{{ records_read_last_30|intcomma }}
             </div>
             <div class="col-lg-2">
-                <strong>Last qtr: </strong>{{ records_read_last_91|intcomma }}
+                <strong>Last Qtr: </strong>{{ records_read_last_91|intcomma }}
             </div>
             <div class="col-lg-2">
-                <strong>Last year: </strong>{{ records_read_last_365|intcomma }}
+                <strong>Last Year: </strong>{{ records_read_last_365|intcomma }}
             </div>
             <div class="col-lg-2">
-                <strong>All time<span class="text-CCL-Blue"><strong>*</strong></span>: </strong>{{ records_read_all|intcomma }}
+                <strong><span class="text-CCL-Blue"><strong>*</strong></span>All Time: </strong>{{ records_read_all|intcomma }}
             </div>
         </div>
         <div class="row pb-2">
@@ -75,8 +75,8 @@
                 <span class="text-CCL-Blue"><strong>*</strong></span><small class="text-muted">Note: Record Read logging was implemented on 25th July, 2022.</small>
             </div>
         </div>
-    </article>
-    <article class="content-section text-CCL-Gold">
+    </section>
+    <section class="content-section text-CCL-Gold">
         <div class="row pt-2">
             <div class="col-lg-12">
                 <h5><strong>Reading List ({{ reading_list_count }})</strong></h5>
@@ -92,12 +92,12 @@
             {% endfor %}
             </div>
         </div>
-    </article>
-    <article class="content-section text-CCL-Gold">
+    </section>
+    <section class="content-section text-CCL-Gold">
         <div class="row pt-2 pb-2">
             <div class="col-lg-3">
                 <a href="{% url 'profiles' %}" class="btn btn-outline-CCL-Blue col-12">Back to Profiles</a>
             </div>
         </div>
-    </article>
+    </section>
 {% endblock content %}

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from django.core.mail import send_mail
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
@@ -48,6 +48,7 @@ from .forms import (
 from library.models import (
     LibraryRecord,
     LibraryObservation,
+    RecordRead,
 )
 
 from users.models import (
@@ -142,6 +143,11 @@ LEE_TASK_CAMPAIGN_5 = 'Email Campaign (5) Review Revision Comments'
 # ####################### FUNCTIONS #######################
 def get_current_date():
     return datetime.now().date()
+
+
+def get_current_datetime():
+    return datetime.now(tz=timezone.utc)
+
 
 def send_email(subject, to_email, message):
     send_mail(
@@ -1009,7 +1015,15 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['title'] = 'Library Tasks'
 
+        # Query for Record Activity
+        context['records_read_today'] = RecordRead.objects.filter(date_read__gte=( - timedelta(days=1))).count()
+        context['records_read_this_week'] = RecordRead.objects.filter(date_read__gte=(get_current_datetime() - timedelta(days=7))).count()
+        context['records_read_this_month'] = RecordRead.objects.filter(date_read__gte=(get_current_datetime() - timedelta(days=30))).count()
+        context['total_records_read'] = RecordRead.objects.all().count()
+
+        # Query for Task totals
         tasks = Task.objects.filter().filter(
             task_type__in=['Library Observation', 'Book Edit']
         ).exclude(task_status='Completed').order_by(
@@ -1017,7 +1031,6 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
             'task_priority',
             'due_date',
         )
-        # TODO Check tasks count on tasks library template
         context['tasks'] = tasks
         context['tasks_count'] = tasks.count()
         context['completed_tasks_count'] = Task.objects.filter(
@@ -1025,21 +1038,18 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
             task_status='Completed',
         ).count()
 
-        context['service_groups'] = ServiceGroup.objects.all()
-
-        search_input = self.request.GET.get('search-area') or ''
-        if search_input:
-            context['tasks'] = context['tasks'].filter(task_title__icontains=search_input)
-        context['search_input'] = search_input
-
-        context['dear_souls'] = Profile.objects.filter(user__is_staff=True)
-
         # Search Inputs
-        context['search_off'] = True
         assignee_search_input = self.request.GET.get('assignee-search-area') or ''
         service_group_search_input = self.request.GET.get('service-group-search-area') or ''
         priority_search_input = self.request.GET.get('priority-search-area') or ''
-
+        search_input = self.request.GET.get('search-area') or ''
+        # Prepare for Search
+        context['search_off'] = True
+        context['service_groups'] = ServiceGroup.objects.all()
+        context['dear_souls'] = Profile.objects.filter(user__is_staff=True)
+        if search_input:
+            context['tasks'] = context['tasks'].filter(task_title__icontains=search_input)
+        context['search_input'] = search_input
         # Process searches - Dear Soul
         context['search_count'] = 0
         if assignee_search_input:
@@ -1053,7 +1063,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
             context['search_count'] = search_result.count()
             context['search_type'] = 'Dear Soul'
             context['search_entered'] = assignee_search_input
-        # Task Status
+        # Process searches - Task Status
         elif service_group_search_input:
             context['search_off'] = False
             search_result = Task.objects.filter(assigned_service_group__service_group=service_group_search_input, task_type__in=['Library Observation', 'Book Edit']).order_by(
@@ -1066,7 +1076,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
             print(f'search_result.count(): {search_result.count()}')
             context['search_type'] = 'Service Group'
             context['search_entered'] = service_group_search_input
-        # Task Priority
+        # Process searches - Task Priority
         elif priority_search_input:
             context['search_off'] = False
             search_result = Task.objects.filter(task_priority__icontains=priority_search_input, task_type__in=['Library Observation', 'Book Edit']).order_by(
@@ -1078,8 +1088,6 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
             context['search_count'] = search_result.count()
             context['search_type'] = 'Priority'
             context['search_entered'] = priority_search_input
-
-        context['title'] = 'Library Tasks'
 
         return context
 

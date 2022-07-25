@@ -3,14 +3,14 @@
 {% load humanize %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
-    <article class="content-section">
+    <section class="content-section">
         <div class="row pt-2">
             <div class="col-lg-12">
                 <h3>{{ title }}</h3>
             </div>
         </div>
-    </article>
-    <article class="content-section">
+    </section>
+    <section class="content-section">
         <form method="get">
             <div class="row pt-2">
                 <div class="col-lg-3">
@@ -32,10 +32,10 @@
                 {% endif %}
             </div>
         </form>
-    </article>
+    </section>
 
     {% for profile in profiles %}
-    <article class="content-section text-CCL-Gold">
+    <section class="content-section text-CCL-Gold">
         <div class="row pt-2">
             <div class="col-lg-12">
                 <h5><strong>Profile for <a class="text-CCL-Blue" href="{% url 'profile-dear-soul' profile.id profile.user_id %}">{{ profile.spiritual_name }}</a></strong></h5>
@@ -64,12 +64,12 @@
         </div>
         <div class="row">
             <div class="col-lg-3">
-                <p><strong>Records Read: </strong>{{ records_read_all|index:forloop.counter0|intcomma }}</p>
+                <p><strong>Library Records Read (All Time): </strong>{{ records_read_all|index:forloop.counter0|intcomma }}</p>
             </div>
             <div class="col-lg-3">
-                <p><strong>Records on Reading List:</strong> {{ reading_progress_by_profile_count|index:forloop.counter0|intcomma }}</p>
+                <p><strong>Library Records on Reading List:</strong> {{ reading_progress_by_profile_count|index:forloop.counter0|intcomma }}</p>
             </div>
         </div>
-    </article>
+    </section>
     {% endfor %}
 {% endblock content %}
