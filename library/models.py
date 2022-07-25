@@ -306,6 +306,12 @@ class RecordRead(models.Model):
         null=True,
         blank=True,
     )
+    client_ip = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+        default='',
+    )
     date_read = models.DateTimeField(
         auto_now_add=True
     )
@@ -320,7 +326,7 @@ class RecordRead(models.Model):
         if self.reader:
             return f'"{self.record_read.title}" read by {self.reader} on {self.date_read.strftime("%Y-%m-%d %H:%M")}'
         else:
-            return f'"{self.record_read.title}" read by Anonymous on {self.date_read.strftime("%Y-%m-%d %H:%M")}'
+            return f'"{self.record_read.title}" read by {self.client_ip} on {self.date_read.strftime("%Y-%m-%d %H:%M")}'
 
 
 # ####################### Collection Order #######################

@@ -56,6 +56,8 @@ from users.models import (
     Profile,
 )
 
+from ipware import get_client_ip
+
 
 # ####################### CONSTANTS #######################
 DOMAIN = settings.DOMAIN
@@ -576,6 +578,16 @@ class LibraryRecordDetail(DetailView):
         context = super().get_context_data(**kwargs)
         current_date = datetime.now().date()
 
+        # Get IP Address
+        client_ip, is_routable = get_client_ip(self.request)
+        if client_ip is None:
+            ip_result = None
+        else:  # There is an IP
+            if is_routable:
+                ip_result = True  # We got it
+            else:
+                ip_result = "Private"  # but it's private
+
         if self.request.user.is_authenticated:
             # Check if record was previously marked as read within the last RECORD_READING_DURATION minutes
             library_record = LibraryRecord.objects.get(id=self.kwargs['pk'])
@@ -588,10 +600,12 @@ class LibraryRecordDetail(DetailView):
                 RecordRead.objects.create(
                     record_read=library_record,
                     reader=User.objects.get(id=self.request.user.id),
+                    client_ip=client_ip,
                 )
         else:
             RecordRead.objects.create(
                 record_read=library_record,
+                client_ip=client_ip,
             )
 
         # Build Collection metadata for record
@@ -727,7 +741,7 @@ class LibraryRecordDetail(DetailView):
                     ]
                 )
                 context['current_reading_progress'] = '1) On Reading List'
-    
+
             elif current_reading_progress == '3) Completed Reading' and selected_reading_progress == '1) On Reading List':
                 log_update = f'{reading_progress_obj.reading_progress_log}<p>>>><em>Current</em> <strong>{current_reading_progress}</strong> <em>changed to</em> <strong>{selected_reading_progress}</strong> <em>on</em> <strong>{current_date}</strong>'
                 reading_progress_obj.reading_progress = '1) On Reading List'
