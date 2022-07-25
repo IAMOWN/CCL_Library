@@ -576,18 +576,23 @@ class LibraryRecordDetail(DetailView):
         context = super().get_context_data(**kwargs)
         current_date = datetime.now().date()
 
-        # Check if record was previously marked as read within the last RECORD_READING_DURATION minutes
-        library_record = LibraryRecord.objects.get(id=self.kwargs['pk'])
-        time_to_check = get_current_datetime() - timedelta(minutes=RECORD_READING_DURATION)
-        print(f'current time: {get_current_datetime()}')
-        print(f'time_to_check: {time_to_check}')
-        print(f'Count of matching RecordRead: {RecordRead.objects.filter(record_read=library_record, date_read__gte=time_to_check).count()}')
+        if self.request.user.is_authenticated:
+            # Check if record was previously marked as read within the last RECORD_READING_DURATION minutes
+            library_record = LibraryRecord.objects.get(id=self.kwargs['pk'])
+            time_to_check = get_current_datetime() - timedelta(minutes=RECORD_READING_DURATION)
+            print(f'current time: {get_current_datetime()}')
+            print(f'time_to_check: {time_to_check}')
+            print(f'Count of matching RecordRead: {RecordRead.objects.filter(record_read=library_record, date_read__gte=time_to_check).count()}')
 
-        if RecordRead.objects.filter(record_read=library_record, date_read__gte=time_to_check).count() == 0:
-            # Create entry in RecordRead model
+            if RecordRead.objects.filter(record_read=library_record, date_read__gte=time_to_check).count() == 0:
+                # Create entry in RecordRead model
+                RecordRead.objects.create(
+                    record_read=library_record,
+                    reader=User.objects.get(id=self.request.user.id),
+                )
+        else:
             RecordRead.objects.create(
                 record_read=library_record,
-                reader=User.objects.get(id=self.request.user.id),
             )
 
         record_title = LibraryRecord.objects.get(id=self.kwargs['pk']).title
