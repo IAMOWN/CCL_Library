@@ -64,7 +64,7 @@
         </div>
         <div class="row">
             <div class="col-lg-3">
-                <p><strong>Records Read: {{ records_read_all|index:forloop.counter0|intcomma }}</strong></p>
+                <p><strong>Records Read: </strong>{{ records_read_all|index:forloop.counter0|intcomma }}</p>
             </div>
             <div class="col-lg-3">
                 <p><strong>Records on Reading List:</strong> {{ reading_progress_by_profile_count|index:forloop.counter0|intcomma }}</p>
