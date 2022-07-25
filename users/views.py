@@ -111,6 +111,7 @@ class ProfileListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['reading_progress_by_profile_count'] = reading_progress_by_profile_count
 
         # Process Records Read
+        records_read_last_1 = []
         minus_days_1 = get_current_datetime() - timedelta(days=1)
         records_read_last_7 = []
         minus_days_7 = get_current_datetime() - timedelta(days=7)
