@@ -290,6 +290,35 @@ class LibraryRecord(models.Model):
         return reverse('library-record', kwargs={'pk': self.pk})
 
 
+# ####################### Record Read #######################
+class RecordRead(models.Model):
+    record_read = models.ForeignKey(
+        LibraryRecord,
+        related_name='record_read_by_user',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+    reader = models.ForeignKey(
+        User,
+        related_name='reader_of_record',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+    date_read = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    class Meta:
+        ordering = [
+            'date_read',
+        ]
+
+    def __str__(self):
+        return f'{self.record_read} read by {self.reader} ({self.date_read.strftime("%Y-%m-%d")})'
+
+
 # ####################### Collection Order #######################
 class CollectionOrder(models.Model):
     """Discourses can be a part of one or many Collections. The Collection Order allows the tracking of the collection
