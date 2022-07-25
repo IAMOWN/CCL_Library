@@ -1018,10 +1018,14 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['title'] = 'Library Tasks'
 
         # Query for Record Activity
-        context['records_read_today'] = RecordRead.objects.filter(date_read__gte=( - timedelta(days=1))).count()
+        context['records_read_today'] = RecordRead.objects.filter(date_read__gte=(get_current_datetime() - timedelta(days=1))).count()
         context['records_read_this_week'] = RecordRead.objects.filter(date_read__gte=(get_current_datetime() - timedelta(days=7))).count()
         context['records_read_this_month'] = RecordRead.objects.filter(date_read__gte=(get_current_datetime() - timedelta(days=30))).count()
         context['total_records_read'] = RecordRead.objects.all().count()
+        context['anonymous_read_today'] = RecordRead.objects.filter(user=None, date_read__gte=(get_current_datetime() - timedelta(days=1))).count()
+        context['anonymous_read_this_week'] = RecordRead.objects.filter(user=None, date_read__gte=(get_current_datetime() - timedelta(days=7))).count()
+        context['anonymous_read_this_month'] = RecordRead.objects.filter(user=None, date_read__gte=(get_current_datetime() - timedelta(days=30))).count()
+        context['total_anonymous_read'] = RecordRead.objects.filter(user=None).count()
 
         # Query for Task totals
         tasks = Task.objects.filter().filter(

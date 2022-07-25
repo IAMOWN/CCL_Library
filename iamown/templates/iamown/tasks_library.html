@@ -15,7 +15,7 @@
     <section class="content-section text-CCL-Gold">
         <div class="row pt-2">
             <div class="col-lg-12">
-                <h5><strong>Library Records Viewed Activity</strong></h5>
+                <h5><strong>Library Records Viewing Totals for Accounts</strong></h5>
             </div>
         </div>
         <div class="row">
@@ -30,6 +30,25 @@
             </div>
             <div class="col-12 pt-3">
                 <strong>All Time: </strong>{{ total_records_read|intcomma }}
+            </div>
+        </div>
+        <div class="row pt-2">
+            <div class="col-lg-12">
+                <h5><strong>Anonymous Library Records Viewing Totals</strong></h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 pt-3">
+                <strong>Past Day: </strong>{{ anonymous_read_today|intcomma }}
+            </div>
+            <div class="col-12 pt-3">
+                <strong>Past Week: </strong>{{ anonymous_read_this_week|intcomma }}
+            </div>
+            <div class="col-12 pt-3">
+                <strong>Past Month: </strong>{{ anonymous_read_this_month|intcomma }}
+            </div>
+            <div class="col-12 pt-3">
+                <strong>All Time: </strong>{{ total_anonymous_read|intcomma }}
             </div>
         </div>
         <div class="row pt-2">
