@@ -1239,6 +1239,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     library_record=library_task.library_record,
                     library_task_description=library_task.task_description,
                     library_task_actions_taken=library_task.actions_taken,
+                    task_status='2) In progress',
                 )
                 created_task.save()
 
