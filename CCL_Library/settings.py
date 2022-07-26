@@ -9,6 +9,7 @@ DEBUG = False
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
 
 ALLOWED_HOSTS = [
     'http://cosmicchrist.love/',
@@ -70,8 +71,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-SECURE_CONTENT_TYPE_NOSNIFF = True
 
 ROOT_URLCONF = 'CCL_Library.urls'
 
@@ -135,12 +134,12 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# STATIC_URL = 'static/'
-STATIC_URL = 'https://ega.s3.us-east-2.amazonaws.com/ccl-library-static/'  # TODO Fix and test S3 PATH
-# STATIC_URL = 'https://django-whurthy.s3.us-west-1.amazonaws.com/whurthy-static/'
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, 'static'),
 # )
+# STATIC_URL = 'static/'
+# STATIC_URL = 'https://ega.s3.us-east-2.amazonaws.com/ccl-library-static/'  # TODO Fix and test S3 PATH
+STATIC_URL = 'https://cdn.cosmicchrist.love/ccl-library-static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
