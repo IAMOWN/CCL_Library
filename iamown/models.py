@@ -31,6 +31,7 @@ TASK_PRIORITY_CHOICES = [
 ]
 TASK_TYPE_CHOICES = [
     ('---', '---'),
+    ('Library Task', 'Library Task'),
     ('Decision', 'Decision'),
     ('Library Observation', 'Library Observation'),
     ('Book Edit', 'Book Edit'),
