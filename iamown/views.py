@@ -1127,6 +1127,14 @@ class TaskLibraryCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView
     paginate_by = 12
     ordering = '-due_date'
 
+    def get_queryset(self):
+        return Task.objects.all().filter(
+            task_type__in=['Library Observation', 'Book Edit', 'Library Task'],
+            task_status='Completed',
+        ).order_by(
+            '-due_date',
+        )
+
     def test_func(self):
         if self.request.user.is_staff:
             return True
@@ -1134,14 +1142,8 @@ class TaskLibraryCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['current_user'] = self.request.user
-        tasks = Task.objects.all().filter(
-            task_type__in=['Library Observation', 'Book Edit', 'Library Task'],
-            task_status='Completed',
-        ).order_by(
-            '-due_date',
-        )
-        context['tasks'] = tasks
-        context['completed_tasks_count'] = tasks.count()
+        context['tasks'] = self.queryset
+        context['completed_tasks_count'] = self.queryset.count()
         context['active_tasks_count'] = Task.objects.filter(
             task_type__in=['Library Observation', 'Book Edit', 'Library Task'],
         ).exclude(task_status='Completed').count()
