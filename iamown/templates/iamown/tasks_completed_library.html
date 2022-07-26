@@ -15,12 +15,14 @@
     </section>
     <section class="content-section text-CCL-Gold">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-6">
                 {% if completed_tasks_count > 0 %}
                     <p>There {{ completed_tasks_count|pluralize:"is,are" }} currently {{ completed_tasks_count|intcomma }} completed Library task{{ completed_tasks_count|pluralize:"s" }}.</p>
                 {% else %}
                     <p>There are currently no completed Library tasks.</p>
                 {% endif %}
+            </div>
+            <div class="col-lg-6">
                 {% if active_tasks_count == 0 %}
                     <p>There are currently no <a class="text-CCL-Blue" href="{% url 'tasks-library' %}">active Library tasks</a>.</p>
                 {% elif active_tasks_count > 0 %}
