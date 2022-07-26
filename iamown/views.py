@@ -1061,7 +1061,10 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['search_count'] = 0
         if assignee_search_input:
             context['search_off'] = False
-            search_result = Task.objects.filter(assigned_profile__spiritual_name=assignee_search_input, task_type__in=['Library Observation', 'Book Edit']).order_by(
+            search_result = Task.objects.filter(
+                assigned_profile__spiritual_name=assignee_search_input,
+                task_type__in=['Library Observation', 'Book Edit']
+            ).order_by(
                 'task_status',
                 'task_priority',
                 'due_date',
@@ -1073,7 +1076,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         # Process searches - Task Status
         elif service_group_search_input:
             context['search_off'] = False
-            search_result = Task.objects.filter(assigned_service_group__service_group=service_group_search_input, task_type__in=['Library Observation', 'Book Edit']).order_by(
+            search_result = Task.objects.filter(assigned_service_group__service_group=service_group_search_input, task_type__in=['Library Observation', 'Book Edit']).exclude(task_status='Completed').order_by(
                 'task_status',
                 'task_priority',
                 'due_date',
@@ -1086,7 +1089,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         # Process searches - Task Priority
         elif priority_search_input:
             context['search_off'] = False
-            search_result = Task.objects.filter(task_priority__icontains=priority_search_input, task_type__in=['Library Observation', 'Book Edit']).order_by(
+            search_result = Task.objects.filter(task_priority__icontains=priority_search_input, task_type__in=['Library Observation', 'Book Edit']).exclude(task_status='Completed').order_by(
                 'task_status',
                 'task_priority',
                 'due_date',
