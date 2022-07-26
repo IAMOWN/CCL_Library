@@ -46,7 +46,7 @@
             </div>
         </div>
     </section>
-    {% for task in object_list %}
+    {% for task in tasks %}
     <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
         <div class="row pt-2 pb-2">
             <div class="col-lg-3">
@@ -62,25 +62,4 @@
     </section>
     {% endfor %}
     <p class="pb-2"></p>
-    <section>
-        <div class="row pt-2">
-            <div class="col text-center">
-                {% if is_paginated %}
-                    {% if page_obj.has_previous %}
-                        <a class="btn btn-outline-CCL-Gold btn-sm mb-4" href="?page=1">First</a>
-                    {% endif %}
-                    {% for num in page_obj.paginator.page_range %}
-                        {% if page_obj.number == num %}
-                            <a class="btn btn-CCL-Gold btn-sm mb-4" style="-webkit-box-shadow: 0 0 0 0 rgba(57,178,189,0.00); box-shadow: 0 0 0 0 rgba(57,178,189,0.00);" href="?page={{ num }}">{{ num }}</a>
-                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                            <a class="btn btn-outline-CCL-Gold btn-sm mb-4" href="?page={{ num }}">{{ num }}</a>
-                        {% endif %}
-                    {% endfor %}
-                    {% if page_obj.has_next %}
-                        <a class="btn btn-outline-CCL-Gold btn-sm mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-                    {% endif %}
-                {% endif %}
-            </div>
-        </div>
-    </section>
 {% endblock %}
