@@ -36,7 +36,7 @@
         </div>
     </section>
     <section class="content-section d-none d-xl-block text-CCL-Gold">
-        <div class="row">
+        <div class="row pt-2">
             <div class="col-lg-3">
                 <h5><strong>Task</strong></h5>
             </div>
@@ -48,9 +48,9 @@
             </div>
         </div>
     </section>
-    {% for task in tasks %}
+    {% for task in object_list %}
     <section class="list-group-item list-group-item-light {% cycle 'row1' 'row2' %} text-CCL-Gold">
-        <div class="row pt-2 pb-2">
+        <div class="row pt-2">
             <div class="col-lg-3">
                 <p><a href="{% url 'task-library' task.id %}" class="text-CCL-Blue"><strong>{{ task.task_title }}</strong></a>
             </div>
