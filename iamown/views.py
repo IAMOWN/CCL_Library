@@ -305,7 +305,7 @@ class TaskList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        tasks = Task.objects.filter().exclude(task_status='Completed').exclude(task_type__in=['Library Observation', 'Book Edit']).order_by(
+        tasks = Task.objects.filter().exclude(task_status='Completed').exclude(task_type__in=['Library Observation', 'Book Edit', 'Library Task']).order_by(
             'task_status',
             'task_priority',
             'due_date',
@@ -314,7 +314,7 @@ class TaskList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['tasks_count'] = tasks.count()
         context['completed_tasks_count'] = Task.objects.filter(
             task_status='Completed'
-        ).exclude(task_type__in=['Library Observation', 'Book Edit'],
+        ).exclude(task_type__in=['Library Observation', 'Book Edit', 'Library Task'],
                   ).count()
 
         search_input = self.request.GET.get('search-area') or ''
@@ -999,7 +999,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'iamown/tasks_library.html'
     context_object_name = 'tasks'
     queryset = Task.objects.filter(
-            task_type__in=['Library Observation', 'Book Edit']
+            task_type__in=['Library Observation', 'Book Edit', 'Library Task']
         ).exclude(task_status='Completed').order_by(
             'task_status',
             'task_priority',
@@ -1222,7 +1222,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         library_task = form.save(commit=False)
 
         if form.instance.task_status == 'Completed':
-            if form.instance.book_text_impacted == 'Yes':
+            if form.instance.book_text_impacted == 'Yes' and form.instance.task_type == 'Library Observation':
                 if library_task.actions_taken == "":
                     form.add_error(
                         'actions_taken',
@@ -1291,8 +1291,7 @@ class TaskLibraryUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 library_task.task_history_log = library_task.task_history_log + f'''<br>>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{library_task.assigned_profile}</strong> on <strong>{get_current_date()}</strong>.<br>
                 Date completed: <strong>{library_task.date_completed}</strong> >>> Status: <strong>{form.instance.task_status}</strong> >>> Priority: {form.instance.task_priority} >>> Due date: {form.instance.due_date} >>> Assigned Dear Soul: {form.instance.assigned_profile} >>> Assigned Group: {form.instance.assigned_service_group}
                 '''
-
-            library_task.save(update_fields=['task_history_log','date_completed',])
+                library_task.save(update_fields=['task_history_log','date_completed',])
 
         else:
             library_task.task_history_log = library_task.task_history_log + f'''<br>>>> Task type: <strong>{form.instance.task_type}</strong> manually updated by <strong>{self.request.user.profile.spiritual_name}</strong> on <strong>{get_current_date()}</strong>.<br>
