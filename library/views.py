@@ -108,7 +108,7 @@ SOUL_SYNTHESIS_S3_STORAGE = 'https://cloud.digitalocean.com/spaces/soul-synthesi
 
 LEE_TASK_RECORD_OBS_1 = 'Record Observation (1) Initial Review'
 DIGITAL_LIBRARIAN_GROUP_NAME = 'Digital Librarians'
-RECORD_READING_DURATION = 12  # Minutes before a new entry is added to RecordsRead - designed to false refreshing
+RECORD_READING_DURATION = 24  # Minutes before a new entry is added to RecordsRead: designed to prevent false refreshing
 
 # ####################### FUNCTIONS #######################
 def get_current_date():
