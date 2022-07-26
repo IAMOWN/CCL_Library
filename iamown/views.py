@@ -319,7 +319,7 @@ class TaskList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
         search_input = self.request.GET.get('search-area') or ''
         if search_input:
-            context['tasks'] = context['tasks'].filter(task_title__icontains=search_input)  # Can also use __startswith
+            context['tasks'] = context['tasks'].filter(task_title__icontains=search_input).exclude(task_type__in=['Library Observation', 'Book Edit', 'Library Task'])
         context['search_input'] = search_input
         context['dear_souls'] = Profile.objects.filter(user__is_staff=True)
 
@@ -334,7 +334,7 @@ class TaskList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['search_count'] = 0
         if assignee_search_input:
             context['search_off'] = False
-            context['tasks'] = context['tasks'].exclude(task_type__in=['Library Observation', 'Book Edit']).filter(assigned_profile__spiritual_name=assignee_search_input).order_by(
+            context['tasks'] = context['tasks'].exclude(task_type__in=['Library Observation', 'Book Edit', 'Library Task']).filter(assigned_profile__spiritual_name=assignee_search_input).order_by(
                 'task_status',
                 'task_priority',
                 'due_date',
@@ -346,7 +346,7 @@ class TaskList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         # Task Status
         elif status_search_input:
             context['search_off'] = False
-            context['tasks'] = context['tasks'].exclude(task_type__in=['Library Observation', 'Book Edit']).filter(task_status__icontains=status_search_input).order_by(
+            context['tasks'] = context['tasks'].exclude(task_type__in=['Library Observation', 'Book Edit', 'Library Task']).filter(task_status__icontains=status_search_input).order_by(
                 'task_status',
                 'task_priority',
                 'due_date',
@@ -357,7 +357,7 @@ class TaskList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         # Task Priority
         elif priority_search_input:
             context['search_off'] = False
-            context['tasks'] = context['tasks'].exclude(task_type__in=['Library Observation', 'Book Edit']).filter(task_priority__icontains=priority_search_input).order_by(
+            context['tasks'] = context['tasks'].exclude(task_type__in=['Library Observation', 'Book Edit', 'Library Task']).filter(task_priority__icontains=priority_search_input).order_by(
                 'task_status',
                 'task_priority',
                 'due_date',
@@ -1032,7 +1032,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
         # Query for Task totals
         tasks = Task.objects.filter().filter(
-            task_type__in=['Library Observation', 'Book Edit']
+            task_type__in=['Library Observation', 'Book Edit', 'Library Task']
         ).exclude(task_status='Completed').order_by(
             'task_status',
             'task_priority',
@@ -1041,7 +1041,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['tasks'] = tasks
         context['tasks_count'] = tasks.count()
         context['completed_tasks_count'] = Task.objects.filter(
-            task_type__in=['Library Observation', 'Book Edit'],
+            task_type__in=['Library Observation', 'Book Edit', 'Library Task'],
             task_status='Completed',
         ).count()
 
@@ -1055,7 +1055,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['service_groups'] = ServiceGroup.objects.all()
         context['dear_souls'] = Profile.objects.filter(user__is_staff=True)
         if search_input:
-            context['tasks'] = context['tasks'].filter(task_title__icontains=search_input)
+            context['tasks'] = context['tasks'].filter(task_title__icontains=search_input).filter(task_type__in=['Library Observation', 'Book Edit', 'Library Task'])
         context['search_input'] = search_input
         # Process searches - Dear Soul
         context['search_count'] = 0
@@ -1063,7 +1063,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
             context['search_off'] = False
             search_result = Task.objects.filter(
                 assigned_profile__spiritual_name=assignee_search_input,
-                task_type__in=['Library Observation', 'Book Edit']
+                task_type__in=['Library Observation', 'Book Edit', 'Library Task']
             ).order_by(
                 'task_status',
                 'task_priority',
@@ -1076,7 +1076,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         # Process searches - Task Status
         elif service_group_search_input:
             context['search_off'] = False
-            search_result = Task.objects.filter(assigned_service_group__service_group=service_group_search_input, task_type__in=['Library Observation', 'Book Edit']).exclude(task_status='Completed').order_by(
+            search_result = Task.objects.filter(assigned_service_group__service_group=service_group_search_input, task_type__in=['Library Observation', 'Book Edit', 'Library Task']).exclude(task_status='Completed').order_by(
                 'task_status',
                 'task_priority',
                 'due_date',
@@ -1089,7 +1089,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         # Process searches - Task Priority
         elif priority_search_input:
             context['search_off'] = False
-            search_result = Task.objects.filter(task_priority__icontains=priority_search_input, task_type__in=['Library Observation', 'Book Edit']).exclude(task_status='Completed').order_by(
+            search_result = Task.objects.filter(task_priority__icontains=priority_search_input, task_type__in=['Library Observation', 'Book Edit', 'Library Task']).exclude(task_status='Completed').order_by(
                 'task_status',
                 'task_priority',
                 'due_date',
