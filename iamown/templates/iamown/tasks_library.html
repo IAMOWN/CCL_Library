@@ -12,88 +12,92 @@
             </div>
         </div>
     </section>
-{#    {% if user.is_superuser %}#}
-    <section class="content-section text-CCL-Gold">
-        <div class="row pt-2">
-            <div class="col-lg-12">
-                <h5><strong>User Account Library Record Viewing Totals</strong></h5>
-            </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <section class="content-section text-CCL-Gold">
+                <div class="row pt-2">
+                    <div class="col-lg-12">
+                        <h5><strong>Library Tasks Summary</strong></h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 text-CCL-Gold">
+                    {% if tasks_count > 0 %}
+                        <p>There {{ tasks_count|pluralize:"is,are" }} currently {{ tasks_count|intcomma }} active Library task{{ tasks_count|pluralize:"s" }}.</p>
+                    {% else %}
+                        <p>There are currently no Library tasks.</p>
+                    {% endif %}
+                    </div>
+                    <div class="col-lg-6 text-CCL-Gold">
+                    {% if completed_tasks_count > 0 %}
+                        <p>There {{ completed_tasks_count|pluralize:"is,are" }} <a class="text-CCL-Blue" href="{% url 'tasks-completed-library' %}"> {{ completed_tasks_count }} completed Library task{{ completed_tasks_count|pluralize:"s" }}</a>.</p>
+                    {% endif %}
+                    </div>
+                </div>
+                <div class="row pb-4">
+                    <div class="col-lg-3 text-CCL-Gold">
+                        Active Observation Tasks: {{ observation_task_count|intcomma }}
+                    </div>
+                    <div class="col-lg-3 text-CCL-Gold">
+                        Active Book Edit Tasks: {{ edit_task_count|intcomma }}
+                    </div>
+                    <div class="col-lg-3 text-CCL-Gold">
+                        # of Records Currently Tasked: {{ number_of_related_records_tasked|intcomma }}
+                    </div>
+                    <div class="col-lg-3 text-CCL-Gold">
+                        Active Library Tasks: {{ library_task_count|intcomma }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 pb-2">
+                        <a class="btn btn-CCL-Blue col-12" href="{% url 'task-create-library' %}">Add A Library Task</a>
+                    </div>
+                </div>
+            </section>
         </div>
-        <div class="row">
-            <div class="col-lg-3">
-                <strong>Past Day: </strong>{{ records_read_today|intcomma }}
-            </div>
-            <div class="col-lg-3">
-                <strong>Past Week: </strong>{{ records_read_this_week|intcomma }}
-            </div>
-            <div class="col-lg-3">
-                <strong>Past Month: </strong>{{ records_read_this_month|intcomma }}
-            </div>
-            <div class="col-lg-3">
-                <strong>All Time: </strong>{{ total_records_read|intcomma }}
-            </div>
+        <div class="col-lg-6">
+            <section class="content-section text-CCL-Gold">
+                <div class="row pt-2">
+                    <div class="col-lg-12">
+                        <h5><strong>User Account Library Record Viewing Totals</strong></h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <strong>Past Day: </strong>{{ records_read_today|intcomma }}
+                    </div>
+                    <div class="col-lg-3">
+                        <strong>Past Week: </strong>{{ records_read_this_week|intcomma }}
+                    </div>
+                    <div class="col-lg-3">
+                        <strong>Past Month: </strong>{{ records_read_this_month|intcomma }}
+                    </div>
+                    <div class="col-lg-3">
+                        <strong>All Time: </strong>{{ total_records_read|intcomma }}
+                    </div>
+                </div>
+                <div class="row pt-4">
+                    <div class="col-lg-12">
+                        <h5><strong>Anonymous Library Record Viewing Totals</strong></h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <strong>Past Day: </strong>{{ anonymous_read_today|intcomma }}
+                    </div>
+                    <div class="col-lg-3">
+                        <strong>Past Week: </strong>{{ anonymous_read_this_week|intcomma }}
+                    </div>
+                    <div class="col-lg-3">
+                        <strong>Past Month: </strong>{{ anonymous_read_this_month|intcomma }}
+                    </div>
+                    <div class="col-lg-3">
+                        <strong>All Time: </strong>{{ total_anonymous_read|intcomma }}
+                    </div>
+                </div>
+            </section>
         </div>
-        <div class="row pt-4">
-            <div class="col-lg-12">
-                <h5><strong>Anonymous Library Record Viewing Totals</strong></h5>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-3">
-                <strong>Past Day: </strong>{{ anonymous_read_today|intcomma }}
-            </div>
-            <div class="col-lg-3">
-                <strong>Past Week: </strong>{{ anonymous_read_this_week|intcomma }}
-            </div>
-            <div class="col-lg-3">
-                <strong>Past Month: </strong>{{ anonymous_read_this_month|intcomma }}
-            </div>
-            <div class="col-lg-3">
-                <strong>All Time: </strong>{{ total_anonymous_read|intcomma }}
-            </div>
-        </div>
-    </section>
-{#    {% endif %}#}
-    <section class="content-section text-CCL-Gold">
-        <div class="row pt-2">
-            <div class="col-lg-12">
-                <h5><strong>Library Tasks Summary</strong></h5>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 text-CCL-Gold">
-            {% if tasks_count > 0 %}
-                <p>There {{ tasks_count|pluralize:"is,are" }} currently {{ tasks_count|intcomma }} active Library task{{ tasks_count|pluralize:"s" }}.</p>
-            {% else %}
-                <p>There are currently no Library tasks.</p>
-            {% endif %}
-            </div>
-            <div class="col-lg-6 text-CCL-Gold">
-            {% if completed_tasks_count > 0 %}
-                <p>There {{ completed_tasks_count|pluralize:"is,are" }} <a class="text-CCL-Blue" href="{% url 'tasks-completed-library' %}"> {{ completed_tasks_count }} completed Library task{{ completed_tasks_count|pluralize:"s" }}</a>.</p>
-            {% endif %}
-            </div>
-        </div>
-        <div class="row pb-4">
-            <div class="col-lg-3 text-CCL-Gold">
-                Active Observation Tasks: {{ observation_task_count|intcomma }}
-            </div>
-            <div class="col-lg-3 text-CCL-Gold">
-                Active Book Edit Tasks: {{ edit_task_count|intcomma }}
-            </div>
-            <div class="col-lg-3 text-CCL-Gold">
-                Active Library Tasks: {{ library_task_count|intcomma }}
-            </div>
-            <div class="col-lg-3 text-CCL-Gold">
-                # of Records Currently Tasked: {{ number_of_related_records_tasked|intcomma }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-3 pb-2">
-                <a class="btn btn-CCL-Blue col-12" href="{% url 'task-create-library' %}">Add A Library Task</a>
-            </div>
-        </div>
-    </section>
+    </div>
 
     {% if tasks_count > 1 %}
     <section class="content-section">
