@@ -1061,7 +1061,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         for record in records_for_library_tasks:
             if record.library_record.title not in list_of_related_records_for_tasks:
                 list_of_related_records_for_tasks.append(record.library_record.title)
-        print(f'list_of_related_records_for_tasks: {list_of_related_records_for_tasks}')
+        context['list_of_related_records_for_tasks'] = list_of_related_records_for_tasks
 
         if search_input:
             context['tasks'] = context['tasks'].filter(task_title__icontains=search_input).filter(task_type__in=['Library Observation', 'Book Edit', 'Library Task'])
@@ -1095,17 +1095,15 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
             print(f'search_result.count(): {search_result.count()}')
             context['search_type'] = 'Service Group'
             context['search_entered'] = service_group_search_input
-        # Process searches - Task Priority
-        elif priority_search_input:
+        # Process searches - Related Library Records
+        elif record_search_input:
             context['search_off'] = False
-            search_result = Task.objects.filter(task_priority__icontains=priority_search_input, task_type__in=['Library Observation', 'Book Edit', 'Library Task']).exclude(task_status='Completed').order_by(
+            search_result = Task.objects.filter(library_record__title=record_search_input, task_type__in=['Library Observation', 'Book Edit', 'Library Task']).exclude(task_status='Completed').order_by(
                 'task_status',
-                'task_priority',
-                'due_date',
             )
             context['tasks'] = search_result
             context['search_count'] = search_result.count()
-            context['search_type'] = 'Priority'
+            context['search_type'] = 'Related Record'
             context['search_entered'] = priority_search_input
         # Process searches - Task Priority
         # elif priority_search_input:

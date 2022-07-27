@@ -103,13 +103,21 @@
                     </select>
                 </div>
                 <div class="col-lg-3 pb-2">
-                    <select name="priority-search-area" class="pe-2 form-control">
-                        <option value="">by Task Priority</option>
-                        <option value='1) High'>1) High</option>
-                        <option value='2) Normal'>2) Normal</option>
-                        <option value='3) Low'>3) Low</option>
+                    <select name="record-search-area" class="pe-2 form-control">
+                        <option value="">by Related Library Record</option>
+                        {% for record in list_of_related_records_for_tasks %}
+                        <option value='{{ record }}'>{{ record }}</option>
+                        {% endfor %}
                     </select>
                 </div>
+{#                <div class="col-lg-3 pb-2">#}
+{#                    <select name="priority-search-area" class="pe-2 form-control">#}
+{#                        <option value="">by Task Priority</option>#}
+{#                        <option value='1) High'>1) High</option>#}
+{#                        <option value='2) Normal'>2) Normal</option>#}
+{#                        <option value='3) Low'>3) Low</option>#}
+{#                    </select>#}
+{#                </div>#}
             </div>
         </form>
     {% if not search_off %}
@@ -127,11 +135,17 @@
                 {% else %}
                     <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} active task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the Service Group field. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
                 {% endif %}
-            {% elif search_type == 'Priority' %}
+{#            {% elif search_type == 'Priority' %}#}
+{#                {% if search_count == 0 %}#}
+{#                    <p class="text-danger">There are no tasks with "{{ search_entered }}" in the Task Priority field. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>#}
+{#                {% else %}#}
+{#                    <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }}} {{ search_count }} active task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the Task Priority field. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>#}
+{#                {% endif %}#}
+            {% elif search_type == 'Related Record' %}
                 {% if search_count == 0 %}
-                    <p class="text-danger">There are no tasks with "{{ search_entered }}" in the Task Priority field. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
+                    <p class="text-danger">There are no tasks for the "{{ search_entered }}" Library Record. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
                 {% else %}
-                    <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }}} {{ search_count }} active task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the Task Priority field. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
+                    <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }}} {{ search_count }} active task{{ search_count|pluralize:"s" }} for the "{{ search_entered }}" Library Record. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
                 {% endif %}
             {% endif %}
             </div>
