@@ -1056,12 +1056,12 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['search_off'] = True
         context['service_groups'] = ServiceGroup.objects.all()
         context['dear_souls'] = Profile.objects.filter(user__is_staff=True)
-        book_edit_tasks_records = Task.objects.filter(library_record__isnull=False, task_type__in=['Book Edit', 'Library Observation']).exclude(task_status='Completed')
-        list_of_searchable_records = []
-        for record in book_edit_tasks_records:
-            if record.library_record not in list_of_searchable_records:
-                list_of_searchable_records.append(record.library_record)
-        print(f'list_of_searchable_records: {list_of_searchable_records}')
+        records_for_library_tasks = Task.objects.filter(library_record__isnull=False, task_type__in=['Book Edit', 'Library Observation']).exclude(task_status='Completed').order_by('library_record')
+        list_of_related_records_for_tasks = []
+        for record in records_for_library_tasks:
+            if record.library_record.title not in list_of_related_records_for_tasks:
+                list_of_related_records_for_tasks.append(record.library_record.title)
+        print(f'list_of_related_records_for_tasks: {list_of_related_records_for_tasks}')
 
         if search_input:
             context['tasks'] = context['tasks'].filter(task_title__icontains=search_input).filter(task_type__in=['Library Observation', 'Book Edit', 'Library Task'])
