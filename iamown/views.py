@@ -1104,7 +1104,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
             context['tasks'] = search_result
             context['search_count'] = search_result.count()
             context['search_type'] = 'Related Record'
-            context['search_entered'] = priority_search_input
+            context['search_entered'] = record_search_input
         # Process searches - Task Priority
         # elif priority_search_input:
         #     context['search_off'] = False

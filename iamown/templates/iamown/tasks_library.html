@@ -139,13 +139,13 @@
 {#                {% if search_count == 0 %}#}
 {#                    <p class="text-danger">There are no tasks with "{{ search_entered }}" in the Task Priority field. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>#}
 {#                {% else %}#}
-{#                    <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }}} {{ search_count }} active task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the Task Priority field. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>#}
+{#                    <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} active task{{ search_count|pluralize:"s" }} with "{{ search_entered }}" in the Task Priority field. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>#}
 {#                {% endif %}#}
             {% elif search_type == 'Related Record' %}
                 {% if search_count == 0 %}
                     <p class="text-danger">There are no tasks for the "{{ search_entered }}" Library Record. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
                 {% else %}
-                    <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }}} {{ search_count }} active task{{ search_count|pluralize:"s" }} for the "{{ search_entered }}" Library Record. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
+                    <p class="text-CCL-Blue">There {{ search_count|pluralize:'is,are' }} {{ search_count }} active task{{ search_count|pluralize:"s" }} for the "{{ search_entered }}" Library Record. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
                 {% endif %}
             {% endif %}
             </div>
