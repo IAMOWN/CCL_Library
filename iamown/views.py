@@ -1030,7 +1030,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['anonymous_read_this_month'] = RecordRead.objects.filter(reader=None, date_read__gte=records_read_last_30).count()
         context['total_anonymous_read'] = RecordRead.objects.filter(reader=None).count()
 
-        # Query for Outstanding Task Type Totals
+        # Query for Active Task Type Totals
         context['observation_task_count'] = Task.objects.filter(task_type='Library Observation').exclude(task_status='Completed').count()
         context['edit_task_count'] = Task.objects.filter(task_type='Book Edit').exclude(task_status='Completed').count()
         context['library_task_count'] = Task.objects.filter(task_type='Library Task').exclude(task_status='Completed').count()
@@ -1053,7 +1053,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         # Search Inputs
         assignee_search_input = self.request.GET.get('assignee-search-area') or ''
         service_group_search_input = self.request.GET.get('service-group-search-area') or ''
-        priority_search_input = self.request.GET.get('priority-search-area') or ''
+        # priority_search_input = self.request.GET.get('priority-search-area') or ''
         record_search_input = self.request.GET.get('record-search-area') or ''
         search_input = self.request.GET.get('search-area') or ''
 
@@ -1067,6 +1067,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
             if record.library_record.title not in list_of_related_records_for_tasks:
                 list_of_related_records_for_tasks.append(record.library_record.title)
         context['list_of_related_records_for_tasks'] = list_of_related_records_for_tasks
+        context['number_of_related_records_tasked'] = len(list_of_related_records_for_tasks)
 
         if search_input:
             context['tasks'] = context['tasks'].filter(task_title__icontains=search_input).filter(task_type__in=['Library Observation', 'Book Edit', 'Library Task'])
