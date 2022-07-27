@@ -38,7 +38,7 @@
                     </strong>
                     </div>
                 </div>
-                <div class="row pb-4">
+                <div class="row">
                     <div class="col-lg-6 text-CCL-Gold">
                         <strong>Active Observation Tasks: </strong>{{ observation_task_count|intcomma }}
                     </div>
@@ -46,7 +46,7 @@
                         <strong>Active Book Edit Tasks: </strong>{{ edit_task_count|intcomma }}
                     </div>
                 </div>
-                <div class="row pb-4">
+                <div class="row">
                     <div class="col-lg-6 text-CCL-Gold">
                         <strong># of Records Currently Tasked: </strong>{{ number_of_related_records_tasked|intcomma }}
                     </div>
@@ -54,7 +54,7 @@
                         <strong>Active Library Tasks: </strong>{{ library_task_count|intcomma }}
                     </div>
                 </div>
-                <div class="row">
+                <div class="row pt-4">
                     <div class="col-lg-6 pb-2">
                         <a class="btn btn-CCL-Blue col-12" href="{% url 'task-create-library' %}">Add A Library Task</a>
                     </div>
