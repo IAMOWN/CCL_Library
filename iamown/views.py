@@ -1030,6 +1030,11 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['anonymous_read_this_month'] = RecordRead.objects.filter(reader=None, date_read__gte=records_read_last_30).count()
         context['total_anonymous_read'] = RecordRead.objects.filter(reader=None).count()
 
+        # Query for Outstanding Task Type Totals
+        context['observation_task_count'] = Task.objects.filter(task_type='Library Observation').exclude(task_status='Completed').count()
+        context['edit_task_count'] = Task.objects.filter(task_type='Book Edit').exclude(task_status='Completed').count()
+        context['library_task_count'] = Task.objects.filter(task_type='Library Task').exclude(task_status='Completed').count()
+
         # Query for Task totals
         tasks = Task.objects.filter().filter(
             task_type__in=['Library Observation', 'Book Edit', 'Library Task']
