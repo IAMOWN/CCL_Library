@@ -44,8 +44,8 @@
                         <strong>Active "Library Tasks": </strong>{{ library_task_count|intcomma }}
                     </div>
                 </div>
-                <div class="row pt-4">
-                    <div class="col-lg-6 pb-2">
+                <div class="row pt-2 pb-2">
+                    <div class="col-lg-12">
                         <a class="btn btn-CCL-Blue col-12" href="{% url 'task-create-library' %}">Add A Library Task</a>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                         <h5><strong>Anonymous Library Record Viewing Totals</strong></h5>
                     </div>
                 </div>
-                <div class="row pb-2">
+                <div class="row pb-4">
                     <div class="col-lg-3">
                         <strong>Past Day: </strong>{{ anonymous_read_today|intcomma }}
                     </div>
