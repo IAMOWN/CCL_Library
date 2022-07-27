@@ -1056,7 +1056,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['search_off'] = True
         context['service_groups'] = ServiceGroup.objects.all()
         context['dear_souls'] = Profile.objects.filter(user__is_staff=True)
-        records_for_library_tasks = Task.objects.filter(library_record__isnull=False, task_type__in=['Book Edit', 'Library Observation']).exclude(task_status='Completed').order_by('library_record')
+        records_for_library_tasks = Task.objects.filter(library_record__isnull=False, task_type__in=['Book Edit', 'Library Observation']).exclude(task_status='Completed').order_by('library_record__title')
         list_of_related_records_for_tasks = []
         for record in records_for_library_tasks:
             if record.library_record.title not in list_of_related_records_for_tasks:
