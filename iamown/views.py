@@ -1158,7 +1158,7 @@ class TaskLibraryCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView
             task_type__in=['Library Observation', 'Book Edit', 'Library Task'],
             task_status='Completed',
         ).order_by(
-            '-due_date',
+            '-date_completed',
         )
 
     def test_func(self):
