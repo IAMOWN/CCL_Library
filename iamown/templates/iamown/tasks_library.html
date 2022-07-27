@@ -22,20 +22,10 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-6 text-CCL-Gold">
-                    <strong>
-                    {% if tasks_count > 0 %}
-                        <p>There {{ tasks_count|pluralize:"is,are" }} {{ tasks_count|intcomma }} active Library task{{ tasks_count|pluralize:"s" }}.</p>
-                    {% else %}
-                        <p>There are currently no Library tasks.</p>
-                    {% endif %}
-                    </strong>
+                    <strong>Total Active Tasks: </strong>{{ tasks_count|intcomma }}
                     </div>
                     <div class="col-lg-6 text-CCL-Gold">
-                    <strong>
-                    {% if completed_tasks_count > 0 %}
-                        <p>There {{ completed_tasks_count|pluralize:"is,are" }} <a class="text-CCL-Blue" href="{% url 'tasks-completed-library' %}"> {{ completed_tasks_count }} completed Library task{{ completed_tasks_count|pluralize:"s" }}</a>.</p>
-                    {% endif %}
-                    </strong>
+                    <strong>Total Completed Tasks: </strong>{{ completed_tasks_count }}
                     </div>
                 </div>
                 <div class="row">
@@ -51,7 +41,7 @@
                         <strong># of Records Currently Tasked: </strong>{{ number_of_related_records_tasked|intcomma }}
                     </div>
                     <div class="col-lg-6 text-CCL-Gold">
-                        <strong>Active Library Tasks: </strong>{{ library_task_count|intcomma }}
+                        <strong>Active "Library Tasks": </strong>{{ library_task_count|intcomma }}
                     </div>
                 </div>
                 <div class="row pt-4">
