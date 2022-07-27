@@ -1151,7 +1151,7 @@ class TaskLibraryCompletedList(LoginRequiredMixin, UserPassesTestMixin, ListView
     template_name = 'iamown/tasks_completed_library.html'
     context_object_name = 'tasks'
     paginate_by = 12
-    ordering = '-due_date'
+    ordering = '-date_completed'
 
     def get_queryset(self):
         return Task.objects.all().filter(
