@@ -1049,11 +1049,20 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         assignee_search_input = self.request.GET.get('assignee-search-area') or ''
         service_group_search_input = self.request.GET.get('service-group-search-area') or ''
         priority_search_input = self.request.GET.get('priority-search-area') or ''
+        record_search_input = self.request.GET.get('record-search-area') or ''
         search_input = self.request.GET.get('search-area') or ''
+
         # Prepare for Search
         context['search_off'] = True
         context['service_groups'] = ServiceGroup.objects.all()
         context['dear_souls'] = Profile.objects.filter(user__is_staff=True)
+        book_edit_tasks_records = Task.objects.filter(library_record__isnull=False, task_type__in=['Book Edit', 'Library Observation']).exclude(task_status='Completed')
+        list_of_searchable_records = []
+        for record in book_edit_tasks_records:
+            if record not in list_of_searchable_records:
+                list_of_searchable_records.append(record.library_record)
+        print(f'list_of_searchable_records: {list_of_searchable_records}')
+
         if search_input:
             context['tasks'] = context['tasks'].filter(task_title__icontains=search_input).filter(task_type__in=['Library Observation', 'Book Edit', 'Library Task'])
         context['search_input'] = search_input
@@ -1098,6 +1107,19 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
             context['search_count'] = search_result.count()
             context['search_type'] = 'Priority'
             context['search_entered'] = priority_search_input
+        # Process searches - Task Priority
+        # elif priority_search_input:
+        #     context['search_off'] = False
+        #     search_result = Task.objects.filter(task_priority__icontains=priority_search_input, task_type__in=['Library Observation', 'Book Edit', 'Library Task']).exclude(task_status='Completed').order_by(
+        #         'task_status',
+        #         'task_priority',
+        #         'due_date',
+        #     )
+        #     context['tasks'] = search_result
+        #     context['search_count'] = search_result.count()
+        #     context['search_type'] = 'Priority'
+        #     context['search_entered'] = priority_search_input
+
 
         return context
 
