@@ -1059,7 +1059,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         book_edit_tasks_records = Task.objects.filter(library_record__isnull=False, task_type__in=['Book Edit', 'Library Observation']).exclude(task_status='Completed')
         list_of_searchable_records = []
         for record in book_edit_tasks_records:
-            if record not in list_of_searchable_records:
+            if record.library_record not in list_of_searchable_records:
                 list_of_searchable_records.append(record.library_record)
         print(f'list_of_searchable_records: {list_of_searchable_records}')
 
