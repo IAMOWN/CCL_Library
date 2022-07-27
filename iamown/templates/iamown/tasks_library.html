@@ -77,7 +77,7 @@
                         <h5><strong>Anonymous Library Record Viewing Totals</strong></h5>
                     </div>
                 </div>
-                <div class="row pb-4">
+                <div class="row pb-2">
                     <div class="col-lg-3">
                         <strong>Past Day: </strong>{{ anonymous_read_today|intcomma }}
                     </div>
@@ -138,7 +138,7 @@
         </form>
     {% if not search_off %}
         <div class="row">
-            <div class="col-lg-9 pb-2">
+            <div class="col-lg-9">
             {% if search_type == 'Dear Soul' %}
                 {% if search_count == 0 %}
                     <p class="text-danger">There are no tasks with "{{ search_entered }}" assigned. <span class="text-CCL-Gold">(search type: {{ search_type }})</span></p>
