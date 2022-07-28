@@ -285,9 +285,11 @@
                     <div class="col-lg-2">
                         {{ task.task_status }}
                     </div>
+                    {% if task.library_record %}
                     <div class="col-lg-4">
                         <a href="{% url 'library-record' task.library_record_id %}" class="text-CCL-Blue" target="_blank">{{ task.library_record }}</a>
                     </div>
+                    {% endif %}
                 </div>
                 <div class="row"></div>
             </section>
@@ -307,9 +309,11 @@
                     <div class="col-lg-2">
                         {{ task.task_status }}
                     </div>
+                    {% if task.library_record %}
                     <div class="col-lg-4">
                         <a href="{% url 'library-record' task.library_record_id %}" class="text-CCL-Blue" target="_blank">{{ task.library_record }}</a>
                     </div>
+                    {% endif %}
                 </div>
                 <div class="row"></div>
             </section>
@@ -328,9 +332,11 @@
                         <div class="col-lg-2">
                             {{ task.task_status }}
                         </div>
+                        {% if task.library_record %}
                         <div class="col-lg-4">
                             <a href="{% url 'library-record' task.library_record_id %}" class="text-CCL-Blue" target="_blank">{{ task.library_record }}</a>
                         </div>
+                        {% endif %}
                     </div>
                     <div class="row"></div>
                 </section>
