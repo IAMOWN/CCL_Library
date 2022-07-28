@@ -1809,6 +1809,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 assigned_service_group=service_group,
                 library_observation=observation_obj,
                 book_urls_for_record=record.book_urls,
+                library_record=record,
             )
         elif observation_type == 'Broken Link':
             form.instance.library_record = record
@@ -1829,6 +1830,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 assigned_service_group=service_group,
                 library_observation=observation_obj,
                 book_urls_for_record=record.book_urls,
+                library_record=record,
             )
         elif observation_type == 'Other':
             form.instance.library_record = record
@@ -1849,6 +1851,7 @@ class ObervationCreate(LoginRequiredMixin, CreateView):
                 assigned_service_group=service_group,
                 library_observation=observation_obj,
                 book_urls_for_record=record.book_urls,
+                library_record=record,
             )
 
         digital_librarians = User.objects.filter(groups__name=DIGITAL_LIBRARIAN_GROUP_NAME)
