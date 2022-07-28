@@ -1001,6 +1001,7 @@ class TaskLibraryList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     queryset = Task.objects.filter(
             task_type__in=['Library Observation', 'Book Edit', 'Library Task']
         ).exclude(task_status='Completed').order_by(
+            'library_record',
             'task_status',
             'task_priority',
             'due_date',
